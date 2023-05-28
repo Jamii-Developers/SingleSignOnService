@@ -1,69 +1,63 @@
 package com.jamii.webapi.activeDirectory.data;
 
+import org.springframework.http.ResponseEntity;
+
 public class UserLoginStruct{
 
     public UserLoginStruct() { }
 
-    private String RESPONSE;
+    private ResponseEntity< String > RESPONSE;
     private String USERNAME;
     private String PASSWORD;
-    private String DEVICE_ID;
+    private String AUTHENTICATIONTOKEN;
+    private String DEVICEID;
+    private String USERID;
 
-
-    /**
-     * @return String return the RESPONSE
-     */
-    public String getRESPONSE( ) {
+    public ResponseEntity<String> getRESPONSE() {
         return RESPONSE;
     }
 
-    /**
-     * @param RESPONSE the RESPONSE to set
-     */
-    public void setRESPONSE( String RESPONSE ) {
+    public void setRESPONSE(ResponseEntity<String> RESPONSE) {
         this.RESPONSE = RESPONSE;
     }
 
-    /**
-     * @return String return the USERNAME
-     */
-    public String getUSERNAME( ) {
+    public String getUSERNAME() {
         return USERNAME;
     }
 
-    /**
-     * @param USERNAME the USERNAME to set
-     */
-    public void setUSERNAME( String USERNAME ) {
+    public void setUSERNAME(String USERNAME) {
         this.USERNAME = USERNAME;
     }
 
-    /**
-     * @return String return the PASSWORD
-     */
-    public String getPASSWORD( ) {
+    public String getPASSWORD() {
         return PASSWORD;
     }
 
-    /**
-     * @param PASSWORD the PASSWORD to set
-     */
-    public void setPASSWORD( String PASSWORD ) {
+    public void setPASSWORD(String PASSWORD) {
         this.PASSWORD = PASSWORD;
     }
 
-    /**
-     * @return String return the DEVICE_ID
-     */
-    public String getDEVICE_ID( ) {
-        return DEVICE_ID;
+    public String getAUTHENTICATIONTOKEN() {
+        return AUTHENTICATIONTOKEN;
     }
 
-    /**
-     * @param DEVICE_ID the DEVICE_ID to set
-     */
-    public void setDEVICE_ID( String DEVICE_ID ) {
-        this.DEVICE_ID = DEVICE_ID;
+    public void setAUTHENTICATIONTOKEN(String AUTHENTICATIONTOKEN) {
+        this.AUTHENTICATIONTOKEN = AUTHENTICATIONTOKEN;
     }
 
+    public String getDEVICEID() {
+        return DEVICEID;
+    }
+
+    public void setDEVICEID(String DEVICEID) {
+        this.DEVICEID = DEVICEID;
+    }
+
+    public String getUSERID() {
+        return USERID;
+    }
+
+    public void setUSERID(String USERID) {
+        this.USERID = USERID;
+    }
 }
