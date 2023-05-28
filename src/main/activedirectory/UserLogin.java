@@ -6,7 +6,9 @@ public class UserLogin {
         this.userloginstruct = userloginstruct;
     }
 
-    
+    public String getResponse( )(
+        return userloginstruct.getRESPONSE( );
+    )
 
 
 }
