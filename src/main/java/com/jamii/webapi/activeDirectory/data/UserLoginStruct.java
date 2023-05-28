@@ -1,13 +1,15 @@
+package com.jamii.webapi.activeDirectory.data;
+
 public class UserLoginStruct{
 
     public UserLoginStruct() { }
-    
+
     private String RESPONSE;
     private String USERNAME;
     private String PASSWORD;
     private String DEVICE_ID;
 
-    
+
     /**
      * @return String return the RESPONSE
      */

@@ -1,5 +1,7 @@
 package com.jamii.webapi;
 
+import com.jamii.webapi.activeDirectory.UserLogin;
+import com.jamii.webapi.activeDirectory.data.UserLoginStruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +17,11 @@ public class WebapiApplication {
 	}
 
 	@PostMapping("/userlogin")
-    public String userlogin( @RequestParam(value = "name", defaultValue = "World") String name) {
+	public String userlogin( @RequestParam(value = "name", defaultValue = "World") String name) {
 		UserLoginStruct userLoginStruct = new UserLoginStruct( );
 		UserLogin userLogin = new UserLogin( userLoginStruct );
-		return userLogin.get
+		return userLogin.getResponse( );
 
-    }
+	}
 
 }
