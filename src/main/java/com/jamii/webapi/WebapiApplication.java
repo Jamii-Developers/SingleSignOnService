@@ -16,7 +16,10 @@ public class WebapiApplication {
 
 	@PostMapping("/userlogin")
     public String userlogin( @RequestParam(value = "name", defaultValue = "World") String name) {
-      return String.format("Hello %s!", name);
+		UserLoginStruct userLoginStruct = new UserLoginStruct( );
+		UserLogin userLogin = new UserLogin( userLoginStruct );
+		return userLogin.get
+
     }
 
 }
