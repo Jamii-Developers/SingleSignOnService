@@ -8,7 +8,7 @@ public class CreateNewUser {
     public CreateNewUser() {
     }
 
-    public CreateNewUser(CreateNewUserDataStruct createNewUserDataStruct) {
+    public CreateNewUser( CreateNewUserDataStruct createNewUserDataStruct ) {
         this.createNewUserDataStruct = createNewUserDataStruct;
     }
 }
