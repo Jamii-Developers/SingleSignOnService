@@ -1,19 +1,28 @@
 package com.jamii.webapi.activeDirectory;
 
+import com.jamii.Utils.JamiiResponseErrorMessages;
 import com.jamii.webapi.jamiidb.controllers.UserLoginInformationCONT;
+import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
+@SpringBootApplication
 public class UserLoginOPS {
 
-    public UserLoginOPS( String loginCredential, String loginPassword ) {
-        setLoginCredential( loginCredential );
-        setLoginPassword( loginPassword );
-    }
 
+    @Autowired
     private UserLoginInformationCONT userLoginInformationCONT;
-    private ResponseEntity< String > RESPONSE;
-    private String loginCredential;
-    private String loginPassword;
+    protected UserLoginInformationTBL userData;
+    protected String loginCredential;
+    protected String loginPassword;
+    protected Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
+
+
 
     public String getLoginCredential() {
         return this.loginCredential;
@@ -31,15 +40,26 @@ public class UserLoginOPS {
         this.loginPassword = loginPassword;
     }
 
-    public void processRequest( ){
-
-        userLoginInformationCONT.checkifLoginIsValid( this );
-
-        System.out.println( "Request has been received" );
-
+    public Integer getActiveStatus() {
+        return activeStatus;
     }
 
-    public ResponseEntity<String> response(){
-        return RESPONSE;
+    public void processRequest( ){
+
+        UserLoginInformationTBL userData = userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
+        if ( userData != null ){
+            this.userData = userData;
+        }
+
+        System.out.println( "Request has been received" );
+    }
+
+    public ResponseEntity< HashMap < String, String > > response(  ){
+
+        if( this.userData == null ){
+            return new ResponseEntity<>( JamiiResponseErrorMessages.loginError(), HttpStatus.BAD_REQUEST );
+        }
+
+        return null;
     }
 }

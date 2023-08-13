@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @SpringBootApplication
 @RestController
 public class WebapiApplication {
@@ -18,7 +20,7 @@ public class WebapiApplication {
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > userlogin( @RequestBody UserLoginOPS userLoginOPS) {
+	public ResponseEntity< HashMap <String, String> > userlogin(@RequestBody UserLoginOPS userLoginOPS) {
 		userLoginOPS.processRequest( );
 		return userLoginOPS.response( );
 	}

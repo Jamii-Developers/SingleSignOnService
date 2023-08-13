@@ -14,21 +14,29 @@ public class UserLoginInformationTBL {
     private Integer id;
     @Column( name = "username")
     private String username;
-    @Column( name = "email_address")
+    @Column( name = "emailAddress")
 
-    private String email_address;
+    private String emailaddress;
     @Column( name = "first_name")
 
-    private String first_name;
+    private String firstname;
     @Column( name = "last_name")
 
-    private String last_name;
+    private String lastname;
     @Column( name = "password_salt")
 
-    private String password_salt;
+    private String passwordsalt;
     @Column( name = "active")
 
     private Integer active;
+
+    /**
+     * ACTIVE STATUS
+     */
+
+    public static final Integer ACTIVE_OFF              = 0;
+    public static final Integer ACTIVE_ON               = 1;
+    public static final Integer ACTIVE_TERMINATED       = 2;
 
     public Integer getId() {
         return id;
@@ -46,36 +54,36 @@ public class UserLoginInformationTBL {
         this.username = username;
     }
 
-    public String getEmail_address() {
-        return email_address;
+    public String getEmailaddress() {
+        return emailaddress;
     }
 
-    public void setEmail_address(String email_address) {
-        this.email_address = email_address;
+    public void setEmailAddress(String emailaddress) {
+        this.emailaddress = emailaddress;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastname() {
+        return lastname;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastname = lastname;
     }
 
-    public String getPassword_salt() {
-        return password_salt;
+    public String getPasswordsalt() {
+        return passwordsalt;
     }
 
-    public void setPassword_salt(String password_salt) {
-        this.password_salt = password_salt;
+    public void setPasswordsalt(String passwordsalt) {
+        this.passwordsalt = passwordsalt;
     }
 
     public Integer getActive() {

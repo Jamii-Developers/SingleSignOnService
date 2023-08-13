@@ -1,28 +1,40 @@
 package com.jamii.webapi.jamiidb.controllers;
 
+import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import com.jamii.webapi.jamiidb.repo.UserInformationLoginREPO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Controller
 public class UserLoginInformationCONT {
 
+    @Autowired
     private UserInformationLoginREPO userInformationLoginREPO;
 
-    public boolean checkifLoginIsValid ( UserLoginOPS userLoginOPS ){
+    public UserLoginInformationTBL checkAndRetrieveValidLogin ( UserLoginOPS userLoginOPS ){
 
-        List <UserLoginInformationTBL> fetchUserByEmail = userInformationLoginREPO.findByEmail( userLoginOPS.getLoginCredential( ) );
-        List <UserLoginInformationTBL> fetchUserByUsername = userInformationLoginREPO.findByUsername( userLoginOPS.getLoginCredential( ) );
+        // Adding this so we are able to check only users that are active
+        List <UserLoginInformationTBL> fetchCredential = new ArrayList< > ( );
 
-        if( !fetchUserByEmail.isEmpty( ) ){
+        fetchCredential.addAll( userInformationLoginREPO.findByUsernameAndActive( userLoginOPS.getLoginCredential( ),  userLoginOPS.getActiveStatus( ) ) );
+        fetchCredential.addAll( userInformationLoginREPO.findByEmailaddressAndActive( userLoginOPS.getLoginCredential( ),  userLoginOPS.getActiveStatus( ) ) );
 
+        if( fetchCredential.isEmpty( )  ){
+            return null;
         }
 
-        return false;
-    }
 
-    public String fetchLoginData( UserLoginOPS userLoginOPS ){
-        return "Test data";
+        for( UserLoginInformationTBL cred : fetchCredential ){
+            if(JamiiStringUtils.equals( cred.getPasswordsalt( ), userLoginOPS.getLoginPassword( ) ) ) {
+                return cred;
+            }
+        }
+
+        return null ;
     }
 }
