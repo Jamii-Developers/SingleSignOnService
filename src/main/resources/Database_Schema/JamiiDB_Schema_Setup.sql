@@ -1,6 +1,6 @@
 CREATE SCHEMA `jamiidb` ;
 
-CREATE TABLE `jamiidb`.`user_login_information` (
+CREATE TABLE IF NOT EXISTS `jamiidb`.`user_login_information` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `email_address` VARCHAR(100) NOT NULL,

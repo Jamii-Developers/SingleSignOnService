@@ -1,7 +1,6 @@
 package com.jamii.webapi;
 
-import com.jamii.webapi.activeDirectory.UserLogin;
-import com.jamii.webapi.activeDirectory.data.UserLoginStruct;
+import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
@@ -19,17 +18,9 @@ public class WebapiApplication {
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > userlogin( @RequestBody UserLoginStruct userLoginStruct ) {
-		UserLogin userLogin = new UserLogin( userLoginStruct );
-		userLogin.processRequest( );
-		return userLoginStruct.getRESPONSE( );
-	}
-
-	@PostMapping( path = "createnewuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > createnewuser( @RequestBody UserLoginStruct userLoginStruct ) {
-		UserLogin userLogin = new UserLogin( userLoginStruct );
-		userLogin.processRequest( );
-		return userLoginStruct.getRESPONSE( );
+	public ResponseEntity< String > userlogin( @RequestBody UserLoginOPS userLoginOPS) {
+		userLoginOPS.processRequest( );
+		return userLoginOPS.response( );
 	}
 
 }

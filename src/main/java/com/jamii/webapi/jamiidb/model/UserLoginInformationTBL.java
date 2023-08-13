@@ -1,22 +1,33 @@
 package com.jamii.webapi.jamiidb.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
-public class user_login_information_model {
+@Table( name = "UserLoginInformation")
+public class UserLoginInformationTBL {
 
-    public user_login_information_model( ) { }
+    public UserLoginInformationTBL( ) { }
 
     @Id
+    @Column( name = "id")
     @GeneratedValue( strategy= GenerationType.AUTO )
     private Integer id;
+    @Column( name = "username")
     private String username;
+    @Column( name = "email_address")
+
     private String email_address;
+    @Column( name = "first_name")
+
     private String first_name;
+    @Column( name = "last_name")
+
+    private String last_name;
+    @Column( name = "password_salt")
+
     private String password_salt;
+    @Column( name = "active")
+
     private Integer active;
 
     public Integer getId() {
@@ -49,6 +60,14 @@ public class user_login_information_model {
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getPassword_salt() {
