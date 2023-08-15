@@ -4,25 +4,24 @@ import com.jamii.Utils.JamiiResponseErrorMessages;
 import com.jamii.webapi.jamiidb.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
-@SpringBootApplication
+@Service
 public class UserLoginOPS {
 
-
-    @Autowired
-    private UserLoginInformationCONT userLoginInformationCONT;
-    protected UserLoginInformationTBL userData;
     protected String loginCredential;
     protected String loginPassword;
-    protected Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
 
+    @Autowired
+    private UserLoginInformationCONT userLoginInformationCONT ;
 
+    private UserLoginInformationTBL userData;
+    private Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
         return this.loginCredential;
@@ -44,9 +43,10 @@ public class UserLoginOPS {
         return activeStatus;
     }
 
+    @Autowired
     public void processRequest( ){
 
-        UserLoginInformationTBL userData = userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
+        UserLoginInformationTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
         if ( userData != null ){
             this.userData = userData;
         }
@@ -59,6 +59,8 @@ public class UserLoginOPS {
         if( this.userData == null ){
             return new ResponseEntity<>( JamiiResponseErrorMessages.loginError(), HttpStatus.BAD_REQUEST );
         }
+
+        System.out.println( "User has been found" );
 
         return null;
     }

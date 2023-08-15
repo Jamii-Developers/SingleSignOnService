@@ -5,12 +5,12 @@ import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import com.jamii.webapi.jamiidb.repo.UserInformationLoginREPO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@Service
 public class UserLoginInformationCONT {
 
     @Autowired
