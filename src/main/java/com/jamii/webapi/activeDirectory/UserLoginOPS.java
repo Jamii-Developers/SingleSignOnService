@@ -1,27 +1,27 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
-import com.jamii.webapi.jamiidb.controllers.UserLoginInformationCONT;
+import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
 @Service
-public class UserLoginOPS {
+public class UserLoginOPS extends activeDirectoryAbstract{
 
-    protected String loginCredential;
-    protected String loginPassword;
+    private String loginCredential;
+    private String loginPassword;
+    private String loginDeviceId;
 
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT ;
 
     private UserLoginInformationTBL userData;
-    private Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
+    private static final Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
         return this.loginCredential;
@@ -43,24 +43,34 @@ public class UserLoginOPS {
         return activeStatus;
     }
 
-    @Autowired
+    public String getLoginDeviceId() {
+        return loginDeviceId;
+    }
+
+    public void setLoginDeviceId(String loginDeviceId) {
+        this.loginDeviceId = loginDeviceId;
+    }
+
+    @Override
     public void processRequest( ){
+        jamiiDebug.warning( "Request has been received" );
 
         UserLoginInformationTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
         if ( userData != null ){
             this.userData = userData;
         }
 
-        System.out.println( "Request has been received" );
     }
 
+    @Override
     public ResponseEntity< HashMap < String, String > > response(  ){
 
         if( this.userData == null ){
+            jamiiDebug.warning( this.getLoginCredential( ) + " is an invalid user");
             return new ResponseEntity<>( JamiiResponseErrorMessages.loginError(), HttpStatus.BAD_REQUEST );
         }
 
-        System.out.println( "User has been found" );
+        jamiiDebug.warning( "User has been found" );
 
         return null;
     }

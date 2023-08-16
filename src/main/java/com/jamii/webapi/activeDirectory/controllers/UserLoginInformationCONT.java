@@ -1,4 +1,4 @@
-package com.jamii.webapi.jamiidb.controllers;
+package com.jamii.webapi.activeDirectory.controllers;
 
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.webapi.activeDirectory.UserLoginOPS;
@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class UserLoginInformationCONT {
-
     @Autowired
     private UserInformationLoginREPO userInformationLoginREPO;
 
@@ -25,12 +24,13 @@ public class UserLoginInformationCONT {
         fetchCredential.addAll( userInformationLoginREPO.findByEmailaddressAndActive( userLoginOPS.getLoginCredential( ),  userLoginOPS.getActiveStatus( ) ) );
 
         if( fetchCredential.isEmpty( )  ){
+
             return null;
         }
 
 
         for( UserLoginInformationTBL cred : fetchCredential ){
-            if(JamiiStringUtils.equals( cred.getPasswordsalt( ), userLoginOPS.getLoginPassword( ) ) ) {
+            if( JamiiStringUtils.equals( cred.getPasswordsalt( ), userLoginOPS.getLoginPassword( ) ) ) {
                 return cred;
             }
         }

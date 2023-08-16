@@ -1,5 +1,6 @@
 package com.jamii.webapi;
 
+import com.jamii.Utils.JamiiDebug;
 import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,17 +19,19 @@ public class WebapiApplication {
 
 	@Autowired
 	private UserLoginOPS userLoginOPS;
+	private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebapiApplication.class, args);
+		SpringApplication.run( WebapiApplication.class, args);
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity< HashMap <String, String> > userlogin(@RequestBody UserLoginOPS userLoginOPS) {
-		System.out.println("Pausing for a sec");
-		this.userLoginOPS.setLoginCredential(userLoginOPS.getLoginCredential( ) );
+		jamiiDebug.info("Received request");
+		this.userLoginOPS.setLoginCredential( userLoginOPS.getLoginCredential( ) );
 		this.userLoginOPS.setLoginPassword(userLoginOPS.getLoginPassword( ) );
 		this.userLoginOPS.processRequest( );
+		jamiiDebug.info("Request completed");
 		return this.userLoginOPS.response( );
 	}
 
