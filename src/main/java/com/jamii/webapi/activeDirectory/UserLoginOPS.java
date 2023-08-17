@@ -63,7 +63,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     }
 
     @Override
-    public ResponseEntity< HashMap < String, String > > response(  ){
+    public ResponseEntity< HashMap < String, String > > response( ){
 
         if( this.userData == null ){
             jamiiDebug.warning( this.getLoginCredential( ) + " is an invalid user");

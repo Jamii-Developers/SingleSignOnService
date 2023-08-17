@@ -1,6 +1,7 @@
 package com.jamii.webapi;
 
 import com.jamii.Utils.JamiiDebug;
+import com.jamii.webapi.activeDirectory.CreateNewUserOPS;
 import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,11 @@ public class WebapiApplication {
 
 	@Autowired
 	private UserLoginOPS userLoginOPS;
+	@Autowired
+	private CreateNewUserOPS createNewUserOPS;
+
+
+
 	private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
 	public static void main(String[] args) {
@@ -27,12 +33,33 @@ public class WebapiApplication {
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity< HashMap <String, String> > userlogin(@RequestBody UserLoginOPS userLoginOPS) {
+
 		jamiiDebug.info("Received request");
+
 		this.userLoginOPS.setLoginCredential( userLoginOPS.getLoginCredential( ) );
 		this.userLoginOPS.setLoginPassword(userLoginOPS.getLoginPassword( ) );
+
 		this.userLoginOPS.processRequest( );
+
 		jamiiDebug.info("Request completed");
 		return this.userLoginOPS.response( );
+	}
+
+	@PostMapping( path = "createNewUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< HashMap <String, String> > createNewUser(@RequestBody CreateNewUserOPS createNewUserOPS ) throws Exception {
+		jamiiDebug.info("Received request" );
+
+		this.createNewUserOPS.setEmailaddress( createNewUserOPS.getEmailaddress( ) );
+		this.createNewUserOPS.setUsername( createNewUserOPS.getUsername( ) );
+		this.createNewUserOPS.setFirstname( createNewUserOPS.getFirstname( ) );
+		this.createNewUserOPS.setLastname( createNewUserOPS.getLastname( ) ) ;
+		this.createNewUserOPS.setPassword( createNewUserOPS.getPassword( ) );
+		this.createNewUserOPS.setDeviceid( createNewUserOPS.getDeviceid( ) );
+
+		this.createNewUserOPS.processRequest( );
+
+		jamiiDebug.info("Request completed");
+		return this.createNewUserOPS.response( );
 	}
 
 }

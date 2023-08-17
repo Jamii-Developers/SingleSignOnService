@@ -10,5 +10,10 @@ import java.util.List;
 public interface UserInformationLoginREPO extends CrudRepository<UserLoginInformationTBL, Integer> {
     List <UserLoginInformationTBL> findByUsernameAndActive( String username, int active );
     List <UserLoginInformationTBL> findByEmailaddressAndActive( String emailAddress, int active );
+    List <UserLoginInformationTBL> findByEmailaddressOrUsername( String emailAddress, String username );
+    List <UserLoginInformationTBL> findByEmailaddressAndUsername( String emailAddress, String username );
+    List <UserLoginInformationTBL> findByUsername( String username );
+    List <UserLoginInformationTBL> findByEmailaddress( String emailAddress );
+
 
 }

@@ -14,7 +14,7 @@ public class UserLoginInformationTBL {
     private Integer id;
     @Column( name = "username")
     private String username;
-    @Column( name = "emailAddress")
+    @Column( name = "emailaddress")
 
     private String emailaddress;
     @Column( name = "first_name")
@@ -70,11 +70,11 @@ public class UserLoginInformationTBL {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
+    public String getLastname( ) {
         return lastname;
     }
 
-    public void setLast_name(String last_name) {
+    public void setLastname(String last_name) {
         this.lastname = lastname;
     }
 
