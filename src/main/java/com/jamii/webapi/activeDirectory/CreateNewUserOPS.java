@@ -73,13 +73,9 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
     }
 
     @Override
+
     public void processRequest( ) throws Exception {
-
-        if ( userLoginInformationCONT.createNewUser( this ) ){
-            Thread.sleep( 5000 );
-            this.userData = userLoginInformationCONT.fetchUser( this.getUsername( ), this.getEmailaddress( ) ) ;
-
-        }
+        this.userData = userLoginInformationCONT.createNewUser( this );
     }
 
     @Override

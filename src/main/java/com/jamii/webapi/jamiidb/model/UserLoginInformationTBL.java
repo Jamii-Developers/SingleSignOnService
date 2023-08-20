@@ -3,30 +3,31 @@ package com.jamii.webapi.jamiidb.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table( name = "UserLoginInformation")
+@Table( name = "UserLoginInformation" , schema =  "jamiidb")
 public class UserLoginInformationTBL {
 
     public UserLoginInformationTBL( ) { }
 
     @Id
     @Column( name = "id")
-    @GeneratedValue( strategy= GenerationType.AUTO )
+    @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
-    @Column( name = "username")
+    @Column( name = "username" , nullable = false, length = 50, unique = true)
     private String username;
-    @Column( name = "emailaddress")
+
+    @Column( name = "email_address", nullable = false, length = 200, unique = true )
 
     private String emailaddress;
-    @Column( name = "first_name")
+    @Column( name = "first_name" , nullable = false, length = 200 )
 
     private String firstname;
-    @Column( name = "last_name")
+    @Column( name = "last_name", nullable = false, length = 200 )
 
     private String lastname;
-    @Column( name = "password_salt")
+    @Column( name = "password_salt" , nullable = false, length = 200 )
 
     private String passwordsalt;
-    @Column( name = "active")
+    @Column( name = "active", nullable = false )
 
     private Integer active;
 
@@ -74,7 +75,7 @@ public class UserLoginInformationTBL {
         return lastname;
     }
 
-    public void setLastname(String last_name) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
