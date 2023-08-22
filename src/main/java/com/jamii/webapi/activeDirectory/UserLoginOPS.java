@@ -21,7 +21,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT ;
 
-    private UserLoginInformationTBL userData = null ;
+    private UserLoginInformationTBL userData ;
     private static final Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
