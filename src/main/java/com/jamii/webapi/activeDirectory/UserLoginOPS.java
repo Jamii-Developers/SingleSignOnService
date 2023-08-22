@@ -1,6 +1,7 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
         }
 
         jamiiDebug.warning( "User has been found" );
-
-        return null;
+        MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
+        return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED) ;
     }
 }

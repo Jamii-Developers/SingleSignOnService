@@ -1,6 +1,7 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,14 +80,15 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
     }
 
     @Override
-    public ResponseEntity< HashMap<String, String> > response() {
+    public ResponseEntity< HashMap<String, String> > response( ) {
 
         if( this.userData == null ){
             jamiiDebug.warning(  String.format( "Username : %s or Email address: %s are already in the system", this.getUsername( ), this.getEmailaddress( ) ) );
             return new ResponseEntity<>( JamiiResponseErrorMessages.createNewUserError( ), HttpStatus.BAD_REQUEST );
         }
 
-        jamiiDebug.warning( "The user was created successfully" );
-        return null;
+        jamiiDebug.warning( "User has been found" );
+        MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
+        return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED ) ;
     }
 }

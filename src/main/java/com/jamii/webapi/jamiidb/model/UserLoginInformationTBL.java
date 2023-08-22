@@ -12,24 +12,37 @@ public class UserLoginInformationTBL {
     @Column( name = "id")
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
+    public static final String ID = "ID";
+
     @Column( name = "username" , nullable = false, length = 50, unique = true)
     private String username;
+    public static final String USERNAME = "USERNAME";
 
-    @Column( name = "email_address", nullable = false, length = 200, unique = true )
+    @Column( name = "emailaddress", nullable = false, length = 200, unique = true )
 
     private String emailaddress;
-    @Column( name = "first_name" , nullable = false, length = 200 )
+    public static final String EMAILADDRESS = "EMAILADDRESS";
+
+    @Column( name = "firstname" , nullable = false, length = 200 )
 
     private String firstname;
-    @Column( name = "last_name", nullable = false, length = 200 )
+    public static final String FIRSTNAME = "FIRSTNAME";
+
+    @Column( name = "lastname", nullable = false, length = 200 )
 
     private String lastname;
-    @Column( name = "password_salt" , nullable = false, length = 200 )
+    public static final String LASTNAME = "LASTNAME";
+
+    @Column( name = "passwordsalt" , nullable = false, length = 200 )
 
     private String passwordsalt;
-    @Column( name = "active", nullable = false )
+    public static final String PASSWORDSALT = "PASSWORDSALT";
 
+
+    @Column( name = "active", nullable = false )
     private Integer active;
+    public static final String ACTIVE = "ACTIVE";
+
 
     /**
      * ACTIVE STATUS
@@ -41,6 +54,10 @@ public class UserLoginInformationTBL {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getIdAsString( ){
+        return String.valueOf( id );
     }
 
     public void setId(Integer id) {

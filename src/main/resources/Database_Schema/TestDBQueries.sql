@@ -1,1 +1,0 @@
-INSERT INTO `jamiidb`.`user_login_information` (`id`, `active`, `email_address`, `first_name`, `last_name`, `password_salt`, `username`) VALUES ('1', '1', 'test@testmail.com', 'TEST01', 'McTESTY', 'toor', 'ayax');
