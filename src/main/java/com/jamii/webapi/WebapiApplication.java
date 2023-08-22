@@ -31,13 +31,14 @@ public class WebapiApplication {
 		SpringApplication.run( WebapiApplication.class, args);
 	}
 
-	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > userlogin(@RequestBody UserLoginOPS userLoginOPS) {
+	@PostMapping( path = "userLogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< HashMap <String, String> > userLogin(@RequestBody UserLoginOPS userLoginOPS) {
 
 		jamiiDebug.info("Received request");
 
 		this.userLoginOPS.setLoginCredential( userLoginOPS.getLoginCredential( ) );
-		this.userLoginOPS.setLoginPassword(userLoginOPS.getLoginPassword( ) );
+		this.userLoginOPS.setLoginPassword( userLoginOPS.getLoginPassword( ) );
+		this.userLoginOPS.reset( );
 
 		this.userLoginOPS.processRequest( );
 

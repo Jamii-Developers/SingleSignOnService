@@ -69,12 +69,11 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         return deviceid;
     }
 
-    public void setDeviceid(String device_d) {
+    public void setDeviceid(String deviceid) {
         this.deviceid = deviceid;
     }
 
     @Override
-
     public void processRequest( ) throws Exception {
         this.userData = userLoginInformationCONT.createNewUser( this );
     }
@@ -90,5 +89,10 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         jamiiDebug.warning( "User has been found" );
         MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
         return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED ) ;
+    }
+
+    @Override
+    public void reset(){
+        this.userData = null ;
     }
 }

@@ -21,7 +21,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT ;
 
-    private UserLoginInformationTBL userData;
+    private UserLoginInformationTBL userData = null ;
     private static final Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
@@ -74,5 +74,12 @@ public class UserLoginOPS extends activeDirectoryAbstract{
         jamiiDebug.warning( "User has been found" );
         MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
         return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED) ;
+
+
+    }
+
+    @Override
+    public void reset(){
+        this.userData = null ;
     }
 }
