@@ -3,7 +3,7 @@ package com.jamii.webapi.activeDirectory;
 import com.jamii.Utils.JamiiResponseErrorMessages;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
-import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
+import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
 
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT;
-    protected UserLoginInformationTBL userData;
+    protected UserLoginTBL userData;
 
     public String getEmailaddress() {
         return emailaddress;
@@ -86,13 +86,13 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
             return new ResponseEntity<>( JamiiResponseErrorMessages.createNewUserError( ), HttpStatus.BAD_REQUEST );
         }
 
-        jamiiDebug.warning( "User has been found" );
+        jamiiDebug.info( "User has been found" );
         MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
         return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED ) ;
     }
 
     @Override
-    public void reset(){
+    public void reset( ){
         this.userData = null ;
     }
 }

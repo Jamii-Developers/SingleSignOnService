@@ -3,14 +3,15 @@ package com.jamii.webapi.jamiidb.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table( name = "UserLoginInformation" , schema =  "jamiidb")
-public class UserLoginInformationTBL {
+@Table( name = "User_Login" , schema =  "jamiidb")
+public class UserLoginTBL {
 
-    public UserLoginInformationTBL( ) { }
+    public UserLoginTBL( ) { }
 
     @Id
     @Column( name = "id")
     @GeneratedValue( strategy= GenerationType.IDENTITY )
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = false)
     private Integer id;
     public static final String ID = "ID";
 

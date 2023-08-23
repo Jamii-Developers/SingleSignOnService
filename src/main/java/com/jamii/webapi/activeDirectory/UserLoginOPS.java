@@ -3,7 +3,7 @@ package com.jamii.webapi.activeDirectory;
 import com.jamii.Utils.JamiiResponseErrorMessages;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
-import com.jamii.webapi.jamiidb.model.UserLoginInformationTBL;
+import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT ;
 
-    private UserLoginInformationTBL userData ;
-    private static final Integer activeStatus = UserLoginInformationTBL.ACTIVE_ON;
+    private UserLoginTBL userData ;
+    private static final Integer activeStatus = UserLoginTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
         return this.loginCredential;
@@ -56,7 +56,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     public void processRequest( ){
         jamiiDebug.warning( "Request has been received" );
 
-        UserLoginInformationTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
+        UserLoginTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
         if ( userData != null ){
             this.userData = userData;
         }
