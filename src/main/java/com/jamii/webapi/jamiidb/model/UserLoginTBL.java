@@ -1,49 +1,50 @@
 package com.jamii.webapi.jamiidb.model;
 
 import jakarta.persistence.*;
+import org.apache.catalina.User;
+
+import java.util.List;
 
 @Entity
-@Table( name = "User_Login" , schema =  "jamiidb")
+@Table( name = "user_login" , schema =  "jamiidb")
 public class UserLoginTBL {
 
     public UserLoginTBL( ) { }
 
+    public static final String              TABLE_NAME      = "user_login";
+
+    public static final String              ID              = "ID";
+    public static final String              USERNAME        = "USERNAME";
+    public static final String              EMAIL_ADDRESS   = "EMAIL_ADDRESS";
+    public static final String              PASSWORD_SALT   = "PASSWORD_SALT";
+    public static final String              MFA_KEY         = "MFA_KEY";
+    public static final String              ACTIVE          = "ACTIVE";
+
     @Id
-    @Column( name = "id")
+    @Column( name = ID )
     @GeneratedValue( strategy= GenerationType.IDENTITY )
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = false)
     private Integer id;
-    public static final String ID = "ID";
 
-    @Column( name = "username" , nullable = false, length = 50, unique = true)
+    @Column( name = USERNAME , nullable = false, length = 50, unique = true)
     private String username;
-    public static final String USERNAME = "USERNAME";
 
-    @Column( name = "emailaddress", nullable = false, length = 200, unique = true )
-
+    @Column( name = EMAIL_ADDRESS, nullable = false, length = 200, unique = true )
     private String emailaddress;
-    public static final String EMAILADDRESS = "EMAILADDRESS";
 
-    @Column( name = "firstname" , nullable = false, length = 200 )
-
-    private String firstname;
-    public static final String FIRSTNAME = "FIRSTNAME";
-
-    @Column( name = "lastname", nullable = false, length = 200 )
-
-    private String lastname;
-    public static final String LASTNAME = "LASTNAME";
-
-    @Column( name = "passwordsalt" , nullable = false, length = 200 )
-
+    @Column( name = PASSWORD_SALT , nullable = false, length = 200 )
     private String passwordsalt;
-    public static final String PASSWORDSALT = "PASSWORDSALT";
 
+    @Column( name = MFA_KEY , nullable = false, length = 500 )
+    private String mfakey;
 
-    @Column( name = "active", nullable = false )
+    @Column( name = ACTIVE, nullable = false )
     private Integer active;
-    public static final String ACTIVE = "ACTIVE";
 
+    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    private List<DeviceInformationTBL> deviceInformationTBL;
+
+    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    private List<UserDataTBL> userDataTBL;
 
     /**
      * ACTIVE STATUS
@@ -81,22 +82,6 @@ public class UserLoginTBL {
         this.emailaddress = emailaddress;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname( ) {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public String getPasswordsalt() {
         return passwordsalt;
     }
@@ -111,5 +96,13 @@ public class UserLoginTBL {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public String getMfakey() {
+        return mfakey;
+    }
+
+    public void setMfakey(String mfakey) {
+        this.mfakey = mfakey;
     }
 }

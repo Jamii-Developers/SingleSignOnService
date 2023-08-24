@@ -1,17 +1,18 @@
 package com.jamii.responses;
 
+import com.jamii.webapi.jamiidb.model.UserDataTBL;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
 import java.util.HashMap;
 
 public class MapUserLoginInformation {
 
-    public MapUserLoginInformation(UserLoginTBL userInformation ) {
+    public MapUserLoginInformation( UserLoginTBL userInformation) {
         setId( userInformation.getId( ) );
         setEmailaddress( userInformation.getEmailaddress( ) );
         setUsername( userInformation.getUsername( ) );
-        setFirstname( userInformation.getFirstname( ) );
-        setLastname( userInformation.getLastname( ) );
+        setFirstname( null );
+        setLastname( null );
     }
 
     private Integer id;
@@ -85,10 +86,10 @@ public class MapUserLoginInformation {
     public HashMap< String, String > getResponseMap( ){
         HashMap < String , String > response = new HashMap< >( );
         response.put( UserLoginTBL.ID , getIdAsString( ) );
-        response.put( UserLoginTBL.EMAILADDRESS , getEmailaddress( ) );
+        response.put( UserLoginTBL.EMAIL_ADDRESS , getEmailaddress( ) );
         response.put( UserLoginTBL.USERNAME , getUsername( ) );
-        response.put( UserLoginTBL.FIRSTNAME, getFirstname( ) );
-        response.put( UserLoginTBL.LASTNAME, getLastname( ) );
+        response.put( UserDataTBL.FIRST_NAME, getFirstname( ) );
+        response.put( UserDataTBL.LAST_NAME, getLastname( ) );
         return response;
     }
 }

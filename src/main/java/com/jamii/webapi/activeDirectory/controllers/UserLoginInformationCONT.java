@@ -66,13 +66,13 @@ public class UserLoginInformationCONT {
         return userLoginREPO.save( newUser );
     }
 
-    private static UserLoginTBL populateUserLoginInformationTBL(CreateNewUserOPS createNewUserOPS ) {
+    private static UserLoginTBL populateUserLoginInformationTBL( CreateNewUserOPS createNewUserOPS ) {
         UserLoginTBL newUser = new UserLoginTBL( );
 
         newUser.setEmailAddress( createNewUserOPS.getEmailaddress( ) ) ;
         newUser.setUsername( createNewUserOPS.getUsername( ) );
-        newUser.setLastname( createNewUserOPS.getLastname( ) );
-        newUser.setFirstname( createNewUserOPS.getFirstname( ) );
+//        newUser.setLastname( createNewUserOPS.getLastname( ) );
+//        newUser.setFirstname( createNewUserOPS.getFirstname( ) );
         newUser.setPasswordsalt( createNewUserOPS.getPassword( ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
         return newUser;
