@@ -19,7 +19,9 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
     private String firstname;
     private String lastname;
     private String password ;
+    private String retyped_password;
     private String deviceid;
+
 
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT;

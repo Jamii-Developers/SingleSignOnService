@@ -46,6 +46,9 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
     private List<UserDataTBL> userDataTBL;
 
+    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    private List<PasswordHashRecordsTBL> passwordHashRecordsTBL;
+
     /**
      * ACTIVE STATUS
      */
