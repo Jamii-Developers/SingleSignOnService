@@ -4,9 +4,9 @@ import com.mysql.cj.util.StringUtils;
 
 public class JamiiStringUtils extends StringUtils {
 
-    public JamiiStringUtils() throws IllegalAccessException { throw new IllegalAccessException( "This is a utility Class"); }
+    public JamiiStringUtils( ) throws IllegalAccessException { throw new IllegalAccessException( "This is a utility Class"); }
 
-    public static boolean equals(String s1, String s2){
+    public static boolean equals( String s1, String s2){
         return s1.equals( s2 );
     }
 }

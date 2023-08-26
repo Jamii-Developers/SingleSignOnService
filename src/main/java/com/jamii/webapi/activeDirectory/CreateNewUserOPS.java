@@ -2,6 +2,7 @@ package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
 import com.jamii.responses.MapUserLoginInformation;
+import com.jamii.webapi.activeDirectory.controllers.PasswordHashRecordsCONT;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,12 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
 
     private String emailaddress;
     private String username;
-    private String firstname;
-    private String lastname;
     private String password ;
-    private String retyped_password;
-    private String deviceid;
-
 
     @Autowired
     private UserLoginInformationCONT userLoginInformationCONT;
+    @Autowired
+    private PasswordHashRecordsCONT passwordHashRecordsCONT;
     protected UserLoginTBL userData;
 
     public String getEmailaddress() {
@@ -43,22 +41,6 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         this.username = username;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -67,17 +49,14 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         this.password = password;
     }
 
-    public String getDeviceid() {
-        return deviceid;
-    }
-
-    public void setDeviceid(String deviceid) {
-        this.deviceid = deviceid;
-    }
-
     @Override
     public void processRequest( ) throws Exception {
         this.userData = userLoginInformationCONT.createNewUser( this );
+
+        //Add new password records
+        if( this.userData != null){
+            passwordHashRecordsCONT.addUserNewPasswordRecord( this.userData ) ;
+        }
     }
 
     @Override

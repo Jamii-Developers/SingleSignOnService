@@ -1,6 +1,7 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
@@ -57,10 +58,12 @@ public class UserLoginOPS extends activeDirectoryAbstract{
         jamiiDebug.warning( "Request has been received" );
 
         UserLoginTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
-        if ( userData != null ){
-            this.userData = userData;
-        }
 
+        if ( userData != null ){
+            if( new JamiiUserPasswordEncryptTool( getLoginPassword( ), userData.getPasswordsalt( ) ).comparePasswords( ) ){
+                this.userData = userData;
+            }
+        }
     }
 
     @Override

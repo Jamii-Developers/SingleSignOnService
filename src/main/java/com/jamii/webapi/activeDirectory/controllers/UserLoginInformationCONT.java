@@ -1,6 +1,7 @@
 package com.jamii.webapi.activeDirectory.controllers;
 
 import com.jamii.Utils.JamiiStringUtils;
+import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.webapi.activeDirectory.CreateNewUserOPS;
 import com.jamii.webapi.activeDirectory.UserLoginOPS;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class UserLoginInformationCONT {
+
     @Autowired
     private UserLoginREPO userLoginREPO;
     
@@ -24,7 +26,7 @@ public class UserLoginInformationCONT {
      * @return - Returns user's information
      */
 
-    public UserLoginTBL checkAndRetrieveValidLogin (UserLoginOPS userLoginOPS ){
+    public UserLoginTBL checkAndRetrieveValidLogin ( UserLoginOPS userLoginOPS ){
 
         // Adding this so we are able to check only users that are active
         List <UserLoginTBL> fetchCredential = new ArrayList< > ( );
@@ -36,9 +38,9 @@ public class UserLoginInformationCONT {
             return null;
         }
 
-
+        String encryptedPassword = new JamiiUserPasswordEncryptTool( userLoginOPS.getLoginPassword( ) ).encryptPassword( );
         for( UserLoginTBL cred : fetchCredential ){
-            if( JamiiStringUtils.equals( cred.getPasswordsalt( ), userLoginOPS.getLoginPassword( ) ) ) {
+            if( JamiiStringUtils.equals( cred.getPasswordsalt( ),  encryptedPassword ) ) {
                 return cred;
             }
         }
@@ -55,27 +57,31 @@ public class UserLoginInformationCONT {
     public UserLoginTBL createNewUser (CreateNewUserOPS createNewUserOPS ){
 
         //Check if username and email address exist in the system
-        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername(createNewUserOPS.getEmailaddress(), createNewUserOPS.getUsername( ) ) );
+        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getEmailaddress( ), createNewUserOPS.getUsername( ) ) );
 
         if( !checkCredential.isEmpty( ) ){
             return null ;
         }
 
         //Save the newly created user
-        UserLoginTBL newUser = populateUserLoginInformationTBL(createNewUserOPS);
-        return userLoginREPO.save( newUser );
+        UserLoginTBL newUser = add( createNewUserOPS);
+        return newUser;
     }
 
-    private static UserLoginTBL populateUserLoginInformationTBL( CreateNewUserOPS createNewUserOPS ) {
-        UserLoginTBL newUser = new UserLoginTBL( );
+    /**
+     * Populates a new user to the userLoginTBL table
+     * @param createNewUserOPS - Contains the basic details we need to populate the userLoginTBL
+     * @return - returns the user login information
+     */
+    private UserLoginTBL add( CreateNewUserOPS createNewUserOPS ) {
 
+        UserLoginTBL newUser = new UserLoginTBL( );
         newUser.setEmailAddress( createNewUserOPS.getEmailaddress( ) ) ;
         newUser.setUsername( createNewUserOPS.getUsername( ) );
-//        newUser.setLastname( createNewUserOPS.getLastname( ) );
-//        newUser.setFirstname( createNewUserOPS.getFirstname( ) );
-        newUser.setPasswordsalt( createNewUserOPS.getPassword( ) );
+        newUser.setPasswordsalt( new JamiiUserPasswordEncryptTool( createNewUserOPS.getPassword( ) ).encryptPassword( ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
-        return newUser;
+
+        return userLoginREPO.save( newUser) ;
     }
 
     /**

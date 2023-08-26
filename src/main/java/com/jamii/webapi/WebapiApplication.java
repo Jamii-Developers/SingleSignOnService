@@ -31,7 +31,7 @@ public class WebapiApplication {
 		SpringApplication.run( WebapiApplication.class, args);
 	}
 
-	@PostMapping( path = "userLogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity< HashMap <String, String> > userLogin(@RequestBody UserLoginOPS userLoginOPS) {
 
 		jamiiDebug.info("Received request");
@@ -46,16 +46,13 @@ public class WebapiApplication {
 		return this.userLoginOPS.response( );
 	}
 
-	@PostMapping( path = "createNewUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > createNewUser(@RequestBody CreateNewUserOPS createNewUserOPS ) throws Exception {
+	@PostMapping( path = "createnewuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< HashMap <String, String> > createnewuser(@RequestBody CreateNewUserOPS createNewUserOPS ) throws Exception {
 		jamiiDebug.info("Received request" );
 
 		this.createNewUserOPS.setEmailaddress( createNewUserOPS.getEmailaddress( ) );
 		this.createNewUserOPS.setUsername( createNewUserOPS.getUsername( ) );
-		this.createNewUserOPS.setFirstname( createNewUserOPS.getFirstname( ) );
-		this.createNewUserOPS.setLastname( createNewUserOPS.getLastname( ) ) ;
 		this.createNewUserOPS.setPassword( createNewUserOPS.getPassword( ) );
-		this.createNewUserOPS.setDeviceid( createNewUserOPS.getDeviceid( ) );
 
 		this.createNewUserOPS.processRequest( );
 
