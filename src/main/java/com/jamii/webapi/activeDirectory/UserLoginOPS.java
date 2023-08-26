@@ -1,9 +1,11 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.responses.MapUserLoginInformation;
-import com.jamii.webapi.activeDirectory.controllers.UserLoginInformationCONT;
+import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
+import com.jamii.requests.UserLoginREQ;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,52 +17,31 @@ import java.util.HashMap;
 @Service
 public class UserLoginOPS extends activeDirectoryAbstract{
 
-    private String loginCredential;
-    private String loginPassword;
-    private String loginDeviceId;
-
     @Autowired
-    private UserLoginInformationCONT userLoginInformationCONT ;
+    private UserLoginCONT userLoginCONT;
+
+    private UserLoginREQ userLoginREQ;
 
     private UserLoginTBL userData ;
-    private static final Integer activeStatus = UserLoginTBL.ACTIVE_ON;
 
-    public String getLoginCredential() {
-        return this.loginCredential;
+
+    public UserLoginREQ getUserLoginREQ() {
+        return userLoginREQ;
     }
 
-    public void setLoginCredential(String loginCredential) {
-        this.loginCredential = loginCredential;
-    }
-
-    public String getLoginPassword() {
-        return this.loginPassword;
-    }
-
-    public void setLoginPassword(String loginPassword) {
-        this.loginPassword = loginPassword;
-    }
-
-    public Integer getActiveStatus() {
-        return activeStatus;
-    }
-
-    public String getLoginDeviceId() {
-        return loginDeviceId;
-    }
-
-    public void setLoginDeviceId(String loginDeviceId) {
-        this.loginDeviceId = loginDeviceId;
+    public void setUserLoginREQ(UserLoginREQ userLoginREQ) {
+        this.userLoginREQ = userLoginREQ;
     }
 
     @Override
     public void processRequest( ){
         jamiiDebug.warning( "Request has been received" );
 
-        UserLoginTBL userData = this.userLoginInformationCONT.checkAndRetrieveValidLogin( this ) ;
+        UserLoginTBL userData = this.userLoginCONT.checkAndRetrieveValidLogin( this ) ;
 
+        String encryptPassword = JamiiUserPasswordEncryptTool.doEncrypt( this.userLoginREQ.getLoginPassword( ) );
         if ( userData != null ){
-            if( new JamiiUserPasswordEncryptTool( getLoginPassword( ), userData.getPasswordsalt( ) ).comparePasswords( ) ){
+            if( JamiiStringUtils.equals( encryptPassword, userData.getPasswordsalt( ) ) ){
                 this.userData = userData;
             }
         }
@@ -70,7 +51,7 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     public ResponseEntity< HashMap < String, String > > response( ){
 
         if( this.userData == null ){
-            jamiiDebug.warning( this.getLoginCredential( ) + " is an invalid user");
+            jamiiDebug.warning( this.userLoginREQ.getLoginCredential( ) + " is an invalid user");
             return new ResponseEntity<>( JamiiResponseErrorMessages.loginError(), HttpStatus.BAD_REQUEST );
         }
 
@@ -84,5 +65,6 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     @Override
     public void reset(){
         this.userData = null ;
+        this.setUserLoginREQ( null ) ;
     }
 }

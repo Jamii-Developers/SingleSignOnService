@@ -10,7 +10,7 @@ public class JamiiDebug {
 
     protected static Logger logger ;
 
-    public void warning( String text ){
+    public static void warning( String text ){
         logger.warning( text );
     }
 

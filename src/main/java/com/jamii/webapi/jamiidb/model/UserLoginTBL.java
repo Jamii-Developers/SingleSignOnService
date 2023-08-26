@@ -2,6 +2,7 @@ package com.jamii.webapi.jamiidb.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,7 @@ public class UserLoginTBL {
     public static final String              PASSWORD_SALT   = "PASSWORD_SALT";
     public static final String              MFA_KEY         = "MFA_KEY";
     public static final String              ACTIVE          = "ACTIVE";
+    public static final String              DATE_CREATED    = "DATE_CREATED";
 
     @Id
     @Column( name = ID )
@@ -38,6 +40,9 @@ public class UserLoginTBL {
 
     @Column( name = ACTIVE, nullable = false )
     private Integer active;
+
+    @Column( name = DATE_CREATED, nullable = false )
+    private LocalDateTime datecreated;
 
     @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
     private List<DeviceInformationTBL> deviceInformationTBL;
@@ -106,5 +111,13 @@ public class UserLoginTBL {
 
     public void setMfakey(String mfakey) {
         this.mfakey = mfakey;
+    }
+
+    public LocalDateTime getDatecreated() {
+        return datecreated;
+    }
+
+    public void setDatecreated(LocalDateTime datecreated) {
+        this.datecreated = datecreated;
     }
 }

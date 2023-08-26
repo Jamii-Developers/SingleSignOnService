@@ -1,4 +1,4 @@
-package com.jamii.webapi.activeDirectory.controllers;
+package com.jamii.webapi.jamiidb.controllers;
 
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserLoginInformationCONT {
+public class UserLoginCONT {
 
     @Autowired
     private UserLoginREPO userLoginREPO;
@@ -31,14 +32,14 @@ public class UserLoginInformationCONT {
         // Adding this so we are able to check only users that are active
         List <UserLoginTBL> fetchCredential = new ArrayList< > ( );
 
-        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( userLoginOPS.getLoginCredential( ),  userLoginOPS.getActiveStatus( ) ) );
-        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( userLoginOPS.getLoginCredential( ),  userLoginOPS.getActiveStatus( ) ) );
+        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( userLoginOPS.getUserLoginREQ( ).getLoginCredential( ),  userLoginOPS.getUserLoginREQ( ).getActiveStatus( ) ) );
+        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( userLoginOPS.getUserLoginREQ().getLoginCredential( ),  userLoginOPS.getUserLoginREQ().getActiveStatus( ) ) );
 
         if( fetchCredential.isEmpty( )  ){
             return null;
         }
 
-        String encryptedPassword = new JamiiUserPasswordEncryptTool( userLoginOPS.getLoginPassword( ) ).encryptPassword( );
+        String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ) );
         for( UserLoginTBL cred : fetchCredential ){
             if( JamiiStringUtils.equals( cred.getPasswordsalt( ),  encryptedPassword ) ) {
                 return cred;
@@ -54,18 +55,22 @@ public class UserLoginInformationCONT {
      * @return - returns boolean on whether a new user was created
      */
     @Transactional
-    public UserLoginTBL createNewUser (CreateNewUserOPS createNewUserOPS ){
+    public UserLoginTBL createNewUser ( CreateNewUserOPS createNewUserOPS ){
 
         //Check if username and email address exist in the system
-        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getEmailaddress( ), createNewUserOPS.getUsername( ) ) );
+        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ), createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) ) );
 
         if( !checkCredential.isEmpty( ) ){
             return null ;
         }
 
         //Save the newly created user
-        UserLoginTBL newUser = add( createNewUserOPS);
+        UserLoginTBL newUser = add( createNewUserOPS );
         return newUser;
+    }
+
+    public UserLoginTBL add( UserLoginTBL userLoginTBL ){
+        return userLoginREPO.save( userLoginTBL );
     }
 
     /**
@@ -73,15 +78,16 @@ public class UserLoginInformationCONT {
      * @param createNewUserOPS - Contains the basic details we need to populate the userLoginTBL
      * @return - returns the user login information
      */
-    private UserLoginTBL add( CreateNewUserOPS createNewUserOPS ) {
+    public UserLoginTBL add( CreateNewUserOPS createNewUserOPS ) {
 
         UserLoginTBL newUser = new UserLoginTBL( );
-        newUser.setEmailAddress( createNewUserOPS.getEmailaddress( ) ) ;
-        newUser.setUsername( createNewUserOPS.getUsername( ) );
-        newUser.setPasswordsalt( new JamiiUserPasswordEncryptTool( createNewUserOPS.getPassword( ) ).encryptPassword( ) );
+        newUser.setEmailAddress( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ) ) ;
+        newUser.setUsername( createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) );
+        newUser.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword( createNewUserOPS.getCreateNewUserREQ( ).getPassword( ) ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
+        newUser.setDatecreated( LocalDateTime.now( ) );
 
-        return userLoginREPO.save( newUser) ;
+        return userLoginREPO.save( newUser ) ;
     }
 
     /**
@@ -90,7 +96,22 @@ public class UserLoginInformationCONT {
      * @param emailAddress - Clients email address
      * @return - returns the information on a fetched user
      */
-    public Optional<UserLoginTBL> fetchUser(String username, String emailAddress ){
+    public Optional<UserLoginTBL> fetch( String emailAddress ,String username ){
         return userLoginREPO.findByEmailaddressAndUsername( username, emailAddress ).stream( ).findFirst( );
+    }
+
+    /**
+     * This is an overloaded method that checks if a user is active
+     * @param username - Intakes the username
+     * @param emailAddress - intakes the email address
+     * @param active - Intakes the user's active state
+     * @return - returns the user record
+     */
+    public Optional<UserLoginTBL> fetch( String emailAddress ,String username, int active ){
+        return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
+    }
+
+    public UserLoginTBL update( UserLoginTBL userLoginTBL ){
+        return userLoginREPO.save( userLoginTBL );
     }
 }

@@ -5,34 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class JamiiUserPasswordEncryptTool {
 
-    private String password;
-    private String retyped_password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRetyped_password() {
-        return retyped_password;
-    }
-
-    public void setRetyped_password(String retyped_password) {
-        this.retyped_password = retyped_password;
-    }
-
-    public JamiiUserPasswordEncryptTool(String password) {
-        this.password = password;
-    }
-
-    public JamiiUserPasswordEncryptTool(String password, String retyped_password) {
-        this.password = password;
-        this.retyped_password = retyped_password;
-    }
-
     /**
      *
      * @param text - Test to be encrpted
@@ -64,14 +36,14 @@ public class JamiiUserPasswordEncryptTool {
         return encryptedPassword;
     }
 
-    public Boolean comparePasswords( ) {
-        String password1 = doEncrypt( this.password );
-        String password2 = doEncrypt( this.password );
-        return JamiiStringUtils.equals( password1, password2 );
+    public static Boolean comparePasswords( String password1, String password2  ) {
+        String encryptedPassword1 = doEncrypt( password1 );
+        String encryptedPassword2 = doEncrypt( password2 );
+        return JamiiStringUtils.equals( encryptedPassword1, encryptedPassword2 );
     }
 
-    public String encryptPassword( ){
-        return doEncrypt( this.password );
+    public static String encryptPassword( String password1 ){
+        return doEncrypt( password1 );
     }
 
 
