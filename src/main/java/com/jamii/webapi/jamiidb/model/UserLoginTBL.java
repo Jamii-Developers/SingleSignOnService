@@ -1,7 +1,6 @@
 package com.jamii.webapi.jamiidb.model;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class UserLoginTBL {
     @Column( name = PASSWORD_SALT , nullable = false, length = 200 )
     private String passwordsalt;
 
-    @Column( name = MFA_KEY , nullable = true, length = 500 )
+    @Column( name = MFA_KEY , length = 500 )
     private String mfakey;
 
     @Column( name = ACTIVE, nullable = false )
