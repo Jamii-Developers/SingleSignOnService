@@ -5,6 +5,7 @@ import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
 import java.util.HashMap;
 
+@Deprecated
 public class MapUserLoginInformation {
 
     public MapUserLoginInformation( UserLoginTBL userInformation) {
