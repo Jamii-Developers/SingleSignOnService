@@ -62,7 +62,7 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
             return;
         }
 
-        userLoginCONT.add( user.get( ) );
+        userLoginCONT.update( user.get( ) );
         passwordHashRecordsCONT.addUserNewPasswordRecord( user.get( ) ) ;
 
         passwordChangeSuccessful = true;

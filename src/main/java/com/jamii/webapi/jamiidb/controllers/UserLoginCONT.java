@@ -40,7 +40,6 @@ public class UserLoginCONT {
         }
 
         //Confirm if user password matches saved password
-        String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ) );
         for( UserLoginTBL cred : fetchCredential ){
             if( isPasswordValid( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ), cred ) ) {
                 return cred;
@@ -65,12 +64,11 @@ public class UserLoginCONT {
         }
 
         //Save the newly created user
-        UserLoginTBL newUser = add( createNewUserOPS );
-        return newUser;
+        return add( createNewUserOPS );
     }
 
-    public UserLoginTBL add( UserLoginTBL userLoginTBL ){
-        return userLoginREPO.save( userLoginTBL );
+    public void add(UserLoginTBL userLoginTBL ){
+        userLoginREPO.save(userLoginTBL);
     }
 
     /**
@@ -115,6 +113,9 @@ public class UserLoginCONT {
     public Optional<UserLoginTBL> fetch( String emailAddress ,String username, int active ){
         return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
     }
+    public Optional<UserLoginTBL> fetch( String emailAddress ,String username, String userkey ,int active ){
+        return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
+    }
     public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
         return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
     }
@@ -126,7 +127,16 @@ public class UserLoginCONT {
     public Boolean isPasswordValid( String password, UserLoginTBL user){
         String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword( password );
         return JamiiStringUtils.equals( encryptedPassword, user.getPasswordsalt( ) );
+    }
 
+    public void deactivateUser( UserLoginTBL userLoginTBL ){
+        userLoginTBL.setActive( UserLoginTBL.ACTIVE_OFF );
+        userLoginREPO.save( userLoginTBL );
+    }
+
+    public void reactivateUser( UserLoginTBL userLoginTBL ){
+        userLoginTBL.setActive( UserLoginTBL.ACTIVE_ON );
+        userLoginREPO.save( userLoginTBL );
     }
 
 }

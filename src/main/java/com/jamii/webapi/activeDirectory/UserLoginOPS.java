@@ -1,11 +1,9 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiResponseErrorMessages;
-import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.Utils.JamiiUserPasswordEncryptTool;
+import com.jamii.requests.UserLoginREQ;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
-import com.jamii.requests.UserLoginREQ;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +22,12 @@ public class UserLoginOPS extends activeDirectoryAbstract{
 
     private UserLoginTBL userData ;
 
-
     public UserLoginREQ getUserLoginREQ() {
         return userLoginREQ;
     }
 
-    public void setUserLoginREQ(UserLoginREQ userLoginREQ) {
-        this.userLoginREQ = userLoginREQ;
+    public void setUserLoginREQ( UserLoginREQ userLoginREQ ) {
+        this.userLoginREQ = userLoginREQ ;
     }
 
     @Override
@@ -49,13 +46,12 @@ public class UserLoginOPS extends activeDirectoryAbstract{
 
         if( this.userData == null ){
             jamiiDebug.warning( this.userLoginREQ.getLoginCredential( ) + " is an invalid user");
-            return new ResponseEntity<>( JamiiResponseErrorMessages.loginError(), HttpStatus.BAD_REQUEST );
+            return new ResponseEntity<>( JamiiResponseErrorMessages.loginError( ), HttpStatus.BAD_REQUEST );
         }
 
         jamiiDebug.warning( "User has been found" );
         MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
-        return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED) ;
-
+        return new ResponseEntity< >( response.getResponseMap( ) , HttpStatus.ACCEPTED ) ;
 
     }
 

@@ -53,6 +53,12 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
     private List<PasswordHashRecordsTBL> passwordHashRecordsTBL;
 
+    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    private List<UserGroupsTBL> userGroupsTBL;
+
+    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    private List<UserRolesTBL> userRolesTBL;
+
     /**
      * ACTIVE STATUS
      */

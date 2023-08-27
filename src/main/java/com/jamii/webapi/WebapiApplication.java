@@ -71,7 +71,7 @@ public class WebapiApplication {
 		this.changePasswordOPS.setChangePasswordREQ( changePasswordREQ );
 		this.changePasswordOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return null;
+		return this.changePasswordOPS.response( );
 	}
 
 	@PostMapping( path = "edituserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -81,7 +81,7 @@ public class WebapiApplication {
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );
 		this.editUserDataOPS.processRequest( ) ;
 		jamiiDebug.info("Request completed");
-		return null;
+		return this.editUserDataOPS.response( );
 	}
 
 	@PostMapping( path = "reactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -91,7 +91,7 @@ public class WebapiApplication {
 		this.reactivateUserOPS.setReactivateUserREQ( reactivateUserREQ );
 		this.reactivateUserOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return null;
+		return this.reactivateUserOPS.response( );
 	}
 
 	@PostMapping( path = "deactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -101,7 +101,7 @@ public class WebapiApplication {
 		this.deactivateUserOPS.setDeactivateUserREQ( deactivateUserREQ );
 		this.deactivateUserOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return null;
+		return this.deactivateUserOPS.response( );
 	}
 
 
