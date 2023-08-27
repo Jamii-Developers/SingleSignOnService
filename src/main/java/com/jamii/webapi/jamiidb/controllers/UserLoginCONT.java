@@ -67,7 +67,7 @@ public class UserLoginCONT {
         return add( createNewUserOPS );
     }
 
-    public void add(UserLoginTBL userLoginTBL ){
+    public void add( UserLoginTBL userLoginTBL ){
         userLoginREPO.save(userLoginTBL);
     }
 
