@@ -39,10 +39,8 @@ public class UserLoginOPS extends activeDirectoryAbstract{
 
         UserLoginTBL userlogin = this.userLoginCONT.checkAndRetrieveValidLogin( this ) ;
 
-        if ( userData != null ){
-            if( this.userLoginCONT.isPasswordValid( this.userLoginREQ.getLoginPassword( ), userlogin ) ){
+        if ( userlogin != null ){
                 this.userData = userlogin;
-            }
         }
     }
 

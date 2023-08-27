@@ -79,6 +79,7 @@ public class WebapiApplication {
 		jamiiDebug.info("Received request" );
 		this.editUserDataOPS.reset( );
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );
+		this.editUserDataOPS.processRequest( ) ;
 		jamiiDebug.info("Request completed");
 		return null;
 	}

@@ -39,13 +39,13 @@ public class UserLoginCONT {
             return null;
         }
 
+        //Confirm if user password matches saved password
         String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ) );
         for( UserLoginTBL cred : fetchCredential ){
-            if( JamiiStringUtils.equals( cred.getPasswordsalt( ),  encryptedPassword ) ) {
+            if( isPasswordValid( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ), cred ) ) {
                 return cred;
             }
         }
-
         return null ;
     }
 
@@ -116,7 +116,7 @@ public class UserLoginCONT {
         return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
     }
     public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
-        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
+        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );;
     }
 
     public UserLoginTBL update( UserLoginTBL userLoginTBL ){

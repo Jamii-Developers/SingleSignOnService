@@ -46,7 +46,7 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
         }
 
         //Check if password matches
-        if( this.userLoginCONT.isPasswordValid( this.getEditUserDataREQ( ).getPassword( ) ,user.get( ) ) ){
+        if( !this.userLoginCONT.isPasswordValid( this.getEditUserDataREQ( ).getPassword( ) ,user.get( ) ) ){
             JamiiDebug.warning( "The password does not match");
             return;
         }
@@ -55,7 +55,7 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
         this.userDataCONT.markAllPreviousUserDataInActive( user.get( ) );
 
         //Adds the latest userData to the database
-        this.userDataCONT.addUserData( user.get( ), getEditUserDataREQ() );
+        this.userDataCONT.addUserData( user.get( ), getEditUserDataREQ( ) );
 
     }
 

@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 public class JamiiUserPasswordEncryptTool {
 
     /**
-     *
+     * https://www.geeksforgeeks.org/java-program-to-encrypt-password-in-configuration-files/
      * @param text - Test to be encrpted
      * @return - Returns the encrypted text as string
      * @throws NoSuchAlgorithmException
