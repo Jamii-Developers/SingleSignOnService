@@ -116,7 +116,7 @@ public class UserLoginCONT {
         return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
     }
     public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
-        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );;
+        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
     }
 
     public UserLoginTBL update( UserLoginTBL userLoginTBL ){
