@@ -114,14 +114,14 @@ public class UserLoginCONT {
         return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
     }
     public Optional<UserLoginTBL> fetch( String emailAddress ,String username, String userkey ,int active ){
-        return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
+        return userLoginREPO.findByEmailaddressAndUsernameAndUserkeyAndActive( emailAddress, username, userkey, active ).stream( ).findFirst( );
     }
     public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
         return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
     }
 
-    public UserLoginTBL update( UserLoginTBL userLoginTBL ){
-        return userLoginREPO.save( userLoginTBL );
+    public void update(UserLoginTBL userLoginTBL ){
+        userLoginREPO.save( userLoginTBL ) ;
     }
 
     public Boolean isPasswordValid( String password, UserLoginTBL user){

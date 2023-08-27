@@ -1,7 +1,6 @@
 package com.jamii.webapi.jamiidb.repo;
 
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
-import org.apache.catalina.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
