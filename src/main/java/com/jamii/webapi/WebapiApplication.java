@@ -74,8 +74,8 @@ public class WebapiApplication {
 		return null;
 	}
 
-	@PostMapping( path = "edituserinformation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > edituserinformation( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
+	@PostMapping( path = "edituserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< HashMap <String, String> > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.editUserDataOPS.reset( );
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );

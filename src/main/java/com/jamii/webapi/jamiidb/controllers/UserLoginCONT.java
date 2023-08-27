@@ -85,7 +85,12 @@ public class UserLoginCONT {
         newUser.setUsername( createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) );
         newUser.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword( createNewUserOPS.getCreateNewUserREQ( ).getPassword( ) ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
-        newUser.setDatecreated( LocalDateTime.now( ) );
+
+        LocalDateTime dateCreated = LocalDateTime.now( );
+        newUser.setDatecreated( dateCreated );
+
+        String userKey = JamiiUserPasswordEncryptTool.generateUserKey( newUser.getUsername( ),newUser.getEmailaddress( ), newUser.getDatecreated( ).toString( ) );
+        newUser.setUserKey( userKey );
 
         return userLoginREPO.save( newUser ) ;
     }
@@ -110,8 +115,18 @@ public class UserLoginCONT {
     public Optional<UserLoginTBL> fetch( String emailAddress ,String username, int active ){
         return userLoginREPO.findByEmailaddressAndUsernameAndActive( emailAddress, username, active ).stream( ).findFirst( );
     }
+    public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
+        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
+    }
 
     public UserLoginTBL update( UserLoginTBL userLoginTBL ){
         return userLoginREPO.save( userLoginTBL );
     }
+
+    public Boolean isPasswordValid( String password, UserLoginTBL user){
+        String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword( password );
+        return JamiiStringUtils.equals( encryptedPassword, user.getPasswordsalt( ) );
+
+    }
+
 }

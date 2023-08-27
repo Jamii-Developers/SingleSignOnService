@@ -37,12 +37,11 @@ public class UserLoginOPS extends activeDirectoryAbstract{
     public void processRequest( ){
         jamiiDebug.warning( "Request has been received" );
 
-        UserLoginTBL userData = this.userLoginCONT.checkAndRetrieveValidLogin( this ) ;
+        UserLoginTBL userlogin = this.userLoginCONT.checkAndRetrieveValidLogin( this ) ;
 
-        String encryptPassword = JamiiUserPasswordEncryptTool.doEncrypt( this.userLoginREQ.getLoginPassword( ) );
         if ( userData != null ){
-            if( JamiiStringUtils.equals( encryptPassword, userData.getPasswordsalt( ) ) ){
-                this.userData = userData;
+            if( this.userLoginCONT.isPasswordValid( this.userLoginREQ.getLoginPassword( ), userlogin ) ){
+                this.userData = userlogin;
             }
         }
     }

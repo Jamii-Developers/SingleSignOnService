@@ -17,7 +17,7 @@ public class UserLoginTBL {
     public static final String              USERNAME        = "USERNAME";
     public static final String              EMAIL_ADDRESS   = "EMAIL_ADDRESS";
     public static final String              PASSWORD_SALT   = "PASSWORD_SALT";
-    public static final String              MFA_KEY         = "MFA_KEY";
+    public static final String              USER_KEY        = "USER_KEY";
     public static final String              ACTIVE          = "ACTIVE";
     public static final String              DATE_CREATED    = "DATE_CREATED";
 
@@ -32,11 +32,11 @@ public class UserLoginTBL {
     @Column( name = EMAIL_ADDRESS, nullable = false, length = 200, unique = true )
     private String emailaddress;
 
-    @Column( name = PASSWORD_SALT , nullable = false, length = 200 )
+    @Column(   name = PASSWORD_SALT , nullable = false, length = 200 )
     private String passwordsalt;
 
-    @Column( name = MFA_KEY , length = 500 )
-    private String mfakey;
+    @Column( name = USER_KEY , nullable = false, length = 1000 )
+    private String userkey;
 
     @Column( name = ACTIVE, nullable = false )
     private Integer active;
@@ -105,12 +105,12 @@ public class UserLoginTBL {
         this.active = active;
     }
 
-    public String getMfakey() {
-        return mfakey;
+    public String getUserKey() {
+        return userkey;
     }
 
-    public void setMfakey(String mfakey) {
-        this.mfakey = mfakey;
+    public void setUserKey(String userkey) {
+        this.userkey = userkey;
     }
 
     public LocalDateTime getDatecreated() {

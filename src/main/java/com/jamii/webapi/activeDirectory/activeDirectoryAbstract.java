@@ -12,5 +12,7 @@ abstract class activeDirectoryAbstract implements activeDirectoryInterface {
     public abstract void processRequest( ) throws Exception;
     public abstract ResponseEntity<HashMap<String, String> > response( );
 
-    public void reset( ){ }
+    public void reset( ){
+
+    }
 }

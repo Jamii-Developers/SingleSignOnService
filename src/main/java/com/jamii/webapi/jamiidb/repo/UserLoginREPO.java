@@ -16,6 +16,7 @@ public interface UserLoginREPO extends CrudRepository<UserLoginTBL, Integer> {
     List <UserLoginTBL> findByEmailaddressAndUsernameAndActive( String emailaddress, String username, int active );
     List <UserLoginTBL> findByUsername( String username );
     List <UserLoginTBL> findByEmailaddress( String emailaddress );
+    List <UserLoginTBL> findByUserkeyIs( String userKey );
 
 
 }

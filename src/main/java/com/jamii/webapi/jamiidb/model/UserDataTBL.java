@@ -193,4 +193,12 @@ public class UserDataTBL {
     public void setAuxdata(String auxdata) {
         this.auxdata = auxdata;
     }
+
+    public UserLoginTBL getFK_USER_LOGIN_DATA() {
+        return FK_USER_LOGIN_DATA;
+    }
+
+    public void setFK_USER_LOGIN_DATA(UserLoginTBL FK_USER_LOGIN_DATA) {
+        this.FK_USER_LOGIN_DATA = FK_USER_LOGIN_DATA;
+    }
 }

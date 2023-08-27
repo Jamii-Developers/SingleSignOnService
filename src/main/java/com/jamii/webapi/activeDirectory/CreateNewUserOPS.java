@@ -28,7 +28,7 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         return createNewUserREQ;
     }
 
-    public void setCreateNewUserREQ(CreateNewUserREQ createNewUserREQ) {
+    public void setCreateNewUserREQ( CreateNewUserREQ createNewUserREQ ) {
         this.createNewUserREQ = createNewUserREQ;
     }
 
