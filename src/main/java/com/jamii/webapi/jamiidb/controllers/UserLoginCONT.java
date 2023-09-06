@@ -120,7 +120,7 @@ public class UserLoginCONT {
         return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
     }
 
-    public void update(UserLoginTBL userLoginTBL ){
+    public void update( UserLoginTBL userLoginTBL ){
         userLoginREPO.save( userLoginTBL ) ;
     }
 

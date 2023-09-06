@@ -15,5 +15,6 @@ public class JamiiConstants {
      * RESPONSE TYPE
      */
 
-    public static final String      RESPONSE_TYPE_ERROR_MESSAGE     =   "ERR|001";
+    public static final String      RESPONSE_TYPE_ERROR_MESSAGE         =   "ERR|001";
+    public static final String      RESPONSE_TYPE_USERLOGIN_MESSAGE     =   "SUC|001";
 }

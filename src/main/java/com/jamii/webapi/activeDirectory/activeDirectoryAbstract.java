@@ -10,7 +10,11 @@ abstract class activeDirectoryAbstract implements activeDirectoryInterface {
     protected final JamiiDebug jamiiDebug = new JamiiDebug( );
 
     public abstract void processRequest( ) throws Exception;
+
+    @Deprecated
     public abstract ResponseEntity<HashMap<String, String> > response( );
+
+    public abstract ResponseEntity< String > getResponse( );
 
     public void reset( ){
 

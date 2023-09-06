@@ -79,6 +79,12 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
     }
 
     @Override
+    public ResponseEntity<String> getResponse() {
+        return null;
+    }
+
+
+    @Override
     public void reset(){
         this.setChangePasswordREQ( null );
     }

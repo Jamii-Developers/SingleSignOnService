@@ -54,7 +54,7 @@ public class WebapiApplication {
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > userLogin(@RequestBody UserLoginREQ userLoginREQ ) {
+	public ResponseEntity< String > userLogin(@RequestBody UserLoginREQ userLoginREQ ) {
 
 		jamiiDebug.info("Received request");
 
@@ -63,7 +63,7 @@ public class WebapiApplication {
 		this.userLoginOPS.processRequest( );
 
 		jamiiDebug.info("Request completed");
-		return this.userLoginOPS.response( );
+		return this.userLoginOPS.getResponse( );
 	}
 
 	@PostMapping( path = "changepassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )

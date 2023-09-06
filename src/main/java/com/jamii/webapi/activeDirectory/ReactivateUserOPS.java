@@ -63,6 +63,11 @@ public class ReactivateUserOPS extends activeDirectoryAbstract{
     }
 
     @Override
+    public ResponseEntity<String> getResponse() {
+        return null;
+    }
+
+    @Override
     public void reset() {
         setReactivateUserREQ( null );
         accountReactivationSuccessful = false;

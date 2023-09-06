@@ -15,6 +15,11 @@ public class JamiiResponseErrorMessages {
 
     public static final String ERROR_CODE_0001 = "0001";
     public static final String ERROR_CODE_0002 = "0002";
+
+    public class error_message{
+
+    }
+
     public static HashMap< String, String > loginError( ){
 
         HashMap< String, String > message= new HashMap< >( );

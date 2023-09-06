@@ -65,6 +65,11 @@ public class DeactivateUserOPS extends activeDirectoryAbstract {
     }
 
     @Override
+    public ResponseEntity<String> getResponse() {
+        return null;
+    }
+
+    @Override
     public void reset() {
         setDeactivateUserREQ( null );
         accountDeactivationSuccessful = false;

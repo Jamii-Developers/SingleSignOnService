@@ -65,6 +65,11 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
     }
 
     @Override
+    public ResponseEntity<String> getResponse() {
+        return null;
+    }
+
+    @Override
     public void reset() {
         this.setEditUserDataREQ( null );
     }
