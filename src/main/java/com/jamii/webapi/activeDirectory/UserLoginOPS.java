@@ -1,6 +1,6 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.responses.JamiiResponseErrorMessages;
 import com.jamii.requests.UserLoginREQ;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
@@ -46,12 +46,12 @@ public class UserLoginOPS extends activeDirectoryAbstract{
 
         if( this.userData == null ){
             jamiiDebug.warning( this.userLoginREQ.getLoginCredential( ) + " is an invalid user");
-            return new ResponseEntity<>( JamiiResponseErrorMessages.loginError( ), HttpStatus.BAD_REQUEST );
+            return new ResponseEntity<>( JamiiResponseErrorMessages.loginError( ), HttpStatus.OK );
         }
 
         jamiiDebug.warning( "User has been found" );
         MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
-        return new ResponseEntity< >( response.getResponseMap( ) , HttpStatus.ACCEPTED ) ;
+        return new ResponseEntity< >( response.getResponseMap( ) , HttpStatus.OK ) ;
 
     }
 

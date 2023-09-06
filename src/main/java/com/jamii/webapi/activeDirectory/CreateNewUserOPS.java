@@ -1,6 +1,6 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.Utils.JamiiResponseErrorMessages;
+import com.jamii.responses.JamiiResponseErrorMessages;
 import com.jamii.requests.CreateNewUserREQ;
 import com.jamii.responses.MapUserLoginInformation;
 import com.jamii.webapi.jamiidb.controllers.PasswordHashRecordsCONT;
