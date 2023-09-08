@@ -47,7 +47,7 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         Optional <UserLoginTBL> user = userLoginCONT.fetch( this.getChangePasswordREQ( ).getEmailaddress( ), this.getChangePasswordREQ().getUsername(), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "The user does not exist in the system : " + getChangePasswordREQ( ).getUsername( ) );
-            this.jamiiErrorsMessagesRESP.setPasswordChangeUsernameOrEmailAddressDoesNotExist( );
+            this.jamiiErrorsMessagesRESP.setPasswordChange_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -57,7 +57,7 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getNew_password( ) );;
         if( !JamiiStringUtils.equals( encryptedOldPassword, user.get( ).getPasswordsalt( ) ) ){
             JamiiDebug.warning( "This password doesn't match what we have in the system : " + getChangePasswordREQ( ).getUsername( ) );
-            this.jamiiErrorsMessagesRESP.setPasswordsNotMatching( );
+            this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
@@ -66,7 +66,7 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         //Check if the new password matches the last 10 passwords the user used
         if( passwordHashRecordsCONT.isPasswordInLastTenRecords( user.get( ) ) ){
             JamiiDebug.warning( "This password matches the last ten the user has used :" + getChangePasswordREQ( ).getUsername( ) );
-            this.jamiiErrorsMessagesRESP.setPasswordsNotMatching( );
+            this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordMatchesLastTen( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
@@ -81,7 +81,7 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
     @Override
     public ResponseEntity< String > getResponse( ){
 
-        if( !this.JamiiError.isEmpty( ) ){
+        if( this.JamiiError.isEmpty( ) ){
             StringBuilder response = new StringBuilder( );
             ChangePasswordRESP changePasswordRESP = new ChangePasswordRESP( );
             response.append(  changePasswordRESP.getJSONRESP( ) );
@@ -94,6 +94,8 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
 
     @Override
     public void reset(){
+        super.reset( );
+        this.passwordChangeSuccessful = false;
         this.setChangePasswordREQ( null );
     }
 }

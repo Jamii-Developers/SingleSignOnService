@@ -53,28 +53,62 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0002 ) ;
     }
 
-    public void setPasswordChangeUsernameOrEmailAddressDoesNotExist( ){
+    public void setPasswordChange_UsernameOrEmailAddressDoesNotExist( ){
         setERROR_FIELD_SUBJECT( "Password Change Error!"  );
         setERROR_FIELD_MESSAGE( "The username or email address provided does not exist in the system"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0003 ) ;
     }
 
-    public void setDeactivateUserUsernameOrEmailAddressDoesNotExist( ){
-        setERROR_FIELD_SUBJECT( "Account Deactivation Error!"  );
-        setERROR_FIELD_MESSAGE( "The username or email address provided does not exist in the system"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0003 ) ;
-    }
-
-    public void setPasswordsNotMatching( ){
+    public void setPasswordChange_PasswordsNotMatching( ){
         setERROR_FIELD_SUBJECT( "Password Change Error!"  );
         setERROR_FIELD_MESSAGE( "The passwords does not match what we currently have in the system"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0004 ) ;
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0004) ;
+
+    }
+    public void setPasswordChange_PasswordMatchesLastTen( ){
+        setERROR_FIELD_SUBJECT( "Password Change Error!"  );
+        setERROR_FIELD_MESSAGE( "The password matches the last ten"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0005 ) ;
     }
 
-    public void setPDeactivateUserasswordsNotMatching( ){
+    public void setDeactivateUser_UsernameOrEmailAddressDoesNotExist( ){
+        setERROR_FIELD_SUBJECT( "Account Deactivation Error!"  );
+        setERROR_FIELD_MESSAGE( "The username or email address provided does not exist in the system"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0006 ) ;
+    }
+
+
+    public void setDeactivateUser_PasswordsNotMatching( ){
         setERROR_FIELD_SUBJECT( "Account Deactivation Error!"  );
         setERROR_FIELD_MESSAGE( "The passwords does not match what we currently have in the system"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0004 ) ;
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0007 ) ;
     }
+
+    public void setReactivateUser_UsernameOrEmailAddressDoesNotExist( ){
+        setERROR_FIELD_SUBJECT( "Account Reactivation Error!"  );
+        setERROR_FIELD_MESSAGE( "No deactivated username and email address matches the information provided"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0008 ) ;
+    }
+
+    public void setReactivateUser_PasswordsNotMatching( ){
+        setERROR_FIELD_SUBJECT( "Account Reactivation Error!"  );
+        setERROR_FIELD_MESSAGE( "The passwords does not match what we currently have in the system"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0009 ) ;
+    }
+
+    public void setEditUserData_UserKeyDoesNotExist( ){
+        setERROR_FIELD_SUBJECT( "Profile Update Error!"  );
+        setERROR_FIELD_MESSAGE( "The system is not familiar with User Key"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0010 ) ;
+    }
+
+    public void setEditUserData_PasswordMatching( ){
+        setERROR_FIELD_SUBJECT( "Profile Update Error!"  );
+        setERROR_FIELD_MESSAGE( "The passwords does not match what we currently have in the system"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0011 ) ;
+    }
+
+
+
 
 }

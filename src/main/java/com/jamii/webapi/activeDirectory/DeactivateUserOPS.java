@@ -2,10 +2,12 @@ package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.DeactivateUserREQ;
+import com.jamii.responses.DeactivateUserRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class DeactivateUserOPS extends activeDirectoryAbstract {
         return deactivateUserREQ;
     }
 
-    public void setDeactivateUserREQ(DeactivateUserREQ deactivateUserREQ) {
+    public void setDeactivateUserREQ( DeactivateUserREQ deactivateUserREQ) {
         this.deactivateUserREQ = deactivateUserREQ;
     }
 
@@ -36,10 +38,10 @@ public class DeactivateUserOPS extends activeDirectoryAbstract {
     public void processRequest( ) throws Exception {
 
         //Check if the user exists as active
-        Optional< UserLoginTBL > user = userLoginCONT.fetch( getDeactivateUserREQ( ).getEmailaddress( ), getDeactivateUserREQ( ).getUsername( ), getDeactivateUserREQ( ).getUserkey( ), getDeactivateUserREQ( ).getActive( ) );
+        Optional< UserLoginTBL > user = userLoginCONT.fetch( getDeactivateUserREQ( ).getEmailaddress( ), getDeactivateUserREQ( ).getUsername( ), getDeactivateUserREQ( ).getActive( ) );
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "No activated user matches this information " + getDeactivateUserREQ( ).getUsername( ) );
-            this.jamiiErrorsMessagesRESP.setDeactivateUserUsernameOrEmailAddressDoesNotExist( );
+            this.jamiiErrorsMessagesRESP.setDeactivateUser_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
@@ -47,34 +49,33 @@ public class DeactivateUserOPS extends activeDirectoryAbstract {
         //Check if the password is valid
         if( !userLoginCONT.isPasswordValid( getDeactivateUserREQ( ).getPassword( ), user.get( ) ) ){
             JamiiDebug.warning( "Password is incorrect " + getDeactivateUserREQ( ).getUsername( ) );
-            this.jamiiErrorsMessagesRESP.setDeactivateUserUsernameOrEmailAddressDoesNotExist( );
+            this.jamiiErrorsMessagesRESP.setDeactivateUser_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
         //Deactivate user
         userLoginCONT.deactivateUser( user.get( ) );
-
         accountDeactivationSuccessful = true;
     }
 
     @Override
-    public ResponseEntity<HashMap<String, String>> response() {
-        if( !accountDeactivationSuccessful ){
-            JamiiDebug.warning( String.format( "This is account cannot be deactivated : %s ", getDeactivateUserREQ( ).getUsername( ) ) );
-            return null;
+    public ResponseEntity< String > getResponse() {
+
+        if( accountDeactivationSuccessful ){
+            JamiiDebug.warning( String.format( "This account has been deactivated : %s ", getDeactivateUserREQ( ).getUsername( ) ) );
+            StringBuilder response = new StringBuilder( );
+            DeactivateUserRESP deactivateUserRESP = new DeactivateUserRESP( );
+            response.append( deactivateUserRESP.getJSONRESP( ) );
+            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
         }
-        JamiiDebug.warning( String.format( "Account deactivation is successful : %s ", getDeactivateUserREQ( ).getUsername( ) ) );
-        return null;
+
+        return super.getResponse( );
     }
 
     @Override
-    public ResponseEntity<String> getResponse() {
-        return null;
-    }
-
-    @Override
-    public void reset() {
+    public void reset( ) {
+        super.reset( );
         setDeactivateUserREQ( null );
         accountDeactivationSuccessful = false;
     }

@@ -4,6 +4,11 @@ import com.jamii.Utils.JamiiConstants;
 
 public class CreateNewUserRESP extends AbstractResponses{
 
+    public CreateNewUserRESP( ) {
+        this.UI_SUBJECT = "Profile Creation Successful!";
+        this.UI_MESSAGE = "Your account has been created was successfully!";
+    }
+
     private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     private String USER_KEY;
     private String USERNAME;

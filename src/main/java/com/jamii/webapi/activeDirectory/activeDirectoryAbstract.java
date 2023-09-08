@@ -19,7 +19,7 @@ abstract class activeDirectoryAbstract implements activeDirectoryInterface {
     public  ResponseEntity<  String > getResponse( ){
 
         StringBuilder response = new StringBuilder( ) ;
-        if( JamiiError.isEmpty( ) ){
+        if( !JamiiError.isEmpty( ) ){
             response.append ( this.JamiiError );
         }
 

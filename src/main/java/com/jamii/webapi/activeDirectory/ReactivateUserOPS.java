@@ -2,9 +2,12 @@ package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.ReactivateUserREQ;
+import com.jamii.responses.DeactivateUserRESP;
+import com.jamii.responses.ReactivateUserRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +35,23 @@ public class ReactivateUserOPS extends activeDirectoryAbstract{
     public void processRequest() throws Exception {
 
         //Check if the user exists as active
-        Optional<UserLoginTBL> user = userLoginCONT.fetch( getReactivateUserREQ( ).getEmailaddress( ), getReactivateUserREQ( ).getUsername( ), getReactivateUserREQ( ).getUserkey( ), getReactivateUserREQ( ).getActive( ) );
+        Optional<UserLoginTBL> user = userLoginCONT.fetch( getReactivateUserREQ( ).getEmailaddress( ), getReactivateUserREQ( ).getUsername( ),  getReactivateUserREQ( ).getActive( ) );
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "No deactivated user matches the information shared " + getReactivateUserREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
         //Check if the password is valid
         if( !userLoginCONT.isPasswordValid( getReactivateUserREQ( ).getPassword( ), user.get( ) ) ){
             JamiiDebug.warning( "Password is incorrect " + getReactivateUserREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setReactivateUser_PasswordsNotMatching( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
-        //Deactivate user
+        //Reactivate user
         userLoginCONT.reactivateUser( user.get( ) );
 
         accountReactivationSuccessful = true;
@@ -52,23 +59,24 @@ public class ReactivateUserOPS extends activeDirectoryAbstract{
     }
 
     @Override
-    public ResponseEntity<HashMap<String, String>> response() {
-        if( !accountReactivationSuccessful ){
-            JamiiDebug.warning( String.format( "This is account cannot be Reactivated : %s ", getReactivateUserREQ( ).getUsername( ) ) );
-            return null;
+    public ResponseEntity<String> getResponse() {
+
+
+        if( accountReactivationSuccessful ){
+            StringBuilder response = new StringBuilder( );
+            JamiiDebug.warning( String.format( "This is account has been Reactivated : %s ", getReactivateUserREQ( ).getUsername( ) ) );
+            ReactivateUserRESP reactivateUserRESP = new ReactivateUserRESP( );
+            response.append( reactivateUserRESP.getJSONRESP( ) );
+            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
         }
 
-        JamiiDebug.warning( String.format( "Account Reactivation is successful : %s ", getReactivateUserREQ( ).getUsername( ) ) );
-        return null;
+        JamiiDebug.warning( String.format( "Account Reactivation is unsuccessful : %s ", getReactivateUserREQ( ).getUsername( ) ) );
+        return super.getResponse( );
     }
 
     @Override
-    public ResponseEntity<String> getResponse() {
-        return null;
-    }
-
-    @Override
-    public void reset() {
+    public void reset( ) {
+        super.reset( );
         setReactivateUserREQ( null );
         accountReactivationSuccessful = false;
     }

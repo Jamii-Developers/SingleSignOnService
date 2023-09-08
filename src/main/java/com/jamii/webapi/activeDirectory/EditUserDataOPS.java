@@ -2,11 +2,14 @@ package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.EditUserDataREQ;
+import com.jamii.responses.EditUserDataRESP;
+import com.jamii.responses.ReactivateUserRESP;
 import com.jamii.webapi.jamiidb.controllers.UserDataCONT;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserDataTBL;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,7 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
     private UserDataCONT userDataCONT;
 
     private EditUserDataREQ editUserDataREQ;
+    private Boolean profileUpdateSuccessful = false;
 
 
     public EditUserDataREQ getEditUserDataREQ() {
@@ -42,12 +46,16 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
         //Check if userKey exists
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "Cannot find userkey : " + this.getEditUserDataREQ( ).getUserkey( ) );
+            this.jamiiErrorsMessagesRESP.setEditUserData_UserKeyDoesNotExist( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
         //Check if password matches
         if( !this.userLoginCONT.isPasswordValid( this.getEditUserDataREQ( ).getPassword( ) ,user.get( ) ) ){
             JamiiDebug.warning( "The password does not match");
+            this.jamiiErrorsMessagesRESP.setEditUserData_PasswordMatching( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
@@ -57,20 +65,31 @@ public class EditUserDataOPS extends activeDirectoryAbstract{
         //Adds the latest userData to the database
         this.userDataCONT.addUserData( user.get( ), getEditUserDataREQ( ) );
 
+        profileUpdateSuccessful = true;
+
     }
 
-    @Override
-    public ResponseEntity<HashMap<String, String>> response() {
-        return null;
-    }
+
 
     @Override
-    public ResponseEntity<String> getResponse() {
-        return null;
+    public ResponseEntity<String> getResponse( ) {
+
+        if( profileUpdateSuccessful ){
+            StringBuilder response = new StringBuilder( );
+            JamiiDebug.warning( "Profile has been update successfully" );
+            EditUserDataRESP editUserDataRESP = new EditUserDataRESP( );
+            response.append( editUserDataRESP.getJSONRESP( ) );
+            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
+        }
+
+
+        return super.getResponse( );
     }
 
     @Override
     public void reset() {
+        super.reset( );
         this.setEditUserDataREQ( null );
+        profileUpdateSuccessful = false;
     }
 }

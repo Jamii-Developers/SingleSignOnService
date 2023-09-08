@@ -51,12 +51,13 @@ public class UserLoginOPS extends activeDirectoryAbstract {
     @Override
     public ResponseEntity< String > getResponse( ){
 
-        if( !this.JamiiError.isEmpty( ) ){
+        if( this.JamiiError.isEmpty( ) ){
             StringBuilder response = new StringBuilder( );
 
             UserLoginRESP userLoginRESP = new UserLoginRESP(  );
             userLoginRESP.setUSER_KEY( this.userData.getUserKey( ) );
             userLoginRESP.setUSERNAME( this.userData.getUsername( ) );
+            userLoginRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
             userLoginRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
             response.append(  userLoginRESP.getJSONRESP( ) );
             return new ResponseEntity<>( response.toString( ),HttpStatus.OK );

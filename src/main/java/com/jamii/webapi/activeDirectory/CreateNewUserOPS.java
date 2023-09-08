@@ -39,6 +39,7 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         if( userLoginCONT.checkifUserExists( this ) ){
             this.jamiiErrorsMessagesRESP.createNewUserError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            return;
         }
 
         this.userData = userLoginCONT.createNewUser( this );
@@ -51,18 +52,20 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
 
 
     @Override
-    public ResponseEntity<String> getResponse() {
+    public ResponseEntity< String > getResponse() {
 
-        if( !this.JamiiError.isEmpty( ) ){
+        if( this.JamiiError.isEmpty( ) ){
+
             StringBuilder response = new StringBuilder( );
 
             CreateNewUserRESP createNewUserRESP = new CreateNewUserRESP(  );
             createNewUserRESP.setUSER_KEY( this.userData.getUserKey( ) );
             createNewUserRESP.setUSERNAME( this.userData.getUsername( ) );
+            createNewUserRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
             createNewUserRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
             response.append(  createNewUserRESP.getJSONRESP( ) );
 
-            return new ResponseEntity<>( response.toString( ),HttpStatus.OK );
+            return new ResponseEntity< String >( response.toString( ),HttpStatus.OK );
         }
 
 
@@ -71,6 +74,7 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
 
     @Override
     public void reset( ){
+        super.reset( );
         this.userData = null ;
         this.setCreateNewUserREQ( null );
     }

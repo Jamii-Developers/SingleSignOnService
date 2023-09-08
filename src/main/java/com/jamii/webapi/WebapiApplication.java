@@ -37,12 +37,12 @@ public class WebapiApplication {
 
 	private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
-	public static void main(String[] args) {
+	public static void main( String[ ] args ) {
 		SpringApplication.run( WebapiApplication.class, args);
 	}
 
 	@PostMapping( path = "createnewuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > createnewuser( @RequestBody CreateNewUserREQ createNewUserREQ ) throws Exception {
+	public ResponseEntity< String > createnewuser( @RequestBody CreateNewUserREQ createNewUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 
 		this.createNewUserOPS.reset( );
@@ -50,7 +50,7 @@ public class WebapiApplication {
 		this.createNewUserOPS.processRequest( );
 
 		jamiiDebug.info("Request completed");
-		return this.createNewUserOPS.response( );
+		return this.createNewUserOPS.getResponse( );
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -67,43 +67,45 @@ public class WebapiApplication {
 	}
 
 	@PostMapping( path = "changepassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > changepassword( @RequestBody ChangePasswordREQ changePasswordREQ ) throws Exception {
+	public ResponseEntity< String > changepassword( @RequestBody ChangePasswordREQ changePasswordREQ ) throws Exception {
+
 		jamiiDebug.info("Received request" );
 		this.changePasswordOPS.reset( );
 		this.changePasswordOPS.setChangePasswordREQ( changePasswordREQ );
 		this.changePasswordOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return this.changePasswordOPS.response( );
+
+		return this.changePasswordOPS.getResponse( );
 	}
 
 	@PostMapping( path = "edituserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
+	public ResponseEntity< String > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.editUserDataOPS.reset( );
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );
 		this.editUserDataOPS.processRequest( ) ;
 		jamiiDebug.info("Request completed");
-		return this.editUserDataOPS.response( );
+		return this.editUserDataOPS.getResponse( );
 	}
 
 	@PostMapping( path = "reactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > reactivateuser( @RequestBody ReactivateUserREQ reactivateUserREQ ) throws Exception {
+	public ResponseEntity< String > reactivateuser( @RequestBody ReactivateUserREQ reactivateUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.reactivateUserOPS.reset( );
 		this.reactivateUserOPS.setReactivateUserREQ( reactivateUserREQ );
 		this.reactivateUserOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return this.reactivateUserOPS.response( );
+		return this.reactivateUserOPS.getResponse( );
 	}
 
 	@PostMapping( path = "deactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< HashMap <String, String> > deactivateuser( @RequestBody DeactivateUserREQ deactivateUserREQ ) throws Exception {
+	public ResponseEntity< String > deactivateuser( @RequestBody DeactivateUserREQ deactivateUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.deactivateUserOPS.reset( );
 		this.deactivateUserOPS.setDeactivateUserREQ( deactivateUserREQ );
 		this.deactivateUserOPS.processRequest( );
 		jamiiDebug.info("Request completed");
-		return this.deactivateUserOPS.response( );
+		return this.deactivateUserOPS.getResponse( );
 	}
 
 

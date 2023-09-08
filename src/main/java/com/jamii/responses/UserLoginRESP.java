@@ -7,6 +7,11 @@ import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
 public class UserLoginRESP extends  AbstractResponses {
 
+    public UserLoginRESP( ) {
+        this.UI_SUBJECT = "Login Successful!";
+        this.UI_MESSAGE = "Your login was successful!";
+    }
+
     private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_USERLOGIN;
     private String USER_KEY;
     private String USERNAME;
