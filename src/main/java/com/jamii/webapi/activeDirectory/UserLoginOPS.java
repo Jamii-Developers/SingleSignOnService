@@ -1,6 +1,7 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.responses.JamiiResponseErrorMessages;
+import com.jamii.Utils.JamiiErrorUtils;
+import com.jamii.responses.JamiiErrorsMessagesRESP;
 import com.jamii.requests.UserLoginREQ;
 import com.jamii.responses.UserLoginRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
@@ -32,36 +33,42 @@ public class UserLoginOPS extends activeDirectoryAbstract {
 
     @Override
     public void processRequest() {
-        jamiiDebug.warning("Request has been received");
+
+
 
         UserLoginTBL userlogin = this.userLoginCONT.checkAndRetrieveValidLogin(this);
 
-        if (userlogin != null) {
+        if ( userlogin != null ) {
             this.userData = userlogin;
+            return;
         }
+        this.jamiiErrorsMessagesRESP.setLoginError( );
+        this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+
     }
 
-    @Override
-    public ResponseEntity<HashMap<String, String>> response() {
 
-        if (this.userData == null) {
-            jamiiDebug.warning(this.userLoginREQ.getLoginCredential() + " is an invalid user");
-            return new ResponseEntity<>(JamiiResponseErrorMessages.loginError(), HttpStatus.OK);
+    @Override
+    public ResponseEntity< String > getResponse( ){
+
+        if( !this.JamiiError.isEmpty( ) ){
+            StringBuilder response = new StringBuilder( );
+
+            UserLoginRESP userLoginRESP = new UserLoginRESP(  );
+            userLoginRESP.setUSER_KEY( this.userData.getUserKey( ) );
+            userLoginRESP.setUSERNAME( this.userData.getUsername( ) );
+            userLoginRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
+            response.append(  userLoginRESP.getJSONRESP( ) );
+            return new ResponseEntity<>( response.toString( ),HttpStatus.OK );
         }
-        return null;
+
+        return super.getResponse( );
+
     }
 
     @Override
-    public ResponseEntity<String> getResponse( ){
-
-        jamiiDebug.warning("User has been found");
-        UserLoginRESP response = new UserLoginRESP(  );
-        response.setUSER_KEY( this.userData.getUserKey( ) );
-        return new ResponseEntity<>( response.getJSONRESP( ),HttpStatus.OK );
-
-    }
-    @Override
-    public void reset(){
+    public void reset( ){
+        super.reset( );
         this.userData = null ;
         this.setUserLoginREQ( null ) ;
     }

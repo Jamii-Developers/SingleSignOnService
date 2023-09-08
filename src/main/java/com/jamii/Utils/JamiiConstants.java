@@ -16,5 +16,6 @@ public class JamiiConstants {
      */
 
     public static final String      RESPONSE_TYPE_ERROR_MESSAGE         =   "ERR|001";
-    public static final String      RESPONSE_TYPE_USERLOGIN_MESSAGE     =   "SUC|001";
+    public static final String      RESPONSE_TYPE_USERLOGIN             =   "SUC|001";
+    public static final String      RESPONSE_TYPE_CREATE_NEW_USER       =   "SUC|002";
 }

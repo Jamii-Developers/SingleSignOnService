@@ -39,12 +39,16 @@ public class DeactivateUserOPS extends activeDirectoryAbstract {
         Optional< UserLoginTBL > user = userLoginCONT.fetch( getDeactivateUserREQ( ).getEmailaddress( ), getDeactivateUserREQ( ).getUsername( ), getDeactivateUserREQ( ).getUserkey( ), getDeactivateUserREQ( ).getActive( ) );
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "No activated user matches this information " + getDeactivateUserREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setDeactivateUserUsernameOrEmailAddressDoesNotExist( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
         //Check if the password is valid
         if( !userLoginCONT.isPasswordValid( getDeactivateUserREQ( ).getPassword( ), user.get( ) ) ){
             JamiiDebug.warning( "Password is incorrect " + getDeactivateUserREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setDeactivateUserUsernameOrEmailAddressDoesNotExist( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 

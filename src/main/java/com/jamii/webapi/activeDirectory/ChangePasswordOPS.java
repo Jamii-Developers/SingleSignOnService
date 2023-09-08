@@ -4,10 +4,13 @@ import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.requests.ChangePasswordREQ;
+import com.jamii.responses.ChangePasswordRESP;
+import com.jamii.responses.UserLoginRESP;
 import com.jamii.webapi.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,8 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         Optional <UserLoginTBL> user = userLoginCONT.fetch( this.getChangePasswordREQ( ).getEmailaddress( ), this.getChangePasswordREQ().getUsername(), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "The user does not exist in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setPasswordChangeUsernameOrEmailAddressDoesNotExist( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
@@ -52,6 +57,8 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getNew_password( ) );;
         if( !JamiiStringUtils.equals( encryptedOldPassword, user.get( ).getPasswordsalt( ) ) ){
             JamiiDebug.warning( "This password doesn't match what we have in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setPasswordsNotMatching( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
@@ -59,6 +66,8 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         //Check if the new password matches the last 10 passwords the user used
         if( passwordHashRecordsCONT.isPasswordInLastTenRecords( user.get( ) ) ){
             JamiiDebug.warning( "This password matches the last ten the user has used :" + getChangePasswordREQ( ).getUsername( ) );
+            this.jamiiErrorsMessagesRESP.setPasswordsNotMatching( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
@@ -68,21 +77,20 @@ public class ChangePasswordOPS extends activeDirectoryAbstract {
         passwordChangeSuccessful = true;
     }
 
-    @Override
-    public ResponseEntity<HashMap<String, String>> response() {
 
-        if( !passwordChangeSuccessful ){
-            JamiiDebug.warning( "Password Change unsuccessfully:" + getChangePasswordREQ( ).getUsername( ) );
+    @Override
+    public ResponseEntity< String > getResponse( ){
+
+        if( !this.JamiiError.isEmpty( ) ){
+            StringBuilder response = new StringBuilder( );
+            ChangePasswordRESP changePasswordRESP = new ChangePasswordRESP( );
+            response.append(  changePasswordRESP.getJSONRESP( ) );
+            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
         }
 
-        return null;
-    }
+        return super.getResponse( );
 
-    @Override
-    public ResponseEntity<String> getResponse() {
-        return null;
     }
-
 
     @Override
     public void reset(){

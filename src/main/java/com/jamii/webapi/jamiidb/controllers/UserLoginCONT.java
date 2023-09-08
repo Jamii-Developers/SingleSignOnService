@@ -48,6 +48,13 @@ public class UserLoginCONT {
         return null ;
     }
 
+    public boolean checkifUserExists( CreateNewUserOPS createNewUserOPS ){
+        //Check if username and email address exist in the system
+        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ), createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) ) );
+
+        return !checkCredential.isEmpty( );
+    }
+
     /**
      * Used to create a new user
      * @param createNewUserOPS - This class creates the new user
@@ -56,12 +63,7 @@ public class UserLoginCONT {
     @Transactional
     public UserLoginTBL createNewUser ( CreateNewUserOPS createNewUserOPS ){
 
-        //Check if username and email address exist in the system
-        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ), createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) ) );
 
-        if( !checkCredential.isEmpty( ) ){
-            return null ;
-        }
 
         //Save the newly created user
         return add( createNewUserOPS );

@@ -1,8 +1,9 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.responses.JamiiResponseErrorMessages;
+import com.jamii.responses.CreateNewUserRESP;
+import com.jamii.responses.JamiiErrorsMessagesRESP;
 import com.jamii.requests.CreateNewUserREQ;
-import com.jamii.responses.MapUserLoginInformation;
+import com.jamii.responses.UserLoginRESP;
 import com.jamii.webapi.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
@@ -34,6 +35,12 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
 
     @Override
     public void processRequest( ) throws Exception {
+
+        if( userLoginCONT.checkifUserExists( this ) ){
+            this.jamiiErrorsMessagesRESP.createNewUserError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+        }
+
         this.userData = userLoginCONT.createNewUser( this );
 
         //Add new password records
@@ -42,22 +49,24 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         }
     }
 
-    @Override
-    public ResponseEntity< HashMap<String, String> > response( ) {
-
-        if( this.userData == null ){
-            jamiiDebug.warning(  String.format( "Username : %s or Email address: %s are already in the system", this.getCreateNewUserREQ( ).getUsername( ), this.getCreateNewUserREQ( ).getEmailaddress( ) ) );
-            return new ResponseEntity<>( JamiiResponseErrorMessages.createNewUserError( ), HttpStatus.BAD_REQUEST );
-        }
-
-        jamiiDebug.info( "User has been added" );
-        MapUserLoginInformation response = new MapUserLoginInformation( this.userData );
-        return new ResponseEntity< >( response.getResponseMap() , HttpStatus.ACCEPTED ) ;
-    }
 
     @Override
     public ResponseEntity<String> getResponse() {
-        return null;
+
+        if( !this.JamiiError.isEmpty( ) ){
+            StringBuilder response = new StringBuilder( );
+
+            CreateNewUserRESP createNewUserRESP = new CreateNewUserRESP(  );
+            createNewUserRESP.setUSER_KEY( this.userData.getUserKey( ) );
+            createNewUserRESP.setUSERNAME( this.userData.getUsername( ) );
+            createNewUserRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
+            response.append(  createNewUserRESP.getJSONRESP( ) );
+
+            return new ResponseEntity<>( response.toString( ),HttpStatus.OK );
+        }
+
+
+        return super.getResponse( );
     }
 
     @Override

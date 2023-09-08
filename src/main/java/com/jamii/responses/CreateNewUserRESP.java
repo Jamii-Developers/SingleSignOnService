@@ -1,23 +1,20 @@
 package com.jamii.responses;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jamii.Utils.JamiiConstants;
-import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
-public class UserLoginRESP extends  AbstractResponses {
+public class CreateNewUserRESP extends AbstractResponses{
 
-    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_USERLOGIN;
+    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     private String USER_KEY;
     private String USERNAME;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
 
-    public String getMSGTYPE( ) {
+    public String getMSGTYPE() {
         return MSGTYPE;
     }
 
-    public String getUSER_KEY( ) {
+    public String getUSER_KEY() {
         return USER_KEY;
     }
 
