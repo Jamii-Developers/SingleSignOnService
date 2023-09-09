@@ -70,6 +70,7 @@ public class WebapiApplication {
 	public ResponseEntity< String > changepassword( @RequestBody ChangePasswordREQ changePasswordREQ ) throws Exception {
 
 		jamiiDebug.info("Received request" );
+
 		this.changePasswordOPS.reset( );
 		this.changePasswordOPS.setChangePasswordREQ( changePasswordREQ );
 		this.changePasswordOPS.processRequest( );
@@ -81,9 +82,11 @@ public class WebapiApplication {
 	@PostMapping( path = "edituserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity< String > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
+
 		this.editUserDataOPS.reset( );
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );
 		this.editUserDataOPS.processRequest( ) ;
+
 		jamiiDebug.info("Request completed");
 		return this.editUserDataOPS.getResponse( );
 	}
