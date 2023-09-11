@@ -5,8 +5,6 @@ import com.jamii.responses.JamiiErrorsMessagesRESP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
-
 abstract class activeDirectoryAbstract implements activeDirectoryInterface {
 
     protected String JamiiError;

@@ -1,6 +1,8 @@
-package com.jamii.responses;
+package com.jamii.responses.activeDirectory;
 
-public class DeactivateUserRESP extends AbstractResponses{
+import com.jamii.responses.AbstractResponses;
+
+public class DeactivateUserRESP extends AbstractResponses {
 
     public DeactivateUserRESP( ) {
         this.UI_SUBJECT = "Account Deactivation Successful!";

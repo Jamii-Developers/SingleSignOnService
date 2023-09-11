@@ -1,9 +1,7 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.responses.CreateNewUserRESP;
-import com.jamii.responses.JamiiErrorsMessagesRESP;
-import com.jamii.requests.CreateNewUserREQ;
-import com.jamii.responses.UserLoginRESP;
+import com.jamii.responses.activeDirectory.CreateNewUserRESP;
+import com.jamii.requests.activeDirectory.CreateNewUserREQ;
 import com.jamii.webapi.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
@@ -11,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 public class CreateNewUserOPS extends activeDirectoryAbstract{

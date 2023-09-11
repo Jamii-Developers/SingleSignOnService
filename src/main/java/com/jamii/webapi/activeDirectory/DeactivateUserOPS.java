@@ -1,17 +1,15 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.DeactivateUserREQ;
-import com.jamii.responses.DeactivateUserRESP;
+import com.jamii.requests.activeDirectory.DeactivateUserREQ;
+import com.jamii.responses.activeDirectory.DeactivateUserRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service

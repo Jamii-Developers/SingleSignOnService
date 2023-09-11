@@ -1,9 +1,8 @@
 package com.jamii.webapi.activeDirectory;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.ReactivateUserREQ;
-import com.jamii.responses.DeactivateUserRESP;
-import com.jamii.responses.ReactivateUserRESP;
+import com.jamii.requests.activeDirectory.ReactivateUserREQ;
+import com.jamii.responses.activeDirectory.ReactivateUserRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service

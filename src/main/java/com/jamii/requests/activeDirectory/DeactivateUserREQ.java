@@ -1,14 +1,14 @@
-package com.jamii.requests;
+package com.jamii.requests.activeDirectory;
 
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
-public class ReactivateUserREQ {
+public class DeactivateUserREQ {
 
     private String userkey;
     private String username;
     private String emailaddress;
     private String password;
-    private final Integer active = UserLoginTBL.ACTIVE_OFF;
+    private final Integer active = UserLoginTBL.ACTIVE_ON;
 
     public String getUserkey() {
         return userkey;

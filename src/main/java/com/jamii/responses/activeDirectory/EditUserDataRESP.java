@@ -1,4 +1,6 @@
-package com.jamii.responses;
+package com.jamii.responses.activeDirectory;
+
+import com.jamii.responses.AbstractResponses;
 
 public class EditUserDataRESP extends AbstractResponses {
 

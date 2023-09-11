@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jamii.Utils.JamiiConstants;
 import com.jamii.Utils.JamiiErrorUtils;
+import com.jamii.responses.AbstractResponses;
 
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 

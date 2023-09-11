@@ -1,6 +1,8 @@
-package com.jamii.responses;
+package com.jamii.responses.activeDirectory;
 
-public class ReactivateUserRESP extends AbstractResponses{
+import com.jamii.responses.AbstractResponses;
+
+public class ReactivateUserRESP extends AbstractResponses {
 
     public ReactivateUserRESP( ) {
         this.UI_SUBJECT = "Account Reactivation Successful";

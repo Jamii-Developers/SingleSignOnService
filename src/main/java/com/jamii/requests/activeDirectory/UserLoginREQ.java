@@ -1,4 +1,4 @@
-package com.jamii.requests;
+package com.jamii.requests.activeDirectory;
 
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 

@@ -1,4 +1,4 @@
-package com.jamii.requests;
+package com.jamii.requests.activeDirectory;
 
 public class ChangePasswordREQ {
 

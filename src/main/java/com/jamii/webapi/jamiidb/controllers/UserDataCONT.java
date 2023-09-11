@@ -1,12 +1,10 @@
 package com.jamii.webapi.jamiidb.controllers;
 
-import com.jamii.requests.EditUserDataREQ;
+import com.jamii.requests.activeDirectory.EditUserDataREQ;
 import com.jamii.webapi.jamiidb.model.UserDataTBL;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import com.jamii.webapi.jamiidb.repo.UserDataREPO;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

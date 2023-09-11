@@ -1,17 +1,13 @@
 package com.jamii.webapi.activeDirectory;
 
-import com.jamii.Utils.JamiiErrorUtils;
-import com.jamii.responses.JamiiErrorsMessagesRESP;
-import com.jamii.requests.UserLoginREQ;
-import com.jamii.responses.UserLoginRESP;
+import com.jamii.requests.activeDirectory.UserLoginREQ;
+import com.jamii.responses.activeDirectory.UserLoginRESP;
 import com.jamii.webapi.jamiidb.controllers.UserLoginCONT;
 import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 public class UserLoginOPS extends activeDirectoryAbstract {

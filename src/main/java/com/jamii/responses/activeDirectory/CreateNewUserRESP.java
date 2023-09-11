@@ -1,28 +1,26 @@
-package com.jamii.responses;
+package com.jamii.responses.activeDirectory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jamii.Utils.JamiiConstants;
-import com.jamii.webapi.jamiidb.model.UserLoginTBL;
+import com.jamii.responses.AbstractResponses;
 
-public class UserLoginRESP extends  AbstractResponses {
+public class CreateNewUserRESP extends AbstractResponses {
 
-    public UserLoginRESP( ) {
-        this.UI_SUBJECT = "Login Successful!";
-        this.UI_MESSAGE = "Your login was successful!";
+    public CreateNewUserRESP( ) {
+        this.UI_SUBJECT = "Profile Creation Successful!";
+        this.UI_MESSAGE = "Your account has been created was successfully!";
     }
 
-    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_USERLOGIN;
+    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     private String USER_KEY;
     private String USERNAME;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
 
-    public String getMSGTYPE( ) {
+    public String getMSGTYPE() {
         return MSGTYPE;
     }
 
-    public String getUSER_KEY( ) {
+    public String getUSER_KEY() {
         return USER_KEY;
     }
 
