@@ -1,6 +1,6 @@
 package com.jamii.requests.activeDirectory;
 
-import com.jamii.webapi.jamiidb.model.UserLoginTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 
 public class UserLoginREQ {
 

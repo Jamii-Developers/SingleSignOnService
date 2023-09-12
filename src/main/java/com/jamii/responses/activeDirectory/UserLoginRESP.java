@@ -1,10 +1,7 @@
 package com.jamii.responses.activeDirectory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jamii.Utils.JamiiConstants;
 import com.jamii.responses.AbstractResponses;
-import com.jamii.webapi.jamiidb.model.UserLoginTBL;
 
 public class UserLoginRESP extends AbstractResponses {
 
