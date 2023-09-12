@@ -1,13 +1,12 @@
 package com.jamii.jamiidb.controllers;
 
-import com.jamii.jamiidb.repo.UserDataREPO;
-import com.jamii.jamiidb.repo.UserRolesREPO;
+import com.jamii.jamiidb.repo.FileTableOwnerREPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRolesCONT {
+public class FileTableOwnerCONT {
 
     @Autowired
-    private UserRolesREPO userRolesREPO;
+    private FileTableOwnerREPO fileTableOwnerREPO ;
 }
