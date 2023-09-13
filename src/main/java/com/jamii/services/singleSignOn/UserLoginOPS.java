@@ -1,4 +1,4 @@
-package com.jamii.services.SingleSignOn;
+package com.jamii.services.singleSignOn;
 
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;

@@ -13,39 +13,51 @@ public class FileTableOwnerTBL {
 
     public static final String              ID                  = "ID";
     public static final String              USER_LOGIN_ID       = "USER_LOGIN_ID";
-    public static final String              ORIGINAL_FILENAME   = "ORIGINAL_FILENAME";
+    public static final String              FILE_TYPE           = "FILE_TYPE";
     public static final String              SYSTEM_FILENAME     = "SYSTEM_FILENAME";
     public static final String              FILE_LOCATION       = "FILE_LOCATION";
     public static final String              FILE_SIZE           = "FILE_SIZE";
     public static final String              DATE_CREATED        = "DATE_CREATED";
+    public static final String              STATUS              = "STATUS";
 
     @Id
     @Column( name = ID )
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
-    @Column( name = ORIGINAL_FILENAME , nullable = false, length = 200 )
-    private String originalfilename;
-
     @Column( name = SYSTEM_FILENAME , nullable = false, length = 200 )
-    private String getSystemFilename;
+    private String SystemFilename;
 
     @Column( name = FILE_LOCATION , nullable = false, length = 200 )
     private String filelocation;
 
-    @Column( name = FILE_SIZE , nullable = false, length = 200 )
-    private String filesize;
+    @Column( name = FILE_TYPE , nullable = false, length = 200 )
+    private String filetype;
+
+    @Column( name = FILE_SIZE , nullable = false)
+    private Long filesize;
 
     @Column( name = DATE_CREATED )
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private LocalDateTime datecreated;
 
+    @Column( name = STATUS , nullable = false)
+    private Integer status;
+
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
-    private UserLoginTBL FK_USER_LOGIN_DATA;
+    private UserLoginTBL userloginid;
 
     @OneToMany( mappedBy = "FK_FILE_TABLE_OWNER" )
     private List<FileDirectoryTBL> fIleDirectoryTBL;
+
+    /**
+     * Setting active statuses
+     */
+
+    public final static Integer ACTIVE_STATUS_STORE         = 1;
+    public final static Integer ACTIVE_STATUS_DELETED       = 2;
+
 
     public Integer getId() {
         return id;
@@ -55,20 +67,13 @@ public class FileTableOwnerTBL {
         this.id = id;
     }
 
-    public String getOriginalfilename() {
-        return originalfilename;
+
+    public String getSystemFilename() {
+        return SystemFilename;
     }
 
-    public void setOriginalfilename(String originalfilename) {
-        this.originalfilename = originalfilename;
-    }
-
-    public String getGetSystemFilename() {
-        return getSystemFilename;
-    }
-
-    public void setGetSystemFilename(String getSystemFilename) {
-        this.getSystemFilename = getSystemFilename;
+    public void setSystemFilename(String systemFilename) {
+        SystemFilename = systemFilename;
     }
 
     public String getFilelocation() {
@@ -79,11 +84,19 @@ public class FileTableOwnerTBL {
         this.filelocation = filelocation;
     }
 
-    public String getFilesize() {
+    public String getFiletype() {
+        return filetype;
+    }
+
+    public void setFiletype(String filetype) {
+        this.filetype = filetype;
+    }
+
+    public Long getFilesize() {
         return filesize;
     }
 
-    public void setFilesize(String filesize) {
+    public void setFilesize( Long filesize) {
         this.filesize = filesize;
     }
 
@@ -95,12 +108,12 @@ public class FileTableOwnerTBL {
         this.datecreated = datecreated;
     }
 
-    public UserLoginTBL getFK_USER_LOGIN_DATA() {
-        return FK_USER_LOGIN_DATA;
+    public UserLoginTBL getUserloginid() {
+        return userloginid;
     }
 
-    public void setFK_USER_LOGIN_DATA(UserLoginTBL FK_USER_LOGIN_DATA) {
-        this.FK_USER_LOGIN_DATA = FK_USER_LOGIN_DATA;
+    public void setUserloginid(UserLoginTBL userloginid) {
+        this.userloginid = userloginid;
     }
 
     public List<FileDirectoryTBL> getfIleDirectoryTBL() {
@@ -109,5 +122,13 @@ public class FileTableOwnerTBL {
 
     public void setfIleDirectoryTBL(List<FileDirectoryTBL> fIleDirectoryTBL) {
         this.fIleDirectoryTBL = fIleDirectoryTBL;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

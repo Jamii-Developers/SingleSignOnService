@@ -2,8 +2,8 @@ package com.jamii.jamiidb.controllers;
 
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
-import com.jamii.services.SingleSignOn.CreateNewUserOPS;
-import com.jamii.services.SingleSignOn.UserLoginOPS;
+import com.jamii.services.singleSignOn.CreateNewUserOPS;
+import com.jamii.services.singleSignOn.UserLoginOPS;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserLoginREPO;
 import org.springframework.beans.factory.annotation.Autowired;

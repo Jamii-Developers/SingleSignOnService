@@ -1,4 +1,4 @@
-package com.jamii.services.SingleSignOn;
+package com.jamii.services.singleSignOn;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiStringUtils;

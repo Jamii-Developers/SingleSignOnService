@@ -2,7 +2,7 @@ package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.activeDirectory.*;
-import com.jamii.services.SingleSignOn.*;
+import com.jamii.services.singleSignOn.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

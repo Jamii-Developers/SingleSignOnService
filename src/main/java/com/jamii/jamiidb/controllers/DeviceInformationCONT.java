@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class DeviceInformationCONT {
@@ -14,16 +15,13 @@ public class DeviceInformationCONT {
     @Autowired
     private DeviceInformationREPO deviceInformationREPO;
 
-    public boolean checkIfAnyDevicesExistForTheUser( UserLoginTBL user ){
-        return deviceInformationREPO.findByUserloginid( user ).isEmpty( );
-    }
-
-    public boolean checkIfDeviceKeyExisitsForTheUser( UserLoginTBL user, String deviceKey ){
-        return deviceInformationREPO.findByUserloginidAndDevicekey( user,  deviceKey ).isEmpty( );
-    }
 
     public boolean checkIfKeyExisitsInTheDatabase( String deviceKey ){
         return deviceInformationREPO.findByDevicekey( deviceKey ).isEmpty( );
+    }
+
+    public Optional< DeviceInformationTBL > fetchByUserandDeviceKey( UserLoginTBL user, String deviceKey){
+        return deviceInformationREPO.findByUserloginidAndDevicekey( user, deviceKey ).stream().findFirst();
     }
 
     public DeviceInformationTBL add( UserLoginTBL userLoginTBL, String key, String deviceName){

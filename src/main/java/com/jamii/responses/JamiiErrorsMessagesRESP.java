@@ -1,10 +1,6 @@
 package com.jamii.responses;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.jamii.Utils.JamiiConstants;
 import com.jamii.Utils.JamiiErrorUtils;
-import com.jamii.responses.AbstractResponses;
 
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
@@ -110,6 +106,12 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     }
 
     public void setUploadFileOPS_NoMatchingUserKey( ){
+        setERROR_FIELD_SUBJECT( "Upload File Failure!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this user. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0012 ) ;
+    }
+
+    public void setUploadFileOPS_NoMatchingDeviceKey( ){
         setERROR_FIELD_SUBJECT( "Upload File Failure!"  );
         setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0012 ) ;
