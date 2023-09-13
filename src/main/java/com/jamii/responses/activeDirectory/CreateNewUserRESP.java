@@ -13,6 +13,7 @@ public class CreateNewUserRESP extends AbstractResponses {
     private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     private String USER_KEY;
     private String USERNAME;
+    private String DEVICE_KEY;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
 
@@ -50,5 +51,13 @@ public class CreateNewUserRESP extends AbstractResponses {
 
     public void setDATE_CREATED(String DATE_CREATED) {
         this.DATE_CREATED = DATE_CREATED;
+    }
+
+    public String getDEVICE_KEY() {
+        return DEVICE_KEY;
+    }
+
+    public void setDEVICE_KEY(String DEVICE_KEY) {
+        this.DEVICE_KEY = DEVICE_KEY;
     }
 }

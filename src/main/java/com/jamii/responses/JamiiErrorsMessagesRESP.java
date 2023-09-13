@@ -109,6 +109,12 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0011 ) ;
     }
 
+    public void setUploadFileOPS_NoMatchingUserKey( ){
+        setERROR_FIELD_SUBJECT( "Upload File Failure!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0012 ) ;
+    }
+
 
 
 

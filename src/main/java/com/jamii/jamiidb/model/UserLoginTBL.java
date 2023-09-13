@@ -44,7 +44,7 @@ public class UserLoginTBL {
     @Column( name = DATE_CREATED, nullable = false )
     private LocalDateTime datecreated;
 
-    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    @OneToMany( mappedBy = "userloginid" )
     private List<DeviceInformationTBL> deviceInformationTBL;
 
     @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )

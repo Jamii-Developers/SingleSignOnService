@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FileManagementServices {
 
     @Autowired
-    UploadFileOPS uploadFileOPS;
+    private UploadFileOPS uploadFileOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( );
 

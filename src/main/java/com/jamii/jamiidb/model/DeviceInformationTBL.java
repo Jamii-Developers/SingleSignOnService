@@ -15,6 +15,7 @@ public class DeviceInformationTBL {
     public static final String      ID              = "ID";
     public static final String      USER_LOGIN_ID   = "USER_LOGIN_ID";
     public static final String      DEVICE_NAME     = "DEVICE_NAME";
+    public static final String      DEVICE_KEY      = "DEVICE_KEY";
     public static final String      LAST_CONNECTED  = "LAST_CONNECTED";
     public static final String      ACTIVE          = "ACTIVE";
 
@@ -24,8 +25,11 @@ public class DeviceInformationTBL {
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
-    @Column( name = DEVICE_NAME )
+    @Column( name = DEVICE_NAME ,length = 200)
     private String devicename;
+
+    @Column( name = DEVICE_KEY , length = 50)
+    private String devicekey;
 
     @Column( name = LAST_CONNECTED )
     private LocalDateTime lastconnected;
@@ -35,7 +39,7 @@ public class DeviceInformationTBL {
 
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
-    private UserLoginTBL FK_USER_LOGIN_DATA;
+    private UserLoginTBL userloginid;
 
     /**
      * Active Statuses
@@ -76,5 +80,21 @@ public class DeviceInformationTBL {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public String getDevicekey() {
+        return devicekey;
+    }
+
+    public void setDevicekey(String devicekey) {
+        this.devicekey = devicekey;
+    }
+
+    public UserLoginTBL getUserloginid() {
+        return userloginid;
+    }
+
+    public void setUserloginid(UserLoginTBL userloginid) {
+        this.userloginid = userloginid;
     }
 }

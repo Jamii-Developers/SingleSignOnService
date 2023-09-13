@@ -1,5 +1,8 @@
 package com.jamii.services.SingleSignOn;
 
+import com.jamii.Utils.JamiiRandomKeyToolGen;
+import com.jamii.jamiidb.controllers.DeviceInformationCONT;
+import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.responses.activeDirectory.CreateNewUserRESP;
 import com.jamii.requests.activeDirectory.CreateNewUserREQ;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
@@ -17,9 +20,13 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
     private UserLoginCONT userLoginCONT;
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;
+    @Autowired
+    private DeviceInformationCONT deviceInformationCONT;
 
-    protected UserLoginTBL userData;
-    protected CreateNewUserREQ createNewUserREQ;
+    private UserLoginTBL userData;
+    private DeviceInformationTBL userDeviceInformation;
+    private CreateNewUserREQ createNewUserREQ;
+    private Boolean isSuccessful = false;
 
     public CreateNewUserREQ getCreateNewUserREQ() {
         return createNewUserREQ;
@@ -44,13 +51,30 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
         if( this.userData != null){
             passwordHashRecordsCONT.addUserNewPasswordRecord( this.userData ) ;
         }
+
+        //Create Device Key
+        boolean checkIfKeyExists = false;
+        JamiiRandomKeyToolGen keyToolGen = new JamiiRandomKeyToolGen( );
+        keyToolGen.setLen( 50 );
+        keyToolGen.setInclude_letters( true );
+        keyToolGen.setInclude_numbers( true );
+        keyToolGen.setInclude_special_chars( true );
+        String key = "";
+        while( !checkIfKeyExists ){
+            key = keyToolGen.generate( );
+            checkIfKeyExists = this.deviceInformationCONT.checkIfKeyExisitsInTheDatabase( key );
+        }
+
+        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getCreateNewUserREQ( ).getDeviceName( ) );
+
+        this.isSuccessful = true;
     }
 
 
     @Override
     public ResponseEntity< String > getResponse() {
 
-        if( this.JamiiError.isEmpty( ) ){
+        if( this.isSuccessful ){
 
             StringBuilder response = new StringBuilder( );
 
@@ -59,9 +83,10 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
             createNewUserRESP.setUSERNAME( this.userData.getUsername( ) );
             createNewUserRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
             createNewUserRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
+            createNewUserRESP.setDEVICE_KEY( this.userDeviceInformation.getDevicekey( ) );
             response.append(  createNewUserRESP.getJSONRESP( ) );
 
-            return new ResponseEntity< String >( response.toString( ),HttpStatus.OK );
+            return new ResponseEntity< >( response.toString( ),HttpStatus.OK );
         }
 
 
@@ -72,6 +97,8 @@ public class CreateNewUserOPS extends activeDirectoryAbstract{
     public void reset( ){
         super.reset( );
         this.userData = null ;
+        this.userDeviceInformation = null;
+        this.isSuccessful = false ;
         this.setCreateNewUserREQ( null );
     }
 }

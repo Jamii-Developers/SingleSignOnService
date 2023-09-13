@@ -5,6 +5,7 @@ public class CreateNewUserREQ {
     private String emailaddress;
     private String username;
     private String password ;
+    private String deviceName;
 
     public String getEmailaddress() {
         return emailaddress;
@@ -28,5 +29,13 @@ public class CreateNewUserREQ {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 }

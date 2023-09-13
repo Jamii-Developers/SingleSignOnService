@@ -6,7 +6,7 @@ public class UserLoginREQ {
 
     private String loginCredential;
     private String loginPassword;
-    private String loginDeviceId;
+    private String loginDeviceName;
     private final Integer activeStatus = UserLoginTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
@@ -25,12 +25,12 @@ public class UserLoginREQ {
         this.loginPassword = loginPassword;
     }
 
-    public String getLoginDeviceId() {
-        return loginDeviceId;
+    public String getLoginDeviceName() {
+        return loginDeviceName;
     }
 
-    public void setLoginDeviceId(String loginDeviceId) {
-        this.loginDeviceId = loginDeviceId;
+    public void setLoginDeviceName(String loginDeviceName) {
+        this.loginDeviceName = loginDeviceName;
     }
 
     public Integer getActiveStatus() {

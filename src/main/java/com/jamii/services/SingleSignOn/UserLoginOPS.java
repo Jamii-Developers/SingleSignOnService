@@ -1,5 +1,8 @@
 package com.jamii.services.SingleSignOn;
 
+import com.jamii.Utils.JamiiRandomKeyToolGen;
+import com.jamii.jamiidb.controllers.DeviceInformationCONT;
+import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.requests.activeDirectory.UserLoginREQ;
 import com.jamii.responses.activeDirectory.UserLoginRESP;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -14,10 +17,13 @@ public class UserLoginOPS extends activeDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
+    @Autowired
+    private DeviceInformationCONT deviceInformationCONT;
 
     private UserLoginREQ userLoginREQ;
-
     private UserLoginTBL userData;
+    private DeviceInformationTBL userDeviceInformation;
+    private Boolean loginWasSuccessful = false;
 
     public UserLoginREQ getUserLoginREQ() {
         return userLoginREQ;
@@ -30,24 +36,36 @@ public class UserLoginOPS extends activeDirectoryAbstract {
     @Override
     public void processRequest() {
 
+        this.userData = this.userLoginCONT.checkAndRetrieveValidLogin(this);
 
-
-        UserLoginTBL userlogin = this.userLoginCONT.checkAndRetrieveValidLogin(this);
-
-        if ( userlogin != null ) {
-            this.userData = userlogin;
+        if ( this.userData == null ) {
+            this.jamiiErrorsMessagesRESP.setLoginError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
-        this.jamiiErrorsMessagesRESP.setLoginError( );
-        this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
 
+        boolean checkIfKeyExists = false;
+        JamiiRandomKeyToolGen keyToolGen = new JamiiRandomKeyToolGen( );
+        keyToolGen.setLen( 50 );
+        keyToolGen.setInclude_letters( true );
+        keyToolGen.setInclude_numbers( true );
+        keyToolGen.setInclude_special_chars( true );
+        String key = "";
+        while( !checkIfKeyExists ){
+            key = keyToolGen.generate( );
+            checkIfKeyExists = this.deviceInformationCONT.checkIfKeyExisitsInTheDatabase( key );
+        }
+
+        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getUserLoginREQ().getLoginDeviceName( ) );
+
+        this.loginWasSuccessful = true;
     }
 
 
     @Override
     public ResponseEntity< String > getResponse( ){
 
-        if( this.JamiiError.isEmpty( ) ){
+        if( this.loginWasSuccessful  ){
             StringBuilder response = new StringBuilder( );
 
             UserLoginRESP userLoginRESP = new UserLoginRESP(  );
@@ -55,7 +73,10 @@ public class UserLoginOPS extends activeDirectoryAbstract {
             userLoginRESP.setUSERNAME( this.userData.getUsername( ) );
             userLoginRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
             userLoginRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
+            userLoginRESP.setDEVICE_KEY( this.userDeviceInformation.getDevicekey( ) );
+
             response.append(  userLoginRESP.getJSONRESP( ) );
+
             return new ResponseEntity<>( response.toString( ),HttpStatus.OK );
         }
 
@@ -66,7 +87,9 @@ public class UserLoginOPS extends activeDirectoryAbstract {
     @Override
     public void reset( ){
         super.reset( );
+        this.loginWasSuccessful = false;
         this.userData = null ;
+        this.userDeviceInformation = null;
         this.setUserLoginREQ( null ) ;
     }
 }
