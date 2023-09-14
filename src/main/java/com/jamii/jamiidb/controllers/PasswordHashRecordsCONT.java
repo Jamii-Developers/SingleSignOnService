@@ -20,7 +20,7 @@ public class PasswordHashRecordsCONT {
 
         PasswordHashRecordsTBL passwordHashRecordsTBL = new PasswordHashRecordsTBL( );
         passwordHashRecordsTBL.setPasswordsalt( userLoginTBL.getPasswordsalt( ) );
-        passwordHashRecordsTBL.setFK_USER_LOGIN_DATA( userLoginTBL );
+        passwordHashRecordsTBL.setUserloginid( userLoginTBL );
         passwordHashRecordsTBL.setDateadded( LocalDateTime.now( ) );
 
         return passwordHashRecordsREPO.save( passwordHashRecordsTBL );

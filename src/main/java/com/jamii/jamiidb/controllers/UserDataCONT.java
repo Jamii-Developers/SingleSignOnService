@@ -43,7 +43,7 @@ public class UserDataCONT {
         newUserData.setZipcode( editUserDataREQ.getZipcode( ) );
         newUserData.setCurrent( UserDataTBL.CURRENT_STATUS_ON );
         newUserData.setLastupdated( LocalDateTime.now( ) );
-        newUserData.setFK_USER_LOGIN_DATA( user );
+        newUserData.setUserloginid( user );
 
         userDataREPO.save( newUserData );
     }

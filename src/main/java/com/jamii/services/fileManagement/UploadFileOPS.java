@@ -2,6 +2,7 @@ package com.jamii.services.fileManagement;
 
 
 import com.jamii.Utils.JamiiDebug;
+import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
@@ -11,8 +12,6 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.jamiidb.repo.FileDirectoryREPO;
-import com.jamii.jamiidb.repo.FileTableOwnerREPO;
 import com.jamii.requests.fileManagement.UploadREQ;
 import com.jamii.responses.fileManagement.UploadFileRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +19,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class UploadFileOPS extends fileManagementAbstract {
 
-    @Autowired
-    private FileTableOwnerCONT fileTableOwnerCONT;
+
     @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
     private DeviceInformationCONT deviceInformationCONT;
+    @Autowired
+    private FileTableOwnerCONT fileTableOwnerCONT;
+    @Autowired
+    private FileDirectoryCONT fileDirectoryCONT;
 
     protected UploadREQ uploadREQ;
     protected boolean fileUploadSuccessful = false;
@@ -79,29 +75,10 @@ public class UploadFileOPS extends fileManagementAbstract {
             return ;
         }
 
-        JamiiRandomKeyToolGen keyToolGen = new JamiiRandomKeyToolGen( );
-        keyToolGen.setLen( 25 );
-        keyToolGen.setInclude_letters( true );
-        keyToolGen.setInclude_numbers( true );
-        String sysFileName = keyToolGen.generate( );
-
-        FileTableOwnerTBL fileTableOwnerTBL = new FileTableOwnerTBL( );
-        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE );
-        fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
-        fileTableOwnerTBL.setUserloginid( user.get( ) );
-        fileTableOwnerTBL.setFilesize( this.uploadREQ.getUploadfile( ).getSize( ) );
-        fileTableOwnerTBL.setSystemFilename( sysFileName );
-        fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
-        fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );
-        this.fileTableOwnerCONT.add( fileTableOwnerTBL );
-
-        try (InputStream inputStream = this.getUploadREQ().getUploadfile().getInputStream()) {
-            Path uploadPath = Paths.get( FileServerConfigs.USER_IMAGE_STORE );
-            Path filePath = uploadPath.resolve( sysFileName );
-            Files.copy( inputStream, filePath );
-        } catch (IOException ioe) {
-            throw new IOException("Could not save file: " + sysFileName, ioe);
-        }
+        String sysFileName = generateFileKey( );
+        FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwnerCONT.add( getFileOwnerRecord( user, sysFileName ) );
+        this.fileDirectoryCONT.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
+        saveUploadedFile( sysFileName );
 
         this.fileUploadSuccessful = true;
     }
@@ -115,4 +92,33 @@ public class UploadFileOPS extends fileManagementAbstract {
         }
         return  super.getResponse( );
     }
+
+    protected static String generateFileKey( ){
+        JamiiRandomKeyToolGen keyToolGen = new JamiiRandomKeyToolGen( );
+        keyToolGen.setLen( 25 );
+        keyToolGen.setInclude_letters( true );
+        keyToolGen.setInclude_numbers( true );
+        return keyToolGen.generate( );
+    }
+
+    protected FileTableOwnerTBL getFileOwnerRecord( Optional <UserLoginTBL> user, String  sysFileName ){
+        FileTableOwnerTBL fileTableOwnerTBL = new FileTableOwnerTBL( );
+        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE );
+        fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
+        fileTableOwnerTBL.setUserloginid( user.get( ) );
+        fileTableOwnerTBL.setFilesize( this.uploadREQ.getUploadfile( ).getSize( ) );
+        fileTableOwnerTBL.setSystemFilename( sysFileName );
+        fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
+        fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );
+        return fileTableOwnerTBL;
+    }
+
+    protected void saveUploadedFile( String sysFileName ){
+        JamiiFileUtils fileOPS = new JamiiFileUtils();
+        fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE );
+        fileOPS.setMultipartFile1( getUploadREQ().getUploadfile( ));
+        fileOPS.setSystemFilename( sysFileName );
+        fileOPS.save( );
+    }
+
 }

@@ -47,20 +47,23 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "userloginid" )
     private List<DeviceInformationTBL> deviceInformationTBL;
 
-    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    @OneToMany( mappedBy = "userloginid" )
     private List<UserDataTBL> userDataTBL;
 
-    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    @OneToMany( mappedBy = "userloginid" )
     private List<PasswordHashRecordsTBL> passwordHashRecordsTBL;
 
-    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    @OneToMany( mappedBy = "userloginid" )
     private List<UserGroupsTBL> userGroupsTBL;
 
-    @OneToMany( mappedBy = "FK_USER_LOGIN_DATA" )
+    @OneToMany( mappedBy = "userloginid" )
     private List<UserRolesTBL> userRolesTBL;
 
     @OneToMany( mappedBy = "userloginid" )
     private List<FileTableOwnerTBL> fileTableOwnerTBL;
+
+    @OneToMany( mappedBy = "userloginid" )
+    private List<FileDirectoryTBL> fileDirectoryTBL;
 
     /**
      * ACTIVE STATUS

@@ -1,6 +1,15 @@
 package com.jamii.jamiidb.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.List;
 
@@ -22,12 +31,12 @@ public class UserGroupsTBL {
     private Integer id;
 
     //Foreign Keys
-    @OneToMany( mappedBy = "FK_USER_GROUPS_DATA" )
+    @OneToMany( mappedBy = "usergroupsid" )
     private List<UserRolesTBL> userRolesTBL;
 
     @ManyToOne( cascade = CascadeType.ALL)
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
-    private UserLoginTBL FK_USER_LOGIN_DATA;
+    private UserLoginTBL userloginid;
 
 
 }

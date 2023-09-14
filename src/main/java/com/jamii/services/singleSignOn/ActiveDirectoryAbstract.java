@@ -5,7 +5,7 @@ import com.jamii.responses.JamiiErrorsMessagesRESP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-abstract class activeDirectoryAbstract {
+public abstract class ActiveDirectoryAbstract {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;

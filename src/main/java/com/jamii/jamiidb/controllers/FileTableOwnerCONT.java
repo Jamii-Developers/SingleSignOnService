@@ -13,6 +13,6 @@ public class FileTableOwnerCONT {
     private FileTableOwnerREPO fileTableOwnerREPO ;
 
     public FileTableOwnerTBL add( FileTableOwnerTBL fileTableOwnerTBL  ){
-        return  this.fileTableOwnerREPO.save( fileTableOwnerTBL ) ;
+        return this.fileTableOwnerREPO.save( fileTableOwnerTBL ) ;
     }
 }
