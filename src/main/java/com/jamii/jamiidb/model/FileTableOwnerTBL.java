@@ -64,8 +64,9 @@ public class FileTableOwnerTBL {
      * Setting active statuses
      */
 
-    public final static Integer ACTIVE_STATUS_STORE         = 1;
-    public final static Integer ACTIVE_STATUS_DELETED       = 2;
+    public final static Integer ACTIVE_STATUS_STORE             = 1;
+    public final static Integer ACTIVE_STATUS_IN_TRASH          = 2;
+    public final static Integer ACTIVE_STATUS_DELETED           = 3;
 
 
     public Integer getId() {

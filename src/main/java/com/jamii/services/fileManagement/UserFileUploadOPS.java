@@ -12,8 +12,8 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.requests.fileManagement.UploadREQ;
-import com.jamii.responses.fileManagement.UploadFileRESP;
+import com.jamii.requests.fileManagement.UserFileUploadREQ;
+import com.jamii.responses.fileManagement.UserFileUploadRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class UploadFileOPS extends fileManagementAbstract {
-
+public class UserFileUploadOPS extends fileManagementAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -36,15 +35,15 @@ public class UploadFileOPS extends fileManagementAbstract {
     @Autowired
     private FileDirectoryCONT fileDirectoryCONT;
 
-    protected UploadREQ uploadREQ;
+    protected UserFileUploadREQ userFileUploadREQ;
     protected boolean fileUploadSuccessful = false;
 
-    public UploadREQ getUploadREQ( ) {
-        return uploadREQ;
+    public UserFileUploadREQ getUploadREQ( ) {
+        return userFileUploadREQ;
     }
 
-    public void setUploadREQ( UploadREQ uploadREQ ) {
-        this.uploadREQ = uploadREQ;
+    public void setUploadREQ( UserFileUploadREQ userFileUploadREQ) {
+        this.userFileUploadREQ = userFileUploadREQ;
     }
 
     @Override
@@ -58,7 +57,7 @@ public class UploadFileOPS extends fileManagementAbstract {
     public void processRequest() throws IOException {
 
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.uploadREQ.getUser_key( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileUploadREQ.getUser_key( ) ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUploadREQ( ).getUser_key( ) );
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );
@@ -66,7 +65,7 @@ public class UploadFileOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.uploadREQ.getDevice_key( ) );
+        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileUploadREQ.getDevice_key( ) );
 
         if( deviceinformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUploadREQ( ).getDevice_key( ));
@@ -87,8 +86,8 @@ public class UploadFileOPS extends fileManagementAbstract {
     public ResponseEntity< String > getResponse() {
 
         if( this.fileUploadSuccessful ){
-            UploadFileRESP uploadFileRESP = new UploadFileRESP( );
-            return new ResponseEntity< String >( uploadFileRESP.getJSONRESP( ), HttpStatus.OK);
+            UserFileUploadRESP userFileUploadRESP = new UserFileUploadRESP( );
+            return new ResponseEntity< String >( userFileUploadRESP.getJSONRESP( ), HttpStatus.OK);
         }
         return  super.getResponse( );
     }
@@ -106,7 +105,7 @@ public class UploadFileOPS extends fileManagementAbstract {
         fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE );
         fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
         fileTableOwnerTBL.setUserloginid( user.get( ) );
-        fileTableOwnerTBL.setFilesize( this.uploadREQ.getUploadfile( ).getSize( ) );
+        fileTableOwnerTBL.setFilesize( this.userFileUploadREQ.getUploadfile( ).getSize( ) );
         fileTableOwnerTBL.setSystemFilename( sysFileName );
         fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
         fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );

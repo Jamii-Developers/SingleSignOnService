@@ -51,7 +51,6 @@ public class ReactivateUserOPS extends ActiveDirectoryAbstract {
 
         //Reactivate user
         userLoginCONT.reactivateUser( user.get( ) );
-
         accountReactivationSuccessful = true;
 
     }

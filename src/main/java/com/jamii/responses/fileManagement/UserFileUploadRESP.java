@@ -2,9 +2,9 @@ package com.jamii.responses.fileManagement;
 
 import com.jamii.responses.AbstractResponses;
 
-public class UploadFileRESP extends AbstractResponses {
+public class UserFileUploadRESP extends AbstractResponses {
 
-    public UploadFileRESP( ) {
+    public UserFileUploadRESP( ) {
         this.UI_SUBJECT = "File Upload Successful!";
         this.UI_MESSAGE = "Your file has been uploaded successfully!";
     }
