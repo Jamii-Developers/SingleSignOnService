@@ -106,7 +106,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
         fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
         fileTableOwnerTBL.setUserloginid( user.get( ) );
         fileTableOwnerTBL.setFilesize( this.userFileUploadREQ.getUploadfile( ).getSize( ) );
-        fileTableOwnerTBL.setSystemFilename( sysFileName );
+        fileTableOwnerTBL.setSystemfilename( sysFileName );
         fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
         fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );
         return fileTableOwnerTBL;

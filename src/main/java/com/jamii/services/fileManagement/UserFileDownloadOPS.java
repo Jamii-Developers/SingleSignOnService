@@ -34,6 +34,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
     protected UserFileDownloadREQ userFileDownloadREQ;
     protected FileTableOwnerTBL requestedFileInformation;
     protected boolean isSuccessful = false;
+    protected Resource resource;
 
     public UserFileDownloadREQ getUserFileDownloadREQ() {
         return userFileDownloadREQ;
@@ -80,10 +81,10 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         this.requestedFileInformation = fileInformation.get( );
 
-        Path path = Paths.get(getFilePath());
-        Resource resource = null;
+        Path path = Paths.get(getFilePath( fileInformation.get( ) ));
+
             try {
-                resource = new UrlResource( path.toUri( ) );
+                this.resource = new UrlResource( path.toUri( ) );
             }catch( Exception e){
                 e.printStackTrace( );
                 JamiiDebug.warning( "Error creating resource : " + getUserFileDownloadREQ( ).getDevice_key( ) );
@@ -105,11 +106,11 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
         return super.getResponse( );
     }
 
-    protected String getFilePath( ){
+    protected String getFilePath( FileTableOwnerTBL requestedFileInformation  ){
         StringBuilder filePath = new StringBuilder( );
-        filePath.append( this.requestedFileInformation.getFilelocation( ) );
+        filePath.append( requestedFileInformation.getFilelocation( ) );
         filePath.append( File.separator );
-        filePath.append( this.requestedFileInformation.getSystemFilename( ) );
+        filePath.append( requestedFileInformation.getSystemfilename( ) );
         filePath.append( JamiiFileUtils.getFileExtension( this.requestedFileInformation.getFiletype( ) ) ) ;
         return filePath.toString( );
     }
