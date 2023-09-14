@@ -105,7 +105,11 @@ public class JamiiFileUtils {
     }
 
     private String getFileExtension( ){
-        if( JamiiStringUtils.equals( Objects.requireNonNull( getMultipartFile1( ).getContentType( ) ), "image/png" ) ){
+        return getFileExtension( getMultipartFile1( ).getContentType( ) );
+    }
+
+    public static String getFileExtension( String ContentType ){
+        if( JamiiStringUtils.equals( ContentType, "image/png" ) ){
             return ".png";
         }
         return "";

@@ -16,4 +16,9 @@ public class JamiiErrorUtils {
     public static final String ERROR_CODE_0010 = "0010";
     public static final String ERROR_CODE_0011 = "0011";
     public static final String ERROR_CODE_0012 = "0012";
+    public static final String ERROR_CODE_0013 = "0013";
+    public static final String ERROR_CODE_0014 = "0014";
+    public static final String ERROR_CODE_0015 = "0015";
+    public static final String ERROR_CODE_0016 = "0016";
+    public static final String ERROR_CODE_0017 = "0017";
 }

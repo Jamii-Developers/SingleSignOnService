@@ -35,7 +35,7 @@ public class FileTableOwnerTBL {
     private Integer id;
 
     @Column( name = SYSTEM_FILENAME , nullable = false, length = 200 )
-    private String SystemFilename;
+    private String systemFilename;
 
     @Column( name = FILE_LOCATION , nullable = false, length = 200 )
     private String filelocation;
@@ -79,11 +79,11 @@ public class FileTableOwnerTBL {
 
 
     public String getSystemFilename() {
-        return SystemFilename;
+        return systemFilename;
     }
 
     public void setSystemFilename(String systemFilename) {
-        SystemFilename = systemFilename;
+        systemFilename = systemFilename;
     }
 
     public String getFilelocation() {

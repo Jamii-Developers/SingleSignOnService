@@ -54,7 +54,7 @@ public class FileManagementServices {
         return this.userFileUploadOPS.getResponse( );
     }
 
-    @PostMapping( path = "userfiledownload", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @GetMapping( path = "/userfiledownload/{fileName:.+}", consumes = MediaType.APPLICATION_JSON_VALUE )
     public  ResponseEntity< String > userfiledownload( @RequestBody UserFileDownloadREQ userFileDownloadREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 

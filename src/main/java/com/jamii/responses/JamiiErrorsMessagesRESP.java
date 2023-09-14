@@ -114,7 +114,31 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     public void setUploadFileOPS_NoMatchingDeviceKey( ){
         setERROR_FIELD_SUBJECT( "Upload File Failure!"  );
         setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0012 ) ;
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0013 ) ;
+    }
+
+    public void setDownloadFileOPS_NoMatchingUserKey( ){
+        setERROR_FIELD_SUBJECT( "Download File Failure!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this user. Please attempt Logging in again and downloading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0014 ) ;
+    }
+
+    public void setDownloadFileOPS_NoMatchingDeviceKey( ){
+        setERROR_FIELD_SUBJECT( "Download File Failure!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0015 ) ;
+    }
+
+    public void setDownloadFileOPS_NoActiveFileFound( ){
+        setERROR_FIELD_SUBJECT( "Download File Failure!"  );
+        setERROR_FIELD_MESSAGE( "The file has been deleted or no longer exists in our system"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0016 ) ;
+    }
+
+    public void setDownloadFileOPS_OopsWeCannotFindThisFile( ){
+        setERROR_FIELD_SUBJECT( "Download File Failure!"  );
+        setERROR_FIELD_MESSAGE( "Oops! Our system run into an issue please try finding downloading this file again"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0017 ) ;
     }
 
 
