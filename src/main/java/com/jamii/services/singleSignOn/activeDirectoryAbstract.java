@@ -5,9 +5,8 @@ import com.jamii.responses.JamiiErrorsMessagesRESP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public abstract class activeDirectoryAbstract {
 
     protected String JamiiError;
