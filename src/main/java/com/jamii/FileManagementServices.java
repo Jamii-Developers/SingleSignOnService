@@ -75,7 +75,7 @@ public class FileManagementServices {
         this.userFileDeleteOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.userFileUploadOPS.getResponse( );
+        return this.userFileDeleteOPS.getResponse( );
     }
 
     @PostMapping( path = "userfiledirectoryupdate", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -87,7 +87,7 @@ public class FileManagementServices {
         this.userFileDirectoryUpdateOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.userFileUploadOPS.getResponse( );
+        return this.userFileDirectoryUpdateOPS.getResponse( );
     }
 
 
