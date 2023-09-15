@@ -43,7 +43,7 @@ public class FileManagementServices {
     }
 
     @PostMapping( path = "userfileupload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody ResponseEntity< String > userfileupload( @ModelAttribute UserFileUploadREQ userFileUploadREQ ) throws Exception {
+    public @ResponseBody ResponseEntity< ? > userfileupload( @ModelAttribute UserFileUploadREQ userFileUploadREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.userFileUploadOPS.reset( );
@@ -54,8 +54,8 @@ public class FileManagementServices {
         return this.userFileUploadOPS.getResponse( );
     }
 
-    @GetMapping( path = "/userfiledownload/{fileName:.+}", consumes = MediaType.APPLICATION_JSON_VALUE )
-    public  ResponseEntity< String > userfiledownload( @RequestBody UserFileDownloadREQ userFileDownloadREQ ) throws Exception {
+    @GetMapping( path = "/userfiledownload/{filename}", consumes = MediaType.APPLICATION_JSON_VALUE )
+    public  ResponseEntity< ? > userfiledownload( @PathVariable("filename") String filename, @RequestBody UserFileDownloadREQ userFileDownloadREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.userFileDownloadOPS.reset( );
@@ -63,11 +63,11 @@ public class FileManagementServices {
         this.userFileDownloadOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.userFileUploadOPS.getResponse( );
+        return this.userFileDownloadOPS.getResponse( );
     }
 
     @PostMapping( path = "userfiledelete", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  ResponseEntity< String > userfiledelete( @RequestBody UserFileDeleteREQ userFileDeleteREQ ) throws Exception {
+    public  ResponseEntity< ? > userfiledelete( @RequestBody UserFileDeleteREQ userFileDeleteREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.userFileDeleteOPS.reset( );
@@ -79,7 +79,7 @@ public class FileManagementServices {
     }
 
     @PostMapping( path = "userfiledirectoryupdate", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  ResponseEntity< String > userfiledirectoryupdate( @RequestBody UserFileDirectoryUpdateREQ userFileDirectoryUpdateREQ ) throws Exception {
+    public  ResponseEntity< ? > userfiledirectoryupdate( @RequestBody UserFileDirectoryUpdateREQ userFileDirectoryUpdateREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.userFileDirectoryUpdateOPS.reset( );

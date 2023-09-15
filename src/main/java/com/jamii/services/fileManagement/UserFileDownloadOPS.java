@@ -1,6 +1,7 @@
 package com.jamii.services.fileManagement;
 
 import com.jamii.Utils.JamiiDebug;
+import com.jamii.Utils.JamiiFileDownloadUtils;
 import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
@@ -11,14 +12,13 @@ import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.fileManagement.UserFileDownloadREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -49,23 +49,24 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
         super.reset( );
         this.setUserFileDownloadREQ( null ) ;
         this.requestedFileInformation = null;
+        this.resource = (null);
         this.isSuccessful = false;
     }
 
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDownloadREQ.getUser_key( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDownloadREQ.getUserkey( ) ) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUser_key( ) );
+            JamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUserkey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDownloadREQ.getDevice_key( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDownloadREQ.getDevicekey( ) );
         if( deviceInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDevice_key( ));
+            JamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDevicekey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -73,7 +74,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDownloadREQ( ).getFileName( ) );
         if( fileInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDownloadREQ( ).getDevice_key( ));
+            JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDownloadREQ( ).getDevicekey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -81,37 +82,40 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         this.requestedFileInformation = fileInformation.get( );
 
-        Path path = Paths.get(getFilePath( fileInformation.get( ) ));
+        JamiiFileDownloadUtils downloadUtil = new JamiiFileDownloadUtils( );
 
-            try {
-                this.resource = new UrlResource( path.toUri( ) );
-            }catch( Exception e){
-                e.printStackTrace( );
-                JamiiDebug.warning( "Error creating resource : " + getUserFileDownloadREQ( ).getDevice_key( ) );
-                this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile( );
-                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-                return ;
-            }
+        try {
+
+            String fileLocation = this.requestedFileInformation.getFilelocation( );
+            String systemFilename = this.requestedFileInformation.getSystemfilename( );
+            String fileExtension = JamiiFileUtils.getFileExtension( this.requestedFileInformation.getFiletype( ) );
+            this.resource = downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension );
+        }catch( Exception e ){
+            e.printStackTrace( );
+            JamiiDebug.warning( "Error creating resource : " + getUserFileDownloadREQ( ).getDevicekey( ) );
+            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            return ;
+        }
 
         isSuccessful = true;
     }
 
     @Override
-    public ResponseEntity<  String > getResponse( ){
+    public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
+            String contentType = "application/octet-stream";
+            String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                    .body(resource);
 
         }
 
         return super.getResponse( );
     }
 
-    protected String getFilePath( FileTableOwnerTBL requestedFileInformation  ){
-        StringBuilder filePath = new StringBuilder( );
-        filePath.append( requestedFileInformation.getFilelocation( ) );
-        filePath.append( File.separator );
-        filePath.append( requestedFileInformation.getSystemfilename( ) );
-        filePath.append( JamiiFileUtils.getFileExtension( this.requestedFileInformation.getFiletype( ) ) ) ;
-        return filePath.toString( );
-    }
 }

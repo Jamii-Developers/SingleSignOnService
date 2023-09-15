@@ -1,6 +1,7 @@
 package com.jamii.services.singleSignOn;
 
 import com.jamii.Utils.JamiiRandomKeyToolGen;
+import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.responses.activeDirectory.CreateNewUserRESP;
@@ -13,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
-public class CreateNewUserOPS extends ActiveDirectoryAbstract {
+public class CreateNewUserOPS extends activeDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -77,6 +80,9 @@ public class CreateNewUserOPS extends ActiveDirectoryAbstract {
         if( this.isSuccessful ){
 
             StringBuilder response = new StringBuilder( );
+
+            File file = new File(FileServerConfigs.USER_IMAGE_STORE + File.separator + this.userData.getIdAsString( ) ) ;
+            file.mkdir( ) ;
 
             CreateNewUserRESP createNewUserRESP = new CreateNewUserRESP(  );
             createNewUserRESP.setUSER_KEY( this.userData.getUserKey( ) );

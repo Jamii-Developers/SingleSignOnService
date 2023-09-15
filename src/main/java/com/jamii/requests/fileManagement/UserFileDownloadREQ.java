@@ -2,24 +2,24 @@ package com.jamii.requests.fileManagement;
 
 public class UserFileDownloadREQ {
 
-    private String device_key;
-    private String user_key;
+    private String devicekey;
+    private String userkey;
     private String fileName;
 
-    public String getDevice_key() {
-        return device_key;
+    public String getDevicekey() {
+        return devicekey;
     }
 
-    public void setDevice_key(String device_key) {
-        this.device_key = device_key;
+    public void setDevicekey(String devicekey) {
+        this.devicekey = devicekey;
     }
 
-    public String getUser_key() {
-        return user_key;
+    public String getUserkey() {
+        return userkey;
     }
 
-    public void setUser_key(String user_key) {
-        this.user_key = user_key;
+    public void setUserkey(String userkey) {
+        this.userkey = userkey;
     }
 
     public String getFileName() {

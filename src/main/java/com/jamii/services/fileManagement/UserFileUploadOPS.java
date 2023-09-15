@@ -4,6 +4,7 @@ package com.jamii.services.fileManagement;
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
+import com.jamii.Utils.JamiiUploadFileUtils;
 import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.FileDirectoryCONT;
@@ -15,10 +16,12 @@ import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.fileManagement.UserFileUploadREQ;
 import com.jamii.responses.fileManagement.UserFileUploadRESP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -77,17 +80,17 @@ public class UserFileUploadOPS extends fileManagementAbstract {
         String sysFileName = generateFileKey( );
         FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwnerCONT.add( getFileOwnerRecord( user, sysFileName ) );
         this.fileDirectoryCONT.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
-        saveUploadedFile( sysFileName );
+        saveUploadedFile( user.get( ).getIdAsString( ), sysFileName );
 
         this.fileUploadSuccessful = true;
     }
 
     @Override
-    public ResponseEntity< String > getResponse() {
+    public ResponseEntity< ? > getResponse() {
 
         if( this.fileUploadSuccessful ){
             UserFileUploadRESP userFileUploadRESP = new UserFileUploadRESP( );
-            return new ResponseEntity< String >( userFileUploadRESP.getJSONRESP( ), HttpStatus.OK);
+            return new ResponseEntity<  >( userFileUploadRESP.getJSONRESP( ), HttpStatus.OK);
         }
         return  super.getResponse( );
     }
@@ -102,7 +105,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
 
     protected FileTableOwnerTBL getFileOwnerRecord( Optional <UserLoginTBL> user, String  sysFileName ){
         FileTableOwnerTBL fileTableOwnerTBL = new FileTableOwnerTBL( );
-        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE );
+        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE + File.separator + user.get( ).getId( ) );
         fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
         fileTableOwnerTBL.setUserloginid( user.get( ) );
         fileTableOwnerTBL.setFilesize( this.userFileUploadREQ.getUploadfile( ).getSize( ) );
@@ -112,9 +115,9 @@ public class UserFileUploadOPS extends fileManagementAbstract {
         return fileTableOwnerTBL;
     }
 
-    protected void saveUploadedFile( String sysFileName ){
-        JamiiFileUtils fileOPS = new JamiiFileUtils();
-        fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE );
+    protected void saveUploadedFile( String userId,String sysFileName ){
+        JamiiUploadFileUtils fileOPS = new JamiiUploadFileUtils( );
+        fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE + File.separator + userId );
         fileOPS.setMultipartFile1( getUploadREQ().getUploadfile( ));
         fileOPS.setSystemFilename( sysFileName );
         fileOPS.save( );

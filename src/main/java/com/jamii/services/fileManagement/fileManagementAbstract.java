@@ -1,12 +1,15 @@
 package com.jamii.services.fileManagement;
 
 import com.jamii.responses.JamiiErrorsMessagesRESP;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-abstract class fileManagementAbstract {
+@Component
+public abstract class fileManagementAbstract {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
@@ -18,7 +21,7 @@ abstract class fileManagementAbstract {
 
     public abstract void processRequest( ) throws IOException;
 
-    public  ResponseEntity<  String > getResponse( ){
+    public ResponseEntity< ? > getResponse( ){
 
         StringBuilder response = new StringBuilder( ) ;
         if( !JamiiError.isEmpty( ) ){

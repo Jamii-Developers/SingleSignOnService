@@ -61,23 +61,27 @@ public class JamiiRandomKeyToolGen {
 
             Random rand = new Random( );
 
-            for( int x = key.toString( ).length( )  ; x < getLen( ); x++ ){
+            int count = 0;
+            while( count < getLen( ) ){
 
                int val = rand.nextInt(3 );
 
                if( include_numbers && val == 0 ){
                    int charval = rand.nextInt( includeNumbers.length( ) );
                    key.append( includeNumbers.charAt(charval));
+                   count++;
                }
 
                 if( include_letters && val == 1 ){
                     int charval = rand.nextInt( includeAlphabet.length( ) );
                     key.append( includeAlphabet.charAt(charval));
+                    count++;
                 }
 
                 if( include_special_chars && val == 2 ){
                     int charval = rand.nextInt( includeSpecialChars.length( ) );
                     key.append( includeSpecialChars.charAt( charval) );
+                    count++;
                 }
 
             }

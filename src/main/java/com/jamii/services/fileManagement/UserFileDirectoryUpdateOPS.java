@@ -1,6 +1,7 @@
 package com.jamii.services.fileManagement;
 
 import com.jamii.requests.fileManagement.UserFileDirectoryUpdateREQ;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
     }
 
     @Override
-    public ResponseEntity<  String > getResponse( ){
+    public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
 
