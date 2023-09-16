@@ -34,7 +34,4 @@ public class DeviceInformationCONT {
 
         return this.deviceInformationREPO.save( deviceInformationTBL);
     }
-
-
-
 }

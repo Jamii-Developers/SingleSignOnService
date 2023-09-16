@@ -42,7 +42,6 @@ public class FileDirectoryTBL {
     @Column( name = UI_DIRECTORY , nullable = false, length = 500 )
     private String uidirectory;
 
-
     @Column( name = LAST_UPDATED , nullable = false )
     private LocalDateTime lastupdated;
 

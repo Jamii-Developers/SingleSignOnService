@@ -141,6 +141,12 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0017 ) ;
     }
 
+    public void setUserFileDirectoryUpdate_FileIsAlreadyInThisDirectory( ){
+        setERROR_FIELD_SUBJECT( "File Directory Update!"  );
+        setERROR_FIELD_MESSAGE( "This file is already in current directory"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0018 ) ;
+    }
+
 
 
 

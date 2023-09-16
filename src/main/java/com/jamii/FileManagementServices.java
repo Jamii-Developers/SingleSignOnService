@@ -66,7 +66,7 @@ public class FileManagementServices {
         return this.userFileDownloadOPS.getResponse( );
     }
 
-    @PostMapping( path = "userfiledelete", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping( path = "userfiledelete", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity< ? > userfiledelete( @RequestBody UserFileDeleteREQ userFileDeleteREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
@@ -78,7 +78,7 @@ public class FileManagementServices {
         return this.userFileDeleteOPS.getResponse( );
     }
 
-    @PostMapping( path = "userfiledirectoryupdate", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping( path = "userfiledirectoryupdate", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity< ? > userfiledirectoryupdate( @RequestBody UserFileDirectoryUpdateREQ userFileDirectoryUpdateREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 

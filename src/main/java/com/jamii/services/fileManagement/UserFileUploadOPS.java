@@ -2,7 +2,6 @@ package com.jamii.services.fileManagement;
 
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.Utils.JamiiUploadFileUtils;
 import com.jamii.configs.FileServerConfigs;
@@ -16,7 +15,6 @@ import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.fileManagement.UserFileUploadREQ;
 import com.jamii.responses.fileManagement.UserFileUploadRESP;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -112,6 +110,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
         fileTableOwnerTBL.setSystemfilename( sysFileName );
         fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
         fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );
+        fileTableOwnerTBL.setLastupdated( LocalDateTime.now( ) );
         return fileTableOwnerTBL;
     }
 

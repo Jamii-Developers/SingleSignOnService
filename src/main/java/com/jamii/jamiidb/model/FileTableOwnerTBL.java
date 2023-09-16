@@ -28,6 +28,7 @@ public class FileTableOwnerTBL {
     public static final String              FILE_SIZE           = "FILE_SIZE";
     public static final String              DATE_CREATED        = "DATE_CREATED";
     public static final String              STATUS              = "STATUS";
+    public static final String              LAST_UPDATED        = "LAST_UPDATED";
 
     @Id
     @Column( name = ID )
@@ -52,6 +53,9 @@ public class FileTableOwnerTBL {
 
     @Column( name = STATUS , nullable = false)
     private Integer status;
+
+    @Column( name = LAST_UPDATED , nullable = false)
+    private LocalDateTime lastupdated;
 
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
@@ -140,5 +144,13 @@ public class FileTableOwnerTBL {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public LocalDateTime getLastupdated() {
+        return lastupdated;
+    }
+
+    public void setLastupdated(LocalDateTime lastupdated) {
+        this.lastupdated = lastupdated;
     }
 }

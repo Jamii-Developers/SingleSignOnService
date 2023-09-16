@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class FileDirectoryCONT {
@@ -23,5 +24,13 @@ public class FileDirectoryCONT {
         fileDirectoryTBL.setUidirectory( uidirectory );
         fileDirectoryTBL.setLastupdated( LocalDateTime.now( ) );
         return  this.fileDirectoryREPO.save( fileDirectoryTBL );
+    }
+
+    public Optional<FileDirectoryTBL> fetch(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL ){
+        return this.fileDirectoryREPO.findByUserloginidAndFiletableownderid( userLoginTBL, fileTableOwnerTBL ).stream( ).findFirst( );
+    }
+
+    public void update( FileDirectoryTBL fileDirectoryTBL ){
+        this.fileDirectoryREPO.save( fileDirectoryTBL );
     }
 }

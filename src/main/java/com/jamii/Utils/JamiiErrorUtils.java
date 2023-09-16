@@ -2,7 +2,7 @@ package com.jamii.Utils;
 
 public class JamiiErrorUtils {
 
-    public static final String RESPONSE_TYPE                = JamiiConstants.RESPONSE_TYPE_ERROR_MESSAGE;
+    public static final String RESPONSE_TYPE = JamiiConstants.RESPONSE_TYPE_ERROR_MESSAGE;
 
     public static final String ERROR_CODE_0001 = "0001";
     public static final String ERROR_CODE_0002 = "0002";
@@ -21,4 +21,5 @@ public class JamiiErrorUtils {
     public static final String ERROR_CODE_0015 = "0015";
     public static final String ERROR_CODE_0016 = "0016";
     public static final String ERROR_CODE_0017 = "0017";
+    public static final String ERROR_CODE_0018 = "0018";
 }

@@ -23,4 +23,8 @@ public class FileTableOwnerCONT {
     public Optional<FileTableOwnerTBL>getFileByUserLoginIdAndName( UserLoginTBL user , String filename ){
         return this.fileTableOwnerREPO.findByUserloginidAndSystemfilenameAndStatus( user , filename, ACTIVE_STATUS_STORE ).stream( ).findFirst( );
     }
+
+    public void update( FileTableOwnerTBL fileInformation ) {
+        this.fileTableOwnerREPO.save( fileInformation ) ;
+    }
 }

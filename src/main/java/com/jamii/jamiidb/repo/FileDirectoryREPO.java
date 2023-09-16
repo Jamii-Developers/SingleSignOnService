@@ -1,8 +1,13 @@
 package com.jamii.jamiidb.repo;
 
-import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.FileDirectoryTBL;
+import com.jamii.jamiidb.model.FileTableOwnerTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface FileDirectoryREPO extends CrudRepository<FileDirectoryTBL, Integer> {
+
+    public List< FileDirectoryTBL > findByUserloginidAndFiletableownderid(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL );
 }

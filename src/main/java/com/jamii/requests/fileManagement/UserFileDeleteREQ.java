@@ -2,24 +2,24 @@ package com.jamii.requests.fileManagement;
 
 public class UserFileDeleteREQ {
 
-    private String device_key;
-    private String user_key;
+    private String deviceKey;
+    private String userKey;
     private String fileName;
 
-    public String getDevice_key() {
-        return device_key;
+    public String getDeviceKey() {
+        return deviceKey;
     }
 
-    public void setDevice_key(String device_key) {
-        this.device_key = device_key;
+    public void setDeviceKey(String deviceKey) {
+        this.deviceKey = deviceKey;
     }
 
-    public String getUser_key() {
-        return user_key;
+    public String getUserKey() {
+        return userKey;
     }
 
-    public void setUser_key(String user_key) {
-        this.user_key = user_key;
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
     }
 
     public String getFileName() {
