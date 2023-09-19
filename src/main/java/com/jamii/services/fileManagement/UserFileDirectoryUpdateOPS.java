@@ -57,7 +57,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDirectoryUpdateREQ.getUserKey( ) ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDirectoryUpdateREQ( ).getUserKey( ) );
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
+            this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -65,7 +65,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDirectoryUpdateREQ.getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDirectoryUpdateREQ( ).getDeviceKey( ));
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
+            this.jamiiErrorsMessagesRESP.setUserFileDirectory_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -73,7 +73,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDirectoryUpdateREQ( ).getFileName( ) );
         if( fileInformation.isEmpty( ) ){
             JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDirectoryUpdateREQ( ).getFileName( ));
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
+            this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -81,7 +81,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         Optional<FileDirectoryTBL> fileDirectory = this.fileDirectoryCONT.fetch( user.get( ), fileInformation.get( ) );
         if(JamiiStringUtils.equals( getUserFileDirectoryUpdateREQ().getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
             JamiiDebug.warning( "File is already in said location: " + getUserFileDirectoryUpdateREQ( ).getFileName( ) );
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
+            this.jamiiErrorsMessagesRESP.setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }

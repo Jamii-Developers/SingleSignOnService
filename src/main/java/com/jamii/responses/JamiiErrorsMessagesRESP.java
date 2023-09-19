@@ -4,6 +4,9 @@ import com.jamii.Utils.JamiiErrorUtils;
 
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
+    public void setUserFileDelete_NoMatchingUserKey() {
+    }
+
     public class error_message{
 
     }
@@ -141,13 +144,46 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0017 ) ;
     }
 
-    public void setUserFileDirectoryUpdate_FileIsAlreadyInThisDirectory( ){
+    public void setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( ){
         setERROR_FIELD_SUBJECT( "File Directory Update!"  );
         setERROR_FIELD_MESSAGE( "This file is already in current directory"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0018 ) ;
     }
 
+    public void setUserFileDirectoryOPS_FileIsInTrash() {
+        setERROR_FIELD_SUBJECT( "File Directory Update!"  );
+        setERROR_FIELD_MESSAGE( "The file you selected is in your trash bin"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0019 ) ;
+    }
 
+    public void setUserFileDirectoryOPS_NoMatchingUserKey( ){
+        setERROR_FIELD_SUBJECT( "File Directory Update!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this user. Please attempt logging in again and downloading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0020 ) ;
+    }
+
+    public void setUserFileDirectory_NoMatchingDeviceKey( ){
+        setERROR_FIELD_SUBJECT( "File Directory Update!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0021 ) ;
+    }
+
+    public void setUserFileDeleteOPS_NoMatchingUserKey() {
+        setERROR_FIELD_SUBJECT( "File Deletion!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0022 ) ;
+    }
+
+    public void setUserFileDeleteOPS_NoMatchingDeviceKey() {
+        setERROR_FIELD_SUBJECT( "File Deletion!"  );
+        setERROR_FIELD_MESSAGE( "We don't recognize this device. Please attempt Logging in again and uploading your file"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0023 ) ;
+    }
+    public void setUserFileDeleteOPS_FileIsInTrash() {
+        setERROR_FIELD_SUBJECT( "File Deletion!"  );
+        setERROR_FIELD_MESSAGE( "The file you selected is in your trash bin"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0023 ) ;
+    }
 
 
 }

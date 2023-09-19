@@ -22,4 +22,21 @@ public class JamiiErrorUtils {
     public static final String ERROR_CODE_0016 = "0016";
     public static final String ERROR_CODE_0017 = "0017";
     public static final String ERROR_CODE_0018 = "0018";
+    public static final String ERROR_CODE_0019 = "0019";
+    public static final String ERROR_CODE_0020 = "0020";
+    public static final String ERROR_CODE_0021 = "0021";
+    public static final String ERROR_CODE_0022 = "0022";
+    public static final String ERROR_CODE_0023 = "0023";
+    public static final String ERROR_CODE_0024 = "0024";
+    public static final String ERROR_CODE_0025 = "0025";
+    public static final String ERROR_CODE_0026 = "0026";
+    public static final String ERROR_CODE_0027 = "0027";
+    public static final String ERROR_CODE_0028 = "0028";
+    public static final String ERROR_CODE_0029 = "0029";
+    public static final String ERROR_CODE_0030 = "0030";
+    public static final String ERROR_CODE_0031 = "0031";
+    public static final String ERROR_CODE_0032 = "0032";
+    public static final String ERROR_CODE_0033 = "0033";
+
+
 }

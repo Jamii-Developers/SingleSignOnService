@@ -49,7 +49,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
         Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDeleteREQ.getUserKey( ) ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDeleteREQ( ).getUserKey( ) );
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -57,7 +57,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
         Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDeleteREQ.getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDeleteREQ( ).getDeviceKey( ));
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -65,7 +65,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
         Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDeleteREQ( ).getFileName( ) );
         if( fileInformation.isEmpty( ) ){
             JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDeleteREQ( ).getFileName( ));
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
@@ -81,7 +81,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
 
         if( this.isSuccessful ){
             UserFileDeleteRESP userFileDeleteRESP = new UserFileDeleteRESP( );
-            return  new ResponseEntity<>( userFileDeleteRESP.getJSONRESP( ), HttpStatus.OK ) ;
+            return  new ResponseEntity< >( userFileDeleteRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );
