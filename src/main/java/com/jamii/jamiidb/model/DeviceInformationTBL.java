@@ -58,7 +58,7 @@ public class DeviceInformationTBL {
     public static final Integer     ACTIVE_STATUS_BLOCKED       = 2;
 
 
-    public Integer getId() {
+    public Integer getId( ) {
         return id;
     }
 

@@ -10,6 +10,7 @@ import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.fileManagement.UserFileDownloadREQ;
+import com.jamii.responses.fileManagement.UserFileDownloadsRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -31,10 +31,11 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
     @Autowired
     protected FileTableOwnerCONT fileTableOwnerCONT;
 
-    protected UserFileDownloadREQ userFileDownloadREQ;
-    protected FileTableOwnerTBL requestedFileInformation;
-    protected boolean isSuccessful = false;
-    protected Resource resource;
+    private UserFileDownloadREQ userFileDownloadREQ;
+    private UserFileDownloadsRESP userFileDownloadsRESP ;
+    private FileTableOwnerTBL requestedFileInformation;
+    private boolean isSuccessful = false;
+    private Resource resource;
 
     public UserFileDownloadREQ getUserFileDownloadREQ() {
         return userFileDownloadREQ;
@@ -44,19 +45,51 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
         this.userFileDownloadREQ = userFileDownloadREQ;
     }
 
+    public UserFileDownloadsRESP getUserFileDownloadsRESP() {
+        return userFileDownloadsRESP;
+    }
+
+    public void setUserFileDownloadsRESP(UserFileDownloadsRESP userFileDownloadsRESP) {
+        this.userFileDownloadsRESP = userFileDownloadsRESP;
+    }
+
+    public FileTableOwnerTBL getRequestedFileInformation() {
+        return requestedFileInformation;
+    }
+
+    public void setRequestedFileInformation(FileTableOwnerTBL requestedFileInformation) {
+        this.requestedFileInformation = requestedFileInformation;
+    }
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
     @Override
     public void reset( ){
         super.reset( );
-        this.setUserFileDownloadREQ( null ) ;
-        this.requestedFileInformation = null;
-        this.resource = (null);
-        this.isSuccessful = false;
+        setUserFileDownloadREQ( null ) ;
+        setRequestedFileInformation( null ) ;
+        setResource( null ) ;
+        setSuccessful( false ) ;
     }
 
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDownloadREQ.getUserkey( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileDownloadREQ( ).getUserkey( ) ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUserkey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
@@ -64,7 +97,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDownloadREQ.getDevicekey( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileDownloadREQ( ).getDevicekey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDevicekey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
@@ -80,16 +113,17 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
             return ;
         }
 
-        this.requestedFileInformation = fileInformation.get( );
+        setRequestedFileInformation( fileInformation.get( ) );
 
         JamiiFileDownloadUtils downloadUtil = new JamiiFileDownloadUtils( );
 
         try {
 
-            String fileLocation = this.requestedFileInformation.getFilelocation( );
-            String systemFilename = this.requestedFileInformation.getSystemfilename( );
-            String fileExtension = JamiiFileUtils.getFileExtension( this.requestedFileInformation.getFiletype( ) );
-            this.resource = downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension );
+            String fileLocation = getRequestedFileInformation( ).getFilelocation( );
+            String systemFilename = getRequestedFileInformation( ).getSystemfilename( );
+            String fileExtension = JamiiFileUtils.getFileExtension( getRequestedFileInformation( ).getFiletype( ) );
+            setResource( downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension ) );
+
         }catch( Exception e ){
             e.printStackTrace( );
             JamiiDebug.warning( "Error creating resource : " + getUserFileDownloadREQ( ).getDevicekey( ) );
@@ -104,14 +138,14 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( isSuccessful( ) ){
             String contentType = "application/octet-stream";
-            String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+            String headerValue = "attachment; filename=\"" + getResource( ).getFilename() + "\"";
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                    .body(resource);
+                    .body( getResource( ) );
 
         }
 

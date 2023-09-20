@@ -47,7 +47,7 @@ public class FileManagementServices {
         jamiiDebug.info("Received request" );
 
         this.userFileUploadOPS.reset( );
-        this.userFileUploadOPS.setUploadREQ(userFileUploadREQ);
+        this.userFileUploadOPS.setUserFileUploadREQ( userFileUploadREQ );
         this.userFileUploadOPS.processRequest( );
 
         jamiiDebug.info("Request completed");

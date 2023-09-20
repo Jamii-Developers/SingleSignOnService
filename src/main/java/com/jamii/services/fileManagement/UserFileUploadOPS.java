@@ -37,39 +37,56 @@ public class UserFileUploadOPS extends fileManagementAbstract {
     private FileDirectoryCONT fileDirectoryCONT;
 
     protected UserFileUploadREQ userFileUploadREQ;
+    protected UserFileUploadRESP userFileUploadRESP;
     protected boolean fileUploadSuccessful = false;
 
-    public UserFileUploadREQ getUploadREQ( ) {
+    public UserFileUploadREQ getUserFileUploadREQ() {
         return userFileUploadREQ;
     }
 
-    public void setUploadREQ( UserFileUploadREQ userFileUploadREQ) {
+    public void setUserFileUploadREQ(UserFileUploadREQ userFileUploadREQ) {
         this.userFileUploadREQ = userFileUploadREQ;
+    }
+
+    public UserFileUploadRESP getUserFileUploadRESP() {
+        return userFileUploadRESP;
+    }
+
+    public void setUserFileUploadRESP(UserFileUploadRESP userFileUploadRESP) {
+        this.userFileUploadRESP = userFileUploadRESP;
+    }
+
+    public boolean isFileUploadSuccessful() {
+        return fileUploadSuccessful;
+    }
+
+    public void setFileUploadSuccessful(boolean fileUploadSuccessful) {
+        this.fileUploadSuccessful = fileUploadSuccessful;
     }
 
     @Override
     public void reset( ) {
         super.reset( );
-        this.fileUploadSuccessful = false;
-        setUploadREQ( null );
+        setFileUploadSuccessful( false );
+        setUserFileUploadREQ( null );
+        setUserFileUploadRESP( null );
     }
 
     @Override
     public void processRequest() throws IOException {
 
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileUploadREQ.getUser_key( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileUploadREQ( ).getUser_key( ) ) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "This user key does not exists : " + getUploadREQ( ).getUser_key( ) );
+            JamiiDebug.warning( "This user key does not exists : " + getUserFileUploadREQ( ).getUser_key( ) );
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileUploadREQ.getDevice_key( ) );
-
+        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileUploadREQ( ).getDevice_key( ) );
         if( deviceinformation.isEmpty( ) ){
-            JamiiDebug.warning( "This device key does not exists : " + getUploadREQ( ).getDevice_key( ));
+            JamiiDebug.warning( "This device key does not exists : " + getUserFileUploadREQ( ).getDevice_key( ));
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -80,17 +97,17 @@ public class UserFileUploadOPS extends fileManagementAbstract {
         this.fileDirectoryCONT.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
         saveUploadedFile( user.get( ).getIdAsString( ), sysFileName );
 
-        this.fileUploadSuccessful = true;
+        setFileUploadSuccessful( true );
     }
 
     @Override
     public ResponseEntity< ? > getResponse() {
 
-        if( this.fileUploadSuccessful ){
+        if( isFileUploadSuccessful( ) ){
             UserFileUploadRESP userFileUploadRESP = new UserFileUploadRESP( );
-            return new ResponseEntity<  >( userFileUploadRESP.getJSONRESP( ), HttpStatus.OK);
+            return new ResponseEntity<  >( userFileUploadRESP.getJSONRESP( ), HttpStatus.OK );
         }
-        return  super.getResponse( );
+        return super.getResponse( );
     }
 
     protected static String generateFileKey( ){
@@ -104,7 +121,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
     protected FileTableOwnerTBL getFileOwnerRecord( Optional <UserLoginTBL> user, String  sysFileName ){
         FileTableOwnerTBL fileTableOwnerTBL = new FileTableOwnerTBL( );
         fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE + File.separator + user.get( ).getId( ) );
-        fileTableOwnerTBL.setFiletype( this.getUploadREQ( ).getUploadfile( ).getContentType( ) );
+        fileTableOwnerTBL.setFiletype( getUserFileUploadREQ( ).getUploadfile( ).getContentType( ) );
         fileTableOwnerTBL.setUserloginid( user.get( ) );
         fileTableOwnerTBL.setFilesize( this.userFileUploadREQ.getUploadfile( ).getSize( ) );
         fileTableOwnerTBL.setSystemfilename( sysFileName );
@@ -117,7 +134,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
     protected void saveUploadedFile( String userId,String sysFileName ){
         JamiiUploadFileUtils fileOPS = new JamiiUploadFileUtils( );
         fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE + File.separator + userId );
-        fileOPS.setMultipartFile1( getUploadREQ().getUploadfile( ));
+        fileOPS.setMultipartFile1( getUserFileUploadREQ( ).getUploadfile( ));
         fileOPS.setSystemFilename( sysFileName );
         fileOPS.save( );
     }

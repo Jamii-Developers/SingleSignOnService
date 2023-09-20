@@ -34,7 +34,8 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
     private FileDirectoryCONT fileDirectoryCONT;
 
     private UserFileDirectoryUpdateREQ userFileDirectoryUpdateREQ;
-    protected Boolean isSuccessful = true ;
+    private UserFileDirectoryUpdateRESP userFileDirectoryUpdateRESP ;
+    private Boolean isSuccessful = true ;
 
     public UserFileDirectoryUpdateREQ getUserFileDirectoryUpdateREQ() {
         return userFileDirectoryUpdateREQ;
@@ -44,17 +45,34 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         this.userFileDirectoryUpdateREQ = userFileDirectoryUpdateREQ;
     }
 
+    public UserFileDirectoryUpdateRESP getUserFileDirectoryUpdateRESP() {
+        return userFileDirectoryUpdateRESP;
+    }
+
+    public void setUserFileDirectoryUpdateRESP(UserFileDirectoryUpdateRESP userFileDirectoryUpdateRESP) {
+        this.userFileDirectoryUpdateRESP = userFileDirectoryUpdateRESP;
+    }
+
+    public Boolean getSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(Boolean successful) {
+        isSuccessful = successful;
+    }
+
     @Override
     public void reset( ){
         super.reset( );
-        this.isSuccessful = false ;
-        this.userFileDirectoryUpdateREQ = null ;
+        setSuccessful( false ) ;
+        setUserFileDirectoryUpdateREQ( null ) ;
+        setUserFileDirectoryUpdateRESP( null ) ;
     }
 
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDirectoryUpdateREQ.getUserKey( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileDirectoryUpdateREQ( ).getUserKey( ) ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDirectoryUpdateREQ( ).getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );
@@ -62,7 +80,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDirectoryUpdateREQ.getDeviceKey( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileDirectoryUpdateREQ( ).getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDirectoryUpdateREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setUserFileDirectory_NoMatchingDeviceKey( );
@@ -79,26 +97,24 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
         }
 
         Optional<FileDirectoryTBL> fileDirectory = this.fileDirectoryCONT.fetch( user.get( ), fileInformation.get( ) );
-        if(JamiiStringUtils.equals( getUserFileDirectoryUpdateREQ().getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
+        if(JamiiStringUtils.equals( getUserFileDirectoryUpdateREQ( ).getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
             JamiiDebug.warning( "File is already in said location: " + getUserFileDirectoryUpdateREQ( ).getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
-
         fileDirectory.get( ).setUidirectory( getUserFileDirectoryUpdateREQ( ).getDirectoryUpdate( ) );
         fileDirectory.get( ).setLastupdated( LocalDateTime.now( ));
         this.fileDirectoryCONT.update( fileDirectory.get( ) );
-        this.isSuccessful = true ;
+        setSuccessful( true ) ;
     }
 
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
-            UserFileDirectoryUpdateRESP userFileDirectoryUpdateRESP = new UserFileDirectoryUpdateRESP( );
-            return new ResponseEntity<>( userFileDirectoryUpdateRESP.getJSONRESP( ), HttpStatus.OK );
+        if( getSuccessful( ) ){
+            return new ResponseEntity<>( getUserFileDirectoryUpdateRESP( ).getJSONRESP( ), HttpStatus.OK );
         }
 
         return super.getResponse( );
