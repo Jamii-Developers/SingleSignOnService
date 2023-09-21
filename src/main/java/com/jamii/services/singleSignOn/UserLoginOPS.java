@@ -2,18 +2,18 @@ package com.jamii.services.singleSignOn;
 
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
+import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.activeDirectory.UserLoginREQ;
 import com.jamii.responses.activeDirectory.UserLoginRESP;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserLoginOPS extends activeDirectoryAbstract {
+public class UserLoginOPS extends ActiveDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPS extends activeDirectoryAbstract {
+public class EditUserDataOPS extends ActiveDirectoryAbstract {
     public EditUserDataOPS() {
     }
 

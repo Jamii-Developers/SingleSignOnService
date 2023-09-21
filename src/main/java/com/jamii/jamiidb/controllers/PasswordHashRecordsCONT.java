@@ -5,12 +5,13 @@ import com.jamii.jamiidb.model.PasswordHashRecordsTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.PasswordHashRecordsREPO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
+@Component
 public class PasswordHashRecordsCONT {
 
     @Autowired

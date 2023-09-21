@@ -21,7 +21,7 @@ public class ClientCommunicationTBL {
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
-    @Column( name = CLIENT_THOUGHTS )
+    @Column( name = CLIENT_THOUGHTS, columnDefinition = "text" )
     private String clientthoughts;
 
     @Column( name = TYPE_OF_THOUGHT )

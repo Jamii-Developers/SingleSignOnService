@@ -4,12 +4,12 @@ import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.DeviceInformationREPO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Service
+@Component
 public class DeviceInformationCONT {
 
     @Autowired

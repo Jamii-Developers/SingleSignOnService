@@ -4,13 +4,13 @@ import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.FileTableOwnerREPO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 import static com.jamii.jamiidb.model.FileTableOwnerTBL.ACTIVE_STATUS_STORE;
 
-@Service
+@Component
 public class FileTableOwnerCONT {
 
     @Autowired

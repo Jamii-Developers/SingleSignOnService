@@ -184,5 +184,11 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0024 ) ;
     }
 
+    public void setContactUsOPS_UserNotFound() {
+        setERROR_FIELD_SUBJECT( "Contact Us Error!"  );
+        setERROR_FIELD_MESSAGE( "The username or email address is not in our system."  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0025 ) ;
+    }
+
 
 }

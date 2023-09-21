@@ -3,8 +3,8 @@ package com.jamii.requests.clientCommunication;
 public class ContactUsREQ {
 
     private String username;
-    private String emailAddress;
-    private String clientThoughts;
+    private String emailaddress;
+    private String client_thoughts;
 
     public String getUsername() {
         return username;
@@ -14,19 +14,19 @@ public class ContactUsREQ {
         this.username = username;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmailaddress() {
+        return emailaddress;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmailaddress(String emailaddress) {
+        this.emailaddress = emailaddress;
     }
 
-    public String getClientThoughts() {
-        return clientThoughts;
+    public String getClient_thoughts() {
+        return client_thoughts;
     }
 
-    public void setClientThoughts(String clientThoughts) {
-        this.clientThoughts = clientThoughts;
+    public void setClient_thoughts(String clientthoughts) {
+        this.client_thoughts = clientthoughts;
     }
 }

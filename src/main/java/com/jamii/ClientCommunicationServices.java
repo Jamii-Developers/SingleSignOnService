@@ -23,7 +23,7 @@ public class ClientCommunicationServices {
     private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
     @PostMapping( path = "contactus", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody ResponseEntity< ? > contactus(@ModelAttribute ContactUsREQ contactUsREQ ) throws Exception {
+    public ResponseEntity< ? > contactus( @RequestBody ContactUsREQ contactUsREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.contactUsOPS.reset( );

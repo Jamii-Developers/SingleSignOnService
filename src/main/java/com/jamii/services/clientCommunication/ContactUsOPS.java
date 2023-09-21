@@ -1,18 +1,31 @@
 package com.jamii.services.clientCommunication;
 
+import com.jamii.Utils.JamiiDebug;
+import com.jamii.jamiidb.controllers.ClientCommunicationCONT;
+import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.model.ClientCommunicationTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.clientCommunication.ContactUsREQ;
 import com.jamii.responses.clientCommunication.ContactUsRESP;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class ContactUsOPS extends clientCommunicationAbstract{
 
     public ContactUsOPS() {
     }
+
+    @Autowired
+    private UserLoginCONT userLoginCONT;
+    @Autowired
+    private ClientCommunicationCONT clientCommunicationCONT ;
 
     private ContactUsREQ contactUsREQ;
     private ContactUsRESP contactUsRESP;
@@ -52,6 +65,22 @@ public class ContactUsOPS extends clientCommunicationAbstract{
     @Override
     public void processRequest() throws IOException {
 
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getContactUsREQ( ).getEmailaddress( ), getContactUsREQ( ).getUsername() ) ;
+        if( user.isEmpty( ) ){
+            JamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", getContactUsREQ( ).getUsername( ), getContactUsREQ( ).getEmailaddress() ) );
+            this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            return ;
+        }
+
+        ClientCommunicationTBL contactus = new ClientCommunicationTBL( );
+        contactus.setUserloginid( user.get( ) );
+        contactus.setClientthoughts( getContactUsREQ().getClient_thoughts( ) );
+        contactus.setTypeofthought( ClientCommunicationTBL.TYPE_OF_THOUGHT_CONTACT_US );
+        contactus.setDateofthought( LocalDateTime.now( ) );
+        this.clientCommunicationCONT.save( contactus );
+
+        setIsSuccessful( true );
     }
 
     @Override

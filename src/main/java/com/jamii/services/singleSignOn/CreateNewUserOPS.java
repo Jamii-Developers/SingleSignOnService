@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class CreateNewUserOPS extends activeDirectoryAbstract {
+public class CreateNewUserOPS extends ActiveDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

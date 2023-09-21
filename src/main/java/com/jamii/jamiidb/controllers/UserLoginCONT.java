@@ -2,12 +2,12 @@ package com.jamii.jamiidb.controllers;
 
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
-import com.jamii.services.singleSignOn.CreateNewUserOPS;
-import com.jamii.services.singleSignOn.UserLoginOPS;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserLoginREPO;
+import com.jamii.services.singleSignOn.CreateNewUserOPS;
+import com.jamii.services.singleSignOn.UserLoginOPS;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component
 public class UserLoginCONT {
 
     @Autowired
@@ -102,7 +102,7 @@ public class UserLoginCONT {
      * @return - returns the information on a fetched user
      */
     public Optional<UserLoginTBL> fetch( String emailAddress ,String username ){
-        return userLoginREPO.findByEmailaddressAndUsername( username, emailAddress ).stream( ).findFirst( );
+        return userLoginREPO.findByEmailaddressAndUsername( emailAddress , username ).stream( ).findFirst( );
     }
 
     /**
@@ -118,6 +118,7 @@ public class UserLoginCONT {
     public Optional<UserLoginTBL> fetch( String emailAddress ,String username, String userkey ,int active ){
         return userLoginREPO.findByEmailaddressAndUsernameAndUserkeyAndActive( emailAddress, username, userkey, active ).stream( ).findFirst( );
     }
+
     public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
         return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
     }
