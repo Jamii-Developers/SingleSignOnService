@@ -42,13 +42,13 @@ public class CreateNewUserOPS extends ActiveDirectoryAbstract {
     @Override
     public void processRequest( ) throws Exception {
 
-        if( userLoginCONT.checkifUserExists( this ) ){
+        if( userLoginCONT.checkifUserExists( getCreateNewUserREQ( ) ) ){
             this.jamiiErrorsMessagesRESP.createNewUserError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
-        this.userData = userLoginCONT.createNewUser( this );
+        this.userData = userLoginCONT.createNewUser( getCreateNewUserREQ( ) );
 
         //Add new password records
         if( this.userData != null){

@@ -25,18 +25,18 @@ public class UserLoginOPS extends ActiveDirectoryAbstract {
     private DeviceInformationTBL userDeviceInformation;
     private Boolean loginWasSuccessful = false;
 
-    public UserLoginREQ getUserLoginREQ() {
+    public UserLoginREQ getUserLoginREQ( ) {
         return userLoginREQ;
     }
 
-    public void setUserLoginREQ(UserLoginREQ userLoginREQ) {
+    public void setUserLoginREQ( UserLoginREQ userLoginREQ ) {
         this.userLoginREQ = userLoginREQ;
     }
 
     @Override
     public void processRequest() {
 
-        this.userData = this.userLoginCONT.checkAndRetrieveValidLogin(this);
+        this.userData = this.userLoginCONT.checkAndRetrieveValidLogin(getUserLoginREQ( ) );
 
         if ( this.userData == null ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );

@@ -4,11 +4,10 @@ import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserLoginREPO;
-import com.jamii.services.singleSignOn.CreateNewUserOPS;
-import com.jamii.services.singleSignOn.UserLoginOPS;
+import com.jamii.requests.activeDirectory.CreateNewUserREQ;
+import com.jamii.requests.activeDirectory.UserLoginREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,17 +22,17 @@ public class UserLoginCONT {
     
     /**
      * Used to check the login validity of a request
-     * @param userLoginOPS - This class checks for the User login validity
+     * @param userLoginREQ - This class checks for the User login validity
      * @return - Returns user's information
      */
 
-    public UserLoginTBL checkAndRetrieveValidLogin ( UserLoginOPS userLoginOPS ){
+    public UserLoginTBL checkAndRetrieveValidLogin ( UserLoginREQ userLoginREQ ){
 
         // Adding this so we are able to check only users that are active
         List <UserLoginTBL> fetchCredential = new ArrayList< > ( );
 
-        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( userLoginOPS.getUserLoginREQ( ).getLoginCredential( ),  userLoginOPS.getUserLoginREQ( ).getActiveStatus( ) ) );
-        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( userLoginOPS.getUserLoginREQ().getLoginCredential( ),  userLoginOPS.getUserLoginREQ().getActiveStatus( ) ) );
+        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( userLoginREQ.getLoginCredential( ),  userLoginREQ.getActiveStatus( ) ) );
+        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( userLoginREQ.getLoginCredential( ),  userLoginREQ.getActiveStatus( ) ) );
 
         if( fetchCredential.isEmpty( )  ){
             return null;
@@ -41,32 +40,27 @@ public class UserLoginCONT {
 
         //Confirm if user password matches saved password
         for( UserLoginTBL cred : fetchCredential ){
-            if( isPasswordValid( userLoginOPS.getUserLoginREQ( ).getLoginPassword( ), cred ) ) {
+            if( isPasswordValid( userLoginREQ.getLoginPassword( ), cred ) ) {
                 return cred;
             }
         }
         return null ;
     }
 
-    public boolean checkifUserExists( CreateNewUserOPS createNewUserOPS ){
-        //Check if username and email address exist in the system
-        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ), createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) ) );
-
+    //Check if username and email address exist in the system
+    public boolean checkifUserExists( CreateNewUserREQ createNewUserREQ ){
+        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserREQ.getEmailaddress( ), createNewUserREQ.getUsername( ) ) );
         return !checkCredential.isEmpty( );
     }
 
     /**
      * Used to create a new user
-     * @param createNewUserOPS - This class creates the new user
+     * @param createNewUserREQ - This class creates the new user
      * @return - returns boolean on whether a new user was created
      */
-    @Transactional
-    public UserLoginTBL createNewUser ( CreateNewUserOPS createNewUserOPS ){
-
-
-
+    public UserLoginTBL createNewUser ( CreateNewUserREQ createNewUserREQ ){
         //Save the newly created user
-        return add( createNewUserOPS );
+        return add( createNewUserREQ );
     }
 
     public void add( UserLoginTBL userLoginTBL ){
@@ -75,15 +69,15 @@ public class UserLoginCONT {
 
     /**
      * Populates a new user to the userLoginTBL table
-     * @param createNewUserOPS - Contains the basic details we need to populate the userLoginTBL
+     * @param createNewUserREQ - Contains the basic details we need to populate the userLoginTBL
      * @return - returns the user login information
      */
-    public UserLoginTBL add( CreateNewUserOPS createNewUserOPS ) {
+    public UserLoginTBL add( CreateNewUserREQ createNewUserREQ ) {
 
         UserLoginTBL newUser = new UserLoginTBL( );
-        newUser.setEmailAddress( createNewUserOPS.getCreateNewUserREQ( ).getEmailaddress( ) ) ;
-        newUser.setUsername( createNewUserOPS.getCreateNewUserREQ( ).getUsername( ) );
-        newUser.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword( createNewUserOPS.getCreateNewUserREQ( ).getPassword( ) ) );
+        newUser.setEmailAddress( createNewUserREQ.getEmailaddress( ) ) ;
+        newUser.setUsername( createNewUserREQ.getUsername( ) );
+        newUser.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword( createNewUserREQ.getPassword( ) ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
 
         LocalDateTime dateCreated = LocalDateTime.now( );
