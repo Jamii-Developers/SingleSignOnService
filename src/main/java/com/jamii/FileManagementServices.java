@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
  * Configured to run on port 4000
  */
 @CrossOrigin(origins = "*") // Apply to the entire controller
-@SpringBootApplication
 @RestController
 public class FileManagementServices {
 

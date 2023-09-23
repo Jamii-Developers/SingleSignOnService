@@ -4,16 +4,17 @@ import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.clientCommunication.ContactUsREQ;
 import com.jamii.services.clientCommunication.ContactUsOPS;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Configured to run on port 4001
  */
 @CrossOrigin(origins = "*") // Apply to the entire controller
-@SpringBootApplication
 @RestController
 public class ClientCommunicationServices {
 
