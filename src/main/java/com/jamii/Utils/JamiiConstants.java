@@ -22,4 +22,5 @@ public class JamiiConstants {
     public static final String      RESPONSE_TYPE_CHANGE_PASSWORD       =   "SUC|004";
     public static final String      RESPONSE_TYPE_EDIT_REACTIVATE       =   "SUC|005";
     public static final String      RESPONSE_TYPE_EDIT_DEACTIVATE       =   "SUC|006";
+    public static final String      RESPONSE_TYPE_CONTACT_US            =   "SUC|007";
 }
