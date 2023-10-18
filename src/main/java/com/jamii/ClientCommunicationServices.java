@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Configured to run on port 4001
  */
-@CrossOrigin(origins = "*") // Apply to the entire controller
+@CrossOrigin( origins = "*" ) // Apply to the entire controller
 @RestController
 public class ClientCommunicationServices {
 
