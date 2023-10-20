@@ -25,6 +25,7 @@ public class ClientCommunicationServices {
 
     @PostMapping( path = "contactus", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity< ? > contactus( @RequestBody ContactUsREQ contactUsREQ ) throws Exception {
+
         jamiiDebug.info("Received request" );
 
         this.contactUsOPS.reset( );
