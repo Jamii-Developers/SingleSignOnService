@@ -80,7 +80,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileDirectoryUpdateREQ( ).getDeviceKey( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileDirectoryUpdateREQ( ).getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDirectoryUpdateREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setUserFileDirectory_NoMatchingDeviceKey( );

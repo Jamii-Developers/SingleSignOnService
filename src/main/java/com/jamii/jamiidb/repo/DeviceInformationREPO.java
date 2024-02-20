@@ -11,5 +11,6 @@ public interface DeviceInformationREPO extends CrudRepository<DeviceInformationT
     List< DeviceInformationTBL > findByUserloginid( UserLoginTBL userLoginTBL );
     List< DeviceInformationTBL > findByUserloginidAndDevicekey( UserLoginTBL userLoginTBL, String devicekey );
     List< DeviceInformationTBL > findByDevicekey( String devicekey );
+    List< DeviceInformationTBL > findByUserloginidAndDevicekeyAndActive( UserLoginTBL userLoginTBL, String devicekey, int active );
 
 }

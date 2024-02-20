@@ -27,7 +27,6 @@ public class DeviceInformationTBL {
     public static final String      LAST_CONNECTED  = "LAST_CONNECTED";
     public static final String      ACTIVE          = "ACTIVE";
 
-
     @Id
     @Column( name = ID )
     @GeneratedValue( strategy= GenerationType.IDENTITY )

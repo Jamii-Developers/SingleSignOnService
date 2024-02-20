@@ -20,8 +20,11 @@ public class DeviceInformationCONT {
         return deviceInformationREPO.findByDevicekey( deviceKey ).isEmpty( );
     }
 
-    public Optional< DeviceInformationTBL > fetchByUserandDeviceKey( UserLoginTBL user, String deviceKey){
+    public Optional< DeviceInformationTBL > fetch( UserLoginTBL user, String deviceKey){
         return deviceInformationREPO.findByUserloginidAndDevicekey( user, deviceKey ).stream().findFirst();
+    }
+    public Optional< DeviceInformationTBL > fetch( UserLoginTBL user, String deviceKey, int active ){
+        return deviceInformationREPO.findByUserloginidAndDevicekeyAndActive( user, deviceKey, active ).stream().findFirst();
     }
 
     public DeviceInformationTBL add( UserLoginTBL userLoginTBL, String key, String deviceName){

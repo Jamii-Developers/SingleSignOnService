@@ -84,7 +84,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileUploadREQ( ).getDevice_key( ) );
+        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileUploadREQ( ).getDevice_key( ) );
         if( deviceinformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileUploadREQ( ).getDevice_key( ));
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingDeviceKey( );

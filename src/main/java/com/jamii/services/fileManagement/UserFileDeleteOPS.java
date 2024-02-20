@@ -55,7 +55,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), this.userFileDeleteREQ.getDeviceKey( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), this.userFileDeleteREQ.getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDeleteREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingDeviceKey( );

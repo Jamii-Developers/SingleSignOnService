@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Table( name = "client_communication" , schema =  "jamiidb")
 public class ClientCommunicationTBL {
 
+    public ClientCommunicationTBL() {
+    }
+
     public static final String      TABLE_NAME      = "contact_us";
 
     public static final String      ID              = "ID";

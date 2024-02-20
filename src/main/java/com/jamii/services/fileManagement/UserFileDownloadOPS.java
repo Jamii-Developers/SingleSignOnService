@@ -97,7 +97,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetchByUserandDeviceKey( user.get( ), getUserFileDownloadREQ( ).getDevicekey( ) );
+        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileDownloadREQ( ).getDevicekey( ) );
         if( deviceInformation.isEmpty( ) ){
             JamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDevicekey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
