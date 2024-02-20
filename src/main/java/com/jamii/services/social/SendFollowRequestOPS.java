@@ -12,6 +12,10 @@ public class SendFollowRequestOPS extends socialAbstract{
         this.sendFollowRequestREQ = sendFollowRequestREQ;
     }
 
+    public SendFollowRequestREQ getSendFollowRequestREQ() {
+        return sendFollowRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

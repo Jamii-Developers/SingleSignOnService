@@ -12,6 +12,10 @@ public class SendFriendRequestOPS extends socialAbstract {
         this.sendFriendRequestREQ = sendFriendRequestREQ;
     }
 
+    public SendFriendRequestREQ getSendFriendRequestREQ() {
+        return sendFriendRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

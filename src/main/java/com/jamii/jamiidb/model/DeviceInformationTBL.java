@@ -1,16 +1,9 @@
 package com.jamii.jamiidb.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table( name = "device_information" , schema =  "jamiidb")
@@ -43,6 +36,10 @@ public class DeviceInformationTBL {
 
     @Column( name = ACTIVE )
     private Integer active;
+
+    //Foreign Keys
+    @OneToMany( mappedBy = "deviceinformationid" )
+    private List<UserCookiesTBL> userCookiesTBL;
 
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )

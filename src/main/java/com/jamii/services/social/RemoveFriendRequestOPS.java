@@ -11,4 +11,8 @@ public class RemoveFriendRequestOPS {
     public void setRemoveFriendRequestREQ(RemoveFriendRequestREQ removeFriendRequestREQ) {
         this.removeFriendRequestREQ = removeFriendRequestREQ;
     }
+
+    public RemoveFriendRequestREQ getRemoveFriendRequestREQ() {
+        return removeFriendRequestREQ;
+    }
 }

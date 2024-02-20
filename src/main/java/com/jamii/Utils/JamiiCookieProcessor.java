@@ -14,7 +14,7 @@ public class JamiiCookieProcessor {
 
     public JamiiCookieProcessor( ) { }
 
-    public JamiiCookieProcessor(String USER_KEY, String DEVICE_KEY, String USERNAME, String EMAIL_ADDRESS) {
+    public JamiiCookieProcessor( String USER_KEY, String DEVICE_KEY, String USERNAME, String EMAIL_ADDRESS ) {
         this.USER_KEY = USER_KEY;
         this.DEVICE_KEY = DEVICE_KEY;
         this.USERNAME = USERNAME;
@@ -76,6 +76,8 @@ public class JamiiCookieProcessor {
         if( deviceData.isEmpty( ) ){
             return false;
         }
+
+
 
         return true;
     }

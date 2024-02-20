@@ -12,6 +12,10 @@ public class RemoveFollowRequestOPS extends socialAbstract{
         this.removeFollowRequestREQ = removeFollowRequestREQ;
     }
 
+    public RemoveFollowRequestREQ getRemoveFollowRequestREQ() {
+        return removeFollowRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

@@ -12,6 +12,10 @@ public class AcceptFollowRequestOPS extends socialAbstract{
         this.acceptFollowRequestREQ = acceptFollowRequestREQ;
     }
 
+    public AcceptFollowRequestREQ getAcceptFollowRequestREQ() {
+        return acceptFollowRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

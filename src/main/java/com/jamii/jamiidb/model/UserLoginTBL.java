@@ -65,10 +65,18 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "userloginid" )
     private List<FileDirectoryTBL> fileDirectoryTBL;
 
-    /**
-     * ACTIVE STATUS
-     */
+    @OneToMany( mappedBy = "userloginid" )
+    private List<UserCookiesTBL> userCookiesTBL;
 
+    @OneToMany( mappedBy = "senderid" )
+    private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
+
+    @OneToMany( mappedBy = "receiverid" )
+    private List<UserRelationshipTBL> receiverIDuserRelationshipTBLS;
+
+    /**
+     * ACTIVE STATUSES
+     */
     public static final Integer ACTIVE_OFF              = 0;
     public static final Integer ACTIVE_ON               = 1;
     public static final Integer ACTIVE_TERMINATED       = 2;

@@ -12,6 +12,10 @@ public class BlockFriendRequestOPS extends socialAbstract{
         this.blockFriendRequestREQ = blockFriendRequestREQ;
     }
 
+    public BlockFriendRequestREQ getBlockFriendRequestREQ() {
+        return blockFriendRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

@@ -12,6 +12,10 @@ public class AcceptFriendRequestOPS extends socialAbstract {
         this.acceptFriendRequestREQ = acceptFriendRequestREQ;
     }
 
+    public AcceptFriendRequestREQ getAcceptFriendRequestREQ() {
+        return acceptFriendRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 

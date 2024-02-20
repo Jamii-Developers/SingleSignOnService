@@ -12,6 +12,10 @@ public class BlockFollowRequestOPS extends socialAbstract{
         this.blockFollowRequestREQ = blockFollowRequestREQ;
     }
 
+    public BlockFollowRequestREQ getBlockFollowRequestREQ() {
+        return blockFollowRequestREQ;
+    }
+
     @Override
     public void processRequest() throws Exception {
 
