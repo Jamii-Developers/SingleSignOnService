@@ -1,7 +1,9 @@
 package com.jamii.services.social;
 
 import com.jamii.requests.social.SearchUserREQ;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SearchUsersOPS extends socialAbstract{
 
     private SearchUserREQ searchUserREQ;
