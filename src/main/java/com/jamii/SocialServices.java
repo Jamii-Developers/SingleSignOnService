@@ -4,6 +4,7 @@ import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.social.AcceptFollowRequestREQ;
 import com.jamii.requests.social.AcceptFriendRequestREQ;
 import com.jamii.requests.social.BlockFollowRequestREQ;
+import com.jamii.requests.social.SearchUserREQ;
 import com.jamii.services.social.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +49,8 @@ public class SocialServices {
     private GetFriendListOPS getFriendListOPS;
     @Autowired
     private GetFriendRequestListOPS getFriendRequestListOPS;
+    @Autowired
+    private SearchUsersOPS searchUsersOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
@@ -55,40 +58,18 @@ public class SocialServices {
         SpringApplication.run( SocialServices.class, args);
     }
 
-    @PostMapping( path = "acceptfriendrequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< String > acceptfriendrequest(@RequestBody AcceptFriendRequestREQ acceptFriendRequestREQ ) throws Exception {
+    @PostMapping( path = "searchuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< String > searchuser(@RequestBody SearchUserREQ searchUserREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
-        this.acceptFriendRequestOPS.reset( );
-        this.acceptFriendRequestOPS.setAcceptFriendRequestREQ( acceptFriendRequestREQ );
-        this.acceptFriendRequestOPS.processRequest( );
+        this.searchUsersOPS.reset( );
+        this.searchUsersOPS.setSearchUserREQ( searchUserREQ );
+        this.searchUsersOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.acceptFriendRequestOPS.getResponse( );
+        return this.searchUsersOPS.getResponse( );
     }
 
-    @PostMapping( path = "acceptfollowrequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< String > acceptfollowrequest(@RequestBody AcceptFollowRequestREQ acceptFriendRequestREQ ) throws Exception {
-        jamiiDebug.info("Received request" );
 
-        this.acceptFollowRequestOPS.reset( );
-        this.acceptFollowRequestOPS.setAcceptFollowRequestREQ( acceptFriendRequestREQ );
-        this.acceptFollowRequestOPS.processRequest( );
-
-        jamiiDebug.info("Request completed");
-        return this.acceptFriendRequestOPS.getResponse( );
-    }
-
-    @PostMapping( path = "blockfollowrequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< String > blockfollowrequest(@RequestBody BlockFollowRequestREQ blockFollowRequestREQ ) throws Exception {
-        jamiiDebug.info("Received request" );
-
-        this.blockFollowRequestOPS.reset( );
-        this.blockFollowRequestOPS.setBlockFollowRequestREQ( blockFollowRequestREQ );
-        this.blockFollowRequestOPS.processRequest( );
-
-        jamiiDebug.info("Request completed");
-        return this.blockFollowRequestOPS.getResponse( );
-    }
 
 }

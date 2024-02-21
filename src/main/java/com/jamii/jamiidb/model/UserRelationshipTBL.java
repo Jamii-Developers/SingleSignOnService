@@ -43,11 +43,14 @@ public class UserRelationshipTBL {
     private UserLoginTBL receiverid;
 
     // TYPE
-    private static final Integer TYPE_FRIEND    = 1;
-    private static final Integer TYPE_FOLLOW    = 2;
+    public static final Integer TYPE_FRIEND    = 1;
+    public static final Integer TYPE_FOLLOW    = 2;
 
     // STATUS
-    private static final Integer STATUS_SEND_FRIEND_REQUEST = 1;
+    public static final Integer STATUS_PENDING  = 1;
+    public static final Integer STATUS_ACCEPTED = 2;
+    public static final Integer STATUS_REJECTED = 3;
+    public static final Integer STATUS_BLOCKED  = 4;
 
     public Integer getId() {
         return id;
