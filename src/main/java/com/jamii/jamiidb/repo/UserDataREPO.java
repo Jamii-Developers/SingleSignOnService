@@ -11,6 +11,6 @@ public interface UserDataREPO extends CrudRepository<UserDataTBL, Integer> {
 
     List< UserDataTBL > findByUserloginidAndCurrent( UserLoginTBL userLoginTBL, boolean current );
 
-    @Query( value = "SELECT * FROM user_data WHERE ( first_name like '?%' OR middle_name like '?%'   OR last_name like '?%' ) AND current = ?4 ORDER BY ID DESC LIMIT 30", nativeQuery = true)
+    @Query( value = "SELECT * FROM user_data WHERE ( first_name like '?%' OR middle_name like '?%' OR last_name like '?%' ) AND current = '?' LIMIT 30", nativeQuery = true)
     List<UserDataTBL> searchUser( String firstname, String middlename, String lastname,  boolean current );
 }

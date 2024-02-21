@@ -1,7 +1,6 @@
 package com.jamii.jamiidb.repo;
 
 import com.jamii.jamiidb.model.UserLoginTBL;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +21,7 @@ public interface UserLoginREPO extends CrudRepository<UserLoginTBL, Integer> {
     List <UserLoginTBL> findByUserkeyIs( String userKey );
     List <UserLoginTBL> findByIdAndActive( int id, int active );
 
-
-    @Query( value = "SELECT * FROM user_login WHERE ( username like '?1%' OR email_address like '?2%' ) AND active = ?3 ORDER BY ID DESC LIMIT 30", nativeQuery = true)
-    List<UserLoginTBL> searchUser( String username, String emailaddress, int active );
+    List<UserLoginTBL> findByUsernameStartingWithOrEmailaddressStartingWithAndActive( String username, String emailaddress, int active );
 
 
 }

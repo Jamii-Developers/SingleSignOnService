@@ -104,6 +104,11 @@ public class SearchUsersOPS extends socialAbstract{
     public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
+
+            if( searchResults.isEmpty( ) ){
+                super.getResponse( );
+            }
+
             for( Map.Entry< UserLoginTBL, UserDataTBL> entry :searchResults.entrySet( ) ){
                 getSearchUserRESP( ).getUSER_KEY( ).add( entry.getKey( ).getUserKey( ) );
                 getSearchUserRESP( ).getFIRSTNAME( ).add( entry.getValue( ).getFirstname( ) );

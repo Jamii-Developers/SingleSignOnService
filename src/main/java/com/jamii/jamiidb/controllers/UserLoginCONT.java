@@ -141,7 +141,7 @@ public class UserLoginCONT {
     }
 
     public List< UserLoginTBL > searchUser( String searchString ){
-        return userLoginREPO.searchUser( searchString, searchString, UserLoginTBL.ACTIVE_ON );
+        return userLoginREPO.findByUsernameStartingWithOrEmailaddressStartingWithAndActive( searchString, searchString, UserLoginTBL.ACTIVE_ON );
     }
 
 }
