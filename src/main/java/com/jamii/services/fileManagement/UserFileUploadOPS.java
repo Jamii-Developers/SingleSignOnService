@@ -76,7 +76,7 @@ public class UserFileUploadOPS extends fileManagementAbstract {
     public void processRequest() throws IOException {
 
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileUploadREQ( ).getUser_key( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileUploadREQ( ).getUser_key( ), UserLoginTBL.ACTIVE) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileUploadREQ( ).getUser_key( ) );
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );

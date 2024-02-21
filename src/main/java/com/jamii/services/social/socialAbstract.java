@@ -14,7 +14,7 @@ public abstract class socialAbstract {
 
     public abstract void processRequest( ) throws Exception;
 
-    public ResponseEntity<  String > getResponse( ){
+    public ResponseEntity< ? > getResponse( ){
 
         StringBuilder response = new StringBuilder( ) ;
         if( !JamiiError.isEmpty( ) ){

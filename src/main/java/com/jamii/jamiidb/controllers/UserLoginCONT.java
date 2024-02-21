@@ -113,8 +113,12 @@ public class UserLoginCONT {
         return userLoginREPO.findByEmailaddressAndUsernameAndUserkeyAndActive( emailAddress, username, userkey, active ).stream( ).findFirst( );
     }
 
-    public Optional<UserLoginTBL> fetchWithUserKey( String userKey ){
-        return userLoginREPO.findByUserkeyIs( userKey ).stream( ).findFirst( );
+    public Optional<UserLoginTBL> fetch( String userkey ,int active ){
+        return userLoginREPO.findByUserkeyAndActive( userkey, active ).stream( ).findFirst( );
+    }
+
+    public Optional<UserLoginTBL> fetch( int id, int acive ){
+        return userLoginREPO.findById( id ).stream( ).findFirst( );
     }
 
     public void update( UserLoginTBL userLoginTBL ){
@@ -134,6 +138,10 @@ public class UserLoginCONT {
     public void reactivateUser( UserLoginTBL userLoginTBL ){
         userLoginTBL.setActive( UserLoginTBL.ACTIVE_ON );
         userLoginREPO.save( userLoginTBL );
+    }
+
+    public List< UserLoginTBL > searchUser( String searchString ){
+        return userLoginREPO.searchUser( searchString, searchString, UserLoginTBL.ACTIVE_ON );
     }
 
 }

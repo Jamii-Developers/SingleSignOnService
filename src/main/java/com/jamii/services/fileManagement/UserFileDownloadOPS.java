@@ -89,7 +89,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileDownloadREQ( ).getUserkey( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileDownloadREQ( ).getUserkey( ), UserLoginTBL.ACTIVE ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUserkey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );

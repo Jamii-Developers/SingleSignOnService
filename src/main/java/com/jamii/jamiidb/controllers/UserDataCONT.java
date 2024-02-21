@@ -1,16 +1,16 @@
 package com.jamii.jamiidb.controllers;
 
-import com.jamii.requests.activeDirectory.EditUserDataREQ;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserDataREPO;
+import com.jamii.requests.activeDirectory.EditUserDataREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserDataCONT {
@@ -19,9 +19,8 @@ public class UserDataCONT {
     private UserDataREPO userDataREPO;
 
     public void markAllPreviousUserDataInActive( UserLoginTBL user ){
-
         List<UserDataTBL> records = new ArrayList<>( );
-        for( UserDataTBL record : userDataREPO.findbyuserloginidandactive( user.getId( ), UserDataTBL.CURRENT_STATUS_ON ) ) {
+        for( UserDataTBL record : this.userDataREPO.findByUserloginidAndCurrent( user , UserDataTBL.CURRENT_STATUS_ON ) ) {
             record.setCurrent( UserDataTBL.CURRENT_STATUS_OFF );
             records.add( record );
         }
@@ -47,5 +46,13 @@ public class UserDataCONT {
         newUserData.setUserloginid( user );
 
         userDataREPO.save( newUserData );
+    }
+
+    public Optional< UserDataTBL > fetch( UserLoginTBL user, Boolean active ){
+        return this.userDataREPO.findByUserloginidAndCurrent( user, active ).stream( ).findFirst( );
+    }
+
+    public List<UserDataTBL> searchUser(String searchString) {
+        return this.userDataREPO.searchUser( searchString, searchString, searchString, UserDataTBL.CURRENT_STATUS_ON );
     }
 }

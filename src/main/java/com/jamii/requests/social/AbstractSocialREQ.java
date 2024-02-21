@@ -4,8 +4,6 @@ public class AbstractSocialREQ {
 
     protected String userkey;
     protected String devicekey;
-    protected String emailaddress;
-    protected String username;
 
     public String getUserkey() {
         return userkey;
@@ -23,19 +21,4 @@ public class AbstractSocialREQ {
         this.devicekey = devicekey;
     }
 
-    public String getEmailaddress() {
-        return emailaddress;
-    }
-
-    public void setEmailaddress(String emailaddress) {
-        this.emailaddress = emailaddress;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

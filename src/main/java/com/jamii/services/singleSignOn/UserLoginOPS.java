@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserLoginOPS extends ActiveDirectoryAbstract {
+public class UserLoginOPS extends activeDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -63,7 +63,7 @@ public class UserLoginOPS extends ActiveDirectoryAbstract {
 
 
     @Override
-    public ResponseEntity< String > getResponse( ){
+    public ResponseEntity< ? > getResponse( ){
 
         if( this.loginWasSuccessful  ){
             StringBuilder response = new StringBuilder( );

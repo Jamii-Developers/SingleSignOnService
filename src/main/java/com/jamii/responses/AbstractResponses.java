@@ -7,6 +7,7 @@ public class AbstractResponses {
 
     protected String UI_SUBJECT;
     protected String UI_MESSAGE;
+    protected String MSG_TYPE;
 
     public String getJSONRESP( ){
         GsonBuilder builder = new GsonBuilder( );

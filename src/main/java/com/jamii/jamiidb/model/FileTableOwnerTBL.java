@@ -61,7 +61,7 @@ public class FileTableOwnerTBL {
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
     private UserLoginTBL userloginid;
 
-    @OneToMany( mappedBy = "filetableownderid" )
+    @OneToMany( mappedBy = "filetableownerid" )
     private List<FileDirectoryTBL> fIleDirectoryTBL;
 
     /**

@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface FileDirectoryREPO extends CrudRepository<FileDirectoryTBL, Integer> {
 
-    public List< FileDirectoryTBL > findByUserloginidAndFiletableownderid(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL );
+    public List< FileDirectoryTBL > findByUserloginidAndFiletableownerid(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL );
 }

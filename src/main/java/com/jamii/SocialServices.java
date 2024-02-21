@@ -1,9 +1,6 @@
 package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.social.AcceptFollowRequestREQ;
-import com.jamii.requests.social.AcceptFriendRequestREQ;
-import com.jamii.requests.social.BlockFollowRequestREQ;
 import com.jamii.requests.social.SearchUserREQ;
 import com.jamii.services.social.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +56,7 @@ public class SocialServices {
     }
 
     @PostMapping( path = "searchuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< String > searchuser(@RequestBody SearchUserREQ searchUserREQ ) throws Exception {
+    public ResponseEntity< ? > searchuser(@RequestBody SearchUserREQ searchUserREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
         this.searchUsersOPS.reset( );

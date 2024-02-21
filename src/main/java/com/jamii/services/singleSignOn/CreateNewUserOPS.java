@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class CreateNewUserOPS extends ActiveDirectoryAbstract {
+public class CreateNewUserOPS extends activeDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -75,7 +75,7 @@ public class CreateNewUserOPS extends ActiveDirectoryAbstract {
 
 
     @Override
-    public ResponseEntity< String > getResponse() {
+    public ResponseEntity< ? > getResponse() {
 
         if( this.isSuccessful ){
 

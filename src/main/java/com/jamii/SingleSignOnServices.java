@@ -42,7 +42,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "createnewuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > createnewuser( @RequestBody CreateNewUserREQ createNewUserREQ ) throws Exception {
+	public ResponseEntity< ? > createnewuser( @RequestBody CreateNewUserREQ createNewUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 
 		this.createNewUserOPS.reset( );
@@ -54,7 +54,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "userlogin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > userLogin(@RequestBody UserLoginREQ userLoginREQ ) {
+	public ResponseEntity< ? > userLogin(@RequestBody UserLoginREQ userLoginREQ ) {
 
 		jamiiDebug.info("Received request");
 
@@ -67,7 +67,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "changepassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > changepassword( @RequestBody ChangePasswordREQ changePasswordREQ ) throws Exception {
+	public ResponseEntity< ? > changepassword( @RequestBody ChangePasswordREQ changePasswordREQ ) throws Exception {
 
 		jamiiDebug.info("Received request" );
 
@@ -80,7 +80,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "edituserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
+	public ResponseEntity< ? > edituserdata( @RequestBody EditUserDataREQ editUserDataREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 
 		this.editUserDataOPS.reset( );
@@ -92,7 +92,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "reactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > reactivateuser( @RequestBody ReactivateUserREQ reactivateUserREQ ) throws Exception {
+	public ResponseEntity< ? > reactivateuser( @RequestBody ReactivateUserREQ reactivateUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.reactivateUserOPS.reset( );
 		this.reactivateUserOPS.setReactivateUserREQ( reactivateUserREQ );
@@ -102,7 +102,7 @@ public class SingleSignOnServices {
 	}
 
 	@PostMapping( path = "deactivateuser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity< String > deactivateuser( @RequestBody DeactivateUserREQ deactivateUserREQ ) throws Exception {
+	public ResponseEntity< ? > deactivateuser( @RequestBody DeactivateUserREQ deactivateUserREQ ) throws Exception {
 		jamiiDebug.info("Received request" );
 		this.deactivateUserOPS.reset( );
 		this.deactivateUserOPS.setDeactivateUserREQ( deactivateUserREQ );

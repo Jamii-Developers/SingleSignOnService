@@ -7,6 +7,7 @@ import com.jamii.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -14,11 +15,9 @@ public class JamiiCookieProcessor {
 
     public JamiiCookieProcessor( ) { }
 
-    public JamiiCookieProcessor( String USER_KEY, String DEVICE_KEY, String USERNAME, String EMAIL_ADDRESS ) {
+    public JamiiCookieProcessor( String USER_KEY, String DEVICE_KEY ) {
         this.USER_KEY = USER_KEY;
         this.DEVICE_KEY = DEVICE_KEY;
-        this.USERNAME = USERNAME;
-        this.EMAIL_ADDRESS = EMAIL_ADDRESS;
     }
 
     @Autowired
@@ -28,8 +27,6 @@ public class JamiiCookieProcessor {
 
     private String USER_KEY;
     private String DEVICE_KEY;
-    private String USERNAME;
-    private String EMAIL_ADDRESS;
 
     public String getUSER_KEY() {
         return USER_KEY;
@@ -47,37 +44,30 @@ public class JamiiCookieProcessor {
         this.DEVICE_KEY = DEVICE_KEY;
     }
 
-    public String getUSERNAME() {
-        return USERNAME;
-    }
-
-    public void setUSERNAME(String USERNAME) {
-        this.USERNAME = USERNAME;
-    }
-
-    public String getEMAIL_ADDRESS() {
-        return EMAIL_ADDRESS;
-    }
-
-    public void setEMAIL_ADDRESS(String EMAIL_ADDRESS) {
-        this.EMAIL_ADDRESS = EMAIL_ADDRESS;
-    }
 
     public Boolean checkCookieIsValid( ){
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getEMAIL_ADDRESS( ), getUSERNAME( ), getUSER_KEY( ), UserLoginTBL.ACTIVE_ON );
-
+        // Check if user key exists in the system
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUSER_KEY( ), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
             return false;
         }
 
+        // Check if the device has been connected before
         Optional< DeviceInformationTBL > deviceData = this.deviceInformationCONT.fetch( user.get( ), getDEVICE_KEY( ), DeviceInformationTBL.ACTIVE_STATUS_ENABLED );
-
         if( deviceData.isEmpty( ) ){
             return false;
         }
 
+        // Check when was the last time the device was connected
+        if( deviceData.get( ).getLastconnected( ).compareTo( LocalDateTime.now( ) ) > 30 ){
+            deviceData.get( ).setActive( DeviceInformationTBL.ACTIVE_STATUS_DISABLED );
+            this.deviceInformationCONT.update( deviceData.get( ) );
+            return false;
+        }
 
+        deviceData.get( ).setLastconnected( LocalDateTime.now( ) );
+        this.deviceInformationCONT.update( deviceData.get( ) );
 
         return true;
     }

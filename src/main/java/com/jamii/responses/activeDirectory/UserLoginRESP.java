@@ -8,22 +8,14 @@ public class UserLoginRESP extends AbstractResponses {
     public UserLoginRESP( ) {
         this.UI_SUBJECT = "Login Successful!";
         this.UI_MESSAGE = "Your login was successful!";
+        this.MSG_TYPE   = JamiiConstants.RESPONSE_TYPE_USERLOGIN;
     }
 
-    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_USERLOGIN;
     private String USER_KEY;
     private String USERNAME;
     private String DEVICE_KEY;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
-
-    public String getMSGTYPE( ) {
-        return MSGTYPE;
-    }
-
-    public String getUSER_KEY( ) {
-        return USER_KEY;
-    }
 
     public void setUSER_KEY(String USER_KEY) {
         this.USER_KEY = USER_KEY;

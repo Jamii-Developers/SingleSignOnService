@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPS extends ActiveDirectoryAbstract {
-    public EditUserDataOPS() {
-    }
+public class EditUserDataOPS extends activeDirectoryAbstract {
+
+    public EditUserDataOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -38,7 +38,7 @@ public class EditUserDataOPS extends ActiveDirectoryAbstract {
     @Override
     public void processRequest( ) throws Exception {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.getEditUserDataREQ( ).getUserkey( ) );
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( this.getEditUserDataREQ( ).getUserkey( ), UserLoginTBL.ACTIVE );
 
         //Check if userKey exists
         if( user.isEmpty( ) ){
@@ -69,7 +69,7 @@ public class EditUserDataOPS extends ActiveDirectoryAbstract {
 
 
     @Override
-    public ResponseEntity<String> getResponse( ) {
+    public ResponseEntity< ? > getResponse( ) {
 
         if( profileUpdateSuccessful ){
             StringBuilder response = new StringBuilder( );

@@ -47,7 +47,7 @@ public class FileDirectoryTBL {
 
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = FILE_TABLE_OWNER_ID, nullable = false )
-    private FileTableOwnerTBL filetableownderid;
+    private FileTableOwnerTBL filetableownerid;
 
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
@@ -77,12 +77,12 @@ public class FileDirectoryTBL {
         this.lastupdated = lastupdated;
     }
 
-    public FileTableOwnerTBL getFiletableownderid() {
-        return filetableownderid;
+    public FileTableOwnerTBL getFiletableownerid() {
+        return filetableownerid;
     }
 
-    public void setFiletableownderid(FileTableOwnerTBL filetableownderid) {
-        this.filetableownderid = filetableownderid;
+    public void setFiletableownerid(FileTableOwnerTBL filetableownerid) {
+        this.filetableownerid = filetableownerid;
     }
 
     public UserLoginTBL getUserloginid() {

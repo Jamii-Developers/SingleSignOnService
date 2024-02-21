@@ -8,10 +8,7 @@ public class ContactUsRESP extends AbstractResponses {
     public ContactUsRESP() {
         this.UI_SUBJECT = "Success!";
         this.UI_MESSAGE = "Thank you for sharing your comments";
+        this.MSG_TYPE = JamiiConstants.RESPONSE_TYPE_CONTACT_US;
     }
-    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CONTACT_US;
 
-    public String getMSGTYPE() {
-        return MSGTYPE;
-    }
 }

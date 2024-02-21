@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeactivateUserOPS extends ActiveDirectoryAbstract {
+public class DeactivateUserOPS extends activeDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -58,7 +58,7 @@ public class DeactivateUserOPS extends ActiveDirectoryAbstract {
     }
 
     @Override
-    public ResponseEntity< String > getResponse() {
+    public ResponseEntity< ? > getResponse() {
 
         if( accountDeactivationSuccessful ){
             JamiiDebug.warning( String.format( "This account has been deactivated : %s ", getDeactivateUserREQ( ).getUsername( ) ) );

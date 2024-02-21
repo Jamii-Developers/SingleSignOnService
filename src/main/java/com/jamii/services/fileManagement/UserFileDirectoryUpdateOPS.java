@@ -72,7 +72,7 @@ public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( getUserFileDirectoryUpdateREQ( ).getUserKey( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileDirectoryUpdateREQ( ).getUserKey( ), UserLoginTBL.ACTIVE ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDirectoryUpdateREQ( ).getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );

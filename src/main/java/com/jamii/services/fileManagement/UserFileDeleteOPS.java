@@ -47,7 +47,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchWithUserKey( this.userFileDeleteREQ.getUserKey( ) ) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( this.userFileDeleteREQ.getUserKey( ), UserLoginTBL.ACTIVE ) ;
         if( user.isEmpty( ) ){
             JamiiDebug.warning( "This user key does not exists : " + getUserFileDeleteREQ( ).getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingUserKey( );

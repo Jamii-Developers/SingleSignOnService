@@ -6,7 +6,6 @@ import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.FileDirectoryREPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -21,14 +20,14 @@ public class FileDirectoryCONT {
     public FileDirectoryTBL createFileDirectory( UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL, String uidirectory ){
         FileDirectoryTBL fileDirectoryTBL = new FileDirectoryTBL( );
         fileDirectoryTBL.setUserloginid( userLoginTBL );
-        fileDirectoryTBL.setFiletableownderid( fileTableOwnerTBL );
+        fileDirectoryTBL.setFiletableownerid( fileTableOwnerTBL );
         fileDirectoryTBL.setUidirectory( uidirectory );
         fileDirectoryTBL.setLastupdated( LocalDateTime.now( ) );
         return  this.fileDirectoryREPO.save( fileDirectoryTBL );
     }
 
     public Optional<FileDirectoryTBL> fetch(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL ){
-        return this.fileDirectoryREPO.findByUserloginidAndFiletableownderid( userLoginTBL, fileTableOwnerTBL ).stream( ).findFirst( );
+        return this.fileDirectoryREPO.findByUserloginidAndFiletableownerid( userLoginTBL, fileTableOwnerTBL ).stream( ).findFirst( );
     }
 
     public void update( FileDirectoryTBL fileDirectoryTBL ){

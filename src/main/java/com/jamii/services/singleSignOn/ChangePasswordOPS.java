@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ChangePasswordOPS extends ActiveDirectoryAbstract {
+public class ChangePasswordOPS extends activeDirectoryAbstract {
 
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;
@@ -77,7 +77,7 @@ public class ChangePasswordOPS extends ActiveDirectoryAbstract {
 
 
     @Override
-    public ResponseEntity< String > getResponse( ){
+    public ResponseEntity< ? > getResponse( ){
 
         if( this.JamiiError.isEmpty( ) ){
             StringBuilder response = new StringBuilder( );
