@@ -140,8 +140,11 @@ public class UserLoginCONT {
         userLoginREPO.save( userLoginTBL );
     }
 
-    public List< UserLoginTBL > searchUser( String searchString ){
-        return userLoginREPO.findByUsernameStartingWithOrEmailaddressStartingWithAndActive( searchString, searchString, UserLoginTBL.ACTIVE_ON );
+    public List< UserLoginTBL > searchUserUsername( String searchString ){
+        return userLoginREPO.findByUsernameStartingWithAndActive( searchString, UserLoginTBL.ACTIVE_ON );
+    }
+    public List< UserLoginTBL > searchUserEmailAddress( String searchString ){
+        return userLoginREPO.findByEmailaddressStartingWithAndActive( searchString, UserLoginTBL.ACTIVE_ON );
     }
 
 }

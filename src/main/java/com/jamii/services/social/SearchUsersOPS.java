@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SearchUsersOPS extends socialAbstract{
@@ -23,7 +20,7 @@ public class SearchUsersOPS extends socialAbstract{
     private SearchUserREQ searchUserREQ;
     private SearchUserRESP searchUserRESP;
     private Boolean isSuccessful = false;
-    private HashMap< UserLoginTBL, UserDataTBL > searchResults;
+    private HashMap< UserLoginTBL, UserDataTBL > searchResults = new HashMap<>();
 
     public SearchUserREQ getSearchUserREQ() {
         return searchUserREQ;
@@ -78,17 +75,24 @@ public class SearchUsersOPS extends socialAbstract{
         }
 
         //Fetch list of users based of User Login Information
-        List< UserLoginTBL > userLogins = this.userLoginCONT.searchUser( this.searchUserREQ.getSearchstring( ) );
+        List< UserLoginTBL > userLogins = new ArrayList<>( );
+        userLogins.addAll( this.userLoginCONT.searchUserUsername( this.searchUserREQ.getSearchstring( ) ) );
+        userLogins.addAll( this.userLoginCONT.searchUserEmailAddress( this.searchUserREQ.getSearchstring( ) ) );
         for( UserLoginTBL user : userLogins ){
 
             Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
             if( !searchResults.containsKey( user ) ){
-                searchResults.put( user, userdata.get( ) );
+                if( userdata.isPresent( ) ){
+                    searchResults.put( user, userdata.get( ) );
+                }else{
+                    searchResults.put( user, null );
+                }
+
             }
         }
 
         //Fetch list based of User Data Information
-        List< UserDataTBL > userDatas = this.userDataCONT.searchUser( this.searchUserREQ.getSearchstring( ) );
+        List< UserDataTBL > userDatas = new ArrayList<>( );this.userDataCONT.searchUser( this.searchUserREQ.getSearchstring( ) );
         for( UserDataTBL userdata : userDatas ){
 
             Optional<UserLoginTBL> user = this.userLoginCONT.fetch( userdata.getId(), UserLoginTBL.ACTIVE_ON );
