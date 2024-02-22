@@ -25,14 +25,14 @@ public class socialAbstract {
     public void processRequest( ) throws Exception{
 
         //Check if cookie information is available
-        if(  this.DeviceKey==null || this.UserKey==null ){
+        if(  DeviceKey==null || UserKey==null ){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
         }
 
-        if(  this.DeviceKey.isEmpty( ) || this.UserKey.isEmpty( ) ){
+        if(  DeviceKey.isEmpty( ) || UserKey.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -40,8 +40,8 @@ public class socialAbstract {
         }
 
         //Check if user cookie is valid
-        cookie.setUSER_KEY( this.UserKey );
-        cookie.setDEVICE_KEY( this.DeviceKey );
+        cookie.setUSER_KEY( UserKey );
+        cookie.setDEVICE_KEY( DeviceKey );
 
         if( !cookie.checkCookieIsValid( ) ){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
@@ -64,6 +64,8 @@ public class socialAbstract {
     public void reset( ){
         this.JamiiError = "";
         this.jamiiErrorsMessagesRESP = new JamiiErrorsMessagesRESP( );
+        this.DeviceKey = null;
+        this.UserKey = null;
         this.isSuccessful = true;
     }
 }

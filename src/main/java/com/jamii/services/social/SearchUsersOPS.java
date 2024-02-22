@@ -19,8 +19,6 @@ import java.util.*;
 public class SearchUsersOPS extends socialAbstract{
 
     private SearchUserREQ searchUserREQ;
-
-
     private HashMap< String, SocialHelper.SearchResults > searchResults = new HashMap<>( );
 
     public SearchUserREQ getSearchUserREQ() {
@@ -42,8 +40,10 @@ public class SearchUsersOPS extends socialAbstract{
     @Override
     public void processRequest( ) throws Exception {
 
-        this.DeviceKey = getSearchUserREQ( ).getDevicekey( );
-        this.UserKey = getSearchUserREQ( ).getUserkey( );
+        DeviceKey = getSearchUserREQ( ).getDevicekey( );
+        UserKey = getSearchUserREQ( ).getUserkey( );
+
+        super.processRequest( );
 
         if( !this.isSuccessful ){
             return;
