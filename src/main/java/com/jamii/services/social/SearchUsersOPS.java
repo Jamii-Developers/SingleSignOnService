@@ -1,6 +1,5 @@
 package com.jamii.services.social;
 
-import com.jamii.Utils.JamiiCookieProcessor;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -21,7 +20,7 @@ public class SearchUsersOPS extends socialAbstract{
 
     private SearchUserREQ searchUserREQ;
 
-    private Boolean isSuccessful = false;
+
     private HashMap< String, SocialHelper.SearchResults > searchResults = new HashMap<>( );
 
     public SearchUserREQ getSearchUserREQ() {
@@ -36,8 +35,6 @@ public class SearchUsersOPS extends socialAbstract{
     private UserLoginCONT userLoginCONT;
     @Autowired
     private UserDataCONT userDataCONT;
-    @Autowired
-    private JamiiCookieProcessor cookie;
 
     /**
      * @throws Exception
@@ -45,26 +42,10 @@ public class SearchUsersOPS extends socialAbstract{
     @Override
     public void processRequest( ) throws Exception {
 
-        //Check if cookie information is available
-        if(  this.searchUserREQ.getDevicekey( )==null || this.searchUserREQ.getUserkey( )==null ){
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return;
-        }
+        this.DeviceKey = getSearchUserREQ( ).getDevicekey( );
+        this.UserKey = getSearchUserREQ( ).getUserkey( );
 
-        if(  this.searchUserREQ.getDevicekey( ).isEmpty( ) || this.searchUserREQ.getUserkey( ).isEmpty( ) ){
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return;
-        }
-
-        //Check if user cookie is valid
-        cookie.setUSER_KEY( this.searchUserREQ.getUserkey( ) );
-        cookie.setDEVICE_KEY( this.searchUserREQ.getDevicekey( ) );
-
-        if( !cookie.checkCookieIsValid( ) ){
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+        if( !this.isSuccessful ){
             return;
         }
 
@@ -117,8 +98,6 @@ public class SearchUsersOPS extends socialAbstract{
                 this.searchResults.put( user.get( ).getUserKey( ), obj );
             }
         }
-
-        this.isSuccessful = true;
     }
 
     @Override
@@ -147,7 +126,6 @@ public class SearchUsersOPS extends socialAbstract{
     public void reset( ){
         super.reset( );
         this.searchResults = new HashMap<>( );
-        this.isSuccessful = false ;
     }
 
 
