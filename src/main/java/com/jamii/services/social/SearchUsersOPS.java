@@ -137,7 +137,7 @@ public class SearchUsersOPS extends socialAbstract{
             }
 
 
-            return  new ResponseEntity< >( JamiiStringUtils.addDelimiter( response, ","), HttpStatus.OK ) ;
+            return  new ResponseEntity< >( JamiiStringUtils.separateWithDelimiter( response, ","), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );

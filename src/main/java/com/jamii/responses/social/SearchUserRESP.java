@@ -5,8 +5,7 @@ import com.jamii.responses.AbstractResponses;
 public class SearchUserRESP extends AbstractResponses {
 
     public SearchUserRESP( ) {
-        this.UI_SUBJECT = "Search was successful!";
-        this.UI_MESSAGE = "These are the members found";
+
     }
 
     private String USER_KEY;

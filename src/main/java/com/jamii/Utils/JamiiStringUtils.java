@@ -12,7 +12,7 @@ public class JamiiStringUtils extends StringUtils {
         return s1.equals( s2 );
     }
 
-    public static String addDelimiter( List< String > array, String delimiter ){
+    public static String separateWithDelimiter(List< String > array, String delimiter ){
 
         if( array.size( ) == 0 ){
             return "";
