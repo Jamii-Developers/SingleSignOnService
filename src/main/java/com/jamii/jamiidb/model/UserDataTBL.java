@@ -98,8 +98,12 @@ public class UserDataTBL {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstname( ) {
+        if( firstname==null || firstname.isEmpty( ) ){
+            return "N/A";
+        }else{
+            return firstname;
+        }
     }
 
     public void setFirstname(String firstname) {
@@ -107,7 +111,11 @@ public class UserDataTBL {
     }
 
     public String getLastname() {
-        return lastname;
+        if( lastname==null || lastname.isEmpty( ) ){
+            return "N/A";
+        }else{
+            return lastname;
+        }
     }
 
     public void setLastname(String lastname) {

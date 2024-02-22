@@ -52,7 +52,15 @@ public class UserDataCONT {
         return this.userDataREPO.findByUserloginidAndCurrent( user, active ).stream( ).findFirst( );
     }
 
-    public List<UserDataTBL> searchUser(String searchString) {
-        return this.userDataREPO.searchUser( searchString, searchString, searchString, UserDataTBL.CURRENT_STATUS_ON );
+    public List<UserDataTBL> searchUserFirstname(String searchString) {
+        return this.userDataREPO.findByFirstnameStartingWithAndCurrent( searchString, UserDataTBL.CURRENT_STATUS_ON );
+    }
+
+    public List<UserDataTBL> searchUserLastname(String searchString) {
+        return this.userDataREPO.findByLastnameStartingWithAndCurrent( searchString, UserDataTBL.CURRENT_STATUS_ON );
+    }
+
+    public List<UserDataTBL> searchUserMiddlename(String searchString) {
+        return this.userDataREPO.findByMiddlenameStartingWithAndCurrent( searchString, UserDataTBL.CURRENT_STATUS_ON );
     }
 }

@@ -2,7 +2,7 @@ package com.jamii.Utils;
 
 import com.mysql.cj.util.StringUtils;
 
-import java.time.LocalDate;
+import java.util.List;
 
 public class JamiiStringUtils extends StringUtils {
 
@@ -10,5 +10,23 @@ public class JamiiStringUtils extends StringUtils {
 
     public static boolean equals( String s1, String s2){
         return s1.equals( s2 );
+    }
+
+    public static String addDelimiter( List< String > array, String delimiter ){
+
+        if( array.size( ) == 0 ){
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder( );
+        for( int x = 0; x < array.size( ); x++ ){
+
+            sb.append( array.get( x ) );
+            if( x < array.size( ) ){
+                sb.append( delimiter );
+            }
+        }
+
+        return sb.toString( );
     }
 }

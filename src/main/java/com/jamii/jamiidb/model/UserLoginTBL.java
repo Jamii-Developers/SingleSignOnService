@@ -140,4 +140,5 @@ public class UserLoginTBL {
     public void setDatecreated(LocalDateTime datecreated) {
         this.datecreated = datecreated;
     }
+
 }

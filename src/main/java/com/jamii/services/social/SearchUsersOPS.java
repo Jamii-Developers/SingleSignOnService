@@ -1,12 +1,14 @@
 package com.jamii.services.social;
 
 import com.jamii.Utils.JamiiCookieProcessor;
+import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.social.SearchUserREQ;
 import com.jamii.responses.social.SearchUserRESP;
+import com.jamii.services.social.utils.SocialHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,9 @@ import java.util.*;
 public class SearchUsersOPS extends socialAbstract{
 
     private SearchUserREQ searchUserREQ;
-    private SearchUserRESP searchUserRESP;
+
     private Boolean isSuccessful = false;
-    private HashMap< UserLoginTBL, UserDataTBL > searchResults = new HashMap<>();
+    private HashMap< String, SocialHelper.SearchResults > searchResults = new HashMap<>( );
 
     public SearchUserREQ getSearchUserREQ() {
         return searchUserREQ;
@@ -28,14 +30,6 @@ public class SearchUsersOPS extends socialAbstract{
 
     public void setSearchUserREQ(SearchUserREQ searchUserREQ) {
         this.searchUserREQ = searchUserREQ;
-    }
-
-    public SearchUserRESP getSearchUserRESP() {
-        return searchUserRESP;
-    }
-
-    public void setSearchUserRESP(SearchUserRESP searchUserRESP) {
-        this.searchUserRESP = searchUserRESP;
     }
 
     @Autowired
@@ -80,24 +74,47 @@ public class SearchUsersOPS extends socialAbstract{
         userLogins.addAll( this.userLoginCONT.searchUserEmailAddress( this.searchUserREQ.getSearchstring( ) ) );
         for( UserLoginTBL user : userLogins ){
 
+            SocialHelper.SearchResults obj = new SocialHelper.SearchResults( );
             Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
-            if( !searchResults.containsKey( user ) ){
-                if( userdata.isPresent( ) ){
-                    searchResults.put( user, userdata.get( ) );
-                }else{
-                    searchResults.put( user, null );
-                }
 
+            if( !this.searchResults.containsKey( user.getUserKey( ) ) ){
+
+                if( userdata.isPresent( ) ){
+
+                    obj.setUSERNAME( user.getUsername( ) );
+                    obj.setUSER_KEY( user.getUserKey( ) );
+                    obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
+                    obj.setLASTNAME( userdata.get( ).getLastname( ) );
+
+                    this.searchResults.put( user.getUserKey( ), obj );
+                }else{
+                    obj.setUSERNAME( user.getUsername( ) );
+                    obj.setUSER_KEY( user.getUserKey( ) );
+                    obj.setFIRSTNAME( "N/A" );
+                    obj.setLASTNAME( "N/A" );
+
+                    this.searchResults.put( user.getUserKey( ), obj );
+                }
             }
         }
 
         //Fetch list based of User Data Information
-        List< UserDataTBL > userDatas = new ArrayList<>( );this.userDataCONT.searchUser( this.searchUserREQ.getSearchstring( ) );
+        List< UserDataTBL > userDatas = new ArrayList<>( );
+        userDatas.addAll( this.userDataCONT.searchUserFirstname( this.searchUserREQ.getSearchstring( ) ) );
+        userDatas.addAll( this.userDataCONT.searchUserMiddlename( this.searchUserREQ.getSearchstring( ) ) );
+        userDatas.addAll( this.userDataCONT.searchUserLastname( this.searchUserREQ.getSearchstring( ) ) );
         for( UserDataTBL userdata : userDatas ){
 
             Optional<UserLoginTBL> user = this.userLoginCONT.fetch( userdata.getId(), UserLoginTBL.ACTIVE_ON );
-            if( !searchResults.containsKey( user ) ){
-                searchResults.put( user.get( ), userdata );
+            if( !this.searchResults.containsKey( user.get( ).getUserKey( ) ) ){
+                SocialHelper.SearchResults obj = new SocialHelper.SearchResults();
+
+                obj.setUSERNAME( user.get( ).getUsername( ) );
+                obj.setUSER_KEY( user.get( ).getUserKey( ) );
+                obj.setFIRSTNAME( userdata.getFirstname( ) );
+                obj.setLASTNAME( userdata.getLastname( ) );
+
+                this.searchResults.put( user.get( ).getUserKey( ), obj );
             }
         }
 
@@ -109,20 +126,29 @@ public class SearchUsersOPS extends socialAbstract{
 
         if( this.isSuccessful ){
 
-            if( searchResults.isEmpty( ) ){
-                super.getResponse( );
+            List< String > response = new ArrayList<>( );
+            for( Map.Entry< String , SocialHelper.SearchResults > entry : this.searchResults.entrySet( ) ){
+                SearchUserRESP resp = new SearchUserRESP( );
+                resp.setUSERNAME( entry.getValue( ).getUSERNAME( ) );
+                resp.setUSER_KEY( entry.getValue( ).getUSER_KEY( ) );
+                resp.setFIRSTNAME( entry.getValue( ).getFIRSTNAME( ) );
+                resp.setLASTNAME( entry.getValue( ).getLASTNAME( ) );
+                response.add( resp.getJSONRESP( ) );
             }
 
-            for( Map.Entry< UserLoginTBL, UserDataTBL> entry :searchResults.entrySet( ) ){
-                getSearchUserRESP( ).getUSER_KEY( ).add( entry.getKey( ).getUserKey( ) );
-                getSearchUserRESP( ).getFIRSTNAME( ).add( entry.getValue( ).getFirstname( ) );
-                getSearchUserRESP( ).getLASTNAME( ).add( entry.getValue( ).getLastname( ) );
-                getSearchUserRESP( ).getUSERNAME( ).add( entry.getKey( ).getUsername( ) );
-            }
 
-            return  new ResponseEntity< >( getSearchUserRESP( ).getJSONRESP( ), HttpStatus.OK ) ;
+            return  new ResponseEntity< >( JamiiStringUtils.addDelimiter( response, ","), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );
     }
+
+    @Override
+    public void reset( ){
+        super.reset( );
+        this.searchResults = new HashMap<>( );
+        this.isSuccessful = false ;
+    }
+
+
 }
