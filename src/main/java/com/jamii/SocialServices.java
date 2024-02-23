@@ -2,6 +2,7 @@ package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.requests.social.SearchUserREQ;
+import com.jamii.requests.social.SendFollowRequestREQ;
 import com.jamii.requests.social.SendFriendRequestREQ;
 import com.jamii.services.social.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,18 @@ public class SocialServices {
 
         jamiiDebug.info("Request completed");
         return this.sendFriendRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "sendfollowrequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > sendfollowrequest(@RequestBody SendFollowRequestREQ sendFollowRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.sendFollowRequestOPS.reset( );
+        this.sendFollowRequestOPS.setSendFollowRequestREQ( sendFollowRequestREQ );
+        this.sendFollowRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.sendFollowRequestOPS.getResponse( );
     }
 
 

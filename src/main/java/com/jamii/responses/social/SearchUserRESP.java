@@ -1,11 +1,12 @@
 package com.jamii.responses.social;
 
+import com.jamii.Utils.JamiiConstants;
 import com.jamii.responses.AbstractResponses;
 
 public class SearchUserRESP extends AbstractResponses {
 
     public SearchUserRESP( ) {
-
+        this.MSG_TYPE = JamiiConstants.RESPONSE_SEARCH_RESULTS;
     }
 
     private String USER_KEY;

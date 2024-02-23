@@ -95,7 +95,7 @@ public class UserLoginCONT {
      * @param emailAddress - Clients email address
      * @return - returns the information on a fetched user
      */
-    public Optional<UserLoginTBL> fetch( String emailAddress ,String username ){
+    public Optional<UserLoginTBL> fetch( String emailAddress , String username ){
         return userLoginREPO.findByEmailaddressAndUsername( emailAddress , username ).stream( ).findFirst( );
     }
 
@@ -117,7 +117,7 @@ public class UserLoginCONT {
         return userLoginREPO.findByUserkeyAndActive( userkey, active ).stream( ).findFirst( );
     }
 
-    public Optional<UserLoginTBL> fetch( int id, int acive ){
+    public Optional<UserLoginTBL> fetch( int id, int active ){
         return userLoginREPO.findById( id ).stream( ).findFirst( );
     }
 

@@ -86,7 +86,11 @@ public class SearchUsersOPS extends socialAbstract{
         userDatas.addAll( this.userDataCONT.searchUserLastname( this.searchUserREQ.getSearchstring( ) ) );
         for( UserDataTBL userdata : userDatas ){
 
-            Optional<UserLoginTBL> user = this.userLoginCONT.fetch( userdata.getId(), UserLoginTBL.ACTIVE_ON );
+            Optional<UserLoginTBL> user = this.userLoginCONT.fetch( userdata.getId( ), UserLoginTBL.ACTIVE_ON );
+            if( !user.isPresent( ) ){
+                continue;
+            }
+
             if( !this.searchResults.containsKey( user.get( ).getUserKey( ) ) ){
                 SocialHelper.SearchResults obj = new SocialHelper.SearchResults();
 

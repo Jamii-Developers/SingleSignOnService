@@ -1,27 +1,9 @@
 package com.jamii.requests.fileManagement;
 
-public class UserFileDirectoryUpdateREQ {
+public class UserFileDirectoryUpdateREQ extends  AbstractFileManagement{
 
-    private String deviceKey;
-    private String userKey;
     private String fileName;
     private String directoryUpdate;
-
-    public String getDeviceKey() {
-        return deviceKey;
-    }
-
-    public void setDeviceKey(String deviceKey) {
-        this.deviceKey = deviceKey;
-    }
-
-    public String getUserKey() {
-        return userKey;
-    }
-
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-    }
 
     public String getFileName() {
         return fileName;

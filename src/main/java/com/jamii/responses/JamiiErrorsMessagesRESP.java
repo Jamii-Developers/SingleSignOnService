@@ -6,6 +6,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
 
 
+
     public class error_message{
 
     }
@@ -196,5 +197,52 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0026 ) ;
     }
 
+    public void setSendFriendRequestOPS_FriendRequestIsAlreadyAvailable() {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "A friend request has already been sent this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0027 ) ;
+    }
+
+    public void setSendFriendRequestOPS_FriendRequestHasBeenSentByTheReceiver() {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "A friend request has already been sent to you by this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0028 ) ;
+    }
+
+    public void setSendFriendRequestOPS_BlockedUserVagueResponse( ) {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You cannot add this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0029 ) ;
+    }
+
+    public void setSendFriendRequestOPS_YouHaveBlockedThisUser( ) {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You have blocked this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0030 ) ;
+    }
+
+    public void setSendFollowRequestOPS_BlockedUserVagueResponse( ) {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You cannot follow this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0031 ) ;
+    }
+
+    public void setSendFollowRequestOPS_YouHaveBlockedThisUser( ) {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You have blocked this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0032 ) ;
+    }
+
+    public void setSendFollowRequestOPS_AlreadyFollowingTheUser() {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You are already following this user" );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0033 ) ;
+    }
+
+    public void setSendFriendRequestOPS_AreAlreadyFriends() {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You are already friends with this user"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0027 ) ;
+    }
 
 }

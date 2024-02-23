@@ -60,7 +60,7 @@ public class EditUserDataOPS extends activeDirectoryAbstract {
         this.userDataCONT.markAllPreviousUserDataInActive( user.get( ) );
 
         //Adds the latest userData to the database
-        this.userDataCONT.addUserData( user.get( ), getEditUserDataREQ( ) );
+        this.userDataCONT.add( user.get( ), getEditUserDataREQ( ) );
 
         profileUpdateSuccessful = true;
 

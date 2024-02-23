@@ -27,7 +27,7 @@ public class UserDataCONT {
         userDataREPO.saveAll( records );
     }
 
-    public void addUserData(UserLoginTBL user, EditUserDataREQ editUserDataREQ) {
+    public void add( UserLoginTBL user, EditUserDataREQ editUserDataREQ ) {
 
         UserDataTBL newUserData = new UserDataTBL( );
         newUserData.setFirstname( editUserDataREQ.getFirstname( ) );
