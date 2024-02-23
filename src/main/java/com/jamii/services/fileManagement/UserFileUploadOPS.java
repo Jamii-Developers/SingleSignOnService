@@ -76,17 +76,17 @@ public class UserFileUploadOPS extends fileManagementAbstract {
     public void processRequest() throws IOException {
 
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileUploadREQ( ).getUser_key( ), UserLoginTBL.ACTIVE) ;
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileUploadREQ( ).getUserKey( ), UserLoginTBL.ACTIVE) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "This user key does not exists : " + getUserFileUploadREQ( ).getUser_key( ) );
+            JamiiDebug.warning( "This user key does not exists : " + getUserFileUploadREQ( ).getUserKey( ));
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileUploadREQ( ).getDevice_key( ) );
+        Optional<DeviceInformationTBL> deviceinformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileUploadREQ( ).getDeviceKey( ) );
         if( deviceinformation.isEmpty( ) ){
-            JamiiDebug.warning( "This device key does not exists : " + getUserFileUploadREQ( ).getDevice_key( ));
+            JamiiDebug.warning( "This device key does not exists : " + getUserFileUploadREQ( ).getDeviceKey( ) );
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
