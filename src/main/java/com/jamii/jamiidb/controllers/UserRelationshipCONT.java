@@ -31,6 +31,10 @@ public class UserRelationshipCONT {
         return userRelationshipREPO.findBySenderidAndReceiveridAndTypeAndStatus( sender, reciever ,type, status).stream( ).findFirst( );
     }
 
+    public Optional< UserRelationshipTBL > fetch( UserLoginTBL sender, UserLoginTBL reciever,int type ){
+        return userRelationshipREPO.findBySenderidAndReceiveridAndType( sender, reciever ,type ).stream( ).findFirst( );
+    }
+
     public void update( UserRelationshipTBL record ){
         userRelationshipREPO.save( record );
     }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ReactivateUserOPS extends activeDirectoryAbstract {
+public class ReactivateUserOPS extends ActiveDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

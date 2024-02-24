@@ -4,9 +4,6 @@ import com.jamii.Utils.JamiiErrorUtils;
 
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
-
-
-
     public class error_message{
 
     }
@@ -242,7 +239,24 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     public void setSendFriendRequestOPS_AreAlreadyFriends() {
         setERROR_FIELD_SUBJECT( "Error!"  );
         setERROR_FIELD_MESSAGE( "You are already friends with this user"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0027 ) ;
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0034 ) ;
+    }
+    public void setAcceptFriendRequest_GenericError() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0034 ) ;
+    }
+
+    public void setSendFriendRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0035 ) ;
+    }
+
+    public void setSendFollowRequestOPS_PendingFollowRequest() {
+        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_MESSAGE( "You already have a pending follow request" );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
     }
 
 }

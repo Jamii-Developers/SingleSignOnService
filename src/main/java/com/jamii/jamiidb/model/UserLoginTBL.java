@@ -20,6 +20,7 @@ public class UserLoginTBL {
     public static final String              USER_KEY        = "USER_KEY";
     public static final String              ACTIVE          = "ACTIVE";
     public static final String              DATE_CREATED    = "DATE_CREATED";
+    public static final String              PRIVACY         = "PRIVACY";
 
     @Id
     @Column( name = ID )
@@ -40,6 +41,9 @@ public class UserLoginTBL {
 
     @Column( name = ACTIVE, nullable = false )
     private Integer active;
+
+    @Column( name = PRIVACY, nullable = false )
+    private Integer privacy;
 
     @Column( name = DATE_CREATED, nullable = false )
     private LocalDateTime datecreated;
@@ -80,6 +84,13 @@ public class UserLoginTBL {
     public static final Integer ACTIVE_OFF              = 0;
     public static final Integer ACTIVE_ON               = 1;
     public static final Integer ACTIVE_TERMINATED       = 2;
+
+    /**
+     * PRIVACY STATUSES
+     */
+
+    public static final Integer PRIVACY_OFF             = 0;
+    public static final Integer PRIVACY_ON              = 1;
 
     public Integer getId() {
         return id;
@@ -141,4 +152,11 @@ public class UserLoginTBL {
         this.datecreated = datecreated;
     }
 
+    public Integer getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(Integer privacy) {
+        this.privacy = privacy;
+    }
 }

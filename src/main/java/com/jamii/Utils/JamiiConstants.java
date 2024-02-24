@@ -26,4 +26,6 @@ public class JamiiConstants {
     public static final String      RESPONSE_SEARCH_RESULTS             =   "SUC|008";
     public static final String      RESPONSE_SEND_FRIEND_REQUEST        =   "SUC|009";
     public static final String      RESPONSE_SEND_FOLLOW_REQUEST        =   "SUC|010";
+    public static final String      RESPONSE_ACCEPT_FRIEND_REQUEST      =   "SUC|011";
+    public static final String      RESPONSE_ACCEPT_FOLLOW_REQUEST      =   "SUC|012";
 }

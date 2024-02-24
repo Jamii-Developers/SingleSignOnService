@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-public abstract class activeDirectoryAbstract {
+public abstract class ActiveDirectoryAbstract {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;

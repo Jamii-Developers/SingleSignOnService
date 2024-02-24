@@ -11,12 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class SendFollowRequestOPS extends socialAbstract{
 
     private SendFollowRequestREQ sendFollowRequestREQ;
+    private Integer followRequestType = 0 ;
 
     public void setSendFollowRequestREQ(SendFollowRequestREQ sendFollowRequestREQ) {
         this.sendFollowRequestREQ = sendFollowRequestREQ;
@@ -45,10 +47,25 @@ public class SendFollowRequestOPS extends socialAbstract{
 
         Optional<UserLoginTBL> sender = this.userLoginCONT.fetch( UserKey, UserLoginTBL.ACTIVE_ON );
         Optional<UserLoginTBL> receiver = this.userLoginCONT.fetch( getSendFollowRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        if( sender.isEmpty( ) || receiver.isEmpty( ) ){
+            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+        }
 
-        //Check if a follow request has been sent to the receiver
-        Optional<UserRelationshipTBL> checkIfTheresAPendingRequestFromTheSender = userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACCEPTED );
-        if( checkIfTheresAPendingRequestFromTheSender.isPresent( ) ){
+        Optional< UserRelationshipTBL > getSenderReceiverRelationship = userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+        Optional< UserRelationshipTBL > getReceiverSenderRelationship = userRelationshipCONT.fetch( receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+
+        //Check if there's a pending Sender request
+        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
+            this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_PendingFollowRequest( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+            return;
+        }
+
+        //Check if user is already following this user
+        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_ACCEPTED ) ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_AlreadyFollowingTheUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -56,8 +73,7 @@ public class SendFollowRequestOPS extends socialAbstract{
         }
 
         //Check if sender has been blocked
-        Optional< UserRelationshipTBL > checkIfSenderIsBlocked = userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_BLOCKED );
-        if( checkIfSenderIsBlocked.isPresent( ) ){
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals(getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED)){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -65,15 +81,19 @@ public class SendFollowRequestOPS extends socialAbstract{
         }
 
         //Check is sender blocked this receiver
-        Optional< UserRelationshipTBL > checkIfReceiverHasBeenBlocked = userRelationshipCONT.fetch( receiver.get( ), sender.get( ),  UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_BLOCKED );
-        if( checkIfReceiverHasBeenBlocked.isPresent( ) ){
+        if( getSenderReceiverRelationship.isPresent( ) &&  Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
         }
 
-        userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACCEPTED );
+        if( Objects.equals( receiver.get( ).getPrivacy( ), UserLoginTBL.PRIVACY_ON ) ){
+            userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_PENDING );
+            followRequestType = 1 ;
+        }else{
+            userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACCEPTED );
+        }
 
     }
 
@@ -81,7 +101,7 @@ public class SendFollowRequestOPS extends socialAbstract{
     public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
-            SendFollowRequestRESP sendFollowRequestRESP = new SendFollowRequestRESP( );
+            SendFollowRequestRESP sendFollowRequestRESP = new SendFollowRequestRESP( followRequestType );
             return  new ResponseEntity< >( sendFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }
 

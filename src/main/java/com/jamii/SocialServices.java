@@ -1,9 +1,7 @@
 package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.social.SearchUserREQ;
-import com.jamii.requests.social.SendFollowRequestREQ;
-import com.jamii.requests.social.SendFriendRequestREQ;
+import com.jamii.requests.social.*;
 import com.jamii.services.social.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -91,6 +89,30 @@ public class SocialServices {
 
         jamiiDebug.info("Request completed");
         return this.sendFollowRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "acceptFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > acceptFriendRequest(@RequestBody AcceptFriendRequestREQ acceptFriendRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.acceptFriendRequestOPS.reset( );
+        this.acceptFriendRequestOPS.setAcceptFriendRequestREQ( acceptFriendRequestREQ );
+        this.acceptFriendRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.acceptFriendRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "acceptFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > acceptFollowRequest(@RequestBody AcceptFollowRequestREQ acceptFollowRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.acceptFollowRequestOPS.reset( );
+        this.acceptFollowRequestOPS.setAcceptFollowRequestREQ( acceptFollowRequestREQ );
+        this.acceptFollowRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.acceptFollowRequestOPS.getResponse( );
     }
 
 

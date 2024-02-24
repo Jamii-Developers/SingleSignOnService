@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserLoginOPS extends activeDirectoryAbstract {
+public class UserLoginOPS extends ActiveDirectoryAbstract {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
