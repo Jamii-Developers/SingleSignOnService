@@ -28,4 +28,10 @@ public class JamiiConstants {
     public static final String      RESPONSE_SEND_FOLLOW_REQUEST        =   "SUC|010";
     public static final String      RESPONSE_ACCEPT_FRIEND_REQUEST      =   "SUC|011";
     public static final String      RESPONSE_ACCEPT_FOLLOW_REQUEST      =   "SUC|012";
+    public static final String      RESPONSE_REJECT_FRIEND_REQUEST      =   "SUC|013";
+    public static final String      RESPONSE_REJECT_FOLLOW_REQUEST      =   "SUC|014";
+    public static final String      RESPONSE_REMOVE_FRIEND_REQUEST      =   "SUC|015";
+    public static final String      RESPONSE_REMOVE_FOLLOW_REQUEST      =   "SUC|016";
+    public static final String      RESPONSE_BLOCK_FRIEND_REQUEST       =   "SUC|017";
+    public static final String      RESPONSE_BLOCK_FOLLOW_REQUEST       =   "SUC|018";
 }

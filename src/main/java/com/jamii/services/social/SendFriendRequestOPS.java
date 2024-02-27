@@ -19,6 +19,7 @@ import java.util.Optional;
 public class SendFriendRequestOPS extends socialAbstract {
 
     private SendFriendRequestREQ sendFriendRequestREQ;
+    private Optional< UserLoginTBL > receiver;
 
     public void setSendFriendRequestREQ(SendFriendRequestREQ sendFriendRequestREQ) {
         this.sendFriendRequestREQ = sendFriendRequestREQ;
@@ -48,7 +49,7 @@ public class SendFriendRequestOPS extends socialAbstract {
         }
 
         Optional<UserLoginTBL> sender = this.userLoginCONT.fetch( UserKey, UserLoginTBL.ACTIVE_ON );
-        Optional<UserLoginTBL> receiver = this.userLoginCONT.fetch( getSendFriendRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        receiver = this.userLoginCONT.fetch( getSendFriendRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -106,6 +107,14 @@ public class SendFriendRequestOPS extends socialAbstract {
             return;
         }
 
+        //Check if sender already has a no relationship friend request
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_NO_RELATIONSHIP ) ){
+            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_PENDING );
+            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
+            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
+            return;
+        }
+
 
         userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_PENDING );
     }
@@ -114,11 +123,17 @@ public class SendFriendRequestOPS extends socialAbstract {
     public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
-            SendFriendRequestRESP sendFriendRequestRESP = new SendFriendRequestRESP( );
+            SendFriendRequestRESP sendFriendRequestRESP = new SendFriendRequestRESP( this.receiver.get( ) );
             return  new ResponseEntity< >( sendFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );
+    }
+
+    @Override
+    public void reset( ){
+        super.reset( );
+        this.receiver = Optional.empty( );
     }
 
 }

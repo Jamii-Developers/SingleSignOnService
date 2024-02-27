@@ -4,9 +4,6 @@ import com.jamii.Utils.JamiiErrorUtils;
 
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
-    public class error_message{
-
-    }
 
     private String MSGTYPE = JamiiErrorUtils.RESPONSE_TYPE;
 
@@ -257,6 +254,54 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_SUBJECT( "Error!"  );
         setERROR_FIELD_MESSAGE( "You already have a pending follow request" );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void setRejectFriendRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void setRejectFriendRequestOPS_FriendRequestNoLongerExists( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "This friend request no longer exists"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void setRejectFollowRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0037 ) ;
+    }
+
+    public void setRejectFollowRequestOPS_FollowRequestNoLongerExists( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "This follow request no longer exists"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0038 ) ;
+    }
+
+    public void setRemoveFriendRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0039 ) ;
+    }
+
+    public void setRemoveFollowRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0040 ) ;
+    }
+
+    public void setRemoveFriendRequestOPS_FollowRequestNoLongerExists( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "This friend request no longer exists"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0041 ) ;
+    }
+
+    public void setRemoveFollowRequestOPS_FollowRequestNoLongerExists( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "This friend request no longer exists"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0042 ) ;
     }
 
 }

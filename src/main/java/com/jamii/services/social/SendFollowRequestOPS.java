@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class SendFollowRequestOPS extends socialAbstract{
 
     private SendFollowRequestREQ sendFollowRequestREQ;
     private Integer followRequestType = 0 ;
+    private Optional<UserLoginTBL> receiver;
 
     public void setSendFollowRequestREQ(SendFollowRequestREQ sendFollowRequestREQ) {
         this.sendFollowRequestREQ = sendFollowRequestREQ;
@@ -46,7 +48,7 @@ public class SendFollowRequestOPS extends socialAbstract{
         }
 
         Optional<UserLoginTBL> sender = this.userLoginCONT.fetch( UserKey, UserLoginTBL.ACTIVE_ON );
-        Optional<UserLoginTBL> receiver = this.userLoginCONT.fetch( getSendFollowRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        receiver = this.userLoginCONT.fetch( getSendFollowRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -88,10 +90,21 @@ public class SendFollowRequestOPS extends socialAbstract{
             return;
         }
 
+
+
         if( Objects.equals( receiver.get( ).getPrivacy( ), UserLoginTBL.PRIVACY_ON ) ){
             userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_PENDING );
             followRequestType = 1 ;
         }else{
+
+            //Check if sender already has a no relationship follow request
+            if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_NO_RELATIONSHIP ) ){
+                getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_PENDING );
+                getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
+                this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
+                return;
+            }
+
             userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACCEPTED );
         }
 
@@ -101,10 +114,16 @@ public class SendFollowRequestOPS extends socialAbstract{
     public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful ){
-            SendFollowRequestRESP sendFollowRequestRESP = new SendFollowRequestRESP( followRequestType );
+            SendFollowRequestRESP sendFollowRequestRESP = new SendFollowRequestRESP( followRequestType, receiver.get( ) );
             return  new ResponseEntity< >( sendFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );
+    }
+
+    @Override
+    public void reset( ){
+        super.reset( );
+        this.receiver = Optional.empty( );
     }
 }

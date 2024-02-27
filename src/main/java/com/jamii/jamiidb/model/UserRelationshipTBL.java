@@ -47,10 +47,11 @@ public class UserRelationshipTBL {
     public static final Integer TYPE_FOLLOW    = 2;
 
     // STATUS
-    public static final Integer STATUS_PENDING  = 1;
-    public static final Integer STATUS_ACCEPTED = 2;
-    public static final Integer STATUS_REJECTED = 3;
-    public static final Integer STATUS_BLOCKED  = 4;
+    public static final Integer STATUS_NO_RELATIONSHIP  = 0;
+    public static final Integer STATUS_PENDING          = 1;
+    public static final Integer STATUS_ACCEPTED         = 2;
+    public static final Integer STATUS_REJECTED         = 3;
+    public static final Integer STATUS_BLOCKED          = 4;
 
     public Integer getId() {
         return id;

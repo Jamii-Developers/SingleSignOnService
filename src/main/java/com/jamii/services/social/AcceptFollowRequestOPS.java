@@ -82,4 +82,10 @@ public class AcceptFollowRequestOPS extends socialAbstract{
 
         return super.getResponse( );
     }
+
+    @Override
+    public void reset( ){
+        super.reset( );
+        this.receiver = Optional.empty( );
+    }
 }
