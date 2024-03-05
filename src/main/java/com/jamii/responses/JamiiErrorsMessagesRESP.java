@@ -292,7 +292,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0040 ) ;
     }
 
-    public void setRemoveFriendRequestOPS_FollowRequestNoLongerExists( ) {
+    public void setRemoveFriendRequestOPS_FriendRequestNoLongerExists( ) {
         setERROR_FIELD_SUBJECT( "Oops!"  );
         setERROR_FIELD_MESSAGE( "This friend request no longer exists"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0041 ) ;

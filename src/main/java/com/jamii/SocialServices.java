@@ -115,6 +115,78 @@ public class SocialServices {
         return this.acceptFollowRequestOPS.getResponse( );
     }
 
+    @PostMapping( path = "removeFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > removeFriendRequest(@RequestBody RemoveFriendRequestREQ removeFriendRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.removeFriendRequestOPS.reset( );
+        this.removeFriendRequestOPS.setRemoveFriendRequestREQ( removeFriendRequestREQ );
+        this.removeFriendRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.removeFriendRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "removeFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > removeFollowRequest(@RequestBody RemoveFollowRequestREQ removeFollowRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.removeFollowRequestOPS.reset( );
+        this.removeFollowRequestOPS.setRemoveFollowRequestREQ( removeFollowRequestREQ );
+        this.removeFollowRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.removeFollowRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "rejectFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > rejectFriendRequest(@RequestBody RejectFriendRequestREQ rejectFriendRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.rejectFriendRequestOPS.reset( );
+        this.rejectFriendRequestOPS.setRejectFriendRequestREQ( rejectFriendRequestREQ );
+        this.rejectFriendRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.rejectFriendRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "rejectFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > rejectFollowRequest(@RequestBody RejectFollowRequestREQ rejectFollowRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.rejectFollowRequestOPS.reset( );
+        this.rejectFollowRequestOPS.setRejectFollowRequestREQ( rejectFollowRequestREQ );
+        this.rejectFollowRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.rejectFollowRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "blockFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > blockFriendRequest(@RequestBody BlockFriendRequestREQ blockFriendRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.blockFriendRequestOPS.reset( );
+        this.blockFriendRequestOPS.setBlockFriendRequestREQ( blockFriendRequestREQ );
+        this.blockFriendRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.blockFriendRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "blockFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > blockFollowRequest(@RequestBody BlockFollowRequestREQ blockFollowRequestREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.blockFollowRequestOPS.reset( );
+        this.blockFollowRequestOPS.setBlockFollowRequestREQ( blockFollowRequestREQ );
+        this.blockFollowRequestOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.blockFollowRequestOPS.getResponse( );
+    }
+
 
 
 }

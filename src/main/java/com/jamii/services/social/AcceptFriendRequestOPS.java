@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -57,15 +58,23 @@ public class AcceptFriendRequestOPS extends socialAbstract {
         Optional< UserRelationshipTBL > getSenderReceiverRelationship = userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND );
         Optional< UserRelationshipTBL > getReceiverSenderRelationship = userRelationshipCONT.fetch( receiver.get( ),sender.get( ), UserRelationshipTBL.TYPE_FRIEND );
 
-        if( getSenderReceiverRelationship.isEmpty( ) || getReceiverSenderRelationship.isEmpty( )){
+        //Check if friend request exists
+        if( getReceiverSenderRelationship.isEmpty( )  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
         }
 
-        //Check if friend request exists
+
         if( getReceiverSenderRelationship.isPresent( ) ){
+
+            if( Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_ACCEPTED ) || Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
+                this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+                this.isSuccessful = false;
+                return;
+            }
 
             //Accept friend request from sender
             getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_ACCEPTED );
@@ -80,8 +89,6 @@ public class AcceptFriendRequestOPS extends socialAbstract {
             }else{
                 this.userRelationshipCONT.add( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_ACCEPTED );
             }
-
-            this.isSuccessful = true;
 
         }else{
             this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );

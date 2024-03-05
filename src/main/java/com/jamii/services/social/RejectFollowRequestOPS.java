@@ -56,18 +56,16 @@ public class RejectFollowRequestOPS extends socialAbstract{
         }
 
         //Fetch the friend request
-        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( sender.get( ),receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+        Optional<UserRelationshipTBL> getReceiverSenderRelationship = this.userRelationshipCONT.fetch(  receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
 
         //Check if friend request exists
-        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
 
-            getSenderReceiverRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_REJECTED );
-            getSenderReceiverRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
-            this.userRelationshipCONT.update( getSenderReceiverRelationship.get( ) );
-            this.isSuccessful = true;
+            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_REJECTED );
+            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
+            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
         }else{
-            this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_FollowRequestNoLongerExists( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
         }
 
     }

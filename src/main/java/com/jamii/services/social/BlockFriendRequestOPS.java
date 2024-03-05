@@ -62,31 +62,39 @@ public class BlockFriendRequestOPS extends socialAbstract{
         Optional<UserRelationshipTBL> getReceiverSenderRelationshipFollow = this.userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW );
 
         //Block any friend relationships that the sender has with the receiver
-        if( getSenderReceiverRelationshipFriend.isPresent( ) ){
-            getSenderReceiverRelationshipFriend.get( ).setStatus( UserRelationshipTBL.STATUS_BLOCKED );
-            getSenderReceiverRelationshipFriend.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRelationshipCONT.update( getSenderReceiverRelationshipFriend.get( ) );
-        }
-
-        //Set any friend relationships the receiver has with the sender
         if( getReceiverSenderRelationshipFriend.isPresent( ) ){
             getReceiverSenderRelationshipFriend.get( ).setStatus( UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
             getReceiverSenderRelationshipFriend.get( ).setDateupdated( LocalDateTime.now( ) );
             userRelationshipCONT.update( getReceiverSenderRelationshipFriend.get( ) );
+        }else{
+            userRelationshipCONT.add( receiver.get( ), sender.get( ),UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
+        }
+
+        //Set any friend relationships the receiver has with the sender
+        if( getSenderReceiverRelationshipFriend.isPresent( ) ){
+            getSenderReceiverRelationshipFriend.get( ).setStatus( UserRelationshipTBL.STATUS_BLOCKED );
+            getSenderReceiverRelationshipFriend.get( ).setDateupdated( LocalDateTime.now( ) );
+            userRelationshipCONT.update( getSenderReceiverRelationshipFriend.get( ) );
+        }else{
+            userRelationshipCONT.add( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_BLOCKED );
         }
 
         //Block any follow relationships that the sender has with the receiver
-        if( getSenderReceiverRelationshipFollow.isPresent( ) ){
-            getSenderReceiverRelationshipFollow.get( ).setStatus( UserRelationshipTBL.STATUS_BLOCKED );
-            getSenderReceiverRelationshipFollow.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRelationshipCONT.update( getSenderReceiverRelationshipFollow.get( ) );
-        }
-
-        //Set any follow relationships the receiver has with the sender
         if( getReceiverSenderRelationshipFollow.isPresent( ) ){
             getReceiverSenderRelationshipFollow.get( ).setStatus( UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
             getReceiverSenderRelationshipFollow.get( ).setDateupdated( LocalDateTime.now( ) );
             userRelationshipCONT.update( getReceiverSenderRelationshipFollow.get( ) );
+        }else{
+            userRelationshipCONT.add(  receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
+        }
+
+        //Set any follow relationships the receiver has with the sender
+        if( getSenderReceiverRelationshipFollow.isPresent( ) ){
+            getSenderReceiverRelationshipFollow.get( ).setStatus( UserRelationshipTBL.STATUS_BLOCKED );
+            getSenderReceiverRelationshipFollow.get( ).setDateupdated( LocalDateTime.now( ) );
+            userRelationshipCONT.update( getSenderReceiverRelationshipFollow.get( ) );
+        }else{
+            userRelationshipCONT.add(   sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_BLOCKED );
         }
 
     }

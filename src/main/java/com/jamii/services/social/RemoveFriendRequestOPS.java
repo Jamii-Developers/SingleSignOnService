@@ -5,7 +5,7 @@ import com.jamii.jamiidb.controllers.UserRelationshipCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.requests.social.RemoveFriendRequestREQ;
-import com.jamii.responses.social.RejectFollowRequestRESP;
+import com.jamii.responses.social.RemoveFriendRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,19 +56,17 @@ public class RemoveFriendRequestOPS extends socialAbstract{
         }
 
         //Fetch the friend request
-        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND );
+        Optional<UserRelationshipTBL> getReceiverSenderRelationship = this.userRelationshipCONT.fetch( receiver.get( ),sender.get( ), UserRelationshipTBL.TYPE_FRIEND );
 
         //Check if friend request exists
-        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
 
-            getSenderReceiverRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
-            getSenderReceiverRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
-            this.userRelationshipCONT.update( getSenderReceiverRelationship.get( ) );
-            this.isSuccessful = true;
+            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_NO_RELATIONSHIP );
+            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
+            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
 
         }else{
-            this.jamiiErrorsMessagesRESP.setRemoveFriendRequestOPS_FollowRequestNoLongerExists( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
         }
     }
 
@@ -76,7 +74,7 @@ public class RemoveFriendRequestOPS extends socialAbstract{
     public ResponseEntity<?> getResponse( ){
 
         if( this.isSuccessful && receiver.isPresent( ) ){
-            RejectFollowRequestRESP removeFollowRequestRESP = new RejectFollowRequestRESP( receiver.get( ) );
+            RemoveFriendRequestRESP removeFollowRequestRESP = new RemoveFriendRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( removeFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
             this.jamiiErrorsMessagesRESP.setRemoveFriendRequestOPS_GenerateGenericError( );

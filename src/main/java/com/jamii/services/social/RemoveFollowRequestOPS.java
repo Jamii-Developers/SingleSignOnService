@@ -56,7 +56,7 @@ public class RemoveFollowRequestOPS extends socialAbstract{
         }
 
         //Fetch the follow request
-        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( sender.get( ),receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
 
         //Check if follow request exists
         if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
@@ -65,8 +65,7 @@ public class RemoveFollowRequestOPS extends socialAbstract{
             getSenderReceiverRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
             this.userRelationshipCONT.update( getSenderReceiverRelationship.get( ) );
         }else{
-            this.jamiiErrorsMessagesRESP.setRemoveFollowRequestOPS_FollowRequestNoLongerExists( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
         }
 
     }

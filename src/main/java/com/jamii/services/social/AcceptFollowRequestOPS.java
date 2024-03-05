@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,12 +52,20 @@ public class AcceptFollowRequestOPS extends socialAbstract{
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
+            return;
         }
 
         Optional< UserRelationshipTBL > getReceiverSenderRelationship = userRelationshipCONT.fetch( receiver.get( ),sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
 
         //Check if follow request exists
         if( getReceiverSenderRelationship.isPresent( ) ){
+
+            if( Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_ACCEPTED ) || Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
+                this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+                this.isSuccessful = false;
+                return;
+            }
 
             //Accept follow request from sender
             getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_ACCEPTED );

@@ -90,8 +90,6 @@ public class SendFollowRequestOPS extends socialAbstract{
             return;
         }
 
-
-
         if( Objects.equals( receiver.get( ).getPrivacy( ), UserLoginTBL.PRIVACY_ON ) ){
             userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_PENDING );
             followRequestType = 1 ;

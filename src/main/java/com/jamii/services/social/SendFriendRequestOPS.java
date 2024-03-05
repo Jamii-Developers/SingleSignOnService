@@ -83,8 +83,16 @@ public class SendFriendRequestOPS extends socialAbstract {
             return;
         }
 
+        //Check if sender already has a rejected friend request
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_REJECTED ) ){
+            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_PENDING );
+            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
+            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
+            return;
+        }
+
         //Check if sender has been blocked
-        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
+        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -92,18 +100,10 @@ public class SendFriendRequestOPS extends socialAbstract {
         }
 
         //Check is sender blocked this receiver
-        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED) ){
+        if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
-            return;
-        }
-
-        //Check if sender already has a rejected friend request
-        if( getReceiverSenderRelationship.isPresent( ) && Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_REJECTED ) ){
-            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_PENDING );
-            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
-            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
             return;
         }
 
@@ -114,7 +114,6 @@ public class SendFriendRequestOPS extends socialAbstract {
             this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
             return;
         }
-
 
         userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_PENDING );
     }
