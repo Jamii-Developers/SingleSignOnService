@@ -75,9 +75,12 @@ public class AcceptFollowRequestOPS extends socialAbstract{
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( this.isSuccessful && receiver.isPresent( ) ){
             AcceptFollowRequestRESP acceptFollowRequestRESP = new AcceptFollowRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( acceptFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
+        }else{
+            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 
         return super.getResponse( );

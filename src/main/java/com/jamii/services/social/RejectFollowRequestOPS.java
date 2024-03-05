@@ -51,10 +51,12 @@ public class RejectFollowRequestOPS extends socialAbstract{
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+            return;
         }
 
         //Fetch the friend request
-        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( sender.get( ),receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW );
 
         //Check if friend request exists
         if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_PENDING ) ){
@@ -73,9 +75,12 @@ public class RejectFollowRequestOPS extends socialAbstract{
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( this.isSuccessful && receiver.isPresent( ) ){
             RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( rejectFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
+        }else{
+            this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 
         return super.getResponse( );

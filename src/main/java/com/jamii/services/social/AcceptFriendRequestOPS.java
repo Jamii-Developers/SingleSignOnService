@@ -61,6 +61,7 @@ public class AcceptFriendRequestOPS extends socialAbstract {
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
+            return;
         }
 
         //Check if friend request exists
@@ -92,9 +93,12 @@ public class AcceptFriendRequestOPS extends socialAbstract {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( this.isSuccessful && receiver.isPresent()){
             AcceptFriendRequestRESP acceptFriendRequestRESP = new AcceptFriendRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( acceptFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
+        }else{
+            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 
         return super.getResponse( );

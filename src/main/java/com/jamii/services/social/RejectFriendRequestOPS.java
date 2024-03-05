@@ -51,10 +51,12 @@ public class RejectFriendRequestOPS extends socialAbstract{
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+            return;
         }
 
         //Fetch the friend request
-        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FRIEND );
+        Optional<UserRelationshipTBL> getSenderReceiverRelationship = this.userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND );
 
         //Check if friend request exists
         if( getSenderReceiverRelationship.isPresent( ) && Objects.equals( getSenderReceiverRelationship.get().getStatus(), UserRelationshipTBL.STATUS_PENDING) ){
@@ -62,7 +64,6 @@ public class RejectFriendRequestOPS extends socialAbstract{
             getSenderReceiverRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_REJECTED );
             getSenderReceiverRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
             this.userRelationshipCONT.update( getSenderReceiverRelationship.get( ) );
-            this.isSuccessful = true;
         }else{
             this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_FriendRequestNoLongerExists( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -72,9 +73,12 @@ public class RejectFriendRequestOPS extends socialAbstract{
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( this.isSuccessful && receiver.isPresent( ) ){
             RejectFriendRequestRESP rejectFriendRequestRESP = new RejectFriendRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( rejectFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
+        }else{
+            this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 
         return super.getResponse( );

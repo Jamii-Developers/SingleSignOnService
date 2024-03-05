@@ -304,4 +304,16 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0042 ) ;
     }
 
+    public void setBlockFriendRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0043 ) ;
+    }
+
+    public void setBlockFollowRequestOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0044 ) ;
+    }
+
 }
