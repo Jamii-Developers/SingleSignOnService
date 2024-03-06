@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Component
 public class UserRelationshipCONT {
@@ -27,12 +27,12 @@ public class UserRelationshipCONT {
         userRelationshipREPO.save( newUserRelationship );
     }
 
-    public Optional< UserRelationshipTBL > fetch( UserLoginTBL sender, UserLoginTBL reciever,int type, int status ){
-        return userRelationshipREPO.findBySenderidAndReceiveridAndTypeAndStatus( sender, reciever ,type, status).stream( ).findFirst( );
+    public List< UserRelationshipTBL > fetch(UserLoginTBL sender, UserLoginTBL receiver, int type, int status ){
+        return userRelationshipREPO.findBySenderidAndReceiveridAndTypeAndStatus( sender, receiver ,type, status);
     }
 
-    public Optional< UserRelationshipTBL > fetch( UserLoginTBL sender, UserLoginTBL reciever,int type ){
-        return userRelationshipREPO.findBySenderidAndReceiveridAndType( sender, reciever ,type ).stream( ).findFirst( );
+    public List< UserRelationshipTBL > fetch( UserLoginTBL sender, UserLoginTBL receiver,int type ){
+        return userRelationshipREPO.findBySenderidAndReceiveridAndType( sender, receiver ,type );
     }
 
     public void update( UserRelationshipTBL record ){

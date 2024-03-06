@@ -5,17 +5,14 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table( name = "user_relationship" , schema =  "jamiidb")
-public class UserRelationshipTBL {
+@Table( name = "user_requests" , schema =  "jamiidb")
+public class UserRequestsTBL {
 
-    public UserRelationshipTBL() {
-    }
-
-    public static final String              TABLE_NAME      = "user_relationship";
+    public static final String              TABLE_NAME      = "user_requests";
     public static final String              ID              = "ID";
     public static final String              SENDER_ID       = "SENDER_ID";
     public static final String              RECEIVER_ID     = "RECEIVER_ID";
-    public static final String              TYPE            = "TYPE";
+    public static final String              REQUEST_TYPE    = "REQUEST_TYPE";
     public static final String              STATUS          = "STATUS";
     public static final String              DATE_UPDATED    = "DATE_UPDATED";
 
@@ -24,11 +21,11 @@ public class UserRelationshipTBL {
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
-    @Column( name = TYPE , nullable = false )
-    private Integer type;
-
-    @Column( name = STATUS , nullable = false )
+    @Column( name = STATUS , nullable = false, length = 1000 )
     private Integer status;
+
+    @Column( name = REQUEST_TYPE , nullable = false, length = 1000 )
+    private Integer requesttype;
 
     @Column( name = DATE_UPDATED , nullable = false, length = 1000 )
     private LocalDateTime dateupdated;
@@ -42,13 +39,13 @@ public class UserRelationshipTBL {
     @JoinColumn( name = RECEIVER_ID, nullable = false )
     private UserLoginTBL receiverid;
 
-    // TYPE
+    // REQUEST_TYPE
     public static final Integer TYPE_FRIEND    = 1;
     public static final Integer TYPE_FOLLOW    = 2;
 
     // STATUS
-    public static final Integer STATUS_INACTIVE  = 0;
-    public static final Integer STATUS_ACTIVE    = 1;
+    public static final Integer STATUS_INACTIVE    = 0;
+    public static final Integer STATUS_ACTIVE      = 1;
 
     public Integer getId() {
         return id;
@@ -58,20 +55,20 @@ public class UserRelationshipTBL {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getRequesttype() {
+        return requesttype;
+    }
+
+    public void setRequesttype(Integer requesttype) {
+        this.requesttype = requesttype;
     }
 
     public LocalDateTime getDateupdated() {

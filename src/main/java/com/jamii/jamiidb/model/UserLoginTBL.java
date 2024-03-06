@@ -75,8 +75,17 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "senderid" )
     private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
 
+    @OneToMany( mappedBy = "senderid" )
+    private List<UserRequestsTBL> senderIDUserRequests;
+
     @OneToMany( mappedBy = "receiverid" )
-    private List<UserRelationshipTBL> receiverIDuserRelationshipTBLS;
+    private List<UserRequestsTBL> receiverIDUserRequests;
+
+    @OneToMany( mappedBy = "userid" )
+    private List<UserBlockListTBL> useridUserBlockListTBL;
+
+    @OneToMany( mappedBy = "blockedid" )
+    private List<UserBlockListTBL> blockedidUserBlockListTBL;
 
     /**
      * ACTIVE STATUSES
