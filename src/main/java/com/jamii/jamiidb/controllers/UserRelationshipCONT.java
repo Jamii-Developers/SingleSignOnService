@@ -35,6 +35,10 @@ public class UserRelationshipCONT {
         return userRelationshipREPO.findBySenderidAndReceiveridAndType( sender, receiver ,type );
     }
 
+    public List< UserRelationshipTBL > fetch( UserLoginTBL sender, UserLoginTBL receiver ){
+        return userRelationshipREPO.findBySenderidAndReceiverid( sender, receiver );
+    }
+
     public void update( UserRelationshipTBL record ){
         userRelationshipREPO.save( record );
     }

@@ -25,7 +25,7 @@ public class UserRequestsTBL {
     private Integer status;
 
     @Column( name = REQUEST_TYPE , nullable = false, length = 1000 )
-    private Integer requesttype;
+    private Integer type;
 
     @Column( name = DATE_UPDATED , nullable = false, length = 1000 )
     private LocalDateTime dateupdated;
@@ -63,12 +63,12 @@ public class UserRequestsTBL {
         this.status = status;
     }
 
-    public Integer getRequesttype() {
-        return requesttype;
+    public Integer getType() {
+        return type;
     }
 
-    public void setRequesttype(Integer requesttype) {
-        this.requesttype = requesttype;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public LocalDateTime getDateupdated() {

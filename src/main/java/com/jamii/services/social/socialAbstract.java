@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class socialAbstract {
+public abstract class socialAbstract {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
@@ -22,7 +22,9 @@ public class socialAbstract {
     @Autowired
     private JamiiCookieProcessor cookie;
 
-    public void processRequest( ) throws Exception{
+
+
+    public void validateCookie( ) throws Exception{
 
         //Check if cookie information is available
         if(  DeviceKey==null || UserKey==null ){
@@ -48,8 +50,9 @@ public class socialAbstract {
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
-
     }
+
+    public abstract void processRequest( ) throws Exception;
 
     public ResponseEntity< ? > getResponse( ){
 

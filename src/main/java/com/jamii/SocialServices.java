@@ -21,17 +21,11 @@ public class SocialServices {
     @Autowired
     private AcceptFriendRequestOPS acceptFriendRequestOPS;
     @Autowired
-    private BlockFollowRequestOPS blockFollowRequestOPS;
-    @Autowired
-    private BlockFriendRequestOPS blockFriendRequestOPS;
+    private BlockUserRequestOPS blockUserRequestOPS;
     @Autowired
     private RejectFollowRequestOPS rejectFollowRequestOPS;
     @Autowired
     private RejectFriendRequestOPS rejectFriendRequestOPS;
-    @Autowired
-    private RemoveFollowRequestOPS removeFollowRequestOPS;
-    @Autowired
-    private RemoveFriendRequestOPS removeFriendRequestOPS;
     @Autowired
     private SendFollowRequestOPS sendFollowRequestOPS;
     @Autowired
@@ -59,6 +53,7 @@ public class SocialServices {
 
         this.searchUsersOPS.reset( );
         this.searchUsersOPS.setSearchUserREQ( searchUserREQ );
+        this.searchUsersOPS.validateCookie( );
         this.searchUsersOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
@@ -71,6 +66,7 @@ public class SocialServices {
 
         this.sendFriendRequestOPS.reset( );
         this.sendFriendRequestOPS.setSendFriendRequestREQ( sendFriendRequestREQ );
+        this.sendFriendRequestOPS.validateCookie( );
         this.sendFriendRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
@@ -83,6 +79,7 @@ public class SocialServices {
 
         this.sendFollowRequestOPS.reset( );
         this.sendFollowRequestOPS.setSendFollowRequestREQ( sendFollowRequestREQ );
+        this.sendFollowRequestOPS.validateCookie( );
         this.sendFollowRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
@@ -95,6 +92,7 @@ public class SocialServices {
 
         this.acceptFriendRequestOPS.reset( );
         this.acceptFriendRequestOPS.setAcceptFriendRequestREQ( acceptFriendRequestREQ );
+        this.acceptFriendRequestOPS.validateCookie( );
         this.acceptFriendRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
@@ -107,35 +105,14 @@ public class SocialServices {
 
         this.acceptFollowRequestOPS.reset( );
         this.acceptFollowRequestOPS.setAcceptFollowRequestREQ( acceptFollowRequestREQ );
+        this.acceptFollowRequestOPS.validateCookie( );
         this.acceptFollowRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
         return this.acceptFollowRequestOPS.getResponse( );
     }
 
-    @PostMapping( path = "removeFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< ? > removeFriendRequest(@RequestBody RemoveFriendRequestREQ removeFriendRequestREQ ) throws Exception {
-        jamiiDebug.info("Received request" );
 
-        this.removeFriendRequestOPS.reset( );
-        this.removeFriendRequestOPS.setRemoveFriendRequestREQ( removeFriendRequestREQ );
-        this.removeFriendRequestOPS.processRequest( );
-
-        jamiiDebug.info("Request completed");
-        return this.removeFriendRequestOPS.getResponse( );
-    }
-
-    @PostMapping( path = "removeFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< ? > removeFollowRequest(@RequestBody RemoveFollowRequestREQ removeFollowRequestREQ ) throws Exception {
-        jamiiDebug.info("Received request" );
-
-        this.removeFollowRequestOPS.reset( );
-        this.removeFollowRequestOPS.setRemoveFollowRequestREQ( removeFollowRequestREQ );
-        this.removeFollowRequestOPS.processRequest( );
-
-        jamiiDebug.info("Request completed");
-        return this.removeFollowRequestOPS.getResponse( );
-    }
 
     @PostMapping( path = "rejectFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity< ? > rejectFriendRequest(@RequestBody RejectFriendRequestREQ rejectFriendRequestREQ ) throws Exception {
@@ -143,6 +120,7 @@ public class SocialServices {
 
         this.rejectFriendRequestOPS.reset( );
         this.rejectFriendRequestOPS.setRejectFriendRequestREQ( rejectFriendRequestREQ );
+        this.rejectFriendRequestOPS.validateCookie( );
         this.rejectFriendRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
@@ -155,34 +133,24 @@ public class SocialServices {
 
         this.rejectFollowRequestOPS.reset( );
         this.rejectFollowRequestOPS.setRejectFollowRequestREQ( rejectFollowRequestREQ );
+        this.rejectFollowRequestOPS.validateCookie( );
         this.rejectFollowRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
         return this.rejectFollowRequestOPS.getResponse( );
     }
 
-    @PostMapping( path = "blockFriendRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< ? > blockFriendRequest(@RequestBody BlockFriendRequestREQ blockFriendRequestREQ ) throws Exception {
+    @PostMapping( path = "blockUserRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > blockUserRequest(@RequestBody BlockUserRequestREQ blockUserRequestREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
-        this.blockFriendRequestOPS.reset( );
-        this.blockFriendRequestOPS.setBlockFriendRequestREQ( blockFriendRequestREQ );
-        this.blockFriendRequestOPS.processRequest( );
+        this.blockUserRequestOPS.reset( );
+        this.blockUserRequestOPS.setBlockUserRequestREQ( blockUserRequestREQ );
+        this.blockUserRequestOPS.validateCookie(  );
+        this.blockUserRequestOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.blockFriendRequestOPS.getResponse( );
-    }
-
-    @PostMapping( path = "blockFollowRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity< ? > blockFollowRequest(@RequestBody BlockFollowRequestREQ blockFollowRequestREQ ) throws Exception {
-        jamiiDebug.info("Received request" );
-
-        this.blockFollowRequestOPS.reset( );
-        this.blockFollowRequestOPS.setBlockFollowRequestREQ( blockFollowRequestREQ );
-        this.blockFollowRequestOPS.processRequest( );
-
-        jamiiDebug.info("Request completed");
-        return this.blockFollowRequestOPS.getResponse( );
+        return this.blockUserRequestOPS.getResponse( );
     }
 
 

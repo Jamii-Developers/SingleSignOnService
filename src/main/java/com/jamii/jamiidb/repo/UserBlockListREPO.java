@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserBlockListREPO extends CrudRepository<UserBlockListTBL, Integer> {
 
     List<UserBlockListTBL> findByUseridAndBlockedidAndStatus(UserLoginTBL userid, UserLoginTBL blockedid, Integer status);
+
+    List<UserBlockListTBL> findByUseridAndBlockedid(UserLoginTBL userid, UserLoginTBL blockedid);
 }

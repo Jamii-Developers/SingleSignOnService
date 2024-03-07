@@ -1,7 +1,6 @@
 package com.jamii.services.fileManagement;
 
 import com.jamii.responses.JamiiErrorsMessagesRESP;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

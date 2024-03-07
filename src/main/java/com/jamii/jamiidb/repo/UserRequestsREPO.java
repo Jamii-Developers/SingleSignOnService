@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserRequestsREPO extends CrudRepository<UserRequestsTBL, Integer> {
 
-    List< UserRequestsTBL > findBySenderidAndRecevierid(UserLoginTBL user1, UserLoginTBL user2);
-    List<UserRequestsTBL> findBySenderidAndRecevieridAndRequestype(UserLoginTBL user1, UserLoginTBL user2, Integer requestType);
+    List< UserRequestsTBL > findBySenderidAndReceiverid(UserLoginTBL user1, UserLoginTBL user2);
+    List< UserRequestsTBL > findBySenderidAndReceiveridAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer status);
+
+    List<UserRequestsTBL> findBySenderidAndReceiveridAndTypeAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer type, Integer status);
 }

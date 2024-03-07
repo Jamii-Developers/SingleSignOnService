@@ -34,16 +34,20 @@ public class SearchUsersOPS extends socialAbstract{
     @Autowired
     private UserDataCONT userDataCONT;
 
+
+    @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getSearchUserREQ( ).getDevicekey( );
+        UserKey = getSearchUserREQ( ).getUserkey( );
+
+        super.validateCookie( );
+    }
+
     /**
      * @throws Exception
      */
     @Override
     public void processRequest( ) throws Exception {
-
-        DeviceKey = getSearchUserREQ( ).getDevicekey( );
-        UserKey = getSearchUserREQ( ).getUserkey( );
-
-        super.processRequest( );
 
         if( !this.isSuccessful ){
             return;

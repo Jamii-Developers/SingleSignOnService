@@ -2,6 +2,8 @@ package com.jamii.jamiidb.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table( name = "user_block_list" , schema =  "jamiidb")
 public class UserBlockListTBL {
@@ -19,14 +21,11 @@ public class UserBlockListTBL {
     @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
-    @Column( name = BLOCK_TYPE , nullable = false )
-    private Integer blocktype;
-
     @Column( name = STATUS , nullable = false )
     private Integer status;
 
     @Column( name = DATE_UPDATED , nullable = false )
-    private Integer dateupdated;
+    private LocalDateTime dateupdated;
 
     //Foreign Keys
     @ManyToOne( cascade = CascadeType.ALL )
@@ -36,10 +35,6 @@ public class UserBlockListTBL {
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = BLOCKED_ID, nullable = false )
     private UserLoginTBL blockedid;
-
-    // BLOCK_TYPE
-    public static final Integer TYPE_FULL_BLOCK    = 0;
-    public static final Integer TYPE_PARTIAL_BLOCK = 2;
 
     // STATUS
     public static final Integer STATUS_INACTIVE    = 0;
@@ -53,14 +48,6 @@ public class UserBlockListTBL {
         this.id = id;
     }
 
-    public Integer getBlocktype() {
-        return blocktype;
-    }
-
-    public void setBlocktype(Integer blocktype) {
-        this.blocktype = blocktype;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -69,11 +56,11 @@ public class UserBlockListTBL {
         this.status = status;
     }
 
-    public Integer getDateupdated() {
+    public LocalDateTime getDateupdated() {
         return dateupdated;
     }
 
-    public void setDateupdated(Integer dateupdated) {
+    public void setDateupdated(LocalDateTime dateupdated) {
         this.dateupdated = dateupdated;
     }
 

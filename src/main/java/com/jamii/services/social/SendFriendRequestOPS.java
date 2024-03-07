@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,15 +43,15 @@ public class SendFriendRequestOPS extends socialAbstract {
     @Autowired
     private UserBlockListCONT userBlockListCONT;
 
-
+    @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getSendFriendRequestREQ( ).getDevicekey( );
+        UserKey = getSendFriendRequestREQ( ).getUserkey( );
+        super.validateCookie( );
+    }
 
     @Override
     public void processRequest( ) throws Exception {
-
-        DeviceKey = getSendFriendRequestREQ( ).getDevicekey( );
-        UserKey = getSendFriendRequestREQ( ).getUserkey( );
-
-        super.processRequest( );
 
         if( !this.isSuccessful ){
             return;
@@ -88,7 +87,7 @@ public class SendFriendRequestOPS extends socialAbstract {
         }
 
         //Check if a friend request has already been sent by the receiver
-        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) )){
+        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestHasBeenSentByTheReceiver( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;

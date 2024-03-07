@@ -1,9 +1,9 @@
 package com.jamii.services.social;
 
 import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
+import com.jamii.jamiidb.controllers.UserRequestCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.jamiidb.model.UserRelationshipTBL;
+import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.requests.social.RejectFriendRequestREQ;
 import com.jamii.responses.social.RejectFriendRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ public class RejectFriendRequestOPS extends socialAbstract{
     @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRequestCONT userRequestCONT;
 
     public void setRejectFriendRequestREQ( RejectFriendRequestREQ rejectFriendRequestREQ ) {
         this.rejectFriendRequestREQ = rejectFriendRequestREQ;
@@ -35,12 +37,14 @@ public class RejectFriendRequestOPS extends socialAbstract{
     }
 
     @Override
-    public void processRequest() throws Exception {
-
+    public void validateCookie( ) throws Exception{
         DeviceKey = getRejectFriendRequestREQ( ).getDevicekey( );
         UserKey = getRejectFriendRequestREQ( ).getUserkey( );
+        super.validateCookie( );
+    }
 
-        super.processRequest( );
+    @Override
+    public void processRequest() throws Exception {
 
         if( !this.isSuccessful ){
             return;
@@ -55,15 +59,21 @@ public class RejectFriendRequestOPS extends socialAbstract{
             return;
         }
 
-        //Fetch the friend request
-        Optional<UserRelationshipTBL> getRecieverSenderRelationship = this.userRelationshipCONT.fetch(  receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FRIEND );
+        //Fetch requests to user
+        List<UserRequestsTBL> requests = new ArrayList<>( );
+        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
+
+        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
 
         //Check if friend request exists
-        if( getRecieverSenderRelationship.isPresent( ) && Objects.equals( getRecieverSenderRelationship.get().getStatus( ), UserRelationshipTBL.STATUS_PENDING) ){
+        if( validFriendRequest.isPresent( ) ){
 
-            getRecieverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_REJECTED );
-            getRecieverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
-            this.userRelationshipCONT.update( getRecieverSenderRelationship.get( ) );
+            // Deactivate the request
+            validFriendRequest.get( ).setStatus( UserRequestsTBL.STATUS_INACTIVE );
+            validFriendRequest.get( ).setDateupdated( LocalDateTime.now( ) );
+            userRequestCONT.update( validFriendRequest.get( ) );
+
         }else{
             this.isSuccessful = false;
         }

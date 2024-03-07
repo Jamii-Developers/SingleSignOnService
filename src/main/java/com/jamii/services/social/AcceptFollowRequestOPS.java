@@ -2,8 +2,10 @@ package com.jamii.services.social;
 
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.controllers.UserRelationshipCONT;
+import com.jamii.jamiidb.controllers.UserRequestCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
+import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.requests.social.AcceptFollowRequestREQ;
 import com.jamii.responses.social.AcceptFollowRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,6 +29,8 @@ public class AcceptFollowRequestOPS extends socialAbstract{
     private UserLoginCONT userLoginCONT;
     @Autowired
     private UserRelationshipCONT userRelationshipCONT;
+    @Autowired
+    private UserRequestCONT userRequestCONT;
 
     public void setAcceptFollowRequestREQ(AcceptFollowRequestREQ acceptFollowRequestREQ) {
         this.acceptFollowRequestREQ = acceptFollowRequestREQ;
@@ -35,12 +41,14 @@ public class AcceptFollowRequestOPS extends socialAbstract{
     }
 
     @Override
-    public void processRequest() throws Exception {
-
+    public void validateCookie( ) throws Exception{
         DeviceKey = getAcceptFollowRequestREQ( ).getDevicekey( );
         UserKey = getAcceptFollowRequestREQ( ).getUserkey( );
+        super.validateCookie( );
+    }
 
-        super.processRequest( );
+    @Override
+    public void processRequest() throws Exception {
 
         if( !this.isSuccessful ){
             return;
@@ -55,28 +63,24 @@ public class AcceptFollowRequestOPS extends socialAbstract{
             return;
         }
 
-        Optional< UserRelationshipTBL > getReceiverSenderRelationship = userRelationshipCONT.fetch( receiver.get( ),sender.get( ), UserRelationshipTBL.TYPE_FOLLOW );
+        //Fetch requests to user
+        List<UserRequestsTBL> requests = new ArrayList<>( );
+        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
 
+        Optional <UserRequestsTBL> validFollowRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getReceiverid( ) == sender.get( ) ).findFirst();
         //Check if follow request exists
-        if( getReceiverSenderRelationship.isPresent( ) ){
+        if( validFollowRequest.isPresent( ) ){
 
-            if( Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_ACCEPTED ) || Objects.equals( getReceiverSenderRelationship.get( ).getStatus( ), UserRelationshipTBL.STATUS_BLOCKED ) ){
-                this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
-                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-                this.isSuccessful = false;
-                return;
-            }
+            // Deactivate the request
+            validFollowRequest.get( ).setStatus( UserRequestsTBL.STATUS_INACTIVE );
+            validFollowRequest.get( ).setDateupdated( LocalDateTime.now( ) );
+            userRequestCONT.update( validFollowRequest.get( ) );
 
             //Accept follow request from sender
-            getReceiverSenderRelationship.get( ).setStatus( UserRelationshipTBL.STATUS_ACCEPTED );
-            getReceiverSenderRelationship.get( ).setDateupdated( LocalDateTime.now( ) );
-            this.userRelationshipCONT.update( getReceiverSenderRelationship.get( ) );
-
-            this.isSuccessful = true;
+            this.userRelationshipCONT.add( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACTIVE );
 
         }else{
-            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
     }
@@ -88,7 +92,7 @@ public class AcceptFollowRequestOPS extends socialAbstract{
             AcceptFollowRequestRESP acceptFollowRequestRESP = new AcceptFollowRequestRESP( receiver.get( ) );
             return  new ResponseEntity< >( acceptFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setAcceptFollowRequest_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 

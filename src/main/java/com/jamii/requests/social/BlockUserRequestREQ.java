@@ -3,7 +3,7 @@ package com.jamii.requests.social;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BlockFollowRequestREQ extends AbstractSocialREQ{
+public class BlockUserRequestREQ extends AbstractSocialREQ{
 
     private String receiveruserkey;
 
