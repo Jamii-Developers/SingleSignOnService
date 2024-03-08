@@ -79,7 +79,7 @@ public class SendFriendRequestOPS extends socialAbstract {
         relationship.addAll( userRelationshipCONT.fetch(  receiver.get( ), sender.get( ),UserRelationshipTBL.TYPE_FRIEND ) );
 
         //Check if a friend request has been sent to the receiver
-        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getSenderid( ) == sender.get( ) ) ){
+        if( !requests.isEmpty() && requests.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestIsAlreadyAvailable( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;

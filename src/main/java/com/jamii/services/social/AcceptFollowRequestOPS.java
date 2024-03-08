@@ -78,7 +78,7 @@ public class AcceptFollowRequestOPS extends socialAbstract{
             userRequestCONT.update( validFollowRequest.get( ) );
 
             //Accept follow request from sender
-            this.userRelationshipCONT.add( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACTIVE );
+            this.userRelationshipCONT.add( receiver.get( ), sender.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACTIVE );
 
         }else{
             this.isSuccessful = false;
