@@ -17,7 +17,18 @@ public class GetFriendRequestListOPS extends socialAbstract{
     }
 
     @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getGetFriendRequestListREQ().getDevicekey();
+        UserKey = getGetFriendRequestListREQ().getUserkey( );
+        super.validateCookie( );
+    }
+
+    @Override
     public void processRequest() throws Exception {
+
+        if( !this.isSuccessful ){
+            return;
+        }
 
     }
 }

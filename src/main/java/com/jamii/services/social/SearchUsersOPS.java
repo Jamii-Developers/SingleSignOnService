@@ -39,7 +39,6 @@ public class SearchUsersOPS extends socialAbstract{
     public void validateCookie( ) throws Exception{
         DeviceKey = getSearchUserREQ( ).getDevicekey( );
         UserKey = getSearchUserREQ( ).getUserkey( );
-
         super.validateCookie( );
     }
 

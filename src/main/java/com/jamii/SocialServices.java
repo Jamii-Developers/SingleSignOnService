@@ -140,7 +140,7 @@ public class SocialServices {
         return this.rejectFollowRequestOPS.getResponse( );
     }
 
-    @PostMapping( path = "blockUserRequest", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping( path = "blockUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity< ? > blockUserRequest(@RequestBody BlockUserRequestREQ blockUserRequestREQ ) throws Exception {
         jamiiDebug.info("Received request" );
 
@@ -151,6 +151,58 @@ public class SocialServices {
 
         jamiiDebug.info("Request completed");
         return this.blockUserRequestOPS.getResponse( );
+    }
+
+    @PostMapping( path = "getFriendList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > getFriendList(@RequestBody GetFriendListREQ getFriendListREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.getFriendListOPS.reset( );
+        this.getFriendListOPS.setGetFriendListREQ( getFriendListREQ );
+        this.getFriendListOPS.validateCookie(  );
+        this.getFriendListOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.getFriendListOPS.getResponse( );
+    }
+
+    @PostMapping( path = "getFollowerList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > getFollowerList(@RequestBody GetFollowerListREQ getFollowerListREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.getFollowerListOPS.reset( );
+        this.getFollowerListOPS.setGetFollowerListREQ( getFollowerListREQ );
+        this.getFollowerListOPS.validateCookie(  );
+        this.getFollowerListOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.getFollowerListOPS.getResponse( );
+    }
+
+    @PostMapping( path = "getFriendRequestList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > getFriendRequestList(@RequestBody GetFriendRequestListREQ getFriendRequestListREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.getFriendRequestListOPS.reset( );
+        this.getFriendRequestListOPS.setGetFriendRequestListREQ( getFriendRequestListREQ );
+        this.getFriendRequestListOPS.validateCookie(  );
+        this.getFriendRequestListOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.getFollowRequestListOPS.getResponse( );
+    }
+
+    @PostMapping( path = "getFollowRequestList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > getFollowRequestList(@RequestBody GetFollowerRequestListREQ getFollowerRequestListREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.getFollowRequestListOPS.reset( );
+        this.getFollowRequestListOPS.setGetFollowerRequestListREQ( getFollowerRequestListREQ );
+        this.getFollowRequestListOPS.validateCookie(  );
+        this.getFollowRequestListOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.getFollowRequestListOPS.getResponse( );
     }
 
 

@@ -280,4 +280,16 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0041 ) ;
     }
+
+    public void setGetFriendList_NoFriends() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not friends on your list"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0042 ) ;
+    }
+
+    public void setGetFollowList_NoFollowers() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not followers on your list"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0043 ) ;
+    }
 }

@@ -3,5 +3,5 @@ package com.jamii.requests.social;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetFriendRequestListREQ {
+public class GetFriendRequestListREQ extends AbstractSocialREQ{
 }

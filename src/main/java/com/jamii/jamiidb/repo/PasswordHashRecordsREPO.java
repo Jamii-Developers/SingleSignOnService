@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface PasswordHashRecordsREPO extends CrudRepository<PasswordHashRecordsTBL, Integer> {
 
-    @Query( value = "SELECT * FROM Password_Hash_Records WHERE USER_LOGIN_ID = ? ORDER BY ID DESC LIMIT 10", nativeQuery = true)
+    @Query( value = "SELECT * FROM jamiidb.Password_Hash_Records WHERE USER_LOGIN_ID = ? ORDER BY ID DESC LIMIT 10", nativeQuery = true)
     List< PasswordHashRecordsTBL > findLast10Passwords( int userloginid );
 }

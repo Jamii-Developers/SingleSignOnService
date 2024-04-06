@@ -62,6 +62,8 @@ public class BlockUserRequestOPS extends socialAbstract{
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setBlockUserRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+            return;
         }
 
         //Fetch requests to user

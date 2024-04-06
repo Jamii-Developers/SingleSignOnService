@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ChangePasswordOPS extends ActiveDirectoryAbstract {
+public class ChangePasswordOPS extends activedirectoryabstract {
 
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;

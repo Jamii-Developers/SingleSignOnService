@@ -1,23 +1,34 @@
 package com.jamii.services.social;
 
-import com.jamii.requests.social.GetFollowerListREQ;
+import com.jamii.requests.social.GetFollowerRequestListREQ;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GetFollowRequestListOPS extends socialAbstract{
 
-    private GetFollowerListREQ getFollowerListREQ;
+    private GetFollowerRequestListREQ getFollowerRequestListREQ;
 
-    public GetFollowerListREQ getGetFollowerListREQ() {
-        return getFollowerListREQ;
+    public GetFollowerRequestListREQ getGetFollowerRequestListREQ() {
+        return getFollowerRequestListREQ;
     }
 
-    public void setGetFollowerListREQ(GetFollowerListREQ getFollowerListREQ) {
-        this.getFollowerListREQ = getFollowerListREQ;
+    public void setGetFollowerRequestListREQ(GetFollowerRequestListREQ getFollowerRequestListREQ) {
+        this.getFollowerRequestListREQ = getFollowerRequestListREQ;
+    }
+
+    @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getGetFollowerRequestListREQ().getDevicekey();
+        UserKey = getGetFollowerRequestListREQ().getUserkey();
+        super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
+
+        if( !this.isSuccessful ){
+            return;
+        }
 
     }
 }
