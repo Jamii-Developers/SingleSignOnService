@@ -1,2 +1,4 @@
-package com.jamii.requests.social;public class GetBlockUserListREQ {
+package com.jamii.requests.social;
+
+public class GetBlockUserListREQ extends AbstractSocialREQ{
 }

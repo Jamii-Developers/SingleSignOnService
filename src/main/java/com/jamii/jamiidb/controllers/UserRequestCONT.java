@@ -26,6 +26,10 @@ public class UserRequestCONT {
         return userRequestsREPO.findBySenderidAndReceiveridAndTypeAndStatus( user_1, user_2, type ,status  ) ;
     }
 
+    public List<UserRequestsTBL> fetchRequests( UserLoginTBL user, Integer type, Integer status ){
+        return userRequestsREPO.findByReceiveridAndTypeAndStatus( user, type, status );
+    }
+
     public void add(UserLoginTBL senderid, UserLoginTBL receiverid, Integer type, Integer status) {
         
         UserRequestsTBL record = new UserRequestsTBL( );

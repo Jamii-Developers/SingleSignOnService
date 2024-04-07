@@ -37,4 +37,5 @@ public class JamiiConstants {
     public static final String      RESPONSE_BLOCK_USER_REQUEST                 =   "SUC|019";
     public static final String      RESPONSE_REMOVE_FRIEND_REQUEST              =   "SUC|020";
     public static final String      RESPONSE_REMOVE_FOLLOW_REQUEST              =   "SUC|021";
+    public static final String      RESPONSE_GET_BLOCK_USER_LIST_REQUEST        =   "SUC|022";
 }

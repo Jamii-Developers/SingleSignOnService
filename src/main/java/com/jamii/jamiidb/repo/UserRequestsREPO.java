@@ -12,4 +12,6 @@ public interface UserRequestsREPO extends CrudRepository<UserRequestsTBL, Intege
     List< UserRequestsTBL > findBySenderidAndReceiveridAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer status);
 
     List<UserRequestsTBL> findBySenderidAndReceiveridAndTypeAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer type, Integer status);
+
+    List<UserRequestsTBL> findByReceiveridAndTypeAndStatus(UserLoginTBL user, Integer type, Integer status);
 }

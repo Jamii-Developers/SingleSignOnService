@@ -40,6 +40,8 @@ public class SocialServices {
     private GetFriendRequestListOPS getFriendRequestListOPS;
     @Autowired
     private SearchUsersOPS searchUsersOPS;
+    @Autowired
+    private GetBlockUserListOPS getBlockUserListOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( );
 
@@ -189,7 +191,7 @@ public class SocialServices {
         this.getFriendRequestListOPS.processRequest( );
 
         jamiiDebug.info("Request completed");
-        return this.getFollowRequestListOPS.getResponse( );
+        return this.getFriendRequestListOPS.getResponse( );
     }
 
     @PostMapping( path = "getFollowRequestList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -203,6 +205,19 @@ public class SocialServices {
 
         jamiiDebug.info("Request completed");
         return this.getFollowRequestListOPS.getResponse( );
+    }
+
+    @PostMapping( path = "getBlockUserList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity< ? > getBlockUserList(@RequestBody GetBlockUserListREQ getBlockUserListREQ ) throws Exception {
+        jamiiDebug.info("Received request" );
+
+        this.getBlockUserListOPS.reset( );
+        this.getBlockUserListOPS.setGetBlockUserListREQ( getBlockUserListREQ );
+        this.getBlockUserListOPS.validateCookie(  );
+        this.getBlockUserListOPS.processRequest( );
+
+        jamiiDebug.info("Request completed");
+        return this.getBlockUserListOPS.getResponse( );
     }
 
 

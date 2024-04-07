@@ -3,10 +3,10 @@ package com.jamii.responses.social;
 import com.jamii.Utils.JamiiConstants;
 import com.jamii.responses.AbstractResponses;
 
-public class GetFriendRequestListRESP extends AbstractResponses {
+public class GetBlockUserListRESP extends AbstractResponses {
 
-    public GetFriendRequestListRESP( ) {
-        this.MSG_TYPE = JamiiConstants.RESPONSE_GET_FRIEND_REQUEST_LIST_REQUEST;
+    public GetBlockUserListRESP( ) {
+        this.MSG_TYPE = JamiiConstants.RESPONSE_GET_BLOCK_USER_LIST_REQUEST;
     }
 
     private String USER_KEY;

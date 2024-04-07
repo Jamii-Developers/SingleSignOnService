@@ -23,6 +23,10 @@ public class UserBlockListCONT {
         return userBlockListREPO.findByUseridAndBlockedid( userid, blockedid );
     }
 
+    public List< UserBlockListTBL > fetchBlockedList( UserLoginTBL user , Integer status ){
+        return userBlockListREPO.findByUseridAndStatus( user, status );
+    }
+
     public void update( UserBlockListTBL blockListTBL ){
         userBlockListREPO.save( blockListTBL );
     }

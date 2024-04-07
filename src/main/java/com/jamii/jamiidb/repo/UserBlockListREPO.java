@@ -11,4 +11,6 @@ public interface UserBlockListREPO extends CrudRepository<UserBlockListTBL, Inte
     List<UserBlockListTBL> findByUseridAndBlockedidAndStatus(UserLoginTBL userid, UserLoginTBL blockedid, Integer status);
 
     List<UserBlockListTBL> findByUseridAndBlockedid(UserLoginTBL userid, UserLoginTBL blockedid);
+
+    List<UserBlockListTBL> findByUseridAndStatus(UserLoginTBL user, Integer status);
 }

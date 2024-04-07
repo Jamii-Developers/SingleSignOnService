@@ -292,4 +292,22 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_MESSAGE( "Seems you have do not followers on your list"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0043 ) ;
     }
+
+    public void setGetFollowRequestList_NoNewFollowRequests() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not any new follow requests"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0044 ) ;
+    }
+
+    public void setGetFriendRequestList_NoNewFriendRequests() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not any new follow requests"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0045 ) ;
+    }
+
+    public void setGetBlockUserList_NoBlockedUsers() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you have not blocked anyone"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0046 ) ;
+    }
 }
