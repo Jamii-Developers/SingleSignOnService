@@ -17,6 +17,10 @@ public class UserLoginRESP extends AbstractResponses {
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
 
+    public String getUSER_KEY() {
+        return USER_KEY;
+    }
+
     public void setUSER_KEY(String USER_KEY) {
         this.USER_KEY = USER_KEY;
     }
