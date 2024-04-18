@@ -2,14 +2,14 @@ package com.jamii;
 
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.fileManagement.UserFileDeleteREQ;
-import com.jamii.requests.fileManagement.UserFileDirectoryUpdateREQ;
-import com.jamii.requests.fileManagement.UserFileDownloadREQ;
-import com.jamii.requests.fileManagement.UserFileUploadREQ;
-import com.jamii.services.fileManagement.UserFileDeleteOPS;
-import com.jamii.services.fileManagement.UserFileDirectoryUpdateOPS;
-import com.jamii.services.fileManagement.UserFileDownloadOPS;
-import com.jamii.services.fileManagement.UserFileUploadOPS;
+import com.jamii.requests.fileManagement.FunctionREQ.UserFileDeleteREQ;
+import com.jamii.requests.fileManagement.FunctionREQ.UserFileDirectoryUpdateREQ;
+import com.jamii.requests.fileManagement.FunctionREQ.UserFileDownloadREQ;
+import com.jamii.requests.fileManagement.FunctionREQ.UserFileUploadREQ;
+import com.jamii.operations.fileManagement.FunctionOPS.UserFileDeleteOPS;
+import com.jamii.operations.fileManagement.FunctionOPS.UserFileDirectoryUpdateOPS;
+import com.jamii.operations.fileManagement.FunctionOPS.UserFileDownloadOPS;
+import com.jamii.operations.fileManagement.FunctionOPS.UserFileUploadOPS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.MediaType;

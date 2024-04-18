@@ -48,7 +48,7 @@ public class JamiiCookieProcessor {
     public Boolean checkCookieIsValid( ){
 
         // Check if user key exists in the system
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUSER_KEY( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( getUSER_KEY( ), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
             return false;
         }

@@ -3,7 +3,7 @@ package com.jamii.jamiidb.controllers;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserDataREPO;
-import com.jamii.requests.activeDirectory.EditUserDataREQ;
+import com.jamii.requests.activeDirectory.FunctionREQ.EditUserDataREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

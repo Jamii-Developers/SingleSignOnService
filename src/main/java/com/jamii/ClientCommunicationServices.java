@@ -1,8 +1,8 @@
 package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.clientCommunication.ContactUsREQ;
-import com.jamii.services.clientCommunication.ContactUsOPS;
+import com.jamii.requests.clientCommunication.FunctionREQ.ContactUsREQ;
+import com.jamii.operations.clientCommunication.FunctionOPS.ContactUsOPS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

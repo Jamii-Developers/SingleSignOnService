@@ -29,4 +29,17 @@ public class JamiiStringUtils extends StringUtils {
 
         return sb.toString( );
     }
+
+    public static String getSafeString( Object obj ){
+        String str = "";
+        if( obj == null ){
+            return str;
+        }
+
+        if( obj instanceof String ){
+            str = (String)obj;
+        }
+
+        return str;
+    }
 }

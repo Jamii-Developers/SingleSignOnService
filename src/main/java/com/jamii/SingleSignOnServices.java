@@ -1,8 +1,10 @@
 package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.activeDirectory.*;
-import com.jamii.services.singleSignOn.*;
+import com.jamii.operations.activedirectory.FetchOPS.FetchUserDataOPS;
+import com.jamii.operations.activedirectory.FunctionOPS.*;
+import com.jamii.requests.activeDirectory.FetchREQ.FetchUserDataREQ;
+import com.jamii.requests.activeDirectory.FunctionREQ.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +32,8 @@ public class SingleSignOnServices {
 	private ReactivateUserOPS reactivateUserOPS;
 	@Autowired
 	private DeactivateUserOPS deactivateUserOPS;
+	@Autowired
+	private FetchUserDataOPS fetchUserDataOPS;
 
 	/**
 	 * Configured to run on port 8080
@@ -109,6 +113,17 @@ public class SingleSignOnServices {
 		this.deactivateUserOPS.processRequest( );
 		jamiiDebug.info("Request completed");
 		return this.deactivateUserOPS.getResponse( );
+	}
+
+	@PostMapping( path = "fetchuserdata", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< ? > fetchuserdata( @RequestBody FetchUserDataREQ fetchUserDataREQ ) throws Exception {
+		jamiiDebug.info("Received request" );
+		this.fetchUserDataOPS.reset( );
+		this.fetchUserDataOPS.setFetchUserDataREQ( fetchUserDataREQ );
+		this.fetchUserDataOPS.validateCookie();
+		this.fetchUserDataOPS.processRequest( );
+		jamiiDebug.info("Request completed");
+		return this.fetchUserDataOPS.getResponse( );
 	}
 
 

@@ -4,8 +4,8 @@ import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserLoginREPO;
-import com.jamii.requests.activeDirectory.CreateNewUserREQ;
-import com.jamii.requests.activeDirectory.UserLoginREQ;
+import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
+import com.jamii.requests.activeDirectory.FunctionREQ.UserLoginREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -113,7 +113,7 @@ public class UserLoginCONT {
         return userLoginREPO.findByEmailaddressAndUsernameAndUserkeyAndActive( emailAddress, username, userkey, active ).stream( ).findFirst( );
     }
 
-    public Optional<UserLoginTBL> fetch( String userkey ,int active ){
+    public Optional<UserLoginTBL> fetchByUserKey( String userkey ,int active ){
         return userLoginREPO.findByUserkeyAndActive( userkey, active ).stream( ).findFirst( );
     }
 

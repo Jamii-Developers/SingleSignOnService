@@ -1,8 +1,10 @@
 package com.jamii;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.social.*;
-import com.jamii.services.social.*;
+import com.jamii.requests.social.FetchOPS.*;
+import com.jamii.requests.social.FunctionREQ.*;
+import com.jamii.operations.social.DataFetchOPS.*;
+import com.jamii.operations.social.FunctionOPS.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.MediaType;
