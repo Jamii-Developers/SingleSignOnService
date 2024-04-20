@@ -2,10 +2,12 @@ package com.jamii.requests.activeDirectory.FunctionREQ;
 
 public class CreateNewUserREQ {
 
+    public CreateNewUserREQ() {
+    }
+
     private String emailaddress;
     private String username;
     private String password ;
-    private String deviceName;
 
     public String getEmailaddress() {
         return emailaddress;
@@ -31,11 +33,4 @@ public class CreateNewUserREQ {
         this.password = password;
     }
 
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
 }

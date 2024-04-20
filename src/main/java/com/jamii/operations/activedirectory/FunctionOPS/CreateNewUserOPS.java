@@ -1,15 +1,14 @@
 package com.jamii.operations.activedirectory.FunctionOPS;
 
-import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
-import com.jamii.jamiidb.model.DeviceInformationTBL;
-import com.jamii.responses.activeDirectory.FunctionRESP.CreateNewUserRESP;
-import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
+import com.jamii.responses.activeDirectory.FunctionRESP.CreateNewUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,21 +55,6 @@ public class CreateNewUserOPS extends ActiveDirectoryAbstract {
             passwordHashRecordsCONT.addUserNewPasswordRecord( this.userData ) ;
         }
 
-        //Create Device Key
-        boolean checkIfKeyExists = false;
-        JamiiRandomKeyToolGen keyToolGen = new JamiiRandomKeyToolGen( );
-        keyToolGen.setLen( 50 );
-        keyToolGen.setInclude_letters( true );
-        keyToolGen.setInclude_numbers( true );
-        keyToolGen.setInclude_special_chars( true );
-        String key = "";
-        while( !checkIfKeyExists ){
-            key = keyToolGen.generate( );
-            checkIfKeyExists = this.deviceInformationCONT.checkIfKeyExisitsInTheDatabase( key );
-        }
-
-        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getCreateNewUserREQ( ).getDeviceName( ) );
-
         this.isSuccessful = true;
     }
 
@@ -90,7 +74,6 @@ public class CreateNewUserOPS extends ActiveDirectoryAbstract {
             createNewUserRESP.setUSERNAME( this.userData.getUsername( ) );
             createNewUserRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
             createNewUserRESP.setDATE_CREATED( this.userData.getDatecreated( ).toString( ) );
-            createNewUserRESP.setDEVICE_KEY( this.userDeviceInformation.getDevicekey( ) );
             response.append(  createNewUserRESP.getJSONRESP( ) );
 
             return new ResponseEntity< >( response.toString( ),HttpStatus.OK );

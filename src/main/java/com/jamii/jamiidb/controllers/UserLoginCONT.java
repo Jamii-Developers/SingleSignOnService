@@ -79,6 +79,7 @@ public class UserLoginCONT {
         newUser.setUsername( createNewUserREQ.getUsername( ) );
         newUser.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword( createNewUserREQ.getPassword( ) ) );
         newUser.setActive( UserLoginTBL.ACTIVE_ON ) ;
+        newUser.setPrivacy(0);
 
         LocalDateTime dateCreated = LocalDateTime.now( );
         newUser.setDatecreated( dateCreated );
