@@ -21,6 +21,7 @@ public class FetchUserDataRESP extends AbstractResponses {
     private String province;
     private String country;
     private String zipcode;
+    private Integer privacy;
 
     public String getFirstname() {
         return firstname;
@@ -100,5 +101,13 @@ public class FetchUserDataRESP extends AbstractResponses {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public Integer getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(Integer privacy) {
+        this.privacy = privacy;
     }
 }

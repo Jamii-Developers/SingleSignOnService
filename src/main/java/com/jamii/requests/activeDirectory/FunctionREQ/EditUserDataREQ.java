@@ -2,8 +2,9 @@ package com.jamii.requests.activeDirectory.FunctionREQ;
 
 public class EditUserDataREQ {
 
+    private Integer privacy;
     private String userkey;
-    private String password;
+    private String devicekey;
     private String firstname;
     private String lastname;
     private String middlename;
@@ -15,20 +16,13 @@ public class EditUserDataREQ {
     private String country;
     private String zipcode;
 
+
     public String getUserkey() {
         return userkey;
     }
 
     public void setUserkey(String userkey) {
         this.userkey = userkey;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstname() {
@@ -109,5 +103,21 @@ public class EditUserDataREQ {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public String getDevicekey() {
+        return devicekey;
+    }
+
+    public void setDevicekey(String devicekey) {
+        this.devicekey = devicekey;
+    }
+
+    public Integer getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(Integer privacy) {
+        this.privacy = privacy;
     }
 }

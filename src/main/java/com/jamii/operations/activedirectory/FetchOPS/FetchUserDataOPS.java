@@ -78,8 +78,9 @@ public class FetchUserDataOPS extends AbstractFetchOPS {
                 fetchUserDataRESP.setProvince( JamiiStringUtils.getSafeString( userdata.get().getProvince( ) ) );
                 fetchUserDataRESP.setCountry( JamiiStringUtils.getSafeString( userdata.get().getCountry( ) ) );
                 fetchUserDataRESP.setZipcode( JamiiStringUtils.getSafeString( userdata.get().getZipcode( ) ) );
+                fetchUserDataRESP.setPrivacy( sender.get( ).getPrivacy( ) );
             }else {
-                this.jamiiErrorsMessagesRESP.setFetchUserData_GenericError( );
+                this.jamiiErrorsMessagesRESP.setFetchUserData_NoData( );
                 this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
                 this.isSuccessful = false;
             }

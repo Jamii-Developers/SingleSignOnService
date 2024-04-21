@@ -7,6 +7,7 @@ public class UserLoginREQ {
     private String loginCredential;
     private String loginPassword;
     private String loginDeviceName;
+    private String location;
     private final Integer activeStatus = UserLoginTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
@@ -35,5 +36,13 @@ public class UserLoginREQ {
 
     public Integer getActiveStatus() {
         return activeStatus;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

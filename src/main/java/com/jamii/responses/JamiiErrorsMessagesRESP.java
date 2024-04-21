@@ -320,6 +320,6 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     public void setFetchUserData_NoData() {
         setERROR_FIELD_SUBJECT( "Oops!"  );
         setERROR_FIELD_MESSAGE( "We don't have any information stored in our database about your profile"  );
-        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0047 ) ;
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0048 ) ;
     }
 }

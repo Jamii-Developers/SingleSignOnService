@@ -89,6 +89,7 @@ public class SingleSignOnServices {
 
 		this.editUserDataOPS.reset( );
 		this.editUserDataOPS.setEditUserDataREQ( editUserDataREQ );
+		this.editUserDataOPS.validateCookie( );
 		this.editUserDataOPS.processRequest( ) ;
 
 		jamiiDebug.info("Request completed");
@@ -120,7 +121,7 @@ public class SingleSignOnServices {
 		jamiiDebug.info("Received request" );
 		this.fetchUserDataOPS.reset( );
 		this.fetchUserDataOPS.setFetchUserDataREQ( fetchUserDataREQ );
-		this.fetchUserDataOPS.validateCookie();
+		this.fetchUserDataOPS.validateCookie( );
 		this.fetchUserDataOPS.processRequest( );
 		jamiiDebug.info("Request completed");
 		return this.fetchUserDataOPS.getResponse( );

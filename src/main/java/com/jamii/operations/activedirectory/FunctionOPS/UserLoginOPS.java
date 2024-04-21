@@ -57,7 +57,7 @@ public class UserLoginOPS extends ActiveDirectoryAbstract {
             checkIfKeyExists = this.deviceInformationCONT.checkIfKeyExisitsInTheDatabase( key );
         }
 
-        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getUserLoginREQ( ).getLoginDeviceName( ) );
+        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getUserLoginREQ( ).getLoginDeviceName( ), getUserLoginREQ().getLocation() );
 
         this.loginWasSuccessful = true;
     }

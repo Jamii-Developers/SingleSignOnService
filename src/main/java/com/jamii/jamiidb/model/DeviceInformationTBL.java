@@ -17,6 +17,7 @@ public class DeviceInformationTBL {
     public static final String      USER_LOGIN_ID   = "USER_LOGIN_ID";
     public static final String      DEVICE_NAME     = "DEVICE_NAME";
     public static final String      DEVICE_KEY      = "DEVICE_KEY";
+    public static final String      LOCATION        = "LOCATION";
     public static final String      LAST_CONNECTED  = "LAST_CONNECTED";
     public static final String      ACTIVE          = "ACTIVE";
 
@@ -28,8 +29,11 @@ public class DeviceInformationTBL {
     @Column( name = DEVICE_NAME ,length = 200)
     private String devicename;
 
-    @Column( name = DEVICE_KEY , length = 50)
+    @Column( name = DEVICE_KEY , length = 200)
     private String devicekey;
+
+    @Column( name = LOCATION , length = 50)
+    private String location;
 
     @Column( name = LAST_CONNECTED )
     private LocalDateTime lastconnected;
@@ -76,6 +80,14 @@ public class DeviceInformationTBL {
 
     public void setLastconnected(LocalDateTime lastconnected) {
         this.lastconnected = lastconnected;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Integer getActive() {

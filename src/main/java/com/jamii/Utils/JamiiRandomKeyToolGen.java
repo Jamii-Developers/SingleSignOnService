@@ -86,7 +86,7 @@ public class JamiiRandomKeyToolGen {
 
             }
 
-            return key.toString( );
+            return JamiiUserPasswordEncryptTool.encryptPassword( key.toString( ) );
         }catch( Exception e ){
             e.printStackTrace( );
         }

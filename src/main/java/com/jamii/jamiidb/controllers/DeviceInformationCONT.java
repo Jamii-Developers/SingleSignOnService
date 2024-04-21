@@ -32,12 +32,13 @@ public class DeviceInformationCONT {
         this.deviceInformationREPO.save( deviceInformationTBL );
     }
 
-    public DeviceInformationTBL add( UserLoginTBL userLoginTBL, String key, String deviceName){
+    public DeviceInformationTBL add( UserLoginTBL userLoginTBL, String key, String deviceName, String location){
         DeviceInformationTBL deviceInformationTBL = new DeviceInformationTBL( );
         deviceInformationTBL.setDevicekey( key );
         deviceInformationTBL.setLastconnected( LocalDateTime.now( ) );
         deviceInformationTBL.setUserloginid( userLoginTBL );
         deviceInformationTBL.setDevicename( deviceName );
+        deviceInformationTBL.setLocation( location );
         deviceInformationTBL.setActive( DeviceInformationTBL.ACTIVE_STATUS_ENABLED );
 
         return this.deviceInformationREPO.save( deviceInformationTBL);

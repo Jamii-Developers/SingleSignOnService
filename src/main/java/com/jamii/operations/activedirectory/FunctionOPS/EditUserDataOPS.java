@@ -1,12 +1,12 @@
 package com.jamii.operations.activedirectory.FunctionOPS;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.activeDirectory.FunctionREQ.EditUserDataREQ;
-import com.jamii.responses.activeDirectory.FunctionRESP.EditUserDataRESP;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.requests.activeDirectory.FunctionREQ.EditUserDataREQ;
+import com.jamii.responses.activeDirectory.FunctionRESP.EditUserDataRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPS extends ActiveDirectoryAbstract {
+public class EditUserDataOPS extends AbstractFetchOPS {
 
     public EditUserDataOPS( ) { }
 
@@ -37,31 +37,30 @@ public class EditUserDataOPS extends ActiveDirectoryAbstract {
     }
 
     @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getEditUserDataREQ().getDevicekey();
+        UserKey = getEditUserDataREQ().getUserkey();
+        super.validateCookie( );
+    }
+
+    @Override
     public void processRequest( ) throws Exception {
 
+        if( !this.isSuccessful ){
+            return;
+        }
+
         Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( this.getEditUserDataREQ( ).getUserkey( ), UserLoginTBL.ACTIVE_ON );
-
-        //Check if userKey exists
-        if( user.isEmpty( ) ){
-            JamiiDebug.warning( "Cannot find userkey : " + this.getEditUserDataREQ( ).getUserkey( ) );
-            this.jamiiErrorsMessagesRESP.setEditUserData_UserKeyDoesNotExist( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return;
-        }
-
-        //Check if password matches
-        if( !this.userLoginCONT.isPasswordValid( this.getEditUserDataREQ( ).getPassword( ) ,user.get( ) ) ){
-            JamiiDebug.warning( "The password does not match");
-            this.jamiiErrorsMessagesRESP.setEditUserData_PasswordMatching( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return;
-        }
 
         //Find userData currently active and deactivate them all
         this.userDataCONT.markAllPreviousUserDataInActive( user.get( ) );
 
         //Adds the latest userData to the database
         this.userDataCONT.add( user.get( ), getEditUserDataREQ( ) );
+
+        //Updates Privacy Settings
+        user.get( ).setPrivacy( getEditUserDataREQ( ).getPrivacy( ) );
+        this.userLoginCONT.add( user.get( ) );
 
         profileUpdateSuccessful = true;
 
