@@ -27,7 +27,6 @@ public class EditUserDataOPS extends AbstractFetchOPS {
     private EditUserDataREQ editUserDataREQ;
     private Boolean profileUpdateSuccessful = false;
 
-
     public EditUserDataREQ getEditUserDataREQ() {
         return editUserDataREQ;
     }

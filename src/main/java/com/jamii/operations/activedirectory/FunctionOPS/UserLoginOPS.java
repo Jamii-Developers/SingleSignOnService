@@ -104,9 +104,7 @@ public class UserLoginOPS extends ActiveDirectoryAbstract {
 
             return new ResponseEntity<>( response.toString( ),HttpStatus.OK );
         }
-
         return super.getResponse( );
-
     }
 
     @Override

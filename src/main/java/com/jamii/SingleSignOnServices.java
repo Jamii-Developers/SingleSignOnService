@@ -34,6 +34,8 @@ public class SingleSignOnServices {
 	private DeactivateUserOPS deactivateUserOPS;
 	@Autowired
 	private FetchUserDataOPS fetchUserDataOPS;
+	@Autowired
+	private UserLogoffOPS userLogoffOPS;
 
 	/**
 	 * Configured to run on port 8080
@@ -125,6 +127,17 @@ public class SingleSignOnServices {
 		this.fetchUserDataOPS.processRequest( );
 		jamiiDebug.info("Request completed");
 		return this.fetchUserDataOPS.getResponse( );
+	}
+
+	@PostMapping( path = "userlogoff", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity< ? > userlogoff( @RequestBody UserLogoffREQ userLogoffOPS ) throws Exception {
+		jamiiDebug.info("Received request" );
+		this.userLogoffOPS.reset( );
+		this.userLogoffOPS.setUserLogoffREQ( userLogoffOPS );
+		this.userLogoffOPS.validateCookie( );
+		this.userLogoffOPS.processRequest( );
+		jamiiDebug.info("Request completed");
+		return this.userLogoffOPS.getResponse( );
 	}
 
 
