@@ -50,6 +50,7 @@ public class FetchUserDataOPS extends AbstractFetchOPS {
     public void validateCookie( ) throws Exception{
         DeviceKey = getFetchUserDataREQ().getDevicekey();
         UserKey = getFetchUserDataREQ().getUserkey();
+        SessionKey = getFetchUserDataREQ().getSessionkey();
         super.validateCookie( );
     }
 

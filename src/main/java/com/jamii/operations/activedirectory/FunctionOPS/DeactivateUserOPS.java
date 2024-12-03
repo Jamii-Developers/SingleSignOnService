@@ -1,11 +1,11 @@
 package com.jamii.operations.activedirectory.FunctionOPS;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.activeDirectory.FunctionREQ.DeactivateUserREQ;
-import com.jamii.responses.activeDirectory.FunctionRESP.DeactivateUserRESP;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.requests.activeDirectory.FunctionREQ.DeactivateUserREQ;
+import com.jamii.responses.activeDirectory.FunctionRESP.DeactivateUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeactivateUserOPS extends ActiveDirectoryAbstract {
+public class DeactivateUserOPS extends AbstractFetchOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -32,6 +32,15 @@ public class DeactivateUserOPS extends ActiveDirectoryAbstract {
     }
 
     public DeactivateUserOPS( ) { }
+
+    @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getDeactivateUserREQ().getDevicekey();
+        UserKey = getDeactivateUserREQ().getUserkey();
+        SessionKey = getDeactivateUserREQ().getSessionkey();
+        super.validateCookie( );
+    }
+
 
     @Override
     public void processRequest( ) throws Exception {

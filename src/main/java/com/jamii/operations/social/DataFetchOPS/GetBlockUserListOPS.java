@@ -43,6 +43,7 @@ public class GetBlockUserListOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getGetBlockUserListREQ().getDevicekey();
         UserKey = getGetBlockUserListREQ().getUserkey();
+        SessionKey = getGetBlockUserListREQ().getSessionkey();
         super.validateCookie( );
     }
 

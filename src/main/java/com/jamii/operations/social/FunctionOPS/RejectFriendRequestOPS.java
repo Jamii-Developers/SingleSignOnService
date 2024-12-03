@@ -41,6 +41,7 @@ public class RejectFriendRequestOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getRejectFriendRequestREQ( ).getDevicekey( );
         UserKey = getRejectFriendRequestREQ( ).getUserkey( );
+        SessionKey = getRejectFriendRequestREQ().getSessionkey();
         super.validateCookie( );
     }
 

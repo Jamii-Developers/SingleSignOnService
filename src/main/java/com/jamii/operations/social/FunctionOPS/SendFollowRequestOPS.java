@@ -49,6 +49,7 @@ public class SendFollowRequestOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getSendFollowRequestREQ( ).getDevicekey( );
         UserKey = getSendFollowRequestREQ( ).getUserkey( );
+        SessionKey = getSendFollowRequestREQ().getSessionkey();
         super.validateCookie( );
     }
 

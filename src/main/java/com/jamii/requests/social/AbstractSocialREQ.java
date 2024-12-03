@@ -4,6 +4,7 @@ public class AbstractSocialREQ {
 
     protected String userkey;
     protected String devicekey;
+    protected String sessionkey;
 
     public String getUserkey() {
         return userkey;
@@ -21,4 +22,11 @@ public class AbstractSocialREQ {
         this.devicekey = devicekey;
     }
 
+    public String getSessionkey() {
+        return sessionkey;
+    }
+
+    public void setSessionkey(String sessionkey) {
+        this.sessionkey = sessionkey;
+    }
 }

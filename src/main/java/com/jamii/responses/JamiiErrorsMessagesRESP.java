@@ -187,7 +187,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
     public void setSearchUserOPS_DeviceNotFound() {
         setERROR_FIELD_SUBJECT( "Device Error!"  );
-        setERROR_FIELD_MESSAGE( "This device is not registered. Please try and login again"  );
+        setERROR_FIELD_MESSAGE( "This device is not registered or your session has expired. Please try and login again"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0026 ) ;
     }
 

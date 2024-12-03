@@ -1,22 +1,14 @@
 package com.jamii.requests.activeDirectory.FunctionREQ;
 
 import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.requests.activeDirectory.AbstractFetchREQ;
 
-public class ReactivateUserREQ {
+public class ReactivateUserREQ extends AbstractFetchREQ {
 
-    private String userkey;
     private String username;
     private String emailaddress;
     private String password;
     private final Integer active = UserLoginTBL.ACTIVE_OFF;
-
-    public String getUserkey() {
-        return userkey;
-    }
-
-    public void setUserkey(String userkey) {
-        this.userkey = userkey;
-    }
 
     public String getUsername() {
         return username;

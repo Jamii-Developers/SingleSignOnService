@@ -15,6 +15,10 @@ public class UserCookiesTBL {
     public static final String      USER_LOGIN_ID           = "USER_LOGIN_ID";
     public static final String      DEVICE_INFORMATION_ID   = "DEVICE_INFORMATION_ID";
     public static final String      DATE_CREATED            = "DATE_CREATED";
+    public static final String      SESSION_KEY             = "SESSION_KEY";
+    public static final String      EXPIRE_DATE             = "EXPIRE_DATE";
+    public static final String      ACTIVE                  = "ACTIVE";
+
 
     @Id
     @Column( name = ID)
@@ -22,8 +26,16 @@ public class UserCookiesTBL {
     private Integer id;
 
     @Column( name = DATE_CREATED)
-    @GeneratedValue( strategy= GenerationType.IDENTITY )
     private LocalDateTime datecreated;
+
+    @Column( name = SESSION_KEY)
+    private String sessionkey;
+
+    @Column( name = EXPIRE_DATE)
+    private LocalDateTime expiredate;
+
+    @Column( name = ACTIVE)
+    private boolean active;
 
     //Foreign Keys
     @ManyToOne( cascade = CascadeType.ALL )
@@ -33,6 +45,10 @@ public class UserCookiesTBL {
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = DEVICE_INFORMATION_ID, nullable = false )
     private DeviceInformationTBL deviceinformationid;
+
+    //ACTIVE STATUS
+    public static boolean ACTIVE_STATUS_ENABLED = true;
+    public static boolean ACTIVE_STATUS_DISABLED = false;
 
     public Integer getId() {
         return id;
@@ -64,5 +80,29 @@ public class UserCookiesTBL {
 
     public void setDeviceinformationid(DeviceInformationTBL deviceinformationid) {
         this.deviceinformationid = deviceinformationid;
+    }
+
+    public String getSessionkey() {
+        return sessionkey;
+    }
+
+    public void setSessionkey(String sessionkey) {
+        this.sessionkey = sessionkey;
+    }
+
+    public LocalDateTime getExpiredate() {
+        return expiredate;
+    }
+
+    public void setExpiredate(LocalDateTime expiredate) {
+        this.expiredate = expiredate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

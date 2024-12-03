@@ -40,6 +40,7 @@ public class SearchUsersOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getSearchUserREQ( ).getDevicekey( );
         UserKey = getSearchUserREQ( ).getUserkey( );
+        SessionKey = getSearchUserREQ().getSessionkey();
         super.validateCookie( );
     }
 

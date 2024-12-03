@@ -40,6 +40,7 @@ public class EditUserDataOPS extends AbstractFetchOPS {
     public void validateCookie( ) throws Exception{
         DeviceKey = getEditUserDataREQ().getDevicekey();
         UserKey = getEditUserDataREQ().getUserkey();
+        SessionKey = getEditUserDataREQ().getSessionkey();
         super.validateCookie( );
     }
 

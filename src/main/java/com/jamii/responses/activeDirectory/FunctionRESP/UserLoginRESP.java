@@ -14,8 +14,10 @@ public class UserLoginRESP extends AbstractResponses {
     private String USER_KEY;
     private String USERNAME;
     private String DEVICE_KEY;
+    private String SESSION_KEY;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
+    private String EXPIRY_DATE;
 
     public String getUSER_KEY() {
         return USER_KEY;
@@ -55,5 +57,21 @@ public class UserLoginRESP extends AbstractResponses {
 
     public void setDEVICE_KEY(String DEVICE_KEY) {
         this.DEVICE_KEY = DEVICE_KEY;
+    }
+
+    public String getSESSION_KEY() {
+        return SESSION_KEY;
+    }
+
+    public void setSESSION_KEY(String SESSION_KEY) {
+        this.SESSION_KEY = SESSION_KEY;
+    }
+
+    public String getEXPIRY_DATE() {
+        return EXPIRY_DATE;
+    }
+
+    public void setEXPIRY_DATE(String EXPIRY_DATE) {
+        this.EXPIRY_DATE = EXPIRY_DATE;
     }
 }

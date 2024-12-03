@@ -21,6 +21,10 @@ public class DeviceInformationCONT {
         return deviceInformationREPO.findByDevicekey( deviceKey ).isEmpty( );
     }
 
+    public boolean checkIfKeyExisitsInTheDatabase( UserLoginTBL user, String deviceKey ){
+        return deviceInformationREPO.findByUserloginidAndDevicekey( user,deviceKey ).isEmpty( );
+    }
+
     public Optional< DeviceInformationTBL > fetch( UserLoginTBL user, String deviceKey){
         return deviceInformationREPO.findByUserloginidAndDevicekey( user, deviceKey ).stream().findFirst();
     }

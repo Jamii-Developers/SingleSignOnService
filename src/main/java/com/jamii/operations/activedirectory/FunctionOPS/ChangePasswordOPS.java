@@ -3,12 +3,12 @@ package com.jamii.operations.activedirectory.FunctionOPS;
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
-import com.jamii.requests.activeDirectory.FunctionREQ.ChangePasswordREQ;
-import com.jamii.responses.activeDirectory.FunctionRESP.ChangePasswordRESP;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.requests.activeDirectory.FunctionREQ.ChangePasswordREQ;
+import com.jamii.responses.activeDirectory.FunctionRESP.ChangePasswordRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ChangePasswordOPS extends ActiveDirectoryAbstract {
+public class ChangePasswordOPS extends AbstractFetchOPS {
 
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;
@@ -37,6 +37,14 @@ public class ChangePasswordOPS extends ActiveDirectoryAbstract {
 
     public void setChangePasswordREQ(ChangePasswordREQ changePasswordREQ) {
         this.changePasswordREQ = changePasswordREQ;
+    }
+
+    @Override
+    public void validateCookie( ) throws Exception{
+        DeviceKey = getChangePasswordREQ().getDevicekey();
+        UserKey = getChangePasswordREQ().getUserkey();
+        SessionKey = getChangePasswordREQ().getSessionkey();
+        super.validateCookie( );
     }
 
     @Override

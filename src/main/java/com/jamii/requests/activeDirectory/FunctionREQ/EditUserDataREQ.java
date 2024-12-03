@@ -1,10 +1,10 @@
 package com.jamii.requests.activeDirectory.FunctionREQ;
 
-public class EditUserDataREQ {
+import com.jamii.requests.activeDirectory.AbstractFetchREQ;
+
+public class EditUserDataREQ extends AbstractFetchREQ {
 
     private Integer privacy;
-    private String userkey;
-    private String devicekey;
     private String firstname;
     private String lastname;
     private String middlename;

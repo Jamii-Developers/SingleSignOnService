@@ -8,6 +8,7 @@ public class UserLoginREQ {
     private String loginPassword;
     private String loginDeviceName;
     private String location;
+    private Boolean rememberLogin;
     private final Integer activeStatus = UserLoginTBL.ACTIVE_ON;
 
     public String getLoginCredential() {
@@ -44,5 +45,13 @@ public class UserLoginREQ {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Boolean getRememberLogin() {
+        return rememberLogin;
+    }
+
+    public void setRememberLogin(Boolean rememberLogin) {
+        this.rememberLogin = rememberLogin;
     }
 }

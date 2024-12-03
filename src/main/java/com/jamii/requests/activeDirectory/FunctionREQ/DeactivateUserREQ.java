@@ -1,10 +1,10 @@
 package com.jamii.requests.activeDirectory.FunctionREQ;
 
 import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.requests.activeDirectory.AbstractFetchREQ;
 
-public class DeactivateUserREQ {
+public class DeactivateUserREQ extends AbstractFetchREQ {
 
-    private String userkey;
     private String username;
     private String emailaddress;
     private String password;

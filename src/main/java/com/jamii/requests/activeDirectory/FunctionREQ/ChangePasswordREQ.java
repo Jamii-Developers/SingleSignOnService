@@ -1,6 +1,8 @@
 package com.jamii.requests.activeDirectory.FunctionREQ;
 
-public class ChangePasswordREQ {
+import com.jamii.requests.activeDirectory.AbstractFetchREQ;
+
+public class ChangePasswordREQ extends AbstractFetchREQ {
 
     private String username;
     private String emailaddress;
