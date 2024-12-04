@@ -5,7 +5,7 @@ import com.jamii.Utils.JamiiErrorUtils;
 public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
 
-    private String MSGTYPE = JamiiErrorUtils.RESPONSE_TYPE;
+    private String ERROR_MSG_TYPE = JamiiErrorUtils.RESPONSE_TYPE;
 
     private String ERROR_FIELD_SUBJECT;
     private String ERROR_FIELD_MESSAGE;

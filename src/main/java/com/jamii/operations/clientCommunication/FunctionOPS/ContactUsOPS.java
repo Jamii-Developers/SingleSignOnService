@@ -71,6 +71,7 @@ public class ContactUsOPS extends clientCommunicationAbstract {
             JamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", getContactUsREQ( ).getUsername( ), getContactUsREQ( ).getEmailaddress() ) );
             this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful(false);
             return ;
         }
 
