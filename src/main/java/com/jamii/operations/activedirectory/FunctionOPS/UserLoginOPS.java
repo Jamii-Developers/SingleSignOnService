@@ -8,7 +8,7 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserCookiesTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractPublicDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.UserLoginREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.UserLoginRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,8 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneId;
 
 @Service
-public class UserLoginOPS extends ActiveDirectoryAbstract {
+public class UserLoginOPS extends AbstractPublicDirectory {
 
-    @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
     private DeviceInformationCONT deviceInformationCONT;
@@ -40,6 +39,13 @@ public class UserLoginOPS extends ActiveDirectoryAbstract {
 
     public void setUserLoginREQ( UserLoginREQ userLoginREQ ) {
         this.userLoginREQ = userLoginREQ;
+    }
+
+    @Override
+    public ResponseEntity<?> run(Object requestPayload) throws Exception {
+        jamiiDebug.info("Received request" );
+        setUserLoginREQ( ( UserLoginREQ ) requestPayload );
+        return super.run( requestPayload );
     }
 
     @Override

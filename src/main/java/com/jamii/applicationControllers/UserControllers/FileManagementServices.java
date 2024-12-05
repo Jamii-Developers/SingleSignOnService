@@ -1,4 +1,4 @@
-package com.jamii;
+package com.jamii.applicationControllers.UserControllers;
 
 
 import com.jamii.Utils.JamiiDebug;

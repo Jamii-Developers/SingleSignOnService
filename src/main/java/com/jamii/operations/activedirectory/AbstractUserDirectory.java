@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public abstract class AbstractFetchOPS {
+public abstract class AbstractUserDirectory {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
@@ -21,7 +21,13 @@ public abstract class AbstractFetchOPS {
     @Autowired
     private JamiiCookieProcessor cookie;
 
-
+    public ResponseEntity<?> run( Object requestPayload ) throws Exception{
+        this.reset( );
+        this.validateCookie( );
+        this.processRequest( );
+        jamiiDebug.info("Request completed");
+        return this.getResponse( );
+    }
 
     public void validateCookie( ) throws Exception{
 

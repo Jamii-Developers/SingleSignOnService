@@ -6,7 +6,7 @@ import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractPublicDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.CreateNewUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class CreateNewUserOPS extends ActiveDirectoryAbstract {
+public class CreateNewUserOPS extends AbstractPublicDirectory {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

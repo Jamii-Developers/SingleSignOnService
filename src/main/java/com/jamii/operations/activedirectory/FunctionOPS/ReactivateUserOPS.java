@@ -5,7 +5,7 @@ import com.jamii.requests.activeDirectory.FunctionREQ.ReactivateUserREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.ReactivateUserRESP;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.ActiveDirectoryAbstract;
+import com.jamii.operations.activedirectory.AbstractPublicDirectory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ReactivateUserOPS extends ActiveDirectoryAbstract {
+public class ReactivateUserOPS extends AbstractPublicDirectory {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

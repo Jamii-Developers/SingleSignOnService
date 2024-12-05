@@ -5,7 +5,7 @@ import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.operations.activedirectory.AbstractUserDirectory;
 import com.jamii.requests.activeDirectory.FetchREQ.FetchUserDataREQ;
 import com.jamii.responses.activeDirectory.FetchRESP.FetchUserDataRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class FetchUserDataOPS extends AbstractFetchOPS {
+public class fetchUserDataOPS extends AbstractUserDirectory {
 
-    public FetchUserDataOPS( ) { }
+    public fetchUserDataOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -44,6 +44,13 @@ public class FetchUserDataOPS extends AbstractFetchOPS {
 
     public void setFetchUserDataRESP(FetchUserDataRESP fetchUserDataRESP) {
         this.fetchUserDataRESP = fetchUserDataRESP;
+    }
+
+    @Override
+    public ResponseEntity<?> run(Object requestPayload) throws Exception {
+        jamiiDebug.info("Received request" );
+        FetchUserDataREQ req = (FetchUserDataREQ) requestPayload;
+        return super.run( requestPayload );
     }
 
     @Override

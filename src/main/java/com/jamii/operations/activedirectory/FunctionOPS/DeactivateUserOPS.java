@@ -3,7 +3,7 @@ package com.jamii.operations.activedirectory.FunctionOPS;
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.operations.activedirectory.AbstractUserDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.DeactivateUserREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.DeactivateUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeactivateUserOPS extends AbstractFetchOPS {
+public class DeactivateUserOPS extends AbstractUserDirectory {
 
     @Autowired
     private UserLoginCONT userLoginCONT;

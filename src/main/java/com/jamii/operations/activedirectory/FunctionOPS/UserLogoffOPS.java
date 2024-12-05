@@ -6,7 +6,7 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserCookiesTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.operations.activedirectory.AbstractUserDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.UserLogoffREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.UserLogoffRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 @Component
-public class UserLogoffOPS extends AbstractFetchOPS {
+public class UserLogoffOPS extends AbstractUserDirectory {
 
     private UserLogoffREQ userLogoffREQ;
 

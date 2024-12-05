@@ -1,10 +1,10 @@
-package com.jamii;
+package com.jamii.applicationControllers.UserControllers;
 
 import com.jamii.Utils.JamiiDebug;
-import com.jamii.requests.social.FetchOPS.*;
-import com.jamii.requests.social.FunctionREQ.*;
 import com.jamii.operations.social.DataFetchOPS.*;
 import com.jamii.operations.social.FunctionOPS.*;
+import com.jamii.requests.social.FetchOPS.*;
+import com.jamii.requests.social.FunctionREQ.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.MediaType;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*") // Apply to the entire controller
 @RestController
+
 public class SocialServices {
 
     @Autowired

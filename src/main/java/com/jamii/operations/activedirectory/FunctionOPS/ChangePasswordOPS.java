@@ -6,7 +6,7 @@ import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.activedirectory.AbstractFetchOPS;
+import com.jamii.operations.activedirectory.AbstractUserDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.ChangePasswordREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.ChangePasswordRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ChangePasswordOPS extends AbstractFetchOPS {
+public class ChangePasswordOPS extends AbstractUserDirectory {
 
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;

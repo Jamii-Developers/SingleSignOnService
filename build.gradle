@@ -8,7 +8,7 @@ plugins {
 group = 'com.jamii'
 version = '0.0.1-SNAPSHOT'
 
-mainClassName = 'com.jamii.SingleSignOnServices'
+mainClassName = 'com.jamii.configs.UserControllerConfig'
 
 
 java {
@@ -25,6 +25,8 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.31'
 	implementation 'org.json:json:20230227'
 	implementation 'com.google.code.gson:gson:2.8.9'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.session:spring-session-jdbc'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
