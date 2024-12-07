@@ -48,7 +48,7 @@ public class DeactivateUserOPS extends AbstractUserDirectory {
         //Check if the user exists as active
         Optional< UserLoginTBL > user = userLoginCONT.fetch( getDeactivateUserREQ( ).getEmailaddress( ), getDeactivateUserREQ( ).getUsername( ), getDeactivateUserREQ( ).getActive( ) );
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "No activated user matches this information " + getDeactivateUserREQ( ).getUsername( ) );
+            jamiiDebug.warning( "No activated user matches this information " + getDeactivateUserREQ( ).getUsername( ) );
             this.jamiiErrorsMessagesRESP.setDeactivateUser_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
@@ -56,7 +56,7 @@ public class DeactivateUserOPS extends AbstractUserDirectory {
 
         //Check if the password is valid
         if( !userLoginCONT.isPasswordValid( getDeactivateUserREQ( ).getPassword( ), user.get( ) ) ){
-            JamiiDebug.warning( "Password is incorrect " + getDeactivateUserREQ( ).getUsername( ) );
+            jamiiDebug.warning( "Password is incorrect " + getDeactivateUserREQ( ).getUsername( ) );
             this.jamiiErrorsMessagesRESP.setDeactivateUser_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
@@ -71,7 +71,7 @@ public class DeactivateUserOPS extends AbstractUserDirectory {
     public ResponseEntity< ? > getResponse() {
 
         if( accountDeactivationSuccessful ){
-            JamiiDebug.warning( String.format( "This account has been deactivated : %s ", getDeactivateUserREQ( ).getUsername( ) ) );
+            jamiiDebug.info( String.format( "This account has been deactivated : %s ", getDeactivateUserREQ( ).getUsername( ) ) );
             StringBuilder response = new StringBuilder( );
             DeactivateUserRESP deactivateUserRESP = new DeactivateUserRESP( );
             response.append( deactivateUserRESP.getJSONRESP( ) );

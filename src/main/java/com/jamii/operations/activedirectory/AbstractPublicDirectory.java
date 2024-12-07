@@ -8,22 +8,26 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class AbstractPublicDirectory {
 
-    public AbstractPublicDirectory( ) {
-
-    }
-
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
-    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
+    protected JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
+    protected Object request;
 
+    public Object getRequest() {
+        return request;
+    }
 
+    public void setRequest(Object request) {
+        this.request = request;
+    }
 
     public abstract void processRequest( ) throws Exception;
 
 
     public ResponseEntity<?> run( Object requestPayload ) throws Exception{
-        this.reset( );
-        this.processRequest( );
+        jamiiDebug.info("Received request" );
+        setRequest( requestPayload );
+        processRequest( );
         jamiiDebug.info("Request completed");
         return this.getResponse( );
     }
@@ -41,5 +45,6 @@ public abstract class AbstractPublicDirectory {
     public void reset( ){
         this.JamiiError = "";
         this.jamiiErrorsMessagesRESP = new JamiiErrorsMessagesRESP( );
+        setRequest( null );
     }
 }

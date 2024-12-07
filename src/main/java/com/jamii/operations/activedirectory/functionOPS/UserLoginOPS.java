@@ -29,31 +29,16 @@ public class UserLoginOPS extends AbstractPublicDirectory {
     @Autowired
     private UserCookiesCONT userCookiesCONT;
 
-    private UserLoginREQ userLoginREQ;
     private UserLoginTBL userData;
     private DeviceInformationTBL userDeviceInformation;
     private UserCookiesTBL userCookie;
     private Boolean loginWasSuccessful = false;
 
-    public UserLoginREQ getUserLoginREQ( ) {
-        return userLoginREQ;
-    }
-
-    public void setUserLoginREQ( UserLoginREQ userLoginREQ ) {
-        this.userLoginREQ = userLoginREQ;
-    }
-
-    @Override
-    public ResponseEntity<?> run( Object requestPayload ) throws Exception {
-        jamiiDebug.info("Received request" );
-        setUserLoginREQ( (UserLoginREQ) JamiiMapperUtils.mapObject( requestPayload, UserLoginREQ.class )  );
-        return super.run( requestPayload );
-    }
-
     @Override
     public void processRequest() {
+        UserLoginREQ req = (UserLoginREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLoginREQ.class );
 
-        this.userData = this.userLoginCONT.checkAndRetrieveValidLogin(getUserLoginREQ( ) );
+        this.userData = this.userLoginCONT.checkAndRetrieveValidLogin( req );
 
         if ( this.userData == null ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
@@ -73,7 +58,7 @@ public class UserLoginOPS extends AbstractPublicDirectory {
             checkIfKeyExists = this.deviceInformationCONT.checkIfKeyExisitsInTheDatabase( this.userData ,key );
         }
 
-        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, getUserLoginREQ( ).getLoginDeviceName( ), getUserLoginREQ().getLocation() );
+        this.userDeviceInformation = this.deviceInformationCONT.add( this.userData, key, req.getLoginDeviceName( ), req.getLocation() );
 
         boolean checkIfSessionKeyExists = false;
         JamiiRandomKeyToolGen sessionkeyToolGen = new JamiiRandomKeyToolGen( );
@@ -87,7 +72,7 @@ public class UserLoginOPS extends AbstractPublicDirectory {
             checkIfSessionKeyExists = this.userCookiesCONT.checkIfKeyExisitsInTheDatabase( this.userData,this.userDeviceInformation,sessionkey );
         }
 
-        this.userCookie = this.userCookiesCONT.add( this.userData, this.userDeviceInformation, sessionkey,getUserLoginREQ().getRememberLogin());
+        this.userCookie = this.userCookiesCONT.add( this.userData, this.userDeviceInformation, sessionkey, req.getRememberLogin());
 
         this.loginWasSuccessful = true;
     }
@@ -121,6 +106,5 @@ public class UserLoginOPS extends AbstractPublicDirectory {
         this.loginWasSuccessful = false;
         this.userData = null ;
         this.userDeviceInformation = null;
-        this.setUserLoginREQ( null ) ;
     }
 }

@@ -8,17 +8,17 @@ public class JamiiDebug {
         logger =  Logger.getLogger( LoggerClass.getName( ) ) ;
     }
 
-    protected static Logger logger ;
+    protected Logger logger ;
 
-    public static void warning( String text ){
+    public void warning( String text ){
         logger.warning( text );
     }
 
-    public static void info( String text ){
+    public void info( String text ){
         logger.info( text );
     }
 
-    public static void error( String text ) {
+    public void error( String text ) {
         logger.info( text );
     }
 

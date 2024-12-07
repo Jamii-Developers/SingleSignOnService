@@ -92,7 +92,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileDownloadREQ( ).getUserKey(), UserLoginTBL.ACTIVE ) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUserKey( ) );
+            jamiiDebug.warning( "This user key does not exists : " + getUserFileDownloadREQ( ).getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -100,7 +100,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileDownloadREQ( ).getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDeviceKey( ));
+            jamiiDebug.warning( "This device key does not exists : " + getUserFileDownloadREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -108,7 +108,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDownloadREQ( ).getFileName( ) );
         if( fileInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDownloadREQ( ).getDeviceKey( ));
+            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDownloadREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -127,7 +127,7 @@ public class UserFileDownloadOPS extends fileManagementAbstract {
 
         }catch( Exception e ){
             e.printStackTrace( );
-            JamiiDebug.warning( "Error creating resource : " + getUserFileDownloadREQ( ).getDeviceKey( ) );
+            jamiiDebug.error( "Error creating resource : " + getUserFileDownloadREQ( ).getDeviceKey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;

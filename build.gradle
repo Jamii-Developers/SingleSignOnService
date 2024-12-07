@@ -8,7 +8,7 @@ plugins {
 group = 'com.jamii'
 version = '0.0.1-SNAPSHOT'
 
-mainClassName = 'com.jamii.configs.UserControllerConfig'
+mainClassName = 'com.jamii.ApplicationStart'
 
 
 java {

@@ -1,4 +1,4 @@
-package com.jamii.configs;
+package com.jamii;
 
 import com.jamii.applicationControllers.publicControllers.PublicServices;
 import jakarta.annotation.PostConstruct;
@@ -17,19 +17,20 @@ import java.util.Map;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 @SpringBootApplication
-public class UserControllerConfig {
-
-    public static void main(String[ ] args ) {
-        SpringApplication.run( UserControllerConfig.class, args);
-    }
+public class ApplicationStart {
 
     @Autowired
-    private JamiiClassConfigs jamiiClassConfigs;
+    PublicServices publicServices;
+
+    public static void main(String[ ] args ) {
+        SpringApplication.run( ApplicationStart.class, args);
+    }
 
     Map<String, Object > UserControllerMap = new HashMap< >( );
+
     @PostConstruct
     private void initPathing( ){
-        UserControllerMap.put( "public", jamiiClassConfigs.getPublicServices() );
+        UserControllerMap.put( "public", publicServices );
     }
 
     @PostMapping(path = "{requestType}/{operation}")
@@ -41,13 +42,12 @@ public class UserControllerConfig {
                 return ((PublicServices) handler).processRequest( operation, payload );
             }
 
-            return new ResponseEntity<>("This is not a valid request", HttpStatus.BAD_REQUEST);
-        }catch( Exception e ){
+        }catch( Exception e ) {
             e.printStackTrace();
-        }finally{
             return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
         }
 
+        return null;
     }
 
 }

@@ -69,7 +69,7 @@ public class ContactUsOPS extends clientCommunicationAbstract {
 
         Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getContactUsREQ( ).getEmailaddress( ), getContactUsREQ( ).getUsername( ), UserLoginTBL.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", getContactUsREQ( ).getUsername( ), getContactUsREQ( ).getEmailaddress() ) );
+            jamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", getContactUsREQ( ).getUsername( ), getContactUsREQ( ).getEmailaddress() ) );
             this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful(false);

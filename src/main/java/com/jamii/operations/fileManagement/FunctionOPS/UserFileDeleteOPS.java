@@ -50,7 +50,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
 
         Optional<UserLoginTBL> user = this.userLoginCONT.fetch( this.userFileDeleteREQ.getUserKey( ), UserLoginTBL.ACTIVE ) ;
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "This user key does not exists : " + getUserFileDeleteREQ( ).getUserKey( ) );
+            jamiiDebug.warning( "This user key does not exists : " + getUserFileDeleteREQ( ).getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -58,7 +58,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
 
         Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), this.userFileDeleteREQ.getDeviceKey( ) );
         if( deviceInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This device key does not exists : " + getUserFileDeleteREQ( ).getDeviceKey( ));
+            jamiiDebug.warning( "This device key does not exists : " + getUserFileDeleteREQ( ).getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingDeviceKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -66,7 +66,7 @@ public class UserFileDeleteOPS extends fileManagementAbstract {
 
         Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDeleteREQ( ).getFileName( ) );
         if( fileInformation.isEmpty( ) ){
-            JamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDeleteREQ( ).getFileName( ));
+            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDeleteREQ( ).getFileName( ));
             this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;

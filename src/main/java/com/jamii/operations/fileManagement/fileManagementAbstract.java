@@ -1,5 +1,6 @@
 package com.jamii.operations.fileManagement;
 
+import com.jamii.Utils.JamiiDebug;
 import com.jamii.responses.JamiiErrorsMessagesRESP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ public abstract class fileManagementAbstract {
 
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
+    protected JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
     public void reset( ){
         this.JamiiError = "";

@@ -53,7 +53,7 @@ public class ChangePasswordOPS extends AbstractUserDirectory {
         //Check if the username and email address are available in the sustem
         Optional <UserLoginTBL> user = userLoginCONT.fetch( this.getChangePasswordREQ( ).getEmailaddress( ), this.getChangePasswordREQ().getUsername(), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
-            JamiiDebug.warning( "The user does not exist in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "The user does not exist in the system : " + getChangePasswordREQ( ).getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
@@ -63,7 +63,7 @@ public class ChangePasswordOPS extends AbstractUserDirectory {
         String encryptedOldPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getOld_password( ) );
         String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getNew_password( ) );;
         if( !JamiiStringUtils.equals( encryptedOldPassword, user.get( ).getPasswordsalt( ) ) ){
-            JamiiDebug.warning( "This password doesn't match what we have in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "This password doesn't match what we have in the system : " + getChangePasswordREQ( ).getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
@@ -72,7 +72,7 @@ public class ChangePasswordOPS extends AbstractUserDirectory {
         user.get( ).setPasswordsalt( encryptedNewPassword );
         //Check if the new password matches the last 10 passwords the user used
         if( passwordHashRecordsCONT.isPasswordInLastTenRecords( user.get( ) ) ){
-            JamiiDebug.warning( "This password matches the last ten the user has used :" + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "This password matches the last ten the user has used :" + getChangePasswordREQ( ).getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordMatchesLastTen( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;

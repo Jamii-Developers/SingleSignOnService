@@ -1,5 +1,6 @@
 package com.jamii.operations.activedirectory.functionOPS;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -7,6 +8,7 @@ import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.activedirectory.AbstractPublicDirectory;
 import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
+import com.jamii.requests.activeDirectory.FunctionREQ.UserLoginREQ;
 import com.jamii.responses.activeDirectory.FunctionRESP.CreateNewUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,24 +31,19 @@ public class CreateNewUserOPS extends AbstractPublicDirectory {
     private CreateNewUserREQ createNewUserREQ;
     private Boolean isSuccessful = false;
 
-    public CreateNewUserREQ getCreateNewUserREQ() {
-        return createNewUserREQ;
-    }
-
-    public void setCreateNewUserREQ( CreateNewUserREQ createNewUserREQ ) {
-        this.createNewUserREQ = createNewUserREQ;
-    }
 
     @Override
     public void processRequest( ) throws Exception {
 
-        if( userLoginCONT.checkifUserExists( getCreateNewUserREQ( ) ) ){
+        CreateNewUserREQ req = (CreateNewUserREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLoginREQ.class );
+
+        if( userLoginCONT.checkifUserExists( req ) ){
             this.jamiiErrorsMessagesRESP.createNewUserError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
-        this.userData = userLoginCONT.createNewUser( getCreateNewUserREQ( ) );
+        this.userData = userLoginCONT.createNewUser( req );
 
         //Add new password records
         if( this.userData != null){
@@ -87,6 +84,5 @@ public class CreateNewUserOPS extends AbstractPublicDirectory {
         this.userData = null ;
         this.userDeviceInformation = null;
         this.isSuccessful = false ;
-        this.setCreateNewUserREQ( null );
     }
 }

@@ -73,7 +73,7 @@ public class EditUserDataOPS extends AbstractUserDirectory {
 
         if( profileUpdateSuccessful ){
             StringBuilder response = new StringBuilder( );
-            JamiiDebug.warning( "Profile has been update successfully" );
+            jamiiDebug.warning( "Profile has been update successfully" );
             EditUserDataRESP editUserDataRESP = new EditUserDataRESP( );
             response.append( editUserDataRESP.getJSONRESP( ) );
             return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
