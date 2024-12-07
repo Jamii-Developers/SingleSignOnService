@@ -4,8 +4,7 @@ import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserLoginREPO;
-import com.jamii.requests.activeDirectory.FunctionREQ.CreateNewUserREQ;
-import com.jamii.requests.activeDirectory.FunctionREQ.UserLoginREQ;
+import com.jamii.requests.publicServices.CreateNewUserREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,20 +18,22 @@ public class UserLoginCONT {
 
     @Autowired
     private UserLoginREPO userLoginREPO;
-    
+
     /**
-     * Used to check the login validity of a request
-     * @param userLoginREQ - This class checks for the User login validity
-     * @return - Returns user's information
+     * Checks the database  user_login table for a valid login information
+     *
+     * @param logincredential
+     * @param password
+     * @return
      */
 
-    public UserLoginTBL checkAndRetrieveValidLogin ( UserLoginREQ userLoginREQ ){
+    public UserLoginTBL checkAndRetrieveValidLogin ( String logincredential,  String password ){
 
         // Adding this so we are able to check only users that are active
-        List <UserLoginTBL> fetchCredential = new ArrayList< > ( );
+        List <UserLoginTBL> fetchCredential = new ArrayList< >( );
 
-        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( userLoginREQ.getLoginCredential( ),  userLoginREQ.getActiveStatus( ) ) );
-        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( userLoginREQ.getLoginCredential( ),  userLoginREQ.getActiveStatus( ) ) );
+        fetchCredential.addAll( userLoginREPO.findByUsernameAndActive( logincredential,  UserLoginTBL.ACTIVE_ON ) );
+        fetchCredential.addAll( userLoginREPO.findByEmailaddressAndActive( logincredential,  UserLoginTBL.ACTIVE_ON ) );
 
         if( fetchCredential.isEmpty( )  ){
             return null;
@@ -40,16 +41,21 @@ public class UserLoginCONT {
 
         //Confirm if user password matches saved password
         for( UserLoginTBL cred : fetchCredential ){
-            if( isPasswordValid( userLoginREQ.getLoginPassword( ), cred ) ) {
+            if( isPasswordValid( password, cred ) ) {
                 return cred;
             }
         }
         return null ;
     }
 
-    //Check if username and email address exist in the system
-    public boolean checkifUserExists( CreateNewUserREQ createNewUserREQ ){
-        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( createNewUserREQ.getEmailaddress( ), createNewUserREQ.getUsername( ) ) );
+    /**
+     * Checks if email address or username exists in the database
+     * @param emailaddress
+     * @param username
+     * @return
+     */
+    public boolean checkifUserExists( String emailaddress, String username ){
+        List<UserLoginTBL> checkCredential = new ArrayList<>( userLoginREPO.findByEmailaddressOrUsername( emailaddress, username ) );
         return !checkCredential.isEmpty( );
     }
 

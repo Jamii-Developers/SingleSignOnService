@@ -1,6 +1,7 @@
 package com.jamii;
 
-import com.jamii.applicationControllers.publicControllers.PublicServices;
+import com.jamii.applicationControllers.PublicServices;
+import com.jamii.applicationControllers.UserServices;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -21,25 +22,33 @@ public class ApplicationStart {
 
     @Autowired
     PublicServices publicServices;
+    @Autowired
+    UserServices userServices;
+
 
     public static void main(String[ ] args ) {
         SpringApplication.run( ApplicationStart.class, args);
     }
 
-    Map<String, Object > UserControllerMap = new HashMap< >( );
+    Map<String, Object > directoryMap = new HashMap< >( );
 
     @PostConstruct
-    private void initPathing( ){
-        UserControllerMap.put( "public", publicServices );
+    private void initGlobalPathing( ){
+        directoryMap.put( "public", publicServices );
+        directoryMap.put( "user", userServices );
     }
 
     @PostMapping(path = "{requestType}/{operation}")
-    public ResponseEntity<?> processRequest(@PathVariable String requestType, @PathVariable String operation , @RequestBody Object payload) throws Exception {
+    public ResponseEntity<?> processRequest(@PathVariable String requestType, @PathVariable String operation, @RequestBody Object payload) throws Exception {
         try{
-            Object handler = UserControllerMap.get(requestType);
+            Object handler = directoryMap.get(requestType);
 
             if( handler instanceof PublicServices ){
                 return ((PublicServices) handler).processRequest( operation, payload );
+            }
+
+            if ( handler instanceof UserServices ){
+                return ( (UserServices) handler).processRequest( operation, payload );
             }
 
         }catch( Exception e ) {

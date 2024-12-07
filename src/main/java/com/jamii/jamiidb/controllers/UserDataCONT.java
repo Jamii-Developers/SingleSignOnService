@@ -3,7 +3,7 @@ package com.jamii.jamiidb.controllers;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.repo.UserDataREPO;
-import com.jamii.requests.activeDirectory.FunctionREQ.EditUserDataREQ;
+import com.jamii.requests.userServices.profileREQ.EditUserDataServicesREQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class UserDataCONT {
         userDataREPO.saveAll( records );
     }
 
-    public void add( UserLoginTBL user, EditUserDataREQ editUserDataREQ ) {
+    public void add( UserLoginTBL user, EditUserDataServicesREQ editUserDataREQ ) {
 
         UserDataTBL newUserData = new UserDataTBL( );
         newUserData.setFirstname( editUserDataREQ.getFirstname( ) );
