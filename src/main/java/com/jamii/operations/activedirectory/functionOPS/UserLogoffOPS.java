@@ -1,4 +1,4 @@
-package com.jamii.operations.activedirectory.FunctionOPS;
+package com.jamii.operations.activedirectory.functionOPS;
 
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.UserCookiesCONT;

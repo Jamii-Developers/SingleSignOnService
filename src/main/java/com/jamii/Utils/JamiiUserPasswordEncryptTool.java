@@ -45,6 +45,7 @@ public class JamiiUserPasswordEncryptTool {
     public static String encryptPassword( String password1 ){
         return doEncrypt( password1 );
     }
+
     public static String generateUserKey( String username, String emailAddress, String date_Created ){
         StringBuilder key = new StringBuilder( );
         key.append( doEncrypt( username ) );

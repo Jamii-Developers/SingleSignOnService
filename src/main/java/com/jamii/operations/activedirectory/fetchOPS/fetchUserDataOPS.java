@@ -1,4 +1,4 @@
-package com.jamii.operations.activedirectory.FetchOPS;
+package com.jamii.operations.activedirectory.fetchOPS;
 
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserDataCONT;

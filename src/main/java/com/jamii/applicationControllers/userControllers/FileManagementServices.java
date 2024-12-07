@@ -1,4 +1,4 @@
-package com.jamii.applicationControllers.UserControllers;
+package com.jamii.applicationControllers.userControllers;
 
 
 import com.jamii.Utils.JamiiDebug;
@@ -33,8 +33,7 @@ public class FileManagementServices {
     @Autowired
     private UserFileDirectoryUpdateOPS userFileDirectoryUpdateOPS;
 
-
-    private final JamiiDebug jamiiDebug = new JamiiDebug( );
+    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
     public static void main( String[ ] args ) {
         SpringApplication.run( FileManagementServices.class, args);

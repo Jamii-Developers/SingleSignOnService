@@ -1,4 +1,4 @@
-package com.jamii.applicationControllers.UserControllers;
+package com.jamii.applicationControllers.userControllers;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.operations.social.DataFetchOPS.*;
@@ -46,7 +46,7 @@ public class SocialServices {
     @Autowired
     private GetBlockUserListOPS getBlockUserListOPS;
 
-    private final JamiiDebug jamiiDebug = new JamiiDebug( );
+    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
     public static void main( String[ ] args ) {
         SpringApplication.run( SocialServices.class, args);

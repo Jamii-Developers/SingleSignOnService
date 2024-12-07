@@ -8,10 +8,14 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class AbstractPublicDirectory {
 
+    public AbstractPublicDirectory( ) {
+
+    }
+
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
+    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
-    protected final JamiiDebug jamiiDebug = new JamiiDebug( );
 
 
     public abstract void processRequest( ) throws Exception;

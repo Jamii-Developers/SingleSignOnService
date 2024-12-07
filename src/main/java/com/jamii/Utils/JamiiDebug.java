@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 public class JamiiDebug {
 
-    public JamiiDebug(  ) {
-        logger =  Logger.getLogger( this.getClass( ).getName( ) ) ;
+    public JamiiDebug( Class<?> LoggerClass ) {
+        logger =  Logger.getLogger( LoggerClass.getName( ) ) ;
     }
 
     protected static Logger logger ;
@@ -17,4 +17,13 @@ public class JamiiDebug {
     public static void info( String text ){
         logger.info( text );
     }
+
+    public static void error( String text ) {
+        logger.info( text );
+    }
+
+    private void logError( ){
+
+    }
+
 }

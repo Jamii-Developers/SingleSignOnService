@@ -1,5 +1,6 @@
 package com.jamii.operations.clientCommunication;
 
+import com.jamii.Utils.JamiiDebug;
 import com.jamii.responses.JamiiErrorsMessagesRESP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ public abstract class clientCommunicationAbstract {
 
         protected String JamiiError;
         protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
+        protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
         public void reset( ){
             this.JamiiError = "";
@@ -29,6 +31,5 @@ public abstract class clientCommunicationAbstract {
 
             return new ResponseEntity<>( response.toString(), HttpStatus.OK );
         }
-
 
 }

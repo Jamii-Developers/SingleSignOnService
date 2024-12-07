@@ -63,6 +63,7 @@ public class ContactUsOPS extends clientCommunicationAbstract {
         setContactUsREQ( null );
         setContactUsRESP( null );
     }
+
     @Override
     public void processRequest() throws IOException {
 

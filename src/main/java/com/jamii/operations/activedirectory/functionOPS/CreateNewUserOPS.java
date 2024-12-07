@@ -1,7 +1,6 @@
-package com.jamii.operations.activedirectory.FunctionOPS;
+package com.jamii.operations.activedirectory.functionOPS;
 
 import com.jamii.configs.FileServerConfigs;
-import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
@@ -23,8 +22,7 @@ public class CreateNewUserOPS extends AbstractPublicDirectory {
     private UserLoginCONT userLoginCONT;
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;
-    @Autowired
-    private DeviceInformationCONT deviceInformationCONT;
+
 
     private UserLoginTBL userData;
     private DeviceInformationTBL userDeviceInformation;

@@ -12,7 +12,7 @@ public abstract class AbstractUserDirectory {
     protected String JamiiError;
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
     protected Boolean isSuccessful = true;
-    protected final JamiiDebug jamiiDebug = new JamiiDebug( );
+    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
     protected static String DeviceKey = null;
     protected static String UserKey = null;

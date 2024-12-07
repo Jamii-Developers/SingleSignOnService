@@ -4,14 +4,9 @@ import java.time.format.DateTimeFormatter;
 
 public class JamiiConstants {
 
-    /**
-     * This section will contains statuses used across the database
-     */
-
-    //Process status
-    public static final Boolean PROCESS_STATUS_FAILED = false ;
-    public static final Boolean PROCESS_STATUS_SUCCESSFUL = true ;
-
+    public JamiiConstants() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
 
     /**
      * RESPONSE TYPE
@@ -44,9 +39,5 @@ public class JamiiConstants {
     public static final String      RESPONSE_LOGOFF                             =   "SUC|024";
 
 
-    /**
-     * Date Formarters
-     */
 
-    public static final DateTimeFormatter COOKIE_DATE = DateTimeFormatter.RFC_1123_DATE_TIME;
 }

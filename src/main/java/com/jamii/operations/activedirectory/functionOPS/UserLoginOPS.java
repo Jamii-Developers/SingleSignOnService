@@ -1,6 +1,7 @@
-package com.jamii.operations.activedirectory.FunctionOPS;
+package com.jamii.operations.activedirectory.functionOPS;
 
-import com.jamii.Utils.JamiiConstants;
+import com.jamii.Utils.JamiiDateUtils;
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.UserCookiesCONT;
@@ -21,6 +22,7 @@ import java.time.ZoneId;
 @Service
 public class UserLoginOPS extends AbstractPublicDirectory {
 
+    @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
     private DeviceInformationCONT deviceInformationCONT;
@@ -42,9 +44,9 @@ public class UserLoginOPS extends AbstractPublicDirectory {
     }
 
     @Override
-    public ResponseEntity<?> run(Object requestPayload) throws Exception {
+    public ResponseEntity<?> run( Object requestPayload ) throws Exception {
         jamiiDebug.info("Received request" );
-        setUserLoginREQ( ( UserLoginREQ ) requestPayload );
+        setUserLoginREQ( (UserLoginREQ) JamiiMapperUtils.mapObject( requestPayload, UserLoginREQ.class )  );
         return super.run( requestPayload );
     }
 
@@ -101,10 +103,10 @@ public class UserLoginOPS extends AbstractPublicDirectory {
             userLoginRESP.setUSER_KEY( this.userData.getUserKey( ) );
             userLoginRESP.setUSERNAME( this.userData.getUsername( ) );
             userLoginRESP.setEMAIL_ADDRESS( this.userData.getEmailaddress( ) );
-            userLoginRESP.setDATE_CREATED( JamiiConstants.COOKIE_DATE.format( this.userCookie.getDatecreated( ).atZone(ZoneId.of("GMT") ) )  );
+            userLoginRESP.setDATE_CREATED( JamiiDateUtils.COOKIE_DATE.format( this.userCookie.getDatecreated( ).atZone(ZoneId.of("GMT") ) )  );
             userLoginRESP.setDEVICE_KEY( this.userDeviceInformation.getDevicekey( ) );
             userLoginRESP.setSESSION_KEY( this.userCookie.getSessionkey( ) );
-            userLoginRESP.setEXPIRY_DATE( JamiiConstants.COOKIE_DATE.format( this.userCookie.getExpiredate( ).atZone(ZoneId.of("GMT") ) ) );
+            userLoginRESP.setEXPIRY_DATE( JamiiDateUtils.COOKIE_DATE.format( this.userCookie.getExpiredate( ).atZone(ZoneId.of("GMT") ) ) );
 
             response.append( userLoginRESP.getJSONRESP( ) );
 
