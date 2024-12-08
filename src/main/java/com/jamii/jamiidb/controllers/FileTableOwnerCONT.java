@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static com.jamii.jamiidb.model.FileTableOwnerTBL.ACTIVE_STATUS_STORE;
-
 @Component
 public class FileTableOwnerCONT {
 
@@ -20,11 +18,12 @@ public class FileTableOwnerCONT {
         return this.fileTableOwnerREPO.save( fileTableOwnerTBL ) ;
     }
 
-    public Optional<FileTableOwnerTBL>getFileByUserLoginIdAndName( UserLoginTBL user , String filename ){
-        return this.fileTableOwnerREPO.findByUserloginidAndSystemfilenameAndStatus( user , filename, ACTIVE_STATUS_STORE ).stream( ).findFirst( );
+    public Optional<FileTableOwnerTBL>fetch( UserLoginTBL user , String filename ){
+        return this.fileTableOwnerREPO.findByUserloginidAndSystemfilename( user , filename  ).stream( ).findFirst( );
     }
 
     public void update( FileTableOwnerTBL fileInformation ) {
         this.fileTableOwnerREPO.save( fileInformation ) ;
     }
+
 }

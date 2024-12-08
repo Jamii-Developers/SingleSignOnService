@@ -2,7 +2,7 @@ package com.jamii.requests.userServices.fileManagementREQ;
 
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
-public class UserFileDirectoryUpdateServicesREQ extends AbstractUserServicesREQ {
+public class UserFileDirectoryUpdateREQ extends AbstractUserServicesREQ {
 
     private String fileName;
     private String directoryUpdate;

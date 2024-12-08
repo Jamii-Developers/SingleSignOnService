@@ -29,7 +29,6 @@ public class JamiiFileDownloadUtils {
 
     public Resource getFileAsResource(String filePath, String fileName, String fileExtension ) throws IOException {
 
-
         FileInputStream fis = new FileInputStream( filePath + File.separator + fileName );
         FileOutputStream fos =new FileOutputStream( FileServerConfigs.FILE_CACHING_STORE + File.separator + fileName+fileExtension ) ;
         InflaterInputStream decompressor = new InflaterInputStream( fis );

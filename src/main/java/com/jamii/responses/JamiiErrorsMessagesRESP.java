@@ -175,7 +175,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     }
     public void setUserFileDeleteOPS_FileIsInTrash() {
         setERROR_FIELD_SUBJECT( "File Deletion!"  );
-        setERROR_FIELD_MESSAGE( "The file you selected is in your trash bin"  );
+        setERROR_FIELD_MESSAGE( "The file you selected is in your trash bin or has been deleted"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0024 ) ;
     }
 

@@ -1,15 +1,15 @@
 package com.jamii.operations.userServices.fileManagement;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.FileDirectoryCONT;
 import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.FileDirectoryTBL;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.requests.userServices.fileManagementREQ.UserFileDirectoryUpdateServicesREQ;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
+import com.jamii.requests.userServices.fileManagementREQ.UserFileDirectoryUpdateREQ;
 import com.jamii.responses.userResponses.fileManagement.UserFileDirectoryUpdateRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,102 +18,83 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserFileDirectoryUpdateOPS extends fileManagementAbstract {
+public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
-    @Autowired
-    private DeviceInformationCONT deviceInformationCONT;
     @Autowired
     private FileTableOwnerCONT fileTableOwnerCONT;
     @Autowired
     private FileDirectoryCONT fileDirectoryCONT;
 
-    private UserFileDirectoryUpdateServicesREQ userFileDirectoryUpdateREQ;
-    private UserFileDirectoryUpdateRESP userFileDirectoryUpdateRESP ;
-    private Boolean isSuccessful = true ;
-
-    public UserFileDirectoryUpdateServicesREQ getUserFileDirectoryUpdateREQ() {
-        return userFileDirectoryUpdateREQ;
-    }
-
-    public void setUserFileDirectoryUpdateREQ(UserFileDirectoryUpdateServicesREQ userFileDirectoryUpdateREQ) {
-        this.userFileDirectoryUpdateREQ = userFileDirectoryUpdateREQ;
-    }
-
-    public UserFileDirectoryUpdateRESP getUserFileDirectoryUpdateRESP() {
-        return userFileDirectoryUpdateRESP;
-    }
-
-    public void setUserFileDirectoryUpdateRESP(UserFileDirectoryUpdateRESP userFileDirectoryUpdateRESP) {
-        this.userFileDirectoryUpdateRESP = userFileDirectoryUpdateRESP;
-    }
-
-    public Boolean getSuccessful() {
-        return isSuccessful;
-    }
-
-    public void setSuccessful(Boolean successful) {
-        isSuccessful = successful;
-    }
-
     @Override
-    public void reset( ){
-        super.reset( );
-        setSuccessful( false ) ;
-        setUserFileDirectoryUpdateREQ( null ) ;
-        setUserFileDirectoryUpdateRESP( null ) ;
+    public void validateCookie( ) throws Exception{
+        UserFileDirectoryUpdateREQ req = (UserFileDirectoryUpdateREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
+        super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws IOException {
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( getUserFileDirectoryUpdateREQ( ).getUserKey( ), UserLoginTBL.ACTIVE ) ;
+        if( !getIsSuccessful( ) ){
+            return;
+        }
+
+        UserFileDirectoryUpdateREQ req = (UserFileDirectoryUpdateREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
+
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
-            jamiiDebug.warning( "This user key does not exists : " + getUserFileDirectoryUpdateREQ( ).getUserKey( ) );
+            jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
             return ;
         }
 
-        Optional<DeviceInformationTBL> deviceInformation = this.deviceInformationCONT.fetch( user.get( ), getUserFileDirectoryUpdateREQ( ).getDeviceKey( ) );
-        if( deviceInformation.isEmpty( ) ){
-            jamiiDebug.warning( "This device key does not exists : " + getUserFileDirectoryUpdateREQ( ).getDeviceKey( ));
-            this.jamiiErrorsMessagesRESP.setUserFileDirectory_NoMatchingDeviceKey( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return ;
-        }
-
-        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.getFileByUserLoginIdAndName( user.get( ) ,getUserFileDirectoryUpdateREQ( ).getFileName( ) );
-        if( fileInformation.isEmpty( ) ){
-            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + getUserFileDirectoryUpdateREQ( ).getFileName( ));
+        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.fetch( user.get( ) ,req.getFileName( ) );
+        if( fileInformation.isEmpty() ){
+            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
+            return ;
+        }
+
+        if(Objects.equals(fileInformation.get().getStatus(), FileTableOwnerTBL.ACTIVE_STATUS_DELETED) || Objects.equals(fileInformation.get().getStatus(), FileTableOwnerTBL.ACTIVE_STATUS_IN_TRASH)){
+            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
+            this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
             return ;
         }
 
         Optional<FileDirectoryTBL> fileDirectory = this.fileDirectoryCONT.fetch( user.get( ), fileInformation.get( ) );
-        if(JamiiStringUtils.equals( getUserFileDirectoryUpdateREQ( ).getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
-            jamiiDebug.warning( "File is already in said location: " + getUserFileDirectoryUpdateREQ( ).getFileName( ) );
+        if( fileDirectory.isPresent( ) && JamiiStringUtils.equals( req.getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
+            jamiiDebug.warning( "File is already in said location: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
             return ;
         }
 
-        fileDirectory.get( ).setUidirectory( getUserFileDirectoryUpdateREQ( ).getDirectoryUpdate( ) );
+        fileDirectory.get( ).setUidirectory( req.getDirectoryUpdate( ) );
         fileDirectory.get( ).setLastupdated( LocalDateTime.now( ));
         this.fileDirectoryCONT.update( fileDirectory.get( ) );
-        setSuccessful( true ) ;
     }
 
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( getSuccessful( ) ){
-            return new ResponseEntity<>( getUserFileDirectoryUpdateRESP( ).getJSONRESP( ), HttpStatus.OK );
+        if( getIsSuccessful( ) ){
+            UserFileDirectoryUpdateRESP response = new UserFileDirectoryUpdateRESP( );
+            return new ResponseEntity<>( response.getJSONRESP( ), HttpStatus.OK );
         }
 
         return super.getResponse( );

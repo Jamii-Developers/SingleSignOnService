@@ -28,9 +28,7 @@ public class ApplicationStart {
     UserServices userServices;
 
 
-    public static void main(String[ ] args ) {
-        SpringApplication.run( ApplicationStart.class, args);
-    }
+    public static void main(String[ ] args ) {SpringApplication.run( ApplicationStart.class, args); }
 
     Map<String, Object > directoryMap = new HashMap< >( );
 
@@ -62,7 +60,7 @@ public class ApplicationStart {
     }
 
     @PostMapping(path = "{requestType}/{operation}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<?> processFileRequest(
+    public ResponseEntity<?> processFileUploadRequest(
             @PathVariable String requestType,
             @PathVariable String operation,
             @RequestParam String userKey,
@@ -78,6 +76,27 @@ public class ApplicationStart {
 
             if (handler instanceof UserServices) {
                 return ((UserServices) handler).processMultipartRequest( operation, userKey, deviceKey, sessionKey, file);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unsupported request type");
+    }
+
+    @GetMapping(path = "{requestType}/{operation}/{filename}")
+    public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @PathVariable String operation, @RequestBody( required = true ) Object jsonPayload) throws Exception {
+        try {
+            Object handler = directoryMap.get(requestType);
+
+            if (handler instanceof PublicServices) {
+                return ((PublicServices) handler).processRequest(operation, jsonPayload);
+            }
+
+            if (handler instanceof UserServices) {
+                return ((UserServices) handler).processRequest(operation, jsonPayload);
             }
 
         } catch (Exception e) {

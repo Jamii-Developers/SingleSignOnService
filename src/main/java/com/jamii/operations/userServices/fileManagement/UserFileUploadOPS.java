@@ -4,7 +4,6 @@ package com.jamii.operations.userServices.fileManagement;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.Utils.JamiiUploadFileUtils;
 import com.jamii.configs.FileServerConfigs;
-import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.FileDirectoryCONT;
 import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -28,8 +27,6 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
-    @Autowired
-    private DeviceInformationCONT deviceInformationCONT;
     @Autowired
     private FileTableOwnerCONT fileTableOwnerCONT;
     @Autowired

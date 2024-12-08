@@ -2,7 +2,7 @@ package com.jamii.requests.userServices.fileManagementREQ;
 
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
-public class UserFileDownloadServicesREQ extends AbstractUserServicesREQ {
+public class UserFileDeleteREQ extends AbstractUserServicesREQ {
 
     private String fileName;
 
