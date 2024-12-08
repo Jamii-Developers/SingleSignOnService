@@ -5,7 +5,7 @@ import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.FetchUserDataREQ;
 import com.jamii.responses.userResponses.profileResponses.FetchUserProfileRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class FetchUserDataOPS extends AbstractUserServices {
+public class FetchUserDataOPSOPS extends AbstractUserServicesOPS {
 
-    public FetchUserDataOPS( ) { }
+    public FetchUserDataOPSOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -57,7 +57,7 @@ public class FetchUserDataOPS extends AbstractUserServices {
     public void validateCookie( ) throws Exception{
         DeviceKey = getFetchUserDataREQ().getDeviceKey();
         UserKey = getFetchUserDataREQ().getUserKey();
-        SessionKey = getFetchUserDataREQ().getSessionkey();
+        SessionKey = getFetchUserDataREQ().getSessionKey();
         super.validateCookie( );
     }
 

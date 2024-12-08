@@ -6,7 +6,7 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserCookiesTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.UserLogoffREQ;
 import com.jamii.responses.userResponses.profileResponses.UserLogoffRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 @Component
-public class UserLogoffOPS extends AbstractUserServices {
+public class UserLogoffOPSOPS extends AbstractUserServicesOPS {
 
     private UserLogoffREQ userLogoffREQ;
 
@@ -39,7 +39,7 @@ public class UserLogoffOPS extends AbstractUserServices {
     public void validateCookie( ) throws Exception{
         DeviceKey = getUserLogoffREQ( ).getDeviceKey( );
         UserKey = getUserLogoffREQ( ).getUserKey();
-        SessionKey = getUserLogoffREQ( ).getSessionkey( );
+        SessionKey = getUserLogoffREQ( ).getSessionKey( );
         super.validateCookie( );
     }
 
@@ -71,7 +71,7 @@ public class UserLogoffOPS extends AbstractUserServices {
             this.deviceInformationCONT.update( device.get( ) );
         }
 
-        Optional<UserCookiesTBL> cookie = this.userCookiesCONT.fetch( user.get( ), device.get( ), getUserLogoffREQ().getSessionkey( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookie = this.userCookiesCONT.fetch( user.get( ), device.get( ), getUserLogoffREQ().getSessionKey( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
 
         if ( cookie.isEmpty( ) ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );

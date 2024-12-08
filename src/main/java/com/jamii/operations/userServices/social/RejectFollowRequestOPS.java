@@ -40,7 +40,7 @@ public class RejectFollowRequestOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getRejectFollowRequestREQ( ).getDeviceKey( );
         UserKey = getRejectFollowRequestREQ( ).getUserKey( );
-        SessionKey = getRejectFollowRequestREQ().getSessionkey();
+        SessionKey = getRejectFollowRequestREQ().getSessionKey();
         super.validateCookie( );
     }
 

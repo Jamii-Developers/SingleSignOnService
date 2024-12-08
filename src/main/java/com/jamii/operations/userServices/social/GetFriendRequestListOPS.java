@@ -42,7 +42,7 @@ public class GetFriendRequestListOPS extends AbstractSocial {
     public void validateCookie( ) throws Exception{
         DeviceKey = getGetFriendRequestListREQ().getDeviceKey();
         UserKey = getGetFriendRequestListREQ().getUserKey( );
-        SessionKey = getGetFriendRequestListREQ().getSessionkey();
+        SessionKey = getGetFriendRequestListREQ().getSessionKey();
         super.validateCookie( );
     }
 

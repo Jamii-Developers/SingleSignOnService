@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public abstract class AbstractUserServices {
+public abstract class AbstractUserServicesOPS {
 
     @Autowired
     private JamiiCookieProcessor cookie;
@@ -28,7 +28,7 @@ public abstract class AbstractUserServices {
     public static String getSessionKey() {return SessionKey;}
     public static void setSessionKey(String sessionKey) {SessionKey = sessionKey;}
 
-    protected Boolean isSuccessful = null;
+    protected Boolean isSuccessful = true;
     protected Boolean getIsSuccessful( ) {
         return isSuccessful;
     }
@@ -45,10 +45,10 @@ public abstract class AbstractUserServices {
     public void reset( ){
         this.JamiiError = "";
         this.jamiiErrorsMessagesRESP = new JamiiErrorsMessagesRESP( );
-        this.DeviceKey = null;
-        this.UserKey = null;
-        SessionKey = null;
-        setIsSuccessful( false );
+        setDeviceKey( null );
+        setUserKey( null );
+        setSessionKey( null );
+        setIsSuccessful( true );
     }
 
     public abstract void processRequest( ) throws Exception;
@@ -56,6 +56,7 @@ public abstract class AbstractUserServices {
     public ResponseEntity<?> run( Object requestPayload ) throws Exception{
         jamiiDebug.info("Received request" );
         setRequest( requestPayload );
+        validateCookie( );
         processRequest( );
         jamiiDebug.info("Request completed");
         return this.getResponse( );
@@ -67,29 +68,28 @@ public abstract class AbstractUserServices {
         if(  DeviceKey==null || UserKey==null || SessionKey == null){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
         if(  DeviceKey.isEmpty( ) || UserKey.isEmpty( ) || SessionKey.isEmpty()){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
         //Check if user cookie is valid
         cookie.setUSER_KEY( getUserKey( ) );
         cookie.setDEVICE_KEY( getDeviceKey( ) );
-        cookie.setUSER_COOKIE( getUserKey( ) );
+        cookie.setUSER_COOKIE( getSessionKey( ) );
 
         if( !cookie.checkCookieIsValid( ) ){
             this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
         }
     }
-
 
     public ResponseEntity< ? > getResponse( ){
 

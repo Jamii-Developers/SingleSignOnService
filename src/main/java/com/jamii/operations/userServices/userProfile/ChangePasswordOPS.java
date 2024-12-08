@@ -5,7 +5,7 @@ import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.ChangePasswordServicesREQ;
 import com.jamii.responses.userResponses.profileResponses.ChangePasswordRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ChangePasswordOPS extends AbstractUserServices {
+public class ChangePasswordOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private PasswordHashRecordsCONT passwordHashRecordsCONT;
@@ -42,7 +42,7 @@ public class ChangePasswordOPS extends AbstractUserServices {
     public void validateCookie( ) throws Exception{
         DeviceKey = getChangePasswordREQ().getDeviceKey();
         UserKey = getChangePasswordREQ().getUserKey();
-        SessionKey = getChangePasswordREQ().getSessionkey();
+        SessionKey = getChangePasswordREQ().getSessionKey();
         super.validateCookie( );
     }
 

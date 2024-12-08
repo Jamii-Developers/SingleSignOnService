@@ -4,29 +4,25 @@ public class AbstractUserServicesREQ {
 
     protected String userKey;
     protected String deviceKey;
-    protected String sessionkey;
+    protected String sessionKey;
 
-    public String getUserKey() {
-        return userKey;
-    }
+    public String getUserKey() {return userKey;}
 
     public void setUserKey(String userKey) {
         this.userKey = userKey;
     }
 
-    public String getDeviceKey() {
-        return deviceKey;
-    }
+    public String getDeviceKey() {return deviceKey;}
 
     public void setDeviceKey(String deviceKey) {
         this.deviceKey = deviceKey;
     }
 
-    public String getSessionkey() {
-        return sessionkey;
+    public String getSessionKey() {
+        return sessionKey;
     }
 
-    public void setSessionkey(String sessionkey) {
-        this.sessionkey = sessionkey;
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
     }
 }

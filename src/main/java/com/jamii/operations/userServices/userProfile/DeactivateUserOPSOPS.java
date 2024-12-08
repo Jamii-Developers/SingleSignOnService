@@ -2,7 +2,7 @@ package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.DeactivateUserREQ;
 import com.jamii.responses.userResponses.profileResponses.DeactivateUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DeactivateUserOPS extends AbstractUserServices {
+public class DeactivateUserOPSOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -30,13 +30,13 @@ public class DeactivateUserOPS extends AbstractUserServices {
         this.deactivateUserREQ = deactivateUserREQ;
     }
 
-    public DeactivateUserOPS( ) { }
+    public DeactivateUserOPSOPS( ) { }
 
     @Override
     public void validateCookie( ) throws Exception{
         DeviceKey = getDeactivateUserREQ().getDeviceKey();
         UserKey = getDeactivateUserREQ().getUserKey();
-        SessionKey = getDeactivateUserREQ().getSessionkey();
+        SessionKey = getDeactivateUserREQ().getSessionKey();
         super.validateCookie( );
     }
 

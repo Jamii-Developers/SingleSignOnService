@@ -5,7 +5,7 @@ import com.jamii.jamiidb.controllers.ClientCommunicationCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.ClientCommunicationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.clientCommunicationREQ.ReviewUsServicesREQ;
 import com.jamii.responses.userResponses.clientCommunication.ContactUsRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class ReviewUs extends AbstractUserServices {
+public class ReviewUsOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -38,16 +38,27 @@ public class ReviewUs extends AbstractUserServices {
     }
 
     @Override
+    public void validateCookie( ) throws Exception{
+        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
+        super.validateCookie( );
+    }
+
+    @Override
     public void processRequest() throws Exception {
 
-        ReviewUsServicesREQ req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
+        if( !getIsSuccessful( ) ){
+            return;
+        }
 
+        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
         Optional<UserLoginTBL> user = this.userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ), UserLoginTBL.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
             jamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", req.getUsername( ), req.getEmailaddress() ) );
             this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
             return ;
         }
 
@@ -58,7 +69,6 @@ public class ReviewUs extends AbstractUserServices {
         contactus.setDateofthought( LocalDateTime.now( ) );
         this.clientCommunicationCONT.save( contactus );
 
-        setIsSuccessful( true );
     }
 
     @Override

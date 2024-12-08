@@ -3,7 +3,7 @@ package com.jamii.operations.userServices.userProfile;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.operations.userServices.AbstractUserServices;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.EditUserDataServicesREQ;
 import com.jamii.responses.userResponses.profileResponses.EditUserDataRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPS extends AbstractUserServices {
+public class EditUserDataOPSOPS extends AbstractUserServicesOPS {
 
-    public EditUserDataOPS( ) { }
+    public EditUserDataOPSOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -38,7 +38,7 @@ public class EditUserDataOPS extends AbstractUserServices {
     public void validateCookie( ) throws Exception{
         DeviceKey = getEditUserDataREQ().getDeviceKey();
         UserKey = getEditUserDataREQ().getUserKey();
-        SessionKey = getEditUserDataREQ().getSessionkey();
+        SessionKey = getEditUserDataREQ().getSessionKey();
         super.validateCookie( );
     }
 
