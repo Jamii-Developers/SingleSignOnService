@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.userProfile;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.DeviceInformationCONT;
 import com.jamii.jamiidb.controllers.UserCookiesCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -16,17 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 @Component
-public class UserLogoffOPSOPS extends AbstractUserServicesOPS {
-
-    private UserLogoffREQ userLogoffREQ;
-
-    public UserLogoffREQ getUserLogoffREQ() {
-        return userLogoffREQ;
-    }
-
-    public void setUserLogoffREQ(UserLogoffREQ userLogoffREQ) {
-        this.userLogoffREQ = userLogoffREQ;
-    }
+public class UserLogoffOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -37,20 +28,23 @@ public class UserLogoffOPSOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getUserLogoffREQ( ).getDeviceKey( );
-        UserKey = getUserLogoffREQ( ).getUserKey();
-        SessionKey = getUserLogoffREQ( ).getSessionKey( );
+        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLogoffREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey( ) );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( getUserLogoffREQ( ).getUserKey( ), UserLoginTBL.ACTIVE_ON );
+        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLogoffREQ.class );
+
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
 
         if ( user.isEmpty( ) ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
@@ -59,35 +53,37 @@ public class UserLogoffOPSOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<DeviceInformationTBL> device = this.deviceInformationCONT.fetch( user.get( ), getUserLogoffREQ().getDeviceKey());
+        Optional<DeviceInformationTBL> device = this.deviceInformationCONT.fetch( user.get( ), req.getDeviceKey());
 
         if ( device.isEmpty( )) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }else{
             device.get().setActive( DeviceInformationTBL.ACTIVE_STATUS_DISABLED );
             this.deviceInformationCONT.update( device.get( ) );
         }
 
-        Optional<UserCookiesTBL> cookie = this.userCookiesCONT.fetch( user.get( ), device.get( ), getUserLogoffREQ().getSessionKey( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookie = this.userCookiesCONT.fetch( user.get( ), device.get( ), req.getSessionKey( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
 
         if ( cookie.isEmpty( ) ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
         }else{
             cookie.get().setActive( UserCookiesTBL.ACTIVE_STATUS_DISABLED );
             this.userCookiesCONT.update( cookie.get( ) );
         }
+
+        setIsSuccessful( true );
 
     }
 
     @Override
     public ResponseEntity< ? > getResponse( ){
 
-        if( this.isSuccessful  ){
+        if( getIsSuccessful( ) ){
 
             StringBuilder response = new StringBuilder( );
             UserLogoffRESP userLogoffRESP = new UserLogoffRESP(  );
@@ -95,12 +91,5 @@ public class UserLogoffOPSOPS extends AbstractUserServicesOPS {
             return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
         }
         return super.getResponse( );
-    }
-
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.isSuccessful = true;
-        this.setUserLogoffREQ( null ); ;
     }
 }

@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.userProfile;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
@@ -23,46 +24,38 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
     @Autowired
     private UserLoginCONT userLoginCONT;
 
-    protected Boolean passwordChangeSuccessful = false;
-
-    public ChangePasswordOPS() {
-    }
-
-    private ChangePasswordServicesREQ changePasswordREQ;
-
-    public ChangePasswordServicesREQ getChangePasswordREQ() {
-        return changePasswordREQ;
-    }
-
-    public void setChangePasswordREQ(ChangePasswordServicesREQ changePasswordREQ) {
-        this.changePasswordREQ = changePasswordREQ;
-    }
-
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getChangePasswordREQ().getDeviceKey();
-        UserKey = getChangePasswordREQ().getUserKey();
-        SessionKey = getChangePasswordREQ().getSessionKey();
+        ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), ChangePasswordServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey( ) );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        //Check if the username and email address are available in the sustem
-        Optional <UserLoginTBL> user = userLoginCONT.fetch( this.getChangePasswordREQ( ).getEmailaddress( ), this.getChangePasswordREQ().getUsername(), UserLoginTBL.ACTIVE_ON );
+        if( !getIsSuccessful( ) ){
+            return;
+        }
+
+        ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), ChangePasswordServicesREQ.class );
+
+        //Check if the username and email address are available in the system
+        Optional <UserLoginTBL> user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername(), UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
-            jamiiDebug.warning( "The user does not exist in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "The user does not exist in the system : " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return ;
         }
 
         //Check if the old password matches the old saved password
-        String encryptedOldPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getOld_password( ) );
-        String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( this.getChangePasswordREQ( ).getNew_password( ) );;
+        String encryptedOldPassword = JamiiUserPasswordEncryptTool.encryptPassword( req.getOld_password( ) );
+        String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( req.getNew_password( ) );;
         if( !JamiiStringUtils.equals( encryptedOldPassword, user.get( ).getPasswordsalt( ) ) ){
-            jamiiDebug.warning( "This password doesn't match what we have in the system : " + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "This password doesn't match what we have in the system : " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
@@ -71,7 +64,7 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
         user.get( ).setPasswordsalt( encryptedNewPassword );
         //Check if the new password matches the last 10 passwords the user used
         if( passwordHashRecordsCONT.isPasswordInLastTenRecords( user.get( ) ) ){
-            jamiiDebug.warning( "This password matches the last ten the user has used :" + getChangePasswordREQ( ).getUsername( ) );
+            jamiiDebug.warning( "This password matches the last ten the user has used :" + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordMatchesLastTen( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
@@ -80,7 +73,7 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
         userLoginCONT.update( user.get( ) );
         passwordHashRecordsCONT.addUserNewPasswordRecord( user.get( ) ) ;
 
-        passwordChangeSuccessful = true;
+        setIsSuccessful( true );
     }
 
 
@@ -88,20 +81,11 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
     public ResponseEntity< ? > getResponse( ){
 
         if( this.JamiiError.isEmpty( ) ){
-            StringBuilder response = new StringBuilder( );
             ChangePasswordRESP changePasswordRESP = new ChangePasswordRESP( );
-            response.append(  changePasswordRESP.getJSONRESP( ) );
-            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
+            return new ResponseEntity<>( changePasswordRESP.getJSONRESP( ), HttpStatus.OK );
         }
 
         return super.getResponse( );
 
-    }
-
-    @Override
-    public void reset(){
-        super.reset( );
-        this.passwordChangeSuccessful = false;
-        this.setChangePasswordREQ( null );
     }
 }

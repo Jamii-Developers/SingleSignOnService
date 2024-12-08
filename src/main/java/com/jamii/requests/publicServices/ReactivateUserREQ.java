@@ -1,13 +1,10 @@
 package com.jamii.requests.publicServices;
 
-import com.jamii.jamiidb.model.UserLoginTBL;
-
 public class ReactivateUserREQ extends AbstractPublicServicesREQ {
 
     private String username;
     private String emailaddress;
     private String password;
-    private final Integer active = UserLoginTBL.ACTIVE_OFF;
 
     public String getUsername() {
         return username;
@@ -33,7 +30,4 @@ public class ReactivateUserREQ extends AbstractPublicServicesREQ {
         this.password = password;
     }
 
-    public Integer getActive() {
-        return active;
-    }
 }

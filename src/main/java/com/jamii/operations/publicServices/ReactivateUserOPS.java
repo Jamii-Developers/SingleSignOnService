@@ -24,7 +24,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         ReactivateUserREQ req = (ReactivateUserREQ) JamiiMapperUtils.mapObject( getRequest( ), ReactivateUserREQ.class );
 
         //Check if the user exists as active
-        Optional<UserLoginTBL> user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ),  req.getActive( ) );
+        Optional<UserLoginTBL> user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ),  UserLoginTBL.ACTIVE_ON );
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "No deactivated user matches the information shared " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist( );

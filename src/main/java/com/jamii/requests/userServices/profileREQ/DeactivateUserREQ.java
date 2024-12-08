@@ -1,6 +1,5 @@
 package com.jamii.requests.userServices.profileREQ;
 
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
 public class DeactivateUserREQ extends AbstractUserServicesREQ {
@@ -8,7 +7,6 @@ public class DeactivateUserREQ extends AbstractUserServicesREQ {
     private String username;
     private String emailaddress;
     private String password;
-    private final Integer active = UserLoginTBL.ACTIVE_ON;
 
     public String getUsername() {
         return username;
@@ -34,7 +32,4 @@ public class DeactivateUserREQ extends AbstractUserServicesREQ {
         this.password = password;
     }
 
-    public Integer getActive() {
-        return active;
-    }
 }

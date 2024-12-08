@@ -7,6 +7,7 @@ import com.jamii.operations.userServices.fileManagement.UserFileDeleteOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDirectoryUpdateOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDownloadOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileUploadOPS;
+import com.jamii.operations.userServices.userProfile.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,16 @@ public class UserServices {
     UserFileDeleteOPS userFileDeleteOPS;
     @Autowired
     UserFileDownloadOPS userFileDownloadOPS;
+    @Autowired
+    ChangePasswordOPS changePasswordOPS;
+    @Autowired
+    EditUserDataOPS editUserDataOPS;
+    @Autowired
+    FetchUserDataOPS fetchUserDataOPS;
+    @Autowired
+    DeactivateUserOPS deactivateUserOPS;
+    @Autowired
+    UserLogoffOPS userLogoffOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
     private final Map<String, Object> directoryMap = new HashMap<>();
@@ -40,6 +51,11 @@ public class UserServices {
         directoryMap.put( "userdirupd", userFileDirectoryUpdateOPS );
         directoryMap.put( "userfiledel", userFileDeleteOPS );
         directoryMap.put( "userfiledwnld", userFileDownloadOPS );
+        directoryMap.put( "chngpassword", changePasswordOPS );
+        directoryMap.put( "editprofile", editUserDataOPS );
+        directoryMap.put( "fetchprofile", fetchUserDataOPS);
+        directoryMap.put( "deactivateuser", deactivateUserOPS);
+        directoryMap.put( "userlogoff", userLogoffOPS );
     }
 
 
@@ -68,6 +84,31 @@ public class UserServices {
         if ( handler instanceof UserFileDownloadOPS){
             ( (UserFileDownloadOPS) handler).reset( );
             return ( (UserFileDownloadOPS) handler).run( requestPayload );
+        }
+
+        if( handler instanceof  ChangePasswordOPS ){
+            ( (ChangePasswordOPS) handler).reset( );
+            return ( (ChangePasswordOPS) handler).run( requestPayload );
+        }
+
+        if( handler instanceof  EditUserDataOPS ){
+            ( (EditUserDataOPS) handler).reset( );
+            return ( ( EditUserDataOPS ) handler).run( requestPayload );
+        }
+
+        if( handler instanceof  FetchUserDataOPS ){
+            ( (FetchUserDataOPS) handler).reset( );
+            return ( ( FetchUserDataOPS ) handler).run( requestPayload );
+        }
+
+        if( handler instanceof DeactivateUserOPS){
+            ( (DeactivateUserOPS) handler).reset( );
+            return ( ( DeactivateUserOPS ) handler).run( requestPayload );
+        }
+
+        if( handler instanceof UserLogoffOPS){
+            ( (UserLogoffOPS) handler).reset( );
+            return ( ( UserLogoffOPS ) handler).run( requestPayload );
         }
 
         throw  new Exception( operation );

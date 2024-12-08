@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.userProfile;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
@@ -16,64 +17,39 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class FetchUserDataOPSOPS extends AbstractUserServicesOPS {
+public class FetchUserDataOPS extends AbstractUserServicesOPS {
 
-    public FetchUserDataOPSOPS( ) { }
+    public FetchUserDataOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
     private UserDataCONT userDataCONT;
 
-
-    private FetchUserDataREQ fetchUserDataREQ;
-
     private FetchUserProfileRESP fetchUserProfileRESP;
-
-    public FetchUserDataREQ getFetchUserDataREQ() {
-        return fetchUserDataREQ;
-    }
-
-    public void setFetchUserDataREQ(FetchUserDataREQ fetchUserDataREQ) {
-        this.fetchUserDataREQ = fetchUserDataREQ;
-    }
-
-    public FetchUserProfileRESP getFetchUserDataRESP() {
-        return fetchUserProfileRESP;
-    }
-
-    public void setFetchUserDataRESP(FetchUserProfileRESP fetchUserProfileRESP) {
-        this.fetchUserProfileRESP = fetchUserProfileRESP;
-    }
-
-    @Override
-    public ResponseEntity<?> run(Object requestPayload) throws Exception {
-        jamiiDebug.info("Received request" );
-        FetchUserDataREQ req = (FetchUserDataREQ) requestPayload;
-        return super.run( requestPayload );
-    }
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getFetchUserDataREQ().getDeviceKey();
-        UserKey = getFetchUserDataREQ().getUserKey();
-        SessionKey = getFetchUserDataREQ().getSessionKey();
+        FetchUserDataREQ req = (FetchUserDataREQ) JamiiMapperUtils.mapObject( getRequest( ), FetchUserDataREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey( ) );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
+        FetchUserDataREQ req = (FetchUserDataREQ) JamiiMapperUtils.mapObject( getRequest( ), FetchUserDataREQ.class );
+
+        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
 
         if( sender.isPresent( ) ){
-
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch(sender.get(), UserDataTBL.CURRENT_STATUS_ON);
-
+            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( sender.get(), UserDataTBL.CURRENT_STATUS_ON);
             fetchUserProfileRESP = new FetchUserProfileRESP( );
             if (userdata.isPresent( ) ) {
                 fetchUserProfileRESP.setFirstname( JamiiStringUtils.getSafeString( userdata.get().getFirstname( ) ) );
@@ -90,13 +66,13 @@ public class FetchUserDataOPSOPS extends AbstractUserServicesOPS {
             }else {
                 this.jamiiErrorsMessagesRESP.setFetchUserData_NoData( );
                 this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-                this.isSuccessful = false;
+                setIsSuccessful( false );
             }
 
         }else {
             this.jamiiErrorsMessagesRESP.setFetchUserData_GenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
         }
 
     }
@@ -105,17 +81,10 @@ public class FetchUserDataOPSOPS extends AbstractUserServicesOPS {
     public ResponseEntity< ? > getResponse( ) {
 
         if( this.isSuccessful ){
-            return new ResponseEntity<>( this.getFetchUserDataRESP().getJSONRESP(), HttpStatus.OK );
+            return new ResponseEntity<>( this.fetchUserProfileRESP.getJSONRESP(  ), HttpStatus.OK );
         }
 
         return super.getResponse( );
     }
-
-    @Override
-    public void reset() {
-        super.reset( );
-        setFetchUserDataRESP( null );
-    }
-
 
 }

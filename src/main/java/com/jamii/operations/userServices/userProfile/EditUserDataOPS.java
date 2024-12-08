@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.userProfile;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserDataCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
@@ -14,54 +15,45 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPSOPS extends AbstractUserServicesOPS {
+public class EditUserDataOPS extends AbstractUserServicesOPS {
 
-    public EditUserDataOPSOPS( ) { }
+    public EditUserDataOPS( ) { }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
     @Autowired
     private UserDataCONT userDataCONT;
 
-    private EditUserDataServicesREQ editUserDataREQ;
-    private Boolean profileUpdateSuccessful = false;
-
-    public EditUserDataServicesREQ getEditUserDataREQ() {
-        return editUserDataREQ;
-    }
-
-    public void setEditUserDataREQ(EditUserDataServicesREQ editUserDataREQ) {
-        this.editUserDataREQ = editUserDataREQ;
-    }
-
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getEditUserDataREQ().getDeviceKey();
-        UserKey = getEditUserDataREQ().getUserKey();
-        SessionKey = getEditUserDataREQ().getSessionKey();
+        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), EditUserDataServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey( ) );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest( ) throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( this.getEditUserDataREQ( ).getUserKey( ), UserLoginTBL.ACTIVE_ON );
+        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), EditUserDataServicesREQ.class );
+        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
 
         //Find userData currently active and deactivate them all
         this.userDataCONT.markAllPreviousUserDataInActive( user.get( ) );
 
         //Adds the latest userData to the database
-        this.userDataCONT.add( user.get( ), getEditUserDataREQ( ) );
+        this.userDataCONT.add( user.get( ), req );
 
         //Updates Privacy Settings
-        user.get( ).setPrivacy( getEditUserDataREQ( ).getPrivacy( ) );
+        user.get( ).setPrivacy( req.getPrivacy( ) );
         this.userLoginCONT.add( user.get( ) );
 
-        profileUpdateSuccessful = true;
+        setIsSuccessful( true );
 
     }
 
@@ -70,7 +62,7 @@ public class EditUserDataOPSOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity< ? > getResponse( ) {
 
-        if( profileUpdateSuccessful ){
+        if( getIsSuccessful( ) ){
             StringBuilder response = new StringBuilder( );
             jamiiDebug.warning( "Profile has been update successfully" );
             EditUserDataRESP editUserDataRESP = new EditUserDataRESP( );
@@ -80,12 +72,5 @@ public class EditUserDataOPSOPS extends AbstractUserServicesOPS {
 
 
         return super.getResponse( );
-    }
-
-    @Override
-    public void reset() {
-        super.reset( );
-        this.setEditUserDataREQ( null );
-        profileUpdateSuccessful = false;
     }
 }
