@@ -8,6 +8,7 @@ import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.SendFollowRequestServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.SendFollowRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class SendFollowRequestOPS extends AbstractSocial {
+public class SendFollowRequestOPS extends AbstractUserServicesOPS {
 
     private SendFollowRequestServicesREQ sendFollowRequestREQ;
     private Integer followRequestType = 0 ;

@@ -4,6 +4,7 @@ import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.controllers.UserRequestCONT;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.RejectFriendRequestServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.RejectFriendRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class RejectFriendRequestOPS extends AbstractSocial {
+public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
 
     private RejectFriendRequestServicesREQ rejectFriendRequestREQ;
     private Optional<UserLoginTBL> receiver;

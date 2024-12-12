@@ -7,6 +7,7 @@ import com.jamii.jamiidb.controllers.UserRequestCONT;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.operations.userServices.social.Utils.SocialHelper;
 import com.jamii.requests.userServices.socialREQ.GetFriendRequestListServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.GetFriendRequestListRESP;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class GetFriendRequestListOPS extends AbstractSocial {
+public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
 
     private GetFriendRequestListServicesREQ getFriendRequestListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );

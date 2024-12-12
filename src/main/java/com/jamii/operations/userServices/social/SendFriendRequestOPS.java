@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserBlockListCONT;
 import com.jamii.jamiidb.controllers.UserLoginCONT;
 import com.jamii.jamiidb.controllers.UserRelationshipCONT;
@@ -8,6 +9,7 @@ import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.SendFriendRequestServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.SendFriendRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +23,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class SendFriendRequestOPS extends AbstractSocial {
+public class SendFriendRequestOPS extends AbstractUserServicesOPS {
 
     private SendFriendRequestServicesREQ sendFriendRequestREQ;
     private Optional< UserLoginTBL > receiver;
 
-    public void setSendFriendRequestREQ(SendFriendRequestServicesREQ sendFriendRequestREQ) {
-        this.sendFriendRequestREQ = sendFriendRequestREQ;
-    }
-
-    public SendFriendRequestServicesREQ getSendFriendRequestREQ() {
-        return sendFriendRequestREQ;
-    }
 
     @Autowired
     private UserLoginCONT userLoginCONT;
@@ -45,21 +40,24 @@ public class SendFriendRequestOPS extends AbstractSocial {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getSendFriendRequestREQ( ).getDeviceKey( );
-        UserKey = getSendFriendRequestREQ( ).getUserKey( );
-        SessionKey = getSendFriendRequestREQ().getSessionKey();
+        SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), SendFriendRequestServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest( ) throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
+        SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), SendFriendRequestServicesREQ.class );
+
         Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getSendFriendRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        receiver = this.userLoginCONT.fetchByUserKey( req.getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -83,7 +81,7 @@ public class SendFriendRequestOPS extends AbstractSocial {
         if( !requests.isEmpty() && requests.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestIsAlreadyAvailable( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
@@ -91,7 +89,7 @@ public class SendFriendRequestOPS extends AbstractSocial {
         if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestHasBeenSentByTheReceiver( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
@@ -99,7 +97,7 @@ public class SendFriendRequestOPS extends AbstractSocial {
         if( !relationship.isEmpty( ) && relationship.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRelationshipTBL.STATUS_ACTIVE ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_AreAlreadyFriends( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
@@ -107,7 +105,7 @@ public class SendFriendRequestOPS extends AbstractSocial {
         if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockListTBL.STATUS_ACTIVE ) && x.getUserid( ) == receiver.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
@@ -115,17 +113,18 @@ public class SendFriendRequestOPS extends AbstractSocial {
         if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockListTBL.STATUS_ACTIVE ) && x.getUserid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful( false );
             return;
         }
 
         userRequestCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_ACTIVE );
+        setIsSuccessful( true );
     }
 
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( getIsSuccessful( ) ){
             SendFriendRequestRESP sendFriendRequestRESP = new SendFriendRequestRESP( this.receiver.get( ) );
             return  new ResponseEntity< >( sendFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }

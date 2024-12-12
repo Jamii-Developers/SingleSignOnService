@@ -8,6 +8,7 @@ import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
+import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.BlockUserRequestServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.BlockUserRequestRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BlockUserRequestOPS extends AbstractSocial {
+public class BlockUserRequestOPS extends AbstractUserServicesOPS {
 
     private BlockUserRequestServicesREQ blockUserRequestREQ;
     private Optional<UserLoginTBL> receiver;
