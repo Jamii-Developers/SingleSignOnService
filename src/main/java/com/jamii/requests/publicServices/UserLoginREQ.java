@@ -8,6 +8,17 @@ public class UserLoginREQ extends AbstractPublicServicesREQ{
     private String location;
     private Boolean rememberLogin;
 
+    public UserLoginREQ() {
+    }
+
+    public UserLoginREQ(String loginCredential, String loginPassword, String loginDeviceName, String location, Boolean rememberLogin) {
+        this.loginCredential = loginCredential;
+        this.loginPassword = loginPassword;
+        this.loginDeviceName = loginDeviceName;
+        this.location = location;
+        this.rememberLogin = rememberLogin;
+    }
+
     public String getLoginCredential() {
         return loginCredential;
     }

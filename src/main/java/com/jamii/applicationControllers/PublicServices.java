@@ -6,6 +6,7 @@ import com.jamii.operations.publicServices.ReactivateUserOPS;
 import com.jamii.operations.publicServices.UserLoginOPS;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,27 +35,32 @@ public class PublicServices {
 
 	public ResponseEntity<?> processRequest( String operation, Object requestPayload) throws Exception {
 
-		jamiiDebug.info("Received request for operation: " + operation);
+		try{
+			jamiiDebug.info("Received request for operation: " + operation);
 
-		// Lookup the handler
-		Object handler = directoryMap.get(operation);
+			// Lookup the handler
+			Object handler = directoryMap.get(operation);
 
-		if ( handler instanceof UserLoginOPS ){
-			( (UserLoginOPS) handler).reset( );
-			return ( (UserLoginOPS) handler).run( requestPayload );
+			if ( handler instanceof UserLoginOPS ){
+				( (UserLoginOPS) handler).reset( );
+				return ( (UserLoginOPS) handler).run( requestPayload );
+			}
+
+			if( handler instanceof CreateNewUserOPS ){
+				( ( CreateNewUserOPS) handler ).reset( );
+				return ( ( CreateNewUserOPS) handler ).run( requestPayload );
+			}
+
+			if( handler instanceof ReactivateUserOPS ){
+				( (ReactivateUserOPS) handler).reset( );
+				return ( (ReactivateUserOPS) handler).run( requestPayload );
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		if( handler instanceof CreateNewUserOPS ){
-			( ( CreateNewUserOPS) handler ).reset( );
-			return ( ( CreateNewUserOPS) handler ).run( requestPayload );
-		}
-
-		if( handler instanceof ReactivateUserOPS ){
-			( (ReactivateUserOPS) handler).reset( );
-			return ( (ReactivateUserOPS) handler).run( requestPayload );
-		}
-
-		throw new Exception( operation );
+		return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
 	}
 
 	public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile multipartFile) {

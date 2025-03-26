@@ -17,7 +17,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 @CrossOrigin(origins = "*")
 @SpringBootApplication
 public class ApplicationStart {
