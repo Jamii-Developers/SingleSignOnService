@@ -113,7 +113,7 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( ) ;
         JamiiUploadFileUtils fileOPS = new JamiiUploadFileUtils( );
         fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE + File.separator + userId );
-        fileOPS.setMultipartFile1( req.getUploadfile( ));
+        fileOPS.setMultipartFile1( req.getUploadfile( ) );
         fileOPS.setSystemFilename( sysFileName );
         fileOPS.save( );
     }

@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.zip.DeflaterOutputStream;
 
 public class JamiiUploadFileUtils {
@@ -50,7 +49,8 @@ public class JamiiUploadFileUtils {
     }
 
     public File convertMultipartFileToFile( MultipartFile multipartFile ) throws IOException {
-        File file = new File( FileServerConfigs.FILE_CACHING_STORE+ File.separator +multipartFile.getOriginalFilename( ) );
+
+        File file = new File( FileServerConfigs.FILE_CACHING_STORE + File.separator +multipartFile.getOriginalFilename( ) );
 
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(multipartFile.getBytes());
@@ -67,27 +67,25 @@ public class JamiiUploadFileUtils {
             }
             saveFile( ) ;
             return true ;
-        }catch( IOException  e) {
+        }catch( Exception  e) {
             e.printStackTrace( );
             return false ;
         }
 
     }
 
-    public void saveFile( ) throws IOException {
-
-        if( JamiiStringUtils.equals( Objects.requireNonNull( getMultipartFile1( ).getContentType( ) ), "image/png" ) ){
-            System.out.println( getMultipartFile1().getOriginalFilename( ) + " has been compressed : "+ compressPNG( ) );
-            return;
-        }
-
-        if( JamiiStringUtils.equals( Objects.requireNonNull( getMultipartFile1( ).getContentType( ) ), "image/jpeg" ) ){
-            System.out.println( getMultipartFile1().getOriginalFilename( ) + " has been compressed : "+ compressJPEG( ) );
-            return;
-        }
-
+    public void saveFile( ) throws Exception {
+        JamiiFileUtils.compress( getFile1( ).getAbsolutePath( ), getDestDirectory( ) , getSystemFilename(),true );
     }
 
+    /**
+     * Method has been deprecated, will move to compressing files using the JamiiFileUtils.compress() method so all files going forward will be stored in zip files
+     *
+     * @return
+     * @throws IOException
+     */
+
+    @Deprecated
     private boolean compressPNG( ) throws IOException {
         String fileLocation = getFile1( ).getAbsolutePath( );
         FileInputStream fis = new FileInputStream( fileLocation );
@@ -105,6 +103,14 @@ public class JamiiUploadFileUtils {
         return getFile1( ).delete( );
     }
 
+    /**
+     * Method has been deprecated, will move to compressing files using the JamiiFileUtils.compress() method so all files going forward will be stored in zip files
+     *
+     * @return
+     * @throws IOException
+     */
+
+    @Deprecated
     private boolean compressJPEG( ) throws IOException {
         String fileLocation = getFile1( ).getAbsolutePath( );
         FileInputStream fis = new FileInputStream( fileLocation );
