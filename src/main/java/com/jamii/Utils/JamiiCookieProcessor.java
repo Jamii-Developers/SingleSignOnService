@@ -1,8 +1,8 @@
 package com.jamii.Utils;
 
-import com.jamii.jamiidb.controllers.DeviceInformationCONT;
-import com.jamii.jamiidb.controllers.UserCookiesCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.DeviceInformation;
+import com.jamii.jamiidb.controllers.UserCookies;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserCookiesTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
@@ -24,11 +24,11 @@ public class JamiiCookieProcessor {
     }
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private DeviceInformationCONT deviceInformationCONT;
+    private DeviceInformation deviceInformation;
     @Autowired
-    private UserCookiesCONT userCookiesCONT;
+    private UserCookies userCookies;
 
     private String USER_KEY;
     private String DEVICE_KEY;
@@ -61,38 +61,38 @@ public class JamiiCookieProcessor {
     public Boolean checkCookieIsValid( ){
 
         // Check if user key exists in the system
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( getUSER_KEY( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( getUSER_KEY( ), UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             return false;
         }
 
         // Check if the device has been connected before
-        Optional< DeviceInformationTBL > deviceData = this.deviceInformationCONT.fetch( user.get( ), getDEVICE_KEY( ), DeviceInformationTBL.ACTIVE_STATUS_ENABLED );
+        Optional< DeviceInformationTBL > deviceData = this.deviceInformation.fetch( user.get( ), getDEVICE_KEY( ), DeviceInformation.ACTIVE_STATUS_ENABLED );
         if( deviceData.isEmpty( ) ){
             return false;
         }
 
         // Check if session exists
-        Optional<UserCookiesTBL> cookieData = this.userCookiesCONT.fetch( user.get( ), deviceData.get( ), getUSER_COOKIE( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookieData = this.userCookies.fetch( user.get( ), deviceData.get( ), getUSER_COOKIE( ) , UserCookies.ACTIVE_STATUS_ENABLED );
         if( cookieData.isEmpty( ) ){
             return false;
         }
 
         // Check when was the last time the device was connected
         if( LocalDateTime.now( ).minusDays( 5 ).isAfter( deviceData.get().getLastconnected( ) ) ){
-            deviceData.get( ).setActive( DeviceInformationTBL.ACTIVE_STATUS_DISABLED );
-            this.deviceInformationCONT.update( deviceData.get( ) );
+            deviceData.get( ).setActive( DeviceInformation.ACTIVE_STATUS_DISABLED );
+            this.deviceInformation.update( deviceData.get( ) );
             return false;
         }
 
         if( LocalDateTime.now( ).isAfter( cookieData.get( ).getExpiredate( ) ) ){
-            cookieData.get( ).setActive( UserCookiesTBL.ACTIVE_STATUS_DISABLED );
-            this.userCookiesCONT.update( cookieData.get( ) );
+            cookieData.get( ).setActive( UserCookies.ACTIVE_STATUS_DISABLED );
+            this.userCookies.update( cookieData.get( ) );
             return false;
         }
 
         deviceData.get( ).setLastconnected( LocalDateTime.now( ) );
-        this.deviceInformationCONT.update( deviceData.get( ) );
+        this.deviceInformation.update( deviceData.get( ) );
 
         return true;
     }

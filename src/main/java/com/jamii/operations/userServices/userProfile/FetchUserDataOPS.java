@@ -2,8 +2,8 @@ package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -22,9 +22,9 @@ public class FetchUserDataOPS extends AbstractUserServicesOPS {
     public FetchUserDataOPS( ) { }
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
     private FetchUserProfileRESP fetchUserProfileRESP;
 
@@ -46,10 +46,10 @@ public class FetchUserDataOPS extends AbstractUserServicesOPS {
 
         FetchUserDataREQ req = (FetchUserDataREQ) JamiiMapperUtils.mapObject( getRequest( ), FetchUserDataREQ.class );
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON );
 
         if( sender.isPresent( ) ){
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( sender.get(), UserDataTBL.CURRENT_STATUS_ON);
+            Optional<UserDataTBL> userdata = this.userData.fetch( sender.get(), UserData.CURRENT_STATUS_ON);
             fetchUserProfileRESP = new FetchUserProfileRESP( );
             if (userdata.isPresent( ) ) {
                 fetchUserProfileRESP.setFirstname( JamiiStringUtils.getSafeString( userdata.get().getFirstname( ) ) );

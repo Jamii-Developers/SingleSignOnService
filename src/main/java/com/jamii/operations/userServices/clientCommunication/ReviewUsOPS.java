@@ -1,8 +1,8 @@
 package com.jamii.operations.userServices.clientCommunication;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.ClientCommunicationCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.ClientCommunication;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.ClientCommunicationTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -20,9 +20,9 @@ import java.util.Optional;
 public class ReviewUsOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private ClientCommunicationCONT clientCommunicationCONT ;
+    private ClientCommunication clientCommunication;
 
     private ContactUsRESP contactUsRESP;
     private ContactUsRESP getContactUsRESP() {
@@ -54,7 +54,8 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
         }
 
         ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ), UserLoginTBL.ACTIVE_ON ) ;
+        Optional<UserLoginTBL> user = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON ) ;
+
         if( user.isEmpty( ) ){
             jamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", req.getUsername( ), req.getEmailaddress() ) );
             this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
@@ -65,9 +66,9 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
         ClientCommunicationTBL contactus = new ClientCommunicationTBL( );
         contactus.setUserloginid( user.get( ) );
         contactus.setClientthoughts( req.getClient_thoughts( ) );
-        contactus.setTypeofthought( ClientCommunicationTBL.TYPE_OF_THOUGHT_CONTACT_US );
+        contactus.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_CONTACT_US );
         contactus.setDateofthought( LocalDateTime.now( ) );
-        this.clientCommunicationCONT.save( contactus );
+        this.clientCommunication.save( contactus );
 
     }
 

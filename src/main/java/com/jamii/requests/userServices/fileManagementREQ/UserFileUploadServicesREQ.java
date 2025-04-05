@@ -5,14 +5,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UserFileUploadServicesREQ extends AbstractUserServicesREQ {
 
-    public MultipartFile uploadfile;
+    public MultipartFile uploadFile;
 
     public MultipartFile getUploadfile() {
-        return uploadfile;
+        return uploadFile;
     }
 
     public void setUploadfile(MultipartFile uploadfile) {
-        this.uploadfile = uploadfile;
+        this.uploadFile = uploadfile;
     }
 
 }

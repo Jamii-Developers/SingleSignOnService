@@ -1,7 +1,7 @@
 package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.DeactivateUserREQ;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class DeactivateUserOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -38,7 +38,7 @@ public class DeactivateUserOPS extends AbstractUserServicesOPS {
 
         DeactivateUserREQ req = (DeactivateUserREQ) JamiiMapperUtils.mapObject( getRequest( ), DeactivateUserREQ.class );
         //Check if the user exists as active
-        Optional< UserLoginTBL > user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ), UserLoginTBL.ACTIVE_ON );
+        Optional< UserLoginTBL > user = userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "No activated user matches this information " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setDeactivateUser_UsernameOrEmailAddressDoesNotExist( );
@@ -47,7 +47,7 @@ public class DeactivateUserOPS extends AbstractUserServicesOPS {
         }
 
         //Check if the password is valid
-        if( !userLoginCONT.isPasswordValid( req.getPassword( ), user.get( ) ) ){
+        if( !userLogin.isPasswordValid( req.getPassword( ), user.get( ) ) ){
             jamiiDebug.warning( "Password is incorrect " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setDeactivateUser_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -55,7 +55,7 @@ public class DeactivateUserOPS extends AbstractUserServicesOPS {
         }
 
         //Deactivate user
-        userLoginCONT.deactivateUser( user.get( ) );
+        userLogin.deactivateUser( user.get( ) );
         setIsSuccessful( true );
     }
 

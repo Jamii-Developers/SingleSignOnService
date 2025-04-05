@@ -39,14 +39,6 @@ public class UserRequestsTBL {
     @JoinColumn( name = RECEIVER_ID, nullable = false )
     private UserLoginTBL receiverid;
 
-    // REQUEST_TYPE
-    public static final Integer TYPE_FRIEND    = 1;
-    public static final Integer TYPE_FOLLOW    = 2;
-
-    // STATUS
-    public static final Integer STATUS_INACTIVE    = 0;
-    public static final Integer STATUS_ACTIVE      = 1;
-
     public Integer getId() {
         return id;
     }

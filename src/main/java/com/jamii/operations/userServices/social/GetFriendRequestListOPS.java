@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
@@ -33,11 +33,11 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
     }
 
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -54,7 +54,7 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -63,7 +63,7 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
 
         // Get friends from relationship table
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetchRequests( sender.get(), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetchRequests( sender.get(), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
@@ -72,7 +72,7 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = request.getSenderid( );
 
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
+            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
             if( userdata.isPresent( ) ){
 
                 obj.setUSERNAME( user.getUsername( ) );

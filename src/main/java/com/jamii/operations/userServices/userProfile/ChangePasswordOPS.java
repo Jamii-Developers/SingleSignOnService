@@ -3,8 +3,8 @@ package com.jamii.operations.userServices.userProfile;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.Utils.JamiiUserPasswordEncryptTool;
-import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.PasswordHashRecords;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.ChangePasswordServicesREQ;
@@ -20,9 +20,9 @@ import java.util.Optional;
 public class ChangePasswordOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private PasswordHashRecordsCONT passwordHashRecordsCONT;
+    private PasswordHashRecords passwordHashRecords;
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -43,7 +43,7 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
         ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), ChangePasswordServicesREQ.class );
 
         //Check if the username and email address are available in the system
-        Optional <UserLoginTBL> user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername(), UserLoginTBL.ACTIVE_ON );
+        Optional <UserLoginTBL> user = userLogin.fetch( req.getEmailaddress( ), req.getUsername(), UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "The user does not exist in the system : " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_UsernameOrEmailAddressDoesNotExist( );
@@ -63,15 +63,15 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
 
         user.get( ).setPasswordsalt( encryptedNewPassword );
         //Check if the new password matches the last 10 passwords the user used
-        if( passwordHashRecordsCONT.isPasswordInLastTenRecords( user.get( ) ) ){
+        if( passwordHashRecords.isPasswordInLastTenRecords( user.get( ) ) ){
             jamiiDebug.warning( "This password matches the last ten the user has used :" + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordMatchesLastTen( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
-        userLoginCONT.update( user.get( ) );
-        passwordHashRecordsCONT.addUserNewPasswordRecord( user.get( ) ) ;
+        userLogin.update( user.get( ) );
+        passwordHashRecords.addUserNewPasswordRecord( user.get( ) ) ;
 
         setIsSuccessful( true );
     }

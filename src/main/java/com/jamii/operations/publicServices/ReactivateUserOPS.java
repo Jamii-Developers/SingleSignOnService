@@ -1,7 +1,7 @@
 package com.jamii.operations.publicServices;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.publicServices.ReactivateUserREQ;
 import com.jamii.responses.publicResponses.ReactivateUserRESP;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ReactivateUserOPS extends AbstractPublicServices {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
 
     @Override
     public void processRequest() throws Exception {
@@ -24,7 +24,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         ReactivateUserREQ req = (ReactivateUserREQ) JamiiMapperUtils.mapObject( getRequest( ), ReactivateUserREQ.class );
 
         //Check if the user exists as active
-        Optional<UserLoginTBL> user = userLoginCONT.fetch( req.getEmailaddress( ), req.getUsername( ),  UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> user = userLogin.fetch( req.getEmailaddress( ), req.getUsername( ),  UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "No deactivated user matches the information shared " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist( );
@@ -33,7 +33,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         }
 
         //Check if the password is valid
-        if( !userLoginCONT.isPasswordValid( req.getPassword( ), user.get( ) ) ){
+        if( !userLogin.isPasswordValid( req.getPassword( ), user.get( ) ) ){
             jamiiDebug.warning( "Password is incorrect " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -41,7 +41,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         }
 
         //Reactivate user
-        userLoginCONT.reactivateUser( user.get( ) );
+        userLogin.reactivateUser( user.get( ) );
         setIsSuccessful( true );
 
     }

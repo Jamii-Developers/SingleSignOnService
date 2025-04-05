@@ -3,8 +3,8 @@ package com.jamii.operations.userServices.fileManagement;
 import com.jamii.Utils.JamiiFileDownloadUtils;
 import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.FileTableOwner;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -23,9 +23,9 @@ import java.util.Optional;
 public class UserFileDownloadOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    protected FileTableOwnerCONT fileTableOwnerCONT;
+    protected FileTableOwner fileTableOwner;
 
     private FileTableOwnerTBL requestedFileInformation;
     public FileTableOwnerTBL getRequestedFileInformation() {return requestedFileInformation;}
@@ -63,7 +63,7 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
         }
         UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDownloadREQ.class );
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON ) ;
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
@@ -72,7 +72,7 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.fetch( user.get( ) ,req.getFileName( ) );
+        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwner.fetch( user.get( ) ,req.getFileName( ) );
         if( fileInformation.isEmpty( ) ){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );

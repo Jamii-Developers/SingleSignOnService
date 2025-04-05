@@ -2,8 +2,8 @@ package com.jamii.operations.publicServices;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.configs.FileServerConfigs;
-import com.jamii.jamiidb.controllers.PasswordHashRecordsCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.PasswordHashRecords;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.publicServices.CreateNewUserREQ;
 import com.jamii.responses.publicResponses.CreateNewUserRESP;
@@ -18,9 +18,9 @@ import java.io.File;
 public class CreateNewUserOPS extends AbstractPublicServices {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private PasswordHashRecordsCONT passwordHashRecordsCONT;
+    private PasswordHashRecords passwordHashRecords;
 
     private UserLoginTBL userData;
 
@@ -36,17 +36,17 @@ public class CreateNewUserOPS extends AbstractPublicServices {
 
         CreateNewUserREQ req = (CreateNewUserREQ) JamiiMapperUtils.mapObject( getRequest( ), CreateNewUserREQ.class );
 
-        if( userLoginCONT.checkifUserExists( req.getEmailaddress( ), req.getUsername( ) ) ){
+        if( userLogin.checkifUserExists( req.getEmailaddress( ), req.getUsername( ) ) ){
             this.jamiiErrorsMessagesRESP.createNewUserError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             return;
         }
 
-        this.userData = userLoginCONT.createNewUser( req );
+        this.userData = userLogin.createNewUser( req );
 
         //Add new password records
         if( this.userData != null){
-            passwordHashRecordsCONT.addUserNewPasswordRecord( this.userData ) ;
+            passwordHashRecords.addUserNewPasswordRecord( this.userData ) ;
         }
 
         setIsSuccessful( true );

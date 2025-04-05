@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.DeviceInformationCONT;
-import com.jamii.jamiidb.controllers.UserCookiesCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.DeviceInformation;
+import com.jamii.jamiidb.controllers.UserCookies;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.DeviceInformationTBL;
 import com.jamii.jamiidb.model.UserCookiesTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
@@ -20,11 +20,11 @@ import java.util.Optional;
 public class UserLogoffOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private DeviceInformationCONT deviceInformationCONT;
+    private DeviceInformation deviceInformation;
     @Autowired
-    private UserCookiesCONT userCookiesCONT;
+    private UserCookies userCookies;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -44,7 +44,7 @@ public class UserLogoffOPS extends AbstractUserServicesOPS {
 
         UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLogoffREQ.class );
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON );
 
         if ( user.isEmpty( ) ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
@@ -53,7 +53,7 @@ public class UserLogoffOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<DeviceInformationTBL> device = this.deviceInformationCONT.fetch( user.get( ), req.getDeviceKey());
+        Optional<DeviceInformationTBL> device = this.deviceInformation.fetch( user.get( ), req.getDeviceKey());
 
         if ( device.isEmpty( )) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
@@ -61,19 +61,19 @@ public class UserLogoffOPS extends AbstractUserServicesOPS {
             setIsSuccessful( false );
             return;
         }else{
-            device.get().setActive( DeviceInformationTBL.ACTIVE_STATUS_DISABLED );
-            this.deviceInformationCONT.update( device.get( ) );
+            device.get().setActive( DeviceInformation.ACTIVE_STATUS_DISABLED );
+            this.deviceInformation.update( device.get( ) );
         }
 
-        Optional<UserCookiesTBL> cookie = this.userCookiesCONT.fetch( user.get( ), device.get( ), req.getSessionKey( ) ,UserCookiesTBL.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookie = this.userCookies.fetch( user.get( ), device.get( ), req.getSessionKey( ) , UserCookies.ACTIVE_STATUS_ENABLED );
 
         if ( cookie.isEmpty( ) ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
         }else{
-            cookie.get().setActive( UserCookiesTBL.ACTIVE_STATUS_DISABLED );
-            this.userCookiesCONT.update( cookie.get( ) );
+            cookie.get().setActive( UserCookies.ACTIVE_STATUS_DISABLED );
+            this.userCookies.update( cookie.get( ) );
         }
 
         setIsSuccessful( true );

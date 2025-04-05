@@ -1,6 +1,7 @@
 package com.jamii.applicationControllers;
 
 import com.jamii.Utils.JamiiDebug;
+import com.jamii.Utils.JamiiLoggingUtils;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.operations.userServices.clientCommunication.ReviewUsOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDeleteOPS;
@@ -10,6 +11,7 @@ import com.jamii.operations.userServices.fileManagement.UserFileUploadOPS;
 import com.jamii.operations.userServices.userProfile.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,8 @@ import java.util.Map;
 @Service
 public class UserServices {
 
+    @Autowired
+    JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired
     ReviewUsOPS reviewUsOPS;
     @Autowired
@@ -61,71 +65,79 @@ public class UserServices {
 
     public ResponseEntity<?> processRequest( String operation, Object requestPayload ) throws Exception{
 
-        jamiiDebug.info("Received request for operation: " + operation);
+        try {
+            jamiiDebug.info("Received request for operation: " + operation);
 
-        // Lookup the handler
-        Object handler = directoryMap.get(operation);
+            // Lookup the handler
+            Object handler = directoryMap.get(operation);
 
-        if ( handler instanceof ReviewUsOPS){
-            ( (ReviewUsOPS) handler).reset( );
-            return ( (ReviewUsOPS) handler).run( requestPayload );
+            if (handler instanceof ReviewUsOPS) {
+                ((ReviewUsOPS) handler).reset();
+                return ((ReviewUsOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof UserFileDirectoryUpdateOPS) {
+                ((UserFileDirectoryUpdateOPS) handler).reset();
+                return ((UserFileDirectoryUpdateOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof UserFileDeleteOPS) {
+                ((UserFileDeleteOPS) handler).reset();
+                return ((UserFileDeleteOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof UserFileDownloadOPS) {
+                ((UserFileDownloadOPS) handler).reset();
+                return ((UserFileDownloadOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof ChangePasswordOPS) {
+                ((ChangePasswordOPS) handler).reset();
+                return ((ChangePasswordOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof EditUserDataOPS) {
+                ((EditUserDataOPS) handler).reset();
+                return ((EditUserDataOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof FetchUserDataOPS) {
+                ((FetchUserDataOPS) handler).reset();
+                return ((FetchUserDataOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof DeactivateUserOPS) {
+                ((DeactivateUserOPS) handler).reset();
+                return ((DeactivateUserOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof UserLogoffOPS) {
+                ((UserLogoffOPS) handler).reset();
+                return ((UserLogoffOPS) handler).run(requestPayload);
+            }
+        }catch( Exception e ){
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }
 
-        if ( handler instanceof UserFileDirectoryUpdateOPS){
-            ( (UserFileDirectoryUpdateOPS) handler).reset( );
-            return ( (UserFileDirectoryUpdateOPS) handler).run( requestPayload );
-        }
-
-        if ( handler instanceof UserFileDeleteOPS){
-            ( (UserFileDeleteOPS) handler).reset( );
-            return ( (UserFileDeleteOPS) handler).run( requestPayload );
-        }
-
-        if ( handler instanceof UserFileDownloadOPS){
-            ( (UserFileDownloadOPS) handler).reset( );
-            return ( (UserFileDownloadOPS) handler).run( requestPayload );
-        }
-
-        if( handler instanceof  ChangePasswordOPS ){
-            ( (ChangePasswordOPS) handler).reset( );
-            return ( (ChangePasswordOPS) handler).run( requestPayload );
-        }
-
-        if( handler instanceof  EditUserDataOPS ){
-            ( (EditUserDataOPS) handler).reset( );
-            return ( ( EditUserDataOPS ) handler).run( requestPayload );
-        }
-
-        if( handler instanceof  FetchUserDataOPS ){
-            ( (FetchUserDataOPS) handler).reset( );
-            return ( ( FetchUserDataOPS ) handler).run( requestPayload );
-        }
-
-        if( handler instanceof DeactivateUserOPS){
-            ( (DeactivateUserOPS) handler).reset( );
-            return ( ( DeactivateUserOPS ) handler).run( requestPayload );
-        }
-
-        if( handler instanceof UserLogoffOPS){
-            ( (UserLogoffOPS) handler).reset( );
-            return ( ( UserLogoffOPS ) handler).run( requestPayload );
-        }
-
-        throw  new Exception( operation );
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file) throws Exception {
 
-        jamiiDebug.info("Received request for operation: " + operation);
+        try{
+            jamiiDebug.info("Received request for operation: " + operation);
 
-        // Lookup the handler
-        Object handler = directoryMap.get(operation);
+            // Lookup the handler
+            Object handler = directoryMap.get(operation);
 
-        if ( handler instanceof UserFileUploadOPS){
-            ( (UserFileUploadOPS) handler).reset( );
-            return ( (UserFileUploadOPS) handler).run(JamiiMapperUtils.mapUploadFileObject( userKey, deviceKey, sessionKey, file ) );
+            if ( handler instanceof UserFileUploadOPS){
+                ( (UserFileUploadOPS) handler).reset( );
+                return ( (UserFileUploadOPS) handler).run(JamiiMapperUtils.mapUploadFileObject( userKey, deviceKey, sessionKey, file ) );
+            }
+        }catch( Exception e ){
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }
 
-        throw new Exception( operation );
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 }

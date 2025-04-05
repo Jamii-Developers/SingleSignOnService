@@ -4,9 +4,9 @@ package com.jamii.operations.userServices.fileManagement;
 import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.Utils.JamiiUploadFileUtils;
 import com.jamii.configs.FileServerConfigs;
-import com.jamii.jamiidb.controllers.FileDirectoryCONT;
-import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.FileDirectory;
+import com.jamii.jamiidb.controllers.FileTableOwner;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,11 +25,13 @@ import java.util.Optional;
 public class UserFileUploadOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private FileTableOwnerCONT fileTableOwnerCONT;
+    private FileTableOwner fileTableOwner;
     @Autowired
-    private FileDirectoryCONT fileDirectoryCONT;
+    private FileDirectory fileDirectory;
+    @Autowired
+    private JamiiUploadFileUtils jamiiUploadFileUtils;
 
     protected UserFileUploadRESP userFileUploadRESP;
     public UserFileUploadRESP getUserFileUploadRESP() {
@@ -54,14 +55,14 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
     }
 
     @Override
-    public void processRequest() throws IOException {
+    public void processRequest() throws Exception {
 
         if( !getIsSuccessful( ) ){
             return;
         }
 
         UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( ) ;
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON ) ;
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ));
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );
@@ -70,8 +71,8 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         }
 
         String sysFileName = generateFileKey( );
-        FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwnerCONT.add( getFileOwnerRecord( user, sysFileName ) );
-        this.fileDirectoryCONT.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
+        FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwner.add( getFileOwnerRecord( user, sysFileName ) );
+        this.fileDirectory.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
         saveUploadedFile( user.get( ).getIdAsString( ), sysFileName );
 
         setIsSuccessful( true );
@@ -102,20 +103,20 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         fileTableOwnerTBL.setFiletype( req.getUploadfile( ).getContentType( ) );
         fileTableOwnerTBL.setUserloginid( user.get( ) );
         fileTableOwnerTBL.setFilesize( req.getUploadfile( ).getSize( ) );
+        fileTableOwnerTBL.setOriginalfilename( req.uploadFile.getOriginalFilename( ) );
         fileTableOwnerTBL.setSystemfilename( sysFileName );
-        fileTableOwnerTBL.setStatus( FileTableOwnerTBL.ACTIVE_STATUS_STORE );
+        fileTableOwnerTBL.setStatus( FileTableOwner.ACTIVE_STATUS_STORE );
         fileTableOwnerTBL.setDatecreated( LocalDateTime.now( ) );
         fileTableOwnerTBL.setLastupdated( LocalDateTime.now( ) );
         return fileTableOwnerTBL;
     }
 
-    protected void saveUploadedFile( String userId,String sysFileName ){
+    protected void saveUploadedFile( String userId,String sysFileName ) throws Exception {
         UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( ) ;
-        JamiiUploadFileUtils fileOPS = new JamiiUploadFileUtils( );
-        fileOPS.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE + File.separator + userId );
-        fileOPS.setMultipartFile1( req.getUploadfile( ) );
-        fileOPS.setSystemFilename( sysFileName );
-        fileOPS.save( );
+        this.jamiiUploadFileUtils.setDestDirectory( FileServerConfigs.USER_IMAGE_STORE + File.separator + userId );
+        this.jamiiUploadFileUtils.setMultipartFile1( req.getUploadfile( ) );
+        this.jamiiUploadFileUtils.setSystemFilename( sysFileName );
+        this.jamiiUploadFileUtils.save( );
     }
 
 }

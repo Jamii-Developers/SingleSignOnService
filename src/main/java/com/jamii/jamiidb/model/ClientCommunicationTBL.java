@@ -37,9 +37,6 @@ public class ClientCommunicationTBL {
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
     private UserLoginTBL userloginid;
 
-    public final static Integer TYPE_OF_THOUGHT_CONTACT_US = 1 ; //
-    public final static Integer TYPE_OF_THOUGHT_REVIEW = 2 ;
-
     public Integer getId() {
         return id;
     }

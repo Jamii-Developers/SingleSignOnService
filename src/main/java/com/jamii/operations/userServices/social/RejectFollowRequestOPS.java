@@ -1,7 +1,7 @@
 package com.jamii.operations.userServices.social;
 
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -25,9 +25,9 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
     private Optional<UserLoginTBL> receiver;
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
 
     public void setRejectFollowRequestREQ(RejectFollowRequestServicesREQ rejectFollowRequestREQ) {
         this.rejectFollowRequestREQ = rejectFollowRequestREQ;
@@ -52,8 +52,8 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getRejectFollowRequestREQ( ).getReceiveruserkey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( getRejectFollowRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -63,18 +63,18 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
-        Optional <UserRequestsTBL> validFollowRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
+        Optional <UserRequestsTBL> validFollowRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
 
         //Check if friend request exists
         if( validFollowRequest.isPresent( ) ){
 
             // Deactivate the request
-            validFollowRequest.get( ).setStatus( UserRequestsTBL.STATUS_INACTIVE );
+            validFollowRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
             validFollowRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequestCONT.update( validFollowRequest.get( ) );
+            userRequest.update( validFollowRequest.get( ) );
 
         }else{
             this.isSuccessful = false;

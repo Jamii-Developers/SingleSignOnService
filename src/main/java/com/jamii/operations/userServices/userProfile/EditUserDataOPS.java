@@ -1,8 +1,8 @@
 package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.EditUserDataServicesREQ;
@@ -20,9 +20,9 @@ public class EditUserDataOPS extends AbstractUserServicesOPS {
     public EditUserDataOPS( ) { }
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -41,17 +41,17 @@ public class EditUserDataOPS extends AbstractUserServicesOPS {
         }
 
         EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), EditUserDataServicesREQ.class );
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON );
 
         //Find userData currently active and deactivate them all
-        this.userDataCONT.markAllPreviousUserDataInActive( user.get( ) );
+        this.userData.markAllPreviousUserDataInActive( user.get( ) );
 
         //Adds the latest userData to the database
-        this.userDataCONT.add( user.get( ), req );
+        this.userData.add( user.get( ), req );
 
         //Updates Privacy Settings
         user.get( ).setPrivacy( req.getPrivacy( ) );
-        this.userLoginCONT.add( user.get( ) );
+        this.userLogin.add( user.get( ) );
 
         setIsSuccessful( true );
 

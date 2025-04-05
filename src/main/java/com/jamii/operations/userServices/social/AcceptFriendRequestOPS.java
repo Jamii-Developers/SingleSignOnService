@@ -1,10 +1,9 @@
 package com.jamii.operations.userServices.social;
 
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRelationship;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.AcceptFriendRequestServicesREQ;
@@ -27,11 +26,11 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
     private Optional<UserLoginTBL> receiver;
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRelationship userRelationship;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
 
     public void setAcceptFriendRequestREQ( AcceptFriendRequestServicesREQ acceptFriendRequestREQ ) {
         this.acceptFriendRequestREQ = acceptFriendRequestREQ;
@@ -57,8 +56,8 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getAcceptFriendRequestREQ( ).getReceiveruserkey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( getAcceptFriendRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -67,20 +66,20 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
-        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst();
+        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst();
         //Check if follow request exists
         if( validFriendRequest.isPresent( ) ){
 
             // Deactivate the request
-            validFriendRequest.get( ).setStatus( UserRequestsTBL.STATUS_INACTIVE );
+            validFriendRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
             validFriendRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequestCONT.update( validFriendRequest.get( ) );
+            userRequest.update( validFriendRequest.get( ) );
 
             //Accept follow request from sender
-            this.userRelationshipCONT.add( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_ACTIVE );
+            this.userRelationship.add( sender.get( ), receiver.get( ), UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE );
 
         }else{
             this.isSuccessful = false;

@@ -1,5 +1,6 @@
 package com.jamii;
 
+import com.jamii.Utils.JamiiLoggingUtils;
 import com.jamii.applicationControllers.PublicServices;
 import com.jamii.applicationControllers.UserServices;
 import jakarta.annotation.PostConstruct;
@@ -22,6 +23,8 @@ import java.util.Map;
 @SpringBootApplication
 public class ApplicationStart {
 
+    @Autowired
+    JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired
     PublicServices publicServices;
     @Autowired
@@ -48,15 +51,14 @@ public class ApplicationStart {
             }
 
             if (handler instanceof UserServices) {
-                return ((UserServices) handler).processRequest(operation, jsonPayload);
+                return ( (UserServices) handler).processRequest(operation, jsonPayload);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unsupported request type");
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(path = "{requestType}/{operation}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -66,7 +68,7 @@ public class ApplicationStart {
             @RequestParam String userKey,
             @RequestParam String deviceKey,
             @RequestParam String sessionKey,
-            @RequestParam(value = "uploadfile", required = true ) MultipartFile file) throws Exception {
+            @RequestParam(value = "uploadFile", required = true ) MultipartFile file) throws Exception {
         try {
             Object handler = directoryMap.get(requestType);
 
@@ -79,11 +81,10 @@ public class ApplicationStart {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unsupported request type");
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "{requestType}/{operation}/{filename}")
@@ -100,10 +101,9 @@ public class ApplicationStart {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unsupported request type");
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 }

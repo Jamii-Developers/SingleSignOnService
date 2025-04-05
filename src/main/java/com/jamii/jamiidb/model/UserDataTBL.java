@@ -36,11 +36,7 @@ public class UserDataTBL {
     public static final String      AUX_DATA        = "AUX_DATA";
 
 
-    /**
-     * Below are the Current Statuses. "Current" reffers to the most recent record of a particular user
-     */
-    public static final Boolean     CURRENT_STATUS_OFF = false;
-    public static final Boolean     CURRENT_STATUS_ON  = true ;
+
 
     @Id
     @Column( name = ID)

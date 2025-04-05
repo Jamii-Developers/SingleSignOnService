@@ -2,9 +2,9 @@ package com.jamii.operations.userServices.fileManagement;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.FileDirectoryCONT;
-import com.jamii.jamiidb.controllers.FileTableOwnerCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.FileDirectory;
+import com.jamii.jamiidb.controllers.FileTableOwner;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.FileDirectoryTBL;
 import com.jamii.jamiidb.model.FileTableOwnerTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
@@ -25,11 +25,11 @@ import java.util.Optional;
 public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private FileTableOwnerCONT fileTableOwnerCONT;
+    private FileTableOwner fileTableOwner;
     @Autowired
-    private FileDirectoryCONT fileDirectoryCONT;
+    private FileDirectory fileDirectory;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -49,7 +49,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
         UserFileDirectoryUpdateREQ req = (UserFileDirectoryUpdateREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
 
-        Optional<UserLoginTBL> user = this.userLoginCONT.fetchByUserKey( req.getUserKey( ), UserLoginTBL.ACTIVE_ON ) ;
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );
@@ -58,7 +58,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwnerCONT.fetch( user.get( ) ,req.getFileName( ) );
+        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwner.fetch( user.get( ) ,req.getFileName( ) );
         if( fileInformation.isEmpty() ){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
@@ -67,7 +67,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        if(Objects.equals(fileInformation.get().getStatus(), FileTableOwnerTBL.ACTIVE_STATUS_DELETED) || Objects.equals(fileInformation.get().getStatus(), FileTableOwnerTBL.ACTIVE_STATUS_IN_TRASH)){
+        if(Objects.equals(fileInformation.get().getStatus(), FileTableOwner.ACTIVE_STATUS_DELETED) || Objects.equals(fileInformation.get().getStatus(), FileTableOwner.ACTIVE_STATUS_IN_TRASH)){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -75,7 +75,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileDirectoryTBL> fileDirectory = this.fileDirectoryCONT.fetch( user.get( ), fileInformation.get( ) );
+        Optional<FileDirectoryTBL> fileDirectory = this.fileDirectory.fetch( user.get( ), fileInformation.get( ) );
         if( fileDirectory.isPresent( ) && JamiiStringUtils.equals( req.getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
             jamiiDebug.warning( "File is already in said location: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( );
@@ -86,7 +86,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
         fileDirectory.get( ).setUidirectory( req.getDirectoryUpdate( ) );
         fileDirectory.get( ).setLastupdated( LocalDateTime.now( ));
-        this.fileDirectoryCONT.update( fileDirectory.get( ) );
+        this.fileDirectory.update( fileDirectory.get( ) );
     }
 
     @Override

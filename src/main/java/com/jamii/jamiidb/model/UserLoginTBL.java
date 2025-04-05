@@ -87,19 +87,7 @@ public class UserLoginTBL {
     @OneToMany( mappedBy = "blockedid" )
     private List<UserBlockListTBL> blockedidUserBlockListTBL;
 
-    /**
-     * ACTIVE STATUSES
-     */
-    public static final Integer ACTIVE_OFF              = 0;
-    public static final Integer ACTIVE_ON               = 1;
-    public static final Integer ACTIVE_TERMINATED       = 2;
 
-    /**
-     * PRIVACY STATUSES
-     */
-
-    public static final Integer PRIVACY_OFF             = 0;
-    public static final Integer PRIVACY_ON              = 1;
 
     public Integer getId() {
         return id;

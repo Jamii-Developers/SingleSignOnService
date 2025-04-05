@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserBlockListCONT;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserBlockList;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
@@ -33,11 +33,11 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
     }
 
     @Autowired
-    private UserBlockListCONT userBlockListCONT;
+    private UserBlockList userBlockList;
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -54,7 +54,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -63,7 +63,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
 
         // Get friends from relationship table
         List<UserBlockListTBL> blockedUsers = new ArrayList<>( );
-        blockedUsers.addAll( userBlockListCONT.fetchBlockedList( sender.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
+        blockedUsers.addAll( userBlockList.fetchBlockedList( sender.get( ), UserBlockList.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
@@ -72,7 +72,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = blockeduser.getBlockedid();
 
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
+            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
             if( userdata.isPresent( ) ){
 
                 obj.setUSERNAME( user.getUsername( ) );

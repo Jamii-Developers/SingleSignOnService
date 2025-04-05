@@ -36,10 +36,6 @@ public class UserBlockListTBL {
     @JoinColumn( name = BLOCKED_ID, nullable = false )
     private UserLoginTBL blockedid;
 
-    // STATUS
-    public static final Integer STATUS_INACTIVE    = 0;
-    public static final Integer STATUS_ACTIVE      = 1;
-
     public Integer getId() {
         return id;
     }

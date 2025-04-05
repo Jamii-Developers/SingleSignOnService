@@ -49,15 +49,6 @@ public class DeviceInformationTBL {
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
     private UserLoginTBL userloginid;
 
-    /**
-     * Active Statuses
-     */
-
-    public static final Integer     ACTIVE_STATUS_DISABLED      = 0;
-    public static final Integer     ACTIVE_STATUS_ENABLED       = 1;
-    public static final Integer     ACTIVE_STATUS_BLOCKED       = 2;
-
-
     public Integer getId( ) {
         return id;
     }

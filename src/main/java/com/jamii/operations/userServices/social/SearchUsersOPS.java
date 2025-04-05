@@ -2,8 +2,8 @@ package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -23,9 +23,9 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
     private HashMap< String, SocialHelper.SearchResults > searchResults = new HashMap<>( );
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
 
     @Override
@@ -51,12 +51,12 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
 
         //Fetch list of users based of User Login Information
         List< UserLoginTBL > userLogins = new ArrayList<>( );
-        userLogins.addAll( this.userLoginCONT.searchUserUsername( req.getSearchstring( ) ) );
-        userLogins.addAll( this.userLoginCONT.searchUserEmailAddress( req.getSearchstring( ) ) );
+        userLogins.addAll( this.userLogin.searchUserUsername( req.getSearchstring( ) ) );
+        userLogins.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
         for( UserLoginTBL user : userLogins ){
 
             SocialHelper.SearchResults obj = new SocialHelper.SearchResults( );
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
+            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
 
             if( !this.searchResults.containsKey( user.getUserKey( ) ) ){
 
@@ -81,12 +81,12 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
 
         //Fetch list based of User Data Information
         List< UserDataTBL > userDatas = new ArrayList<>( );
-        userDatas.addAll( this.userDataCONT.searchUserFirstname( req.getSearchstring( ) ) );
-        userDatas.addAll( this.userDataCONT.searchUserMiddlename( req.getSearchstring( ) ) );
-        userDatas.addAll( this.userDataCONT.searchUserLastname( req.getSearchstring( ) ) );
+        userDatas.addAll( this.userData.searchUserFirstname( req.getSearchstring( ) ) );
+        userDatas.addAll( this.userData.searchUserMiddlename( req.getSearchstring( ) ) );
+        userDatas.addAll( this.userData.searchUserLastname( req.getSearchstring( ) ) );
         for( UserDataTBL userdata : userDatas ){
 
-            Optional<UserLoginTBL> user = this.userLoginCONT.fetch( userdata.getId( ), UserLoginTBL.ACTIVE_ON );
+            Optional<UserLoginTBL> user = this.userLogin.fetch( userdata.getId( ), UserLogin.ACTIVE_ON );
             if( !user.isPresent( ) ){
                 continue;
             }

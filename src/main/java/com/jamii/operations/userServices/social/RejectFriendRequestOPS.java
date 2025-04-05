@@ -1,7 +1,7 @@
 package com.jamii.operations.userServices.social;
 
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -25,9 +25,9 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
     private Optional<UserLoginTBL> receiver;
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
 
     public void setRejectFriendRequestREQ( RejectFriendRequestServicesREQ rejectFriendRequestREQ ) {
         this.rejectFriendRequestREQ = rejectFriendRequestREQ;
@@ -52,8 +52,8 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getRejectFriendRequestREQ( ).getReceiveruserkey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( getRejectFriendRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -63,18 +63,18 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FRIEND, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
-        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
+        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
 
         //Check if friend request exists
         if( validFriendRequest.isPresent( ) ){
 
             // Deactivate the request
-            validFriendRequest.get( ).setStatus( UserRequestsTBL.STATUS_INACTIVE );
+            validFriendRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
             validFriendRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequestCONT.update( validFriendRequest.get( ) );
+            userRequest.update( validFriendRequest.get( ) );
 
         }else{
             this.isSuccessful = false;

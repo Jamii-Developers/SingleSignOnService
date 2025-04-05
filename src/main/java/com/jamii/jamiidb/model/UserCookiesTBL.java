@@ -46,10 +46,6 @@ public class UserCookiesTBL {
     @JoinColumn( name = DEVICE_INFORMATION_ID, nullable = false )
     private DeviceInformationTBL deviceinformationid;
 
-    //ACTIVE STATUS
-    public static boolean ACTIVE_STATUS_ENABLED = true;
-    public static boolean ACTIVE_STATUS_DISABLED = false;
-
     public Integer getId() {
         return id;
     }

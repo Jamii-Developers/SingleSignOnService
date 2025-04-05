@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
-import com.jamii.jamiidb.controllers.UserBlockListCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserBlockList;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRelationship;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
@@ -37,13 +37,13 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
     }
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRelationship userRelationship;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
     @Autowired
-    private UserBlockListCONT userBlockListCONT;
+    private UserBlockList userBlockList;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -60,8 +60,8 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getSendFollowRequestREQ( ).getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( getSendFollowRequestREQ( ).getReceiveruserkey(), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -70,19 +70,19 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
         //Fetch Block List
         List<UserBlockListTBL> blockList = new ArrayList<>( );
-        blockList.addAll( userBlockListCONT.fetch( sender.get( ), receiver.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
-        blockList.addAll( userBlockListCONT.fetch( receiver.get( ), sender.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
+        blockList.addAll( userBlockList.fetch( sender.get( ), receiver.get( ), UserBlockList.STATUS_ACTIVE ) );
+        blockList.addAll( userBlockList.fetch( receiver.get( ), sender.get( ), UserBlockList.STATUS_ACTIVE ) );
         //Fetch Relationships
         List<UserRelationshipTBL> relationship = new ArrayList<>( );
-        relationship.addAll( userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW ) );
-        relationship.addAll( userRelationshipCONT.fetch(  receiver.get( ), sender.get( ),UserRelationshipTBL.TYPE_FOLLOW ) );
+        relationship.addAll( userRelationship.fetch( sender.get( ), receiver.get( ), UserRelationship.TYPE_FOLLOW ) );
+        relationship.addAll( userRelationship.fetch(  receiver.get( ), sender.get( ), UserRelationship.TYPE_FOLLOW ) );
 
         //Check if there's a pending Sender request
-        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
+        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_PendingFollowRequest( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -90,7 +90,7 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if user is already following this user
-        if( !relationship.isEmpty() && relationship.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRelationshipTBL.STATUS_ACTIVE) && x.getSenderid( ) == sender.get( ) ) ){
+        if( !relationship.isEmpty() && relationship.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getSenderid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_AlreadyFollowingTheUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -98,7 +98,7 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if sender has been blocked
-        if( !blockList.isEmpty() && blockList.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserBlockListTBL.STATUS_ACTIVE ) && x.getBlockedid( ) == sender.get( ) ) ){
+        if( !blockList.isEmpty() && blockList.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getBlockedid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -106,18 +106,18 @@ public class SendFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check is sender blocked this receiver
-        if( !blockList.isEmpty() && blockList.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserBlockListTBL.STATUS_ACTIVE ) && x.getBlockedid( ) == receiver.get( ) )  ){
+        if( !blockList.isEmpty() && blockList.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserBlockList.STATUS_ACTIVE ) && x.getBlockedid( ) == receiver.get( ) )  ){
             this.jamiiErrorsMessagesRESP.setSendFollowRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
         }
 
-        if( Objects.equals( receiver.get( ).getPrivacy( ), UserLoginTBL.PRIVACY_ON ) ){
-            userRequestCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRequestsTBL.STATUS_ACTIVE );
+        if( Objects.equals( receiver.get( ).getPrivacy( ), UserLogin.PRIVACY_ON ) ){
+            userRequest.add( sender.get( ) , receiver.get( ), UserRelationship.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE );
             followRequestType = 1 ;
         }else{
-            userRelationshipCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACTIVE );
+            userRelationship.add( sender.get( ) , receiver.get( ), UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE );
         }
 
     }

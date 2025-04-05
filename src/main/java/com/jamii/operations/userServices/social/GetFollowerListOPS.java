@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserDataCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
+import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
@@ -33,11 +33,11 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
     }
 
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRelationship userRelationship;
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserDataCONT userDataCONT;
+    private UserData userData;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -54,7 +54,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -63,7 +63,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
 
         // Get friends from relationship table
         List<UserRelationshipTBL> relationships = new ArrayList<>( );
-        relationships.addAll( userRelationshipCONT.fetchFollowers( sender.get( ), UserRelationshipTBL.TYPE_FOLLOW, UserRelationshipTBL.STATUS_ACTIVE ) );
+        relationships.addAll( userRelationship.fetchFollowers( sender.get( ), UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
@@ -72,7 +72,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = relationship.getSenderid();
 
-            Optional<UserDataTBL> userdata = this.userDataCONT.fetch( user, UserDataTBL.CURRENT_STATUS_ON );
+            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
             if( userdata.isPresent( ) ){
 
                 obj.setUSERNAME( user.getUsername( ) );

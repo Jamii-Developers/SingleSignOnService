@@ -1,6 +1,8 @@
 package com.jamii.Utils;
 
 import com.jamii.configs.FileServerConfigs;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -9,7 +11,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.DeflaterOutputStream;
 
+@Service
 public class JamiiUploadFileUtils {
+
+    @Autowired
+    protected JamiiFileUtils jamiiFileUtils;
 
     private MultipartFile multipartFile1 ;
     private File file1;
@@ -50,7 +56,7 @@ public class JamiiUploadFileUtils {
 
     public File convertMultipartFileToFile( MultipartFile multipartFile ) throws IOException {
 
-        File file = new File( FileServerConfigs.FILE_CACHING_STORE + File.separator +multipartFile.getOriginalFilename( ) );
+        File file = new File( FileServerConfigs.FILE_CACHING_STORE + File.separator + multipartFile.getOriginalFilename( ) );
 
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(multipartFile.getBytes());
@@ -59,23 +65,14 @@ public class JamiiUploadFileUtils {
         return file;
     }
 
-    public boolean save( ) {
-        try {
-            // Convert MultipartFile to a regular file before compression
-            if( getFile1( ) == null ){
-                setFile1( convertMultipartFileToFile( getMultipartFile1( ) ) );
-            }
-            saveFile( ) ;
-            return true ;
-        }catch( Exception  e) {
-            e.printStackTrace( );
-            return false ;
+    public void save( ) throws Exception {
+
+        // Convert MultipartFile to a regular file before compression
+        if( getFile1( ) == null ){
+            setFile1( convertMultipartFileToFile( getMultipartFile1( ) ) );
         }
-
-    }
-
-    public void saveFile( ) throws Exception {
-        JamiiFileUtils.compress( getFile1( ).getAbsolutePath( ), getDestDirectory( ) , getSystemFilename(),true );
+        jamiiFileUtils.compress( getFile1( ).getAbsolutePath( ), getDestDirectory( ) , getSystemFilename(),true );
+        jamiiFileUtils.delete( getFile1().getAbsolutePath( ) );
     }
 
     /**

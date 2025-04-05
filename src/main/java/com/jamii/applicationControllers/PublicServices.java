@@ -1,6 +1,7 @@
 package com.jamii.applicationControllers;
 
 import com.jamii.Utils.JamiiDebug;
+import com.jamii.Utils.JamiiLoggingUtils;
 import com.jamii.operations.publicServices.CreateNewUserOPS;
 import com.jamii.operations.publicServices.ReactivateUserOPS;
 import com.jamii.operations.publicServices.UserLoginOPS;
@@ -17,6 +18,8 @@ import java.util.Map;
 @Service
 public class PublicServices {
 
+	@Autowired
+	JamiiLoggingUtils jamiiLoggingUtils;
 	@Autowired
 	CreateNewUserOPS createNewUserOPS;
 	@Autowired
@@ -57,9 +60,8 @@ public class PublicServices {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
 		}
-
 		return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
 	}
 

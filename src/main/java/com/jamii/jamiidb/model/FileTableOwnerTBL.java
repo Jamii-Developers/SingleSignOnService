@@ -25,6 +25,7 @@ public class FileTableOwnerTBL {
     public static final String              FILE_TYPE           = "FILE_TYPE";
     public static final String              SYSTEM_FILENAME     = "SYSTEM_FILENAME";
     public static final String              FILE_LOCATION       = "FILE_LOCATION";
+    public static final String              ORIGINAL_FILENAME   = "ORIGINAL_FILENAME";
     public static final String              FILE_SIZE           = "FILE_SIZE";
     public static final String              DATE_CREATED        = "DATE_CREATED";
     public static final String              STATUS              = "STATUS";
@@ -43,6 +44,9 @@ public class FileTableOwnerTBL {
 
     @Column( name = FILE_TYPE , nullable = false, length = 200 )
     private String filetype;
+
+    @Column( name = ORIGINAL_FILENAME , nullable = false, length = 200 )
+    private String originalfilename;
 
     @Column( name = FILE_SIZE , nullable = false)
     private Long filesize;
@@ -63,14 +67,6 @@ public class FileTableOwnerTBL {
 
     @OneToMany( mappedBy = "filetableownerid" )
     private List<FileDirectoryTBL> fIleDirectoryTBL;
-
-    /**
-     * Setting active statuses
-     */
-
-    public final static Integer ACTIVE_STATUS_STORE             = 1;
-    public final static Integer ACTIVE_STATUS_IN_TRASH          = 2;
-    public final static Integer ACTIVE_STATUS_DELETED           = 3;
 
 
     public Integer getId() {
@@ -104,6 +100,14 @@ public class FileTableOwnerTBL {
 
     public void setFiletype(String filetype) {
         this.filetype = filetype;
+    }
+
+    public String getOriginalfilename() {
+        return originalfilename;
+    }
+
+    public void setOriginalfilename(String originalfilename) {
+        this.originalfilename = originalfilename;
     }
 
     public Long getFilesize() {

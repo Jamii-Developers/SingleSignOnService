@@ -1,10 +1,10 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserBlockListCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserBlockList;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRelationship;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
@@ -30,13 +30,13 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
 
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRelationship userRelationship;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
     @Autowired
-    private UserBlockListCONT userBlockListCONT;
+    private UserBlockList userBlockList;
 
     @Override
     public void validateCookie( ) throws Exception{
@@ -56,8 +56,8 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
 
         SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), SendFriendRequestServicesREQ.class );
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( req.getReceiveruserkey(), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( req.getReceiveruserkey(), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -66,19 +66,19 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ), UserRequestsTBL.TYPE_FRIEND ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ), UserRequestsTBL.TYPE_FRIEND ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FRIEND ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FRIEND ) );
         //Fetch Block List
         List<UserBlockListTBL> blockList = new ArrayList<>( );
-        blockList.addAll( userBlockListCONT.fetch( sender.get( ), receiver.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
-        blockList.addAll( userBlockListCONT.fetch( receiver.get( ), sender.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
+        blockList.addAll( userBlockList.fetch( sender.get( ), receiver.get( ), UserBlockList.STATUS_ACTIVE ) );
+        blockList.addAll( userBlockList.fetch( receiver.get( ), sender.get( ), UserBlockList.STATUS_ACTIVE ) );
         //Fetch Relationships
         List<UserRelationshipTBL> relationship = new ArrayList<>( );
-        relationship.addAll( userRelationshipCONT.fetch( sender.get( ), receiver.get( ), UserRelationshipTBL.TYPE_FRIEND ) );
-        relationship.addAll( userRelationshipCONT.fetch(  receiver.get( ), sender.get( ),UserRelationshipTBL.TYPE_FRIEND ) );
+        relationship.addAll( userRelationship.fetch( sender.get( ), receiver.get( ), UserRelationship.TYPE_FRIEND ) );
+        relationship.addAll( userRelationship.fetch(  receiver.get( ), sender.get( ), UserRelationship.TYPE_FRIEND ) );
 
         //Check if a friend request has been sent to the receiver
-        if( !requests.isEmpty() && requests.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
+        if( !requests.isEmpty() && requests.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestIsAlreadyAvailable( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -86,7 +86,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if a friend request has already been sent by the receiver
-        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequestsTBL.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) ) ){
+        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestHasBeenSentByTheReceiver( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -94,7 +94,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if the users are already friends
-        if( !relationship.isEmpty( ) && relationship.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRelationshipTBL.STATUS_ACTIVE ) ) ){
+        if( !relationship.isEmpty( ) && relationship.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_AreAlreadyFriends( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -102,7 +102,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if sender has been blocked
-        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockListTBL.STATUS_ACTIVE ) && x.getUserid( ) == receiver.get( ) ) ){
+        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == receiver.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -110,14 +110,14 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check is sender blocked this receiver
-        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockListTBL.STATUS_ACTIVE ) && x.getUserid( ) == sender.get( ) ) ){
+        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == sender.get( ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
             return;
         }
 
-        userRequestCONT.add( sender.get( ) , receiver.get( ), UserRelationshipTBL.TYPE_FRIEND, UserRelationshipTBL.STATUS_ACTIVE );
+        userRequest.add( sender.get( ) , receiver.get( ), UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE );
         setIsSuccessful( true );
     }
 

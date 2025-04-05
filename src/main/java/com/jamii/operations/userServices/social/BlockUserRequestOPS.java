@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
-import com.jamii.jamiidb.controllers.UserBlockListCONT;
-import com.jamii.jamiidb.controllers.UserLoginCONT;
-import com.jamii.jamiidb.controllers.UserRelationshipCONT;
-import com.jamii.jamiidb.controllers.UserRequestCONT;
+import com.jamii.jamiidb.controllers.UserBlockList;
+import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.controllers.UserRelationship;
+import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
@@ -28,13 +28,13 @@ public class BlockUserRequestOPS extends AbstractUserServicesOPS {
     private Optional<UserLoginTBL> receiver;
 
     @Autowired
-    private UserLoginCONT userLoginCONT;
+    private UserLogin userLogin;
     @Autowired
-    private UserRelationshipCONT userRelationshipCONT;
+    private UserRelationship userRelationship;
     @Autowired
-    private UserRequestCONT userRequestCONT;
+    private UserRequest userRequest;
     @Autowired
-    private UserBlockListCONT userBlockListCONT;
+    private UserBlockList userBlockList;
 
     public void setBlockUserRequestREQ(BlockUserRequestServicesREQ blockUserRequestREQ) {
         this.blockUserRequestREQ = blockUserRequestREQ;
@@ -59,8 +59,8 @@ public class BlockUserRequestOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLoginCONT.fetchByUserKey( UserKey, UserLoginTBL.ACTIVE_ON );
-        receiver = this.userLoginCONT.fetchByUserKey( getBlockUserRequestREQ( ).getReceiveruserkey( ), UserLoginTBL.ACTIVE_ON );
+        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
+        receiver = this.userLogin.fetchByUserKey( getBlockUserRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
         if( sender.isEmpty( ) || receiver.isEmpty( )){
             this.jamiiErrorsMessagesRESP.setBlockUserRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -70,22 +70,22 @@ public class BlockUserRequestOPS extends AbstractUserServicesOPS {
 
         //Fetch requests to user
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequestCONT.fetch( sender.get( ), receiver.get( ) ) );
-        requests.addAll( userRequestCONT.fetch( receiver.get( ), sender.get( ) ) );
+        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ) ) );
+        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ) ) );
         //Fetch Block List
         List<UserBlockListTBL> blockList = new ArrayList<>( );
-        blockList.addAll( userBlockListCONT.fetch( sender.get( ), receiver.get( ), UserBlockListTBL.STATUS_ACTIVE ) );
+        blockList.addAll( userBlockList.fetch( sender.get( ), receiver.get( ), UserBlockList.STATUS_ACTIVE ) );
         //Fetch Relationships
         List<UserRelationshipTBL> relationship = new ArrayList<>( );
-        relationship.addAll( userRelationshipCONT.fetch( sender.get( ), receiver.get( )  ) );
-        relationship.addAll( userRelationshipCONT.fetch(  receiver.get( ), sender.get( ) ) );
+        relationship.addAll( userRelationship.fetch( sender.get( ), receiver.get( )  ) );
+        relationship.addAll( userRelationship.fetch(  receiver.get( ), sender.get( ) ) );
 
         //Deactivate any active relationship
         if( !relationship.isEmpty( ) ){
             for( UserRelationshipTBL rlshp : relationship ){
-                rlshp.setStatus( UserRelationshipTBL.STATUS_INACTIVE );
+                rlshp.setStatus( UserRelationship.STATUS_INACTIVE );
                 rlshp.setDateupdated( LocalDateTime.now( ) );
-                userRelationshipCONT.update( rlshp );
+                userRelationship.update( rlshp );
             }
 
         }
@@ -93,21 +93,21 @@ public class BlockUserRequestOPS extends AbstractUserServicesOPS {
         //Deactivate any requests
         if( !requests.isEmpty( ) ){
             for( UserRequestsTBL req : requests ) {
-                req.setStatus( UserRequestsTBL.STATUS_INACTIVE );
+                req.setStatus( UserRequest.STATUS_INACTIVE );
                 req.setDateupdated(LocalDateTime.now());
-                userRequestCONT.update( req );
+                userRequest.update( req );
             }
         }
 
         //Set any follow relationships the receiver has with the sender
         if( !blockList.isEmpty( ) ){
             for( UserBlockListTBL blcklst : blockList ){
-                blcklst.setStatus( UserBlockListTBL.STATUS_ACTIVE );
+                blcklst.setStatus( UserBlockList.STATUS_ACTIVE );
                 blcklst.setDateupdated( LocalDateTime.now( ) );
-                userBlockListCONT.update( blcklst );
+                userBlockList.update( blcklst );
             }
         }else{
-            userBlockListCONT.add( sender.get( ), receiver.get( ), UserBlockListTBL.STATUS_ACTIVE );
+            userBlockList.add( sender.get( ), receiver.get( ), UserBlockList.STATUS_ACTIVE );
         }
 
     }
