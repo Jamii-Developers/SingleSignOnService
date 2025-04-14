@@ -35,9 +35,6 @@ public class UserDataTBL {
     public static final String      CURRENT         = "CURRENT";
     public static final String      AUX_DATA        = "AUX_DATA";
 
-
-
-
     @Id
     @Column( name = ID)
     @GeneratedValue( strategy= GenerationType.IDENTITY )
@@ -79,7 +76,7 @@ public class UserDataTBL {
     @Column( name = CURRENT, nullable = false, length = 30 )
     private Boolean current;
 
-    @Column( name = AUX_DATA, nullable = true, length = 5000 )
+    @Column( name = AUX_DATA, columnDefinition = "text" )
     private String auxdata;
 
     @ManyToOne( cascade = CascadeType.ALL)
@@ -213,4 +210,6 @@ public class UserDataTBL {
     public void setUserloginid(UserLoginTBL userloginid) {
         this.userloginid = userloginid;
     }
+
+
 }

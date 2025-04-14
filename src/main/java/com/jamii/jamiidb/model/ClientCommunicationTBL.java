@@ -18,6 +18,7 @@ public class ClientCommunicationTBL {
     public static final String      CLIENT_THOUGHTS = "CLIENT_THOUGHTS";
     public static final String      TYPE_OF_THOUGHT = "TYPE_OF_THOUGHT";
     public static final String      DATE_OF_THOUGHT = "DATE_OF_THOUGHT";
+    public static final String      AUX_DATA        = "AUX_DATA";
 
     @Id
     @Column( name = ID )
@@ -36,6 +37,17 @@ public class ClientCommunicationTBL {
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
     private UserLoginTBL userloginid;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
+    }
 
     public Integer getId() {
         return id;
@@ -76,4 +88,5 @@ public class ClientCommunicationTBL {
     public void setUserloginid(UserLoginTBL userloginid) {
         this.userloginid = userloginid;
     }
+
 }

@@ -30,6 +30,7 @@ public class FileTableOwnerTBL {
     public static final String              DATE_CREATED        = "DATE_CREATED";
     public static final String              STATUS              = "STATUS";
     public static final String              LAST_UPDATED        = "LAST_UPDATED";
+    public static final String              AUX_DATA            = "AUX_DATA";
 
     @Id
     @Column( name = ID )
@@ -64,6 +65,9 @@ public class FileTableOwnerTBL {
     @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn( name = USER_LOGIN_ID, nullable = false )
     private UserLoginTBL userloginid;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
 
     @OneToMany( mappedBy = "filetableownerid" )
     private List<FileDirectoryTBL> fIleDirectoryTBL;
@@ -156,5 +160,13 @@ public class FileTableOwnerTBL {
 
     public void setLastupdated(LocalDateTime lastupdated) {
         this.lastupdated = lastupdated;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
     }
 }

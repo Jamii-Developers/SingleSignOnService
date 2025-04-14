@@ -18,6 +18,7 @@ public class UserCookiesTBL {
     public static final String      SESSION_KEY             = "SESSION_KEY";
     public static final String      EXPIRE_DATE             = "EXPIRE_DATE";
     public static final String      ACTIVE                  = "ACTIVE";
+    public static final String      AUX_DATA                = "AUX_DATA";
 
 
     @Id
@@ -36,6 +37,9 @@ public class UserCookiesTBL {
 
     @Column( name = ACTIVE)
     private boolean active;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
 
     //Foreign Keys
     @ManyToOne( cascade = CascadeType.ALL )
@@ -100,5 +104,13 @@ public class UserCookiesTBL {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
     }
 }

@@ -20,6 +20,7 @@ public class DeviceInformationTBL {
     public static final String      LOCATION        = "LOCATION";
     public static final String      LAST_CONNECTED  = "LAST_CONNECTED";
     public static final String      ACTIVE          = "ACTIVE";
+    public static final String      AUX_DATA        = "AUX_DATA";
 
     @Id
     @Column( name = ID )
@@ -40,6 +41,9 @@ public class DeviceInformationTBL {
 
     @Column( name = ACTIVE )
     private Integer active;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
 
     //Foreign Keys
     @OneToMany( mappedBy = "deviceinformationid" )
@@ -103,5 +107,21 @@ public class DeviceInformationTBL {
 
     public void setUserloginid(UserLoginTBL userloginid) {
         this.userloginid = userloginid;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
+    }
+
+    public List<UserCookiesTBL> getUserCookiesTBL() {
+        return userCookiesTBL;
+    }
+
+    public void setUserCookiesTBL(List<UserCookiesTBL> userCookiesTBL) {
+        this.userCookiesTBL = userCookiesTBL;
     }
 }

@@ -15,6 +15,7 @@ public class UserRequestsTBL {
     public static final String              REQUEST_TYPE    = "REQUEST_TYPE";
     public static final String              STATUS          = "STATUS";
     public static final String              DATE_UPDATED    = "DATE_UPDATED";
+    public static final String              AUX_DATA        = "AUX_DATA";
 
     @Id
     @Column( name = ID)
@@ -29,6 +30,9 @@ public class UserRequestsTBL {
 
     @Column( name = DATE_UPDATED , nullable = false, length = 1000 )
     private LocalDateTime dateupdated;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
 
     //Foreign Keys
     @ManyToOne( cascade = CascadeType.ALL )
@@ -85,5 +89,13 @@ public class UserRequestsTBL {
 
     public void setReceiverid(UserLoginTBL receiverid) {
         this.receiverid = receiverid;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
     }
 }

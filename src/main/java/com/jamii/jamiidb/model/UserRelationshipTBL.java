@@ -18,6 +18,7 @@ public class UserRelationshipTBL {
     public static final String              TYPE            = "TYPE";
     public static final String              STATUS          = "STATUS";
     public static final String              DATE_UPDATED    = "DATE_UPDATED";
+    public static final String              AUX_DATA        = "AUX_DATA";
 
     @Id
     @Column( name = ID)
@@ -30,8 +31,11 @@ public class UserRelationshipTBL {
     @Column( name = STATUS , nullable = false )
     private Integer status;
 
-    @Column( name = DATE_UPDATED , nullable = false, length = 1000 )
+    @Column( name = DATE_UPDATED , nullable = false )
     private LocalDateTime dateupdated;
+
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
 
     //Foreign Keys
     @ManyToOne( cascade = CascadeType.ALL )
@@ -88,5 +92,13 @@ public class UserRelationshipTBL {
 
     public void setReceiverid(UserLoginTBL receiverid) {
         this.receiverid = receiverid;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
     }
 }

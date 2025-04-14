@@ -21,6 +21,7 @@ public class UserLoginTBL {
     public static final String              ACTIVE          = "ACTIVE";
     public static final String              DATE_CREATED    = "DATE_CREATED";
     public static final String              PRIVACY         = "PRIVACY";
+    public static final String              AUX_DATA        = "AUX_DATA";
 
     @Id
     @Column( name = ID )
@@ -48,6 +49,10 @@ public class UserLoginTBL {
     @Column( name = DATE_CREATED, nullable = false )
     private LocalDateTime datecreated;
 
+    @Column( name = AUX_DATA, columnDefinition = "text" )
+    private String auxdata;
+
+    //Foreign Keys
     @OneToMany( mappedBy = "userloginid" )
     private List<DeviceInformationTBL> deviceInformationTBL;
 
@@ -155,5 +160,129 @@ public class UserLoginTBL {
 
     public void setPrivacy(Integer privacy) {
         this.privacy = privacy;
+    }
+
+    public void setEmailaddress(String emailaddress) {
+        this.emailaddress = emailaddress;
+    }
+
+    public String getUserkey() {
+        return userkey;
+    }
+
+    public void setUserkey(String userkey) {
+        this.userkey = userkey;
+    }
+
+    public String getAuxdata() {
+        return auxdata;
+    }
+
+    public void setAuxdata(String auxdata) {
+        this.auxdata = auxdata;
+    }
+
+    public List<DeviceInformationTBL> getDeviceInformationTBL() {
+        return deviceInformationTBL;
+    }
+
+    public void setDeviceInformationTBL(List<DeviceInformationTBL> deviceInformationTBL) {
+        this.deviceInformationTBL = deviceInformationTBL;
+    }
+
+    public List<UserDataTBL> getUserDataTBL() {
+        return userDataTBL;
+    }
+
+    public void setUserDataTBL(List<UserDataTBL> userDataTBL) {
+        this.userDataTBL = userDataTBL;
+    }
+
+    public List<PasswordHashRecordsTBL> getPasswordHashRecordsTBL() {
+        return passwordHashRecordsTBL;
+    }
+
+    public void setPasswordHashRecordsTBL(List<PasswordHashRecordsTBL> passwordHashRecordsTBL) {
+        this.passwordHashRecordsTBL = passwordHashRecordsTBL;
+    }
+
+    public List<UserGroupsTBL> getUserGroupsTBL() {
+        return userGroupsTBL;
+    }
+
+    public void setUserGroupsTBL(List<UserGroupsTBL> userGroupsTBL) {
+        this.userGroupsTBL = userGroupsTBL;
+    }
+
+    public List<UserRolesTBL> getUserRolesTBL() {
+        return userRolesTBL;
+    }
+
+    public void setUserRolesTBL(List<UserRolesTBL> userRolesTBL) {
+        this.userRolesTBL = userRolesTBL;
+    }
+
+    public List<FileTableOwnerTBL> getFileTableOwnerTBL() {
+        return fileTableOwnerTBL;
+    }
+
+    public void setFileTableOwnerTBL(List<FileTableOwnerTBL> fileTableOwnerTBL) {
+        this.fileTableOwnerTBL = fileTableOwnerTBL;
+    }
+
+    public List<FileDirectoryTBL> getFileDirectoryTBL() {
+        return fileDirectoryTBL;
+    }
+
+    public void setFileDirectoryTBL(List<FileDirectoryTBL> fileDirectoryTBL) {
+        this.fileDirectoryTBL = fileDirectoryTBL;
+    }
+
+    public List<UserCookiesTBL> getUserCookiesTBL() {
+        return userCookiesTBL;
+    }
+
+    public void setUserCookiesTBL(List<UserCookiesTBL> userCookiesTBL) {
+        this.userCookiesTBL = userCookiesTBL;
+    }
+
+    public List<UserRelationshipTBL> getSenderIDuserRelationshipTBLS() {
+        return senderIDuserRelationshipTBLS;
+    }
+
+    public void setSenderIDuserRelationshipTBLS(List<UserRelationshipTBL> senderIDuserRelationshipTBLS) {
+        this.senderIDuserRelationshipTBLS = senderIDuserRelationshipTBLS;
+    }
+
+    public List<UserRequestsTBL> getSenderIDUserRequests() {
+        return senderIDUserRequests;
+    }
+
+    public void setSenderIDUserRequests(List<UserRequestsTBL> senderIDUserRequests) {
+        this.senderIDUserRequests = senderIDUserRequests;
+    }
+
+    public List<UserRequestsTBL> getReceiverIDUserRequests() {
+        return receiverIDUserRequests;
+    }
+
+    public void setReceiverIDUserRequests(List<UserRequestsTBL> receiverIDUserRequests) {
+        this.receiverIDUserRequests = receiverIDUserRequests;
+    }
+
+    public List<UserBlockListTBL> getUseridUserBlockListTBL() {
+        return useridUserBlockListTBL;
+    }
+
+    public void setUseridUserBlockListTBL(List<UserBlockListTBL> useridUserBlockListTBL) {
+        this.useridUserBlockListTBL = useridUserBlockListTBL;
+    }
+
+    public List<UserBlockListTBL> getBlockedidUserBlockListTBL() {
+        return blockedidUserBlockListTBL;
+    }
+
+    public void setBlockedidUserBlockListTBL(List<UserBlockListTBL> blockedidUserBlockListTBL) {
+        this.blockedidUserBlockListTBL = blockedidUserBlockListTBL;
     }
 }
