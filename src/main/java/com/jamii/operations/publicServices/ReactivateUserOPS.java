@@ -24,7 +24,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         ReactivateUserREQ req = (ReactivateUserREQ) JamiiMapperUtils.mapObject( getRequest( ), ReactivateUserREQ.class );
 
         //Check if the user exists as active
-        Optional<UserLoginTBL> user = userLogin.fetch( req.getEmailaddress( ), req.getUsername( ),  UserLogin.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ),  UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             jamiiDebug.warning( "No deactivated user matches the information shared " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist( );
@@ -33,7 +33,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
         }
 
         //Check if the password is valid
-        if( !userLogin.isPasswordValid( req.getPassword( ), user.get( ) ) ){
+        if( !this.userLogin.isPasswordValid( req.getPassword( ), user.get( ) ) ){
             jamiiDebug.warning( "Password is incorrect " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_PasswordsNotMatching( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
