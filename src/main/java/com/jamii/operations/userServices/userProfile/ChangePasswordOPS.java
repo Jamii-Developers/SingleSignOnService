@@ -26,7 +26,7 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), ChangePasswordServicesREQ.class );
+        ChangePasswordServicesREQ req = ( ChangePasswordServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ChangePasswordServicesREQ.class );
         setDeviceKey( req.getDeviceKey( ) );
         setUserKey( req.getUserKey( ) );
         setSessionKey( req.getSessionKey( ) );

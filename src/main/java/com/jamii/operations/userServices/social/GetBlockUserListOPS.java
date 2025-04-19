@@ -1,36 +1,30 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserBlockList;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserBlockListTBL;
-import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
+import com.jamii.operations.userServices.social.Utils.SocialHelper;
 import com.jamii.requests.userServices.socialREQ.GetBlockUserListServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.GetFollowListRESP;
-import com.jamii.operations.userServices.social.Utils.SocialHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class GetBlockUserListOPS extends AbstractUserServicesOPS {
 
-    private GetBlockUserListServicesREQ getBlockUserListREQ;
     private HashMap< String, SocialHelper.RelationShipResults > relationshipResults = new HashMap<>( );
-
-    public GetBlockUserListServicesREQ getGetBlockUserListREQ() {
-        return getBlockUserListREQ;
-    }
-
-    public void setGetBlockUserListREQ(GetBlockUserListServicesREQ getBlockUserListREQ) {
-        this.getBlockUserListREQ = getBlockUserListREQ;
-    }
 
     @Autowired
     private UserBlockList userBlockList;
@@ -41,46 +35,49 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getGetBlockUserListREQ().getDeviceKey();
-        UserKey = getGetBlockUserListREQ().getUserKey();
-        SessionKey = getGetBlockUserListREQ().getSessionKey();
+        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );;
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) ){
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );;
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  ){
+            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 
         // Get friends from relationship table
-        List<UserBlockListTBL> blockedUsers = new ArrayList<>( );
-        blockedUsers.addAll( userBlockList.fetchBlockedList( sender.get( ), UserBlockList.STATUS_ACTIVE ) );
+        this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
-        for( UserBlockListTBL blockeduser : blockedUsers){
+        for( UserBlockListTBL blockeduser : this.userBlockList.dataList ){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = blockeduser.getBlockedid();
 
-            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
-            if( userdata.isPresent( ) ){
+            this.userData.data = this.userData.fetch( user, UserData.CURRENT_STATUS_ON ).orElse( null );
+            if( this.userData.data != null ){
 
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );
-                obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
-                obj.setLASTNAME( userdata.get( ).getLastname( ) );
+                obj.setFIRSTNAME( this.userData.data.getFirstname( ) );
+                obj.setLASTNAME( this.userData.data.getLastname( ) );
 
-                this.relationshipResults.put( sender.get( ).getUserKey( ), obj );
+                this.relationshipResults.put( user.getUserKey( ), obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );

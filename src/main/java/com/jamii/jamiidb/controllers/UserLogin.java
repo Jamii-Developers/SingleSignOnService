@@ -21,6 +21,7 @@ public class UserLogin {
 
     //Creating a table object to reference when creating data for that table
     public UserLoginTBL data = new UserLoginTBL( );
+    public UserLoginTBL otherUser = new UserLoginTBL( );
     public ArrayList< UserLoginTBL > dataList = new ArrayList< >( );
 
     /**

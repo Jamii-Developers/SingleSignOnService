@@ -4,7 +4,6 @@ import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.ClientCommunication;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.ClientCommunicationTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.clientCommunicationREQ.ReviewUsServicesREQ;
 import com.jamii.responses.userResponses.clientCommunication.ContactUsRESP;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class ReviewUsOPS extends AbstractUserServicesOPS {
@@ -54,9 +52,9 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
         }
 
         ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
-        Optional<UserLoginTBL> user = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON ) ;
+        this.userLogin.data = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
 
-        if( user.isEmpty( ) ){
+        if( this.userLogin.data == null ){
             jamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", req.getUsername( ), req.getEmailaddress() ) );
             this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -64,11 +62,11 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
         }
 
         ClientCommunicationTBL contactus = new ClientCommunicationTBL( );
-        contactus.setUserloginid( user.get( ) );
-        contactus.setClientthoughts( req.getClient_thoughts( ) );
-        contactus.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_CONTACT_US );
-        contactus.setDateofthought( LocalDateTime.now( ) );
-        this.clientCommunication.save( contactus );
+        this.clientCommunication.data.setUserloginid( this.userLogin.data );
+        this.clientCommunication.data.setClientthoughts( req.getClient_thoughts( ) );
+        this.clientCommunication.data.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_REVIEW );
+        this.clientCommunication.data.setDateofthought( LocalDateTime.now( ) );
+        this.clientCommunication.save( );
 
     }
 

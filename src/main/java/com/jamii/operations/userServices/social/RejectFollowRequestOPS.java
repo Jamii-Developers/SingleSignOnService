@@ -1,8 +1,8 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRequest;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.RejectFollowRequestServicesREQ;
@@ -13,48 +13,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
 
-    private RejectFollowRequestServicesREQ rejectFollowRequestREQ;
-    private Optional<UserLoginTBL> receiver;
-
     @Autowired
     private UserLogin userLogin;
     @Autowired
     private UserRequest userRequest;
 
-    public void setRejectFollowRequestREQ(RejectFollowRequestServicesREQ rejectFollowRequestREQ) {
-        this.rejectFollowRequestREQ = rejectFollowRequestREQ;
-    }
-
-    public RejectFollowRequestServicesREQ getRejectFollowRequestREQ() {
-        return rejectFollowRequestREQ;
-    }
-
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getRejectFollowRequestREQ( ).getDeviceKey( );
-        UserKey = getRejectFollowRequestREQ( ).getUserKey( );
-        SessionKey = getRejectFollowRequestREQ().getSessionKey();
+        RejectFollowRequestServicesREQ req = ( RejectFollowRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), RejectFollowRequestServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        receiver = this.userLogin.fetchByUserKey( getRejectFollowRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) || receiver.isEmpty( )){
+        RejectFollowRequestServicesREQ req = ( RejectFollowRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), RejectFollowRequestServicesREQ.class );
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getReceiveruserkey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
             this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -62,19 +53,17 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch requests to user
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
-        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
-
-        Optional <UserRequestsTBL> validFollowRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
+        this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
         //Check if friend request exists
+        Optional <UserRequestsTBL> validFollowRequest = this.userRequest.dataList.stream( ).filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == this.userLogin.data ).findFirst( );
         if( validFollowRequest.isPresent( ) ){
 
             // Deactivate the request
-            validFollowRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
-            validFollowRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequest.update( validFollowRequest.get( ) );
+            this.userRequest.data = validFollowRequest.get( );
+            this.userRequest.data.setStatus( UserRequest.STATUS_INACTIVE );
+            this.userRequest.data.setDateupdated( LocalDateTime.now( ) );
+            this.userRequest.save( );
 
         }else{
             this.isSuccessful = false;
@@ -85,8 +74,8 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful && receiver.isPresent( ) ){
-            RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( receiver.get( ) );
+        if( getIsSuccessful( ) && this.userLogin.otherUser == null  ){
+            RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( rejectFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
             this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
@@ -96,9 +85,4 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
         return super.getResponse( );
     }
 
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.receiver = null;
-    }
 }

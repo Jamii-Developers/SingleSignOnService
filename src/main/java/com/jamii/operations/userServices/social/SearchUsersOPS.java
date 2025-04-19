@@ -27,7 +27,6 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
     @Autowired
     private UserData userData;
 
-
     @Override
     public void validateCookie( ) throws Exception{
         SearchUserServicesREQ req = ( SearchUserServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), SearchUserServicesREQ.class );
@@ -50,10 +49,9 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         SearchUserServicesREQ req = ( SearchUserServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), SearchUserServicesREQ.class );
 
         //Fetch list of users based of User Login Information
-        List< UserLoginTBL > userLogins = new ArrayList<>( );
-        userLogins.addAll( this.userLogin.searchUserUsername( req.getSearchstring( ) ) );
-        userLogins.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
-        for( UserLoginTBL user : userLogins ){
+        this.userLogin.dataList.addAll( this.userLogin.searchUserUsername( req.getSearchstring( ) ) );
+        this.userLogin.dataList.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
+        for( UserLoginTBL user : this.userLogin.dataList ){
 
             SocialHelper.SearchResults obj = new SocialHelper.SearchResults( );
             Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
@@ -80,11 +78,11 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch list based of User Data Information
-        List< UserDataTBL > userDatas = new ArrayList<>( );
-        userDatas.addAll( this.userData.searchUserFirstname( req.getSearchstring( ) ) );
-        userDatas.addAll( this.userData.searchUserMiddlename( req.getSearchstring( ) ) );
-        userDatas.addAll( this.userData.searchUserLastname( req.getSearchstring( ) ) );
-        for( UserDataTBL userdata : userDatas ){
+        this.userData.dataList.addAll( this.userData.searchUserFirstname( req.getSearchstring( ) ) );
+        this.userData.dataList.addAll( this.userData.searchUserMiddlename( req.getSearchstring( ) ) );
+        this.userData.dataList.addAll( this.userData.searchUserLastname( req.getSearchstring( ) ) );
+
+        for( UserDataTBL userdata : this.userData.dataList ){
 
             Optional<UserLoginTBL> user = this.userLogin.fetch( userdata.getId( ), UserLogin.ACTIVE_ON );
             if( !user.isPresent( ) ){
@@ -133,6 +131,5 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         super.reset( );
         this.searchResults = new HashMap<>( );
     }
-
 
 }

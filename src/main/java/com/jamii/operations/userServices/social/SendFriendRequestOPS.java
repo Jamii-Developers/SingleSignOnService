@@ -5,10 +5,6 @@ import com.jamii.jamiidb.controllers.UserBlockList;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.controllers.UserRequest;
-import com.jamii.jamiidb.model.UserBlockListTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.jamiidb.model.UserRelationshipTBL;
-import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.SendFriendRequestServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.SendFriendRequestRESP;
@@ -17,17 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class SendFriendRequestOPS extends AbstractUserServicesOPS {
-
-    private SendFriendRequestServicesREQ sendFriendRequestREQ;
-    private Optional< UserLoginTBL > receiver;
-
 
     @Autowired
     private UserLogin userLogin;
@@ -56,29 +46,29 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
 
         SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), SendFriendRequestServicesREQ.class );
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        receiver = this.userLogin.fetchByUserKey( req.getReceiveruserkey(), UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) || receiver.isEmpty( )){
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getReceiveruserkey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 
         //Fetch requests to user
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FRIEND ) );
-        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FRIEND ) );
-        //Fetch Block List
-        List<UserBlockListTBL> blockList = new ArrayList<>( );
-        blockList.addAll( userBlockList.fetch( sender.get( ), receiver.get( ), UserBlockList.STATUS_ACTIVE ) );
-        blockList.addAll( userBlockList.fetch( receiver.get( ), sender.get( ), UserBlockList.STATUS_ACTIVE ) );
-        //Fetch Relationships
-        List<UserRelationshipTBL> relationship = new ArrayList<>( );
-        relationship.addAll( userRelationship.fetch( sender.get( ), receiver.get( ), UserRelationship.TYPE_FRIEND ) );
-        relationship.addAll( userRelationship.fetch(  receiver.get( ), sender.get( ), UserRelationship.TYPE_FRIEND ) );
+        this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.data , this.userLogin.otherUser , UserRequest.TYPE_FRIEND ) );
+        this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser , this.userLogin.data , UserRequest.TYPE_FRIEND ) );
 
-        //Check if a friend request has been sent to the receiver
-        if( !requests.isEmpty() && requests.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getSenderid( ) == sender.get( ) ) ){
+        //Fetch Block List
+        this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.data , this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE ) );
+        this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.otherUser , this.userLogin.data , UserBlockList.STATUS_ACTIVE ) );
+
+        //Fetch Relationships
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data , this.userLogin.otherUser, UserRelationship.TYPE_FRIEND ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.otherUser , this.userLogin.data , UserRelationship.TYPE_FRIEND ) );
+
+        //Check if a friend request has been by the user sent to the receiver
+        if( !this.userRequest.dataList.isEmpty() && this.userRequest.dataList.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getSenderid( ) == this.userLogin.data ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestIsAlreadyAvailable( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -86,7 +76,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if a friend request has already been sent by the receiver
-        if( !requests.isEmpty() && requests.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getSenderid( ) == receiver.get( ) ) ){
+        if( !this.userRequest.dataList.isEmpty() && this.userRequest.dataList.stream().anyMatch( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getSenderid( ) == this.userLogin.otherUser ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_FriendRequestHasBeenSentByTheReceiver( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -94,7 +84,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if the users are already friends
-        if( !relationship.isEmpty( ) && relationship.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE ) ) ){
+        if( !this.userRelationship.dataList.isEmpty( ) && this.userRelationship.dataList.stream( ).anyMatch( x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE ) ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_AreAlreadyFriends( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -102,7 +92,7 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check if sender has been blocked
-        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == receiver.get( ) ) ){
+        if( !this.userBlockList.dataList.isEmpty( ) && this.userBlockList.dataList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == this.userLogin.otherUser ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_BlockedUserVagueResponse( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
@@ -110,32 +100,32 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Check is sender blocked this receiver
-        if( !blockList.isEmpty( ) && blockList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == sender.get( ) ) ){
+        if( !this.userBlockList.dataList.isEmpty( ) && this.userBlockList.dataList.stream( ).anyMatch( x -> Objects.equals( x.getStatus( ), UserBlockList.STATUS_ACTIVE ) && x.getUserid( ) == this.userLogin.data ) ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_YouHaveBlockedThisUser( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
             return;
         }
 
-        userRequest.add( sender.get( ) , receiver.get( ), UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE );
-        setIsSuccessful( true );
+        // Create relationship
+        this.userRequest.data.setSenderid( this.userLogin.data );
+        this.userRequest.data.setReceiverid( this.userLogin.otherUser );
+        this.userRequest.data.setType( UserRelationship.TYPE_FRIEND );
+        this.userRequest.data.setStatus( UserRelationship.STATUS_ACTIVE );
+        this.userRequest.data.setDateupdated( LocalDateTime.now( ) );
+        this.userRequest.save( );
+
     }
 
     @Override
     public ResponseEntity<?> getResponse( ){
 
         if( getIsSuccessful( ) ){
-            SendFriendRequestRESP sendFriendRequestRESP = new SendFriendRequestRESP( this.receiver.get( ) );
+            SendFriendRequestRESP sendFriendRequestRESP = new SendFriendRequestRESP( this.userLogin.otherUser );
             return  new ResponseEntity< >( sendFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );
-    }
-
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.receiver = Optional.empty( );
     }
 
 }

@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
@@ -24,14 +25,6 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
     private GetFriendRequestListServicesREQ getFriendRequestListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
 
-    public GetFriendRequestListServicesREQ getGetFriendRequestListREQ() {
-        return getFriendRequestListREQ;
-    }
-
-    public void setGetFriendRequestListREQ(GetFriendRequestListServicesREQ getFriendRequestListREQ) {
-        this.getFriendRequestListREQ = getFriendRequestListREQ;
-    }
-
     @Autowired
     private UserRequest userRequest;
     @Autowired
@@ -41,33 +34,36 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getGetFriendRequestListREQ().getDeviceKey();
-        UserKey = getGetFriendRequestListREQ().getUserKey( );
-        SessionKey = getGetFriendRequestListREQ().getSessionKey();
+        GetFriendRequestListServicesREQ req = ( GetFriendRequestListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFriendRequestListServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) ){
+        GetFriendRequestListServicesREQ req = ( GetFriendRequestListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFriendRequestListServicesREQ.class );
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 
         // Get friends from relationship table
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetchRequests( sender.get(), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
+        this.userRequest.dataList.addAll( userRequest.fetchRequests( this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
-        for( UserRequestsTBL request : requests){
+        for( UserRequestsTBL request : this.userRequest.dataList){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = request.getSenderid( );
@@ -80,7 +76,7 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
                 obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
                 obj.setLASTNAME( userdata.get( ).getLastname( ) );
 
-                this.relationshipResults.put( sender.get( ).getUserKey( ), obj );
+                this.relationshipResults.put( user.getUserKey( ), obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );

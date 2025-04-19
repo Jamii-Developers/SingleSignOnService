@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
@@ -21,16 +22,7 @@ import java.util.*;
 @Service
 public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
 
-    private GetFollowerRequestListServicesREQ getFollowerRequestListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
-
-    public GetFollowerRequestListServicesREQ getGetFollowerRequestListREQ() {
-        return getFollowerRequestListREQ;
-    }
-
-    public void setGetFollowerRequestListREQ(GetFollowerRequestListServicesREQ getFollowerRequestListREQ) {
-        this.getFollowerRequestListREQ = getFollowerRequestListREQ;
-    }
 
     @Autowired
     private UserRequest userRequest;
@@ -41,22 +33,25 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getGetFollowerRequestListREQ().getDeviceKey();
-        UserKey = getGetFollowerRequestListREQ().getUserKey();
-        SessionKey = getGetFollowerRequestListREQ().getSessionKey();
+        GetFollowerRequestListServicesREQ req = ( GetFollowerRequestListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerRequestListServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful() ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) ){
+        GetFollowerRequestListServicesREQ req = ( GetFollowerRequestListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerRequestListServicesREQ.class );
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -64,7 +59,7 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
 
         // Get friends from relationship table
         List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetchRequests( sender.get(), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
+        requests.addAll( userRequest.fetchRequests( this.userLogin.data , UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
@@ -81,7 +76,7 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
                 obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
                 obj.setLASTNAME( userdata.get( ).getLastname( ) );
 
-                this.relationshipResults.put( sender.get( ).getUserKey( ), obj );
+                this.relationshipResults.put( user.getUserKey( ), obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );

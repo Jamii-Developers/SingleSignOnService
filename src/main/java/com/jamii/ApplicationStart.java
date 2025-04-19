@@ -41,8 +41,8 @@ public class ApplicationStart {
         directoryMap.put( "user", userServices );
     }
 
-    @PostMapping(path = "{requestType}/{operation}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<?> processRequest( @PathVariable String requestType, @PathVariable String operation, @RequestBody(required = true) Object jsonPayload) throws Exception {
+    @PostMapping(path = "{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<?> processRequest( @PathVariable String requestType,@RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload) throws Exception {
         try {
             Object handler = directoryMap.get(requestType);
 
@@ -61,10 +61,10 @@ public class ApplicationStart {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(path = "{requestType}/{operation}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping(path = "{requestType}/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<?> processFileUploadRequest(
             @PathVariable String requestType,
-            @PathVariable String operation,
+            @RequestHeader("Service-Header") String operation,
             @RequestParam String userKey,
             @RequestParam String deviceKey,
             @RequestParam String sessionKey,
@@ -87,8 +87,8 @@ public class ApplicationStart {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "{requestType}/{operation}/{filename}")
-    public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @PathVariable String operation, @RequestBody( required = true ) Object jsonPayload) throws Exception {
+    @GetMapping(path = "{requestType}/{filename}")
+    public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @RequestHeader("Service-Header") String operation, @RequestBody( required = true ) Object jsonPayload) throws Exception {
         try {
             Object handler = directoryMap.get(requestType);
 

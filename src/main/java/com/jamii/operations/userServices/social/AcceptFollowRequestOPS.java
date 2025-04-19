@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.controllers.UserRequest;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.AcceptFollowRequestServicesREQ;
@@ -14,16 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
-
-    private AcceptFollowRequestServicesREQ acceptFollowRequestREQ;
-    private Optional<UserLoginTBL> receiver;
 
     @Autowired
     private UserLogin userLogin;
@@ -32,54 +27,56 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
     @Autowired
     private UserRequest userRequest;
 
-    public void setAcceptFollowRequestREQ(AcceptFollowRequestServicesREQ acceptFollowRequestREQ) {
-        this.acceptFollowRequestREQ = acceptFollowRequestREQ;
-    }
-
-    public AcceptFollowRequestServicesREQ getAcceptFollowRequestREQ() {
-        return acceptFollowRequestREQ;
-    }
-
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getAcceptFollowRequestREQ( ).getDeviceKey( );
-        UserKey = getAcceptFollowRequestREQ( ).getUserKey( );
-        SessionKey = getAcceptFollowRequestREQ().getSessionKey();
+        AcceptFollowRequestServicesREQ req = ( AcceptFollowRequestServicesREQ )JamiiMapperUtils.mapObject( getRequest( ), AcceptFollowRequestServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        receiver = this.userLogin.fetchByUserKey( getAcceptFollowRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) || receiver.isEmpty( )){
+        AcceptFollowRequestServicesREQ req = ( AcceptFollowRequestServicesREQ )JamiiMapperUtils.mapObject( getRequest( ), AcceptFollowRequestServicesREQ.class );
+
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getReceiveruserkey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
         }
 
-        //Fetch requests to user
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
-        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
+        //Fetch follow request from the sender
+        this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
-        Optional <UserRequestsTBL> validFollowRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getReceiverid( ) == sender.get( ) ).findFirst();
+        Optional <UserRequestsTBL> validFollowRequest = this.userRequest.dataList.stream( ).filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getReceiverid( ) == this.userLogin.data ).findFirst();
+
         //Check if follow request exists
         if( validFollowRequest.isPresent( ) ){
 
-            // Deactivate the request
-            validFollowRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
-            validFollowRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequest.update( validFollowRequest.get( ) );
+            // Deactivate Follow Request
+            this.userRequest.data = validFollowRequest.get( );
+            this.userRequest.data.setStatus( UserRequest.STATUS_INACTIVE );
+            this.userRequest.data.setDateupdated( LocalDateTime.now( ) );
+            this.userRequest.save( );
 
-            //Accept follow request from sender
-            this.userRelationship.add( receiver.get( ), sender.get( ), UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE );
+            //Create Relationship
+            this.userRelationship.data.setReceiverid( this.userLogin.data );
+            this.userRelationship.data.setSenderid( this.userLogin.otherUser);
+            this.userRelationship.data.setType( UserRelationship.TYPE_FOLLOW );
+            this.userRelationship.data.setStatus( UserRelationship.STATUS_ACTIVE );
+            this.userRelationship.data.setDateupdated( LocalDateTime.now( ) );
+            this.userRelationship.save( );
 
         }else{
             this.isSuccessful = false;
@@ -89,8 +86,8 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful && receiver.isPresent( ) ){
-            AcceptFollowRequestRESP acceptFollowRequestRESP = new AcceptFollowRequestRESP( receiver.get( ) );
+        if( this.isSuccessful && this.userLogin.otherUser != null ){
+            AcceptFollowRequestRESP acceptFollowRequestRESP = new AcceptFollowRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( acceptFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
             this.jamiiErrorsMessagesRESP.setAcceptFollowRequest_GenerateGenericError( );
@@ -98,11 +95,5 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         return super.getResponse( );
-    }
-
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.receiver = Optional.empty( );
     }
 }

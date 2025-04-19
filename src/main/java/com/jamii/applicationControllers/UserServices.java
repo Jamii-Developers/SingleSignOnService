@@ -8,6 +8,7 @@ import com.jamii.operations.userServices.fileManagement.UserFileDeleteOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDirectoryUpdateOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDownloadOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileUploadOPS;
+import com.jamii.operations.userServices.social.*;
 import com.jamii.operations.userServices.userProfile.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,32 @@ public class UserServices {
     DeactivateUserOPS deactivateUserOPS;
     @Autowired
     UserLogoffOPS userLogoffOPS;
+    @Autowired
+    AcceptFollowRequestOPS acceptFollowRequestOPS;
+    @Autowired
+    AcceptFriendRequestOPS acceptFriendRequestOPS;
+    @Autowired
+    BlockUserOPS blockUserOPS;
+    @Autowired
+    GetBlockUserListOPS getBlockUserListOPS;
+    @Autowired
+    GetFollowerListOPS getFollowerListOPS;
+    @Autowired
+    GetFollowRequestListOPS getFollowRequestListOPS;
+    @Autowired
+    GetFriendListOPS getFriendListOPS;
+    @Autowired
+    GetFriendRequestListOPS getFriendRequestListOPS;
+    @Autowired
+    RejectFollowRequestOPS rejectFollowRequestOPS;
+    @Autowired
+    RejectFriendRequestOPS rejectFriendRequestOPS;
+    @Autowired
+    SearchUsersOPS searchUsersOPS;
+    @Autowired
+    SendFollowRequestOPS sendFollowRequestOPS;
+    @Autowired
+    SendFriendRequestOPS sendFriendRequestOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
     private final Map<String, Object> directoryMap = new HashMap<>();
@@ -60,8 +87,21 @@ public class UserServices {
         directoryMap.put( "fetchprofile", fetchUserDataOPS);
         directoryMap.put( "deactivateuser", deactivateUserOPS);
         directoryMap.put( "userlogoff", userLogoffOPS );
-    }
+        directoryMap.put( "searchuser", searchUsersOPS );
+        directoryMap.put( "sendfriendrequest", sendFriendRequestOPS );
+        directoryMap.put( "getfriendrequestList", getFriendRequestListOPS );
+        directoryMap.put( "getfollowerList", getFollowerListOPS );
+        directoryMap.put( "sendfollowrequest", sendFollowRequestOPS );
+        directoryMap.put( "acceptfriendrequest", acceptFriendRequestOPS );
+        directoryMap.put( "acceptfollowrequest", acceptFollowRequestOPS );
+        directoryMap.put( "rejectfriendrequest", rejectFriendRequestOPS );
+        directoryMap.put( "rejectfollowrequest", rejectFollowRequestOPS );
+        directoryMap.put( "blockuser", blockUserOPS);
+        directoryMap.put( "getfriendlist", getFriendListOPS );
+        directoryMap.put( "getblockuserlist", getBlockUserListOPS);
 
+
+    }
 
     public ResponseEntity<?> processRequest( String operation, Object requestPayload ) throws Exception{
 
@@ -115,6 +155,72 @@ public class UserServices {
                 ((UserLogoffOPS) handler).reset();
                 return ((UserLogoffOPS) handler).run(requestPayload);
             }
+
+            if (handler instanceof AcceptFriendRequestOPS) {
+                ((AcceptFriendRequestOPS) handler).reset();
+                return ((AcceptFriendRequestOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof AcceptFollowRequestOPS) {
+                ((AcceptFollowRequestOPS) handler).reset();
+                return ((AcceptFollowRequestOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof BlockUserOPS) {
+                ( (BlockUserOPS) handler).reset( );
+                return ( (BlockUserOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof GetBlockUserListOPS) {
+                ( (GetBlockUserListOPS) handler).reset( );
+                return ( (GetBlockUserListOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof GetFollowerListOPS) {
+                ( (GetFollowerListOPS) handler).reset( );
+                return ( (GetFollowerListOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof GetFollowRequestListOPS) {
+                ( (GetFollowRequestListOPS) handler).reset( );
+                return ( (GetFollowRequestListOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof GetFriendListOPS) {
+                ( (GetFriendListOPS) handler).reset( );
+                return ( (GetFriendListOPS) handler).run(requestPayload);
+            }
+
+            if (handler instanceof GetFriendRequestListOPS) {
+                ( (GetFriendRequestListOPS) handler).reset( );
+                return ( ( GetFriendRequestListOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof RejectFollowRequestOPS) {
+                ( (RejectFollowRequestOPS) handler).reset( );
+                return ( ( RejectFollowRequestOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof RejectFriendRequestOPS) {
+                ( (RejectFriendRequestOPS) handler).reset( );
+                return ( ( RejectFriendRequestOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof SearchUsersOPS) {
+                ( (SearchUsersOPS) handler).reset( );
+                return ( ( SearchUsersOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof SendFollowRequestOPS) {
+                ( (SendFollowRequestOPS) handler).reset( );
+                return ( ( SendFollowRequestOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof SendFriendRequestOPS) {
+                ( (SendFriendRequestOPS) handler).reset( );
+                return ( ( SendFriendRequestOPS ) handler).run(requestPayload);
+            }
+
         }catch( Exception e ){
             jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
         }

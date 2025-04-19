@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
@@ -24,13 +25,6 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
     private GetFriendListServicesREQ getFriendListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
 
-    public GetFriendListServicesREQ getGetFriendListREQ() {
-        return getFriendListREQ;
-    }
-
-    public void setGetFriendListREQ(GetFriendListServicesREQ getFriendListREQ) {
-        this.getFriendListREQ = getFriendListREQ;
-    }
 
     @Autowired
     private UserRelationship userRelationship;
@@ -41,40 +35,43 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getGetFriendListREQ().getDeviceKey();
-        UserKey = getGetFriendListREQ().getUserKey();
-        SessionKey = getGetFriendListREQ().getSessionKey();
+        GetFriendListServicesREQ req = ( GetFriendListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFriendListServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) ){
+        GetFriendListServicesREQ req = ( GetFriendListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFriendListServicesREQ.class );
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 
         // Get friends from relationship table
-        List<UserRelationshipTBL> relationships = new ArrayList<>( );
-        relationships.addAll( userRelationship.fetch( sender.get( ), UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
-        for( UserRelationshipTBL relationship : relationships){
+        for( UserRelationshipTBL relationship : this.userRelationship.dataList ){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = null;
 
-            if( Objects.equals( relationship.getSenderid( ).getId( ), sender.get( ).getId( ) ) ) {
+            if( Objects.equals( relationship.getSenderid( ).getId( ), this.userLogin.data.getId( ) ) ) {
                 user = relationship.getReceiverid( );
-            }else if( Objects.equals( relationship.getReceiverid( ).getId( ), sender.get( ).getId( ) ) ){
+            }else {
                 user = relationship.getSenderid( );
             }
 
@@ -86,7 +83,7 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
                 obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
                 obj.setLASTNAME( userdata.get( ).getLastname( ) );
 
-                this.relationshipResults.put( sender.get( ).getUserKey( ), obj );
+                this.relationshipResults.put( user.getUserKey( ), obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );

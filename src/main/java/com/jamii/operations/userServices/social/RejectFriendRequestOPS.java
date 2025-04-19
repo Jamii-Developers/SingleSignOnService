@@ -1,8 +1,8 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRequest;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.RejectFriendRequestServicesREQ;
@@ -13,48 +13,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
 
-    private RejectFriendRequestServicesREQ rejectFriendRequestREQ;
-    private Optional<UserLoginTBL> receiver;
-
     @Autowired
     private UserLogin userLogin;
     @Autowired
     private UserRequest userRequest;
 
-    public void setRejectFriendRequestREQ( RejectFriendRequestServicesREQ rejectFriendRequestREQ ) {
-        this.rejectFriendRequestREQ = rejectFriendRequestREQ;
-    }
-
-    public RejectFriendRequestServicesREQ getRejectFriendRequestREQ() {
-        return rejectFriendRequestREQ;
-    }
-
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getRejectFriendRequestREQ( ).getDeviceKey( );
-        UserKey = getRejectFriendRequestREQ( ).getUserKey( );
-        SessionKey = getRejectFriendRequestREQ().getSessionKey();
+        RejectFriendRequestServicesREQ req = ( RejectFriendRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), RejectFriendRequestServicesREQ.class ) ;
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        receiver = this.userLogin.fetchByUserKey( getRejectFriendRequestREQ( ).getReceiveruserkey( ), UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) || receiver.isEmpty( )){
+        RejectFriendRequestServicesREQ req = ( RejectFriendRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), RejectFriendRequestServicesREQ.class ) ;
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getReceiveruserkey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
             this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_GenerateGenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
@@ -62,19 +53,18 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch requests to user
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetch( sender.get( ), receiver.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
-        requests.addAll( userRequest.fetch( receiver.get( ), sender.get( ), UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
+        this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
-        Optional <UserRequestsTBL> validFriendRequest = requests.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == sender.get( ) ).findFirst( );
+        Optional <UserRequestsTBL> validFriendRequest = this.userRequest.dataList.stream().filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) && x.getReceiverid( ) == this.userLogin.data ).findFirst( );
 
         //Check if friend request exists
         if( validFriendRequest.isPresent( ) ){
 
             // Deactivate the request
-            validFriendRequest.get( ).setStatus( UserRequest.STATUS_INACTIVE );
-            validFriendRequest.get( ).setDateupdated( LocalDateTime.now( ) );
-            userRequest.update( validFriendRequest.get( ) );
+            this.userRequest.data = validFriendRequest.get( );
+            this.userRequest.data.setStatus( UserRequest.STATUS_INACTIVE );
+            this.userRequest.data.setDateupdated( LocalDateTime.now( ) );
+            this.userRequest.save( );
 
         }else{
             this.isSuccessful = false;
@@ -84,8 +74,8 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful && receiver.isPresent( ) ){
-            RejectFriendRequestRESP rejectFriendRequestRESP = new RejectFriendRequestRESP( receiver.get( ) );
+        if( this.isSuccessful && this.userLogin.otherUser != null ){
+            RejectFriendRequestRESP rejectFriendRequestRESP = new RejectFriendRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( rejectFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
             this.jamiiErrorsMessagesRESP.setRejectFriendRequestOPS_GenerateGenericError( );
@@ -93,11 +83,5 @@ public class RejectFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         return super.getResponse( );
-    }
-
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.receiver = Optional.empty( );
     }
 }

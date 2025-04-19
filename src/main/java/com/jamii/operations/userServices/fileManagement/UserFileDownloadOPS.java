@@ -5,8 +5,6 @@ import com.jamii.Utils.JamiiFileUtils;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.FileTableOwner;
 import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.FileTableOwnerTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.fileManagementREQ.UserFileDownloadREQ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 public class UserFileDownloadOPS extends AbstractUserServicesOPS {
@@ -27,9 +24,6 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
     @Autowired
     protected FileTableOwner fileTableOwner;
 
-    private FileTableOwnerTBL requestedFileInformation;
-    public FileTableOwnerTBL getRequestedFileInformation() {return requestedFileInformation;}
-    public void setRequestedFileInformation(FileTableOwnerTBL requestedFileInformation) {this.requestedFileInformation = requestedFileInformation;}
 
     private Resource resource;
     public Resource getResource() {
@@ -42,7 +36,6 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
     @Override
     public void reset( ){
         super.reset( );
-        setRequestedFileInformation( null ) ;
         setResource( null ) ;
     }
 
@@ -63,8 +56,8 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
         }
         UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDownloadREQ.class );
 
-        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
-        if( user.isEmpty( ) ){
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
+        if( this.userLogin.data == null ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -72,8 +65,8 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwner.fetch( user.get( ) ,req.getFileName( ) );
-        if( fileInformation.isEmpty( ) ){
+        this.fileTableOwner.data = this.fileTableOwner.fetch( this.userLogin.data ,req.getFileName( ) ).orElse( null );
+        if( this.fileTableOwner == null ){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getDeviceKey( ));
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -81,14 +74,13 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        setRequestedFileInformation( fileInformation.get( ) );
         JamiiFileDownloadUtils downloadUtil = new JamiiFileDownloadUtils( );
 
         try {
 
-            String fileLocation = getRequestedFileInformation( ).getFilelocation( );
-            String systemFilename = getRequestedFileInformation( ).getSystemfilename( );
-            String fileExtension = JamiiFileUtils.getFileExtension( getRequestedFileInformation( ).getFiletype( ) );
+            String fileLocation = this.fileTableOwner.data.getFilelocation( );
+            String systemFilename = this.fileTableOwner.data.getSystemfilename( );
+            String fileExtension = JamiiFileUtils.getFileExtension( this.fileTableOwner.data.getFiletype( ) );
             setResource( downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension ) );
 
         }catch( Exception e ){

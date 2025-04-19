@@ -5,9 +5,6 @@ import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.FileDirectory;
 import com.jamii.jamiidb.controllers.FileTableOwner;
 import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.FileDirectoryTBL;
-import com.jamii.jamiidb.model.FileTableOwnerTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.fileManagementREQ.UserFileDirectoryUpdateREQ;
 import com.jamii.responses.userResponses.fileManagement.UserFileDirectoryUpdateRESP;
@@ -18,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Service
 public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
@@ -33,7 +30,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        UserFileDirectoryUpdateREQ req = (UserFileDirectoryUpdateREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
+        UserFileDirectoryUpdateREQ req = ( UserFileDirectoryUpdateREQ ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
         setDeviceKey( req.getDeviceKey( ) );
         setUserKey( req.getUserKey( ) );
         setSessionKey( req.getSessionKey() );
@@ -49,8 +46,8 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
 
         UserFileDirectoryUpdateREQ req = (UserFileDirectoryUpdateREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDirectoryUpdateREQ.class );
 
-        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
-        if( user.isEmpty( ) ){
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
+        if( this.userLogin.data == null ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -58,8 +55,8 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileTableOwnerTBL> fileInformation = this.fileTableOwner.fetch( user.get( ) ,req.getFileName( ) );
-        if( fileInformation.isEmpty() ){
+        this.fileTableOwner.data = this.fileTableOwner.fetch( this.userLogin.data ,req.getFileName( ) ).orElse( null );
+        if( this.fileTableOwner.data == null ){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -67,7 +64,8 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        if(Objects.equals(fileInformation.get().getStatus(), FileTableOwner.ACTIVE_STATUS_DELETED) || Objects.equals(fileInformation.get().getStatus(), FileTableOwner.ACTIVE_STATUS_IN_TRASH)){
+        ArrayList< Integer > checkAvailability = new ArrayList<>(Arrays.asList( FileTableOwner.ACTIVE_STATUS_DELETED, FileTableOwner.ACTIVE_STATUS_IN_TRASH ) );
+        if( this.fileTableOwner.checkStatus( checkAvailability )){
             jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryOPS_FileIsInTrash( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -75,8 +73,8 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        Optional<FileDirectoryTBL> fileDirectory = this.fileDirectory.fetch( user.get( ), fileInformation.get( ) );
-        if( fileDirectory.isPresent( ) && JamiiStringUtils.equals( req.getDirectoryUpdate( ) , fileDirectory.get( ).getUidirectory() ) ){
+        this.fileDirectory.data = this.fileDirectory.fetch( this.userLogin.data, this.fileTableOwner.data ).orElse( null );
+        if( this.fileDirectory.data != null && JamiiStringUtils.equals( req.getDirectoryUpdate( ) , this.fileDirectory.data.getUidirectory() ) ){
             jamiiDebug.warning( "File is already in said location: " + req.getFileName( ) );
             this.jamiiErrorsMessagesRESP.setUserFileDirectoryUpdateOPS_FileIsAlreadyInThisDirectory( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -84,9 +82,9 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        fileDirectory.get( ).setUidirectory( req.getDirectoryUpdate( ) );
-        fileDirectory.get( ).setLastupdated( LocalDateTime.now( ));
-        this.fileDirectory.update( fileDirectory.get( ) );
+        this.fileDirectory.data.setUidirectory( req.getDirectoryUpdate( ) );
+        this.fileDirectory.data.setLastupdated( LocalDateTime.now( ));
+        this.fileDirectory.save( );
     }
 
     @Override

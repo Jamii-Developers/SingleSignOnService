@@ -1,5 +1,6 @@
 package com.jamii.operations.userServices.social;
 
+import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
@@ -8,9 +9,9 @@ import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
+import com.jamii.operations.userServices.social.Utils.SocialHelper;
 import com.jamii.requests.userServices.socialREQ.GetFollowerListServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.GetFollowListRESP;
-import com.jamii.operations.userServices.social.Utils.SocialHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,7 @@ import java.util.*;
 @Service
 public class GetFollowerListOPS extends AbstractUserServicesOPS {
 
-    private GetFollowerListServicesREQ getFollowerListREQ;
     private HashMap< String, SocialHelper.RelationShipResults > relationshipResults = new HashMap<>( );
-
-    public GetFollowerListServicesREQ getGetFollowerListREQ() {
-        return getFollowerListREQ;
-    }
-
-    public void setGetFollowerListREQ(GetFollowerListServicesREQ getFollowerListREQ) {
-        this.getFollowerListREQ = getFollowerListREQ;
-    }
 
     @Autowired
     private UserRelationship userRelationship;
@@ -41,33 +33,36 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        DeviceKey = getGetFollowerListREQ().getDeviceKey();
-        UserKey = getGetFollowerListREQ().getUserKey();
-        SessionKey = getGetFollowerListREQ().getSessionKey();
+        GetFollowerListServicesREQ req = ( GetFollowerListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerListServicesREQ.class );
+        setDeviceKey( req.getDeviceKey( ) );
+        setUserKey( req.getUserKey( ) );
+        setSessionKey( req.getSessionKey() );
         super.validateCookie( );
     }
 
     @Override
     public void processRequest() throws Exception {
 
-        if( !this.isSuccessful ){
+        if( !getIsSuccessful( ) ){
             return;
         }
 
-        Optional<UserLoginTBL> sender = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON );
-        if( sender.isEmpty( ) ){
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+        GetFollowerListServicesREQ req = ( GetFollowerListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerListServicesREQ.class );
+
+        // Check if both users exist in the system
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  ){
+            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 
         // Get friends from relationship table
-        List<UserRelationshipTBL> relationships = new ArrayList<>( );
-        relationships.addAll( userRelationship.fetchFollowers( sender.get( ), UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetchFollowers( this.userLogin.data , UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
-        for( UserRelationshipTBL relationship : relationships){
+        for( UserRelationshipTBL relationship : this.userRelationship.dataList ){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = relationship.getSenderid();
@@ -80,7 +75,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
                 obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
                 obj.setLASTNAME( userdata.get( ).getLastname( ) );
 
-                this.relationshipResults.put( sender.get( ).getUserKey( ), obj );
+                this.relationshipResults.put( user.getUserKey( ), obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );

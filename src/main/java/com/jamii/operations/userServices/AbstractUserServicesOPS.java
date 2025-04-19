@@ -29,17 +29,13 @@ public abstract class AbstractUserServicesOPS {
     public static void setSessionKey(String sessionKey) {SessionKey = sessionKey;}
 
     protected Boolean isSuccessful = true;
-    protected Boolean getIsSuccessful( ) {
-        return isSuccessful;
-    }
+    protected Boolean getIsSuccessful( ) {return isSuccessful;}
     protected void setIsSuccessful( Boolean isSuccessful ) {
         this.isSuccessful = isSuccessful;
     }
 
     protected Object request;
-    public Object getRequest( ) {
-        return request;
-    }
+    public Object getRequest( ) {return request;}
     public void setRequest(Object request) {this.request = request;}
 
     public void reset( ){

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class UserFileUploadOPS extends AbstractUserServicesOPS {
@@ -33,21 +32,11 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
     @Autowired
     private JamiiUploadFileUtils jamiiUploadFileUtils;
 
-    protected UserFileUploadRESP userFileUploadRESP;
-    public UserFileUploadRESP getUserFileUploadRESP() {
-        return userFileUploadRESP;
-    }
-    public void setUserFileUploadRESP(UserFileUploadRESP userFileUploadRESP) {this.userFileUploadRESP = userFileUploadRESP;}
 
-    @Override
-    public void reset( ) {
-        super.reset( );
-        setUserFileUploadRESP( null );
-    }
 
     @Override
     public void validateCookie( ) throws Exception{
-        UserFileUploadServicesREQ req = (UserFileUploadServicesREQ) getRequest( );
+        UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( );
         setDeviceKey( req.getDeviceKey( ) );
         setUserKey( req.getUserKey( ) );
         setSessionKey( req.getSessionKey() );
@@ -62,8 +51,8 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         }
 
         UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( ) ;
-        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ) ;
-        if( user.isEmpty( ) ){
+        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
+        if( this.userLogin.data == null ){
             jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ));
             this.jamiiErrorsMessagesRESP.setUploadFileOPS_NoMatchingUserKey( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
@@ -71,9 +60,9 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         }
 
         String sysFileName = generateFileKey( );
-        FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwner.add( getFileOwnerRecord( user, sysFileName ) );
-        this.fileDirectory.createFileDirectory( user.get( ), fileTableOwnerTBL, "./" );
-        saveUploadedFile( user.get( ).getIdAsString( ), sysFileName );
+        FileTableOwnerTBL fileTableOwnerTBL = this.fileTableOwner.add( getFileOwnerRecord( this.userLogin.data, sysFileName ) );
+        this.fileDirectory.createFileDirectory( this.userLogin.data, fileTableOwnerTBL, "./" );
+        saveUploadedFile( this.userLogin.data.getIdAsString( ), sysFileName );
 
         setIsSuccessful( true );
     }
@@ -96,12 +85,12 @@ public class UserFileUploadOPS extends AbstractUserServicesOPS {
         return keyToolGen.generate( );
     }
 
-    protected FileTableOwnerTBL getFileOwnerRecord( Optional <UserLoginTBL> user, String  sysFileName ){
+    protected FileTableOwnerTBL getFileOwnerRecord( UserLoginTBL user, String  sysFileName ){
         UserFileUploadServicesREQ req = ( UserFileUploadServicesREQ ) getRequest( );
         FileTableOwnerTBL fileTableOwnerTBL = new FileTableOwnerTBL( );
-        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE + File.separator + user.get( ).getId( ) );
+        fileTableOwnerTBL.setFilelocation( FileServerConfigs.USER_IMAGE_STORE + File.separator + user.getId( ) );
         fileTableOwnerTBL.setFiletype( req.getUploadfile( ).getContentType( ) );
-        fileTableOwnerTBL.setUserloginid( user.get( ) );
+        fileTableOwnerTBL.setUserloginid( user );
         fileTableOwnerTBL.setFilesize( req.getUploadfile( ).getSize( ) );
         fileTableOwnerTBL.setOriginalfilename( req.uploadFile.getOriginalFilename( ) );
         fileTableOwnerTBL.setSystemfilename( sysFileName );

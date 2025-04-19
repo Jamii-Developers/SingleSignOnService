@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -53,4 +54,7 @@ public class FileTableOwner {
         datalist.forEach( x -> dataList.add( x ) );
     }
 
+    public boolean checkStatus( ArrayList<Integer> checkAvailability ) {
+        return checkAvailability.stream( ).anyMatch( x-> Objects.equals( data.getStatus(), x ) );
+    }
 }
