@@ -22,9 +22,7 @@ import java.util.*;
 @Service
 public class GetFriendListOPS extends AbstractUserServicesOPS {
 
-    private GetFriendListServicesREQ getFriendListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
-
 
     @Autowired
     private UserRelationship userRelationship;
@@ -67,7 +65,7 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
         for( UserRelationshipTBL relationship : this.userRelationship.dataList ){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
-            UserLoginTBL user = null;
+            UserLoginTBL user;
 
             if( Objects.equals( relationship.getSenderid( ).getId( ), this.userLogin.data.getId( ) ) ) {
                 user = relationship.getReceiverid( );

@@ -36,9 +36,6 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         super.validateCookie( );
     }
 
-    /**
-     * @throws Exception
-     */
     @Override
     public void processRequest( ) throws Exception {
 
@@ -85,7 +82,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         for( UserDataTBL userdata : this.userData.dataList ){
 
             Optional<UserLoginTBL> user = this.userLogin.fetch( userdata.getId( ), UserLogin.ACTIVE_ON );
-            if( !user.isPresent( ) ){
+            if( user.isEmpty( ) ){
                 continue;
             }
 

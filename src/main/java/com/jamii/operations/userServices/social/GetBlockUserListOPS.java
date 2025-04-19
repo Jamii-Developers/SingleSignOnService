@@ -35,7 +35,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );;
+        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );
         setDeviceKey( req.getDeviceKey( ) );
         setUserKey( req.getUserKey( ) );
         setSessionKey( req.getSessionKey() );
@@ -49,7 +49,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );;
+        GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );
 
         // Check if both users exist in the system
         this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );

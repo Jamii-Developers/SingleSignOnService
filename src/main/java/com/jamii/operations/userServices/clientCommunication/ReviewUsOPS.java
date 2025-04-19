@@ -3,7 +3,6 @@ package com.jamii.operations.userServices.clientCommunication;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.ClientCommunication;
 import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.ClientCommunicationTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.clientCommunicationREQ.ReviewUsServicesREQ;
 import com.jamii.responses.userResponses.clientCommunication.ContactUsRESP;
@@ -61,7 +60,6 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
             return ;
         }
 
-        ClientCommunicationTBL contactus = new ClientCommunicationTBL( );
         this.clientCommunication.data.setUserloginid( this.userLogin.data );
         this.clientCommunication.data.setClientthoughts( req.getClient_thoughts( ) );
         this.clientCommunication.data.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_REVIEW );

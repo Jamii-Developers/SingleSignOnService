@@ -22,7 +22,6 @@ import java.util.*;
 @Service
 public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
 
-    private GetFriendRequestListServicesREQ getFriendRequestListREQ;
     private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
 
     @Autowired

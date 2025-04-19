@@ -89,8 +89,9 @@ public class UserServices {
         directoryMap.put( "userlogoff", userLogoffOPS );
         directoryMap.put( "searchuser", searchUsersOPS );
         directoryMap.put( "sendfriendrequest", sendFriendRequestOPS );
-        directoryMap.put( "getfriendrequestList", getFriendRequestListOPS );
-        directoryMap.put( "getfollowerList", getFollowerListOPS );
+        directoryMap.put( "getfriendrequestist", getFriendRequestListOPS );
+        directoryMap.put( "getfollowerlist", getFollowerListOPS );
+        directoryMap.put( "getfollowerrequestlist", getFollowRequestListOPS );
         directoryMap.put( "sendfollowrequest", sendFollowRequestOPS );
         directoryMap.put( "acceptfriendrequest", acceptFriendRequestOPS );
         directoryMap.put( "acceptfollowrequest", acceptFollowRequestOPS );
@@ -103,7 +104,7 @@ public class UserServices {
 
     }
 
-    public ResponseEntity<?> processRequest( String operation, Object requestPayload ) throws Exception{
+    public ResponseEntity<?> processRequest( String operation, Object requestPayload ) {
 
         try {
             jamiiDebug.info("Received request for operation: " + operation);
@@ -228,7 +229,7 @@ public class UserServices {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file) throws Exception {
+    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file) {
 
         try{
             jamiiDebug.info("Received request for operation: " + operation);

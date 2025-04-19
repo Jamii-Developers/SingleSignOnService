@@ -58,12 +58,11 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
         }
 
         // Get friends from relationship table
-        List<UserRequestsTBL> requests = new ArrayList<>( );
-        requests.addAll( userRequest.fetchRequests( this.userLogin.data , UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
+        this.userRequest.dataList.addAll( userRequest.fetchRequests( this.userLogin.data , UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
 
         //Get the necessary relationships and fetch the user information
-        for( UserRequestsTBL request : requests){
+        for( UserRequestsTBL request : this.userRequest.dataList ){
 
             SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
             UserLoginTBL user = request.getSenderid( );

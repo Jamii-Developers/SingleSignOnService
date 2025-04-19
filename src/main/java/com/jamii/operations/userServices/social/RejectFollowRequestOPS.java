@@ -74,8 +74,8 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( getIsSuccessful( ) && this.userLogin.otherUser == null  ){
-            RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( this.userLogin.otherUser);
+        if( getIsSuccessful( ) && this.userLogin.otherUser != null  ){
+            RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( this.userLogin.otherUser );
             return  new ResponseEntity< >( rejectFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
             this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );

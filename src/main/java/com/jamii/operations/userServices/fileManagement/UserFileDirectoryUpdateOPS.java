@@ -82,6 +82,7 @@ public class UserFileDirectoryUpdateOPS extends AbstractUserServicesOPS {
             return ;
         }
 
+        assert this.fileDirectory.data != null;
         this.fileDirectory.data.setUidirectory( req.getDirectoryUpdate( ) );
         this.fileDirectory.data.setLastupdated( LocalDateTime.now( ));
         this.fileDirectory.save( );

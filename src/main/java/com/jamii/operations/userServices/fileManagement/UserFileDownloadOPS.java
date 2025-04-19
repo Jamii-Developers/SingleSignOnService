@@ -78,6 +78,7 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
 
         try {
 
+            assert this.fileTableOwner.data != null;
             String fileLocation = this.fileTableOwner.data.getFilelocation( );
             String systemFilename = this.fileTableOwner.data.getSystemfilename( );
             String fileExtension = JamiiFileUtils.getFileExtension( this.fileTableOwner.data.getFiletype( ) );

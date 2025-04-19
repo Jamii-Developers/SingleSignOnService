@@ -36,7 +36,7 @@ public class FileTableOwner {
     }
 
     /**
-     * This has been deprecated use the fuction save( )
+     * This has been deprecated use the function save( )
      * @param fileInformation
      */
     @Deprecated

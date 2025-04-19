@@ -42,7 +42,7 @@ public class ApplicationStart {
     }
 
     @PostMapping(path = "{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<?> processRequest( @PathVariable String requestType,@RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload) throws Exception {
+    public ResponseEntity<?> processRequest( @PathVariable String requestType,@RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload) {
         try {
             Object handler = directoryMap.get(requestType);
 
@@ -68,7 +68,7 @@ public class ApplicationStart {
             @RequestParam String userKey,
             @RequestParam String deviceKey,
             @RequestParam String sessionKey,
-            @RequestParam(value = "uploadFile", required = true ) MultipartFile file) throws Exception {
+            @RequestParam(value = "uploadFile" ) MultipartFile file) {
         try {
             Object handler = directoryMap.get(requestType);
 
@@ -88,7 +88,7 @@ public class ApplicationStart {
     }
 
     @GetMapping(path = "{requestType}/{filename}")
-    public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @RequestHeader("Service-Header") String operation, @RequestBody( required = true ) Object jsonPayload) throws Exception {
+    public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @RequestHeader("Service-Header") String operation, @RequestBody( required = true ) Object jsonPayload) {
         try {
             Object handler = directoryMap.get(requestType);
 

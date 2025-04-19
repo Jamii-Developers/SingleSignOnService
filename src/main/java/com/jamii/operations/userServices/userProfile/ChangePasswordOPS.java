@@ -53,7 +53,7 @@ public class ChangePasswordOPS extends AbstractUserServicesOPS {
 
         //Check if the old password matches the old saved password
         String encryptedOldPassword = JamiiUserPasswordEncryptTool.encryptPassword( req.getOld_password( ) );
-        String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( req.getNew_password( ) );;
+        String encryptedNewPassword = JamiiUserPasswordEncryptTool.encryptPassword( req.getNew_password( ) );
         if( !JamiiStringUtils.equals( encryptedOldPassword, user.get( ).getPasswordsalt( ) ) ){
             jamiiDebug.warning( "This password doesn't match what we have in the system : " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setPasswordChange_PasswordsNotMatching( );
