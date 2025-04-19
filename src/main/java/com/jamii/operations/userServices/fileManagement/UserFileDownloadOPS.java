@@ -2,6 +2,7 @@ package com.jamii.operations.userServices.fileManagement;
 
 import com.jamii.Utils.JamiiFileDownloadUtils;
 import com.jamii.Utils.JamiiFileUtils;
+import com.jamii.Utils.JamiiLoggingUtils;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.FileTableOwner;
 import com.jamii.jamiidb.controllers.UserLogin;
@@ -23,6 +24,8 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
     private UserLogin userLogin;
     @Autowired
     protected FileTableOwner fileTableOwner;
+    @Autowired
+    JamiiLoggingUtils jamiiLoggingUtils;
 
 
     private Resource resource;
@@ -85,7 +88,7 @@ public class UserFileDownloadOPS extends AbstractUserServicesOPS {
             setResource( downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension ) );
 
         }catch( Exception e ){
-            e.printStackTrace( );
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , this.userLogin.data ) ;
             jamiiDebug.error( "Error creating resource : " + req.getDeviceKey( ) );
             this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
