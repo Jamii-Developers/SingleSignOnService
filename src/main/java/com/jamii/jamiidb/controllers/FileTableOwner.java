@@ -17,8 +17,8 @@ public class FileTableOwner {
     private FileTableOwnerREPO fileTableOwnerREPO;
 
     //Creating a table object to reference when creating data for that table
-    public FileTableOwnerTBL data = new FileTableOwnerTBL( );
-    public ArrayList< FileTableOwnerTBL > dataList = new ArrayList<>( );
+    public FileTableOwnerTBL data;
+    public ArrayList< FileTableOwnerTBL > dataList;
 
     /**
      * Setting active statuses

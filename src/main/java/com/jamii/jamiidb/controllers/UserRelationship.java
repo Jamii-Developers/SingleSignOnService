@@ -17,8 +17,8 @@ public class UserRelationship {
     private UserRelationshipREPO userRelationshipREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserRelationshipTBL data = new UserRelationshipTBL( );
-    public ArrayList< UserRelationshipTBL > dataList = new ArrayList< >( );
+    public UserRelationshipTBL data;
+    public ArrayList< UserRelationshipTBL > dataList;
 
     // TYPE
     public static final Integer TYPE_FRIEND = 1;

@@ -14,8 +14,8 @@ public class UserGroups {
     private UserGroupsREPO userGroupsREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserGroupsTBL data = new UserGroupsTBL( );
-    public ArrayList< UserGroupsTBL > dataList = new ArrayList< >( );
+    public UserGroupsTBL data;
+    public ArrayList< UserGroupsTBL > dataList;
 
     public void save( ){
         data = this.userGroupsREPO.save( data );

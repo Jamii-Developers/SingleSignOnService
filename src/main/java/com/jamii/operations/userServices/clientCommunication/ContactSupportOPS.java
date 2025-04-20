@@ -5,8 +5,8 @@ import com.jamii.jamiidb.controllers.ClientCommunication;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.ClientCommunicationTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
-import com.jamii.requests.userServices.clientCommunicationREQ.ReviewUsServicesREQ;
-import com.jamii.responses.userResponses.clientCommunication.ReviewUsRESP;
+import com.jamii.requests.userServices.clientCommunicationREQ.ContactSupportServicesREQ;
+import com.jamii.responses.userResponses.clientCommunication.ContactSupportRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class ReviewUsOPS extends AbstractUserServicesOPS {
+public class ContactSupportOPS extends AbstractUserServicesOPS {
 
     @Autowired
     private UserLogin userLogin;
@@ -24,7 +24,7 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
 
     @Override
     public void validateCookie( ) throws Exception{
-        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
+        ContactSupportServicesREQ req = ( ContactSupportServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ContactSupportServicesREQ.class );
         setDeviceKey( req.getDeviceKey( ) );
         setUserKey( req.getUserKey( ) );
         setSessionKey( req.getSessionKey() );
@@ -38,7 +38,7 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
             return;
         }
 
-        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
+        ContactSupportServicesREQ req = ( ContactSupportServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ContactSupportServicesREQ.class );
         this.userLogin.data = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
 
         if( this.userLogin.data == null ){
@@ -51,7 +51,7 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
         this.clientCommunication.data = new ClientCommunicationTBL( );
         this.clientCommunication.data.setUserloginid( this.userLogin.data );
         this.clientCommunication.data.setClientthoughts( req.getClient_thoughts( ) );
-        this.clientCommunication.data.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_CONTACT_SUPPORT );
+        this.clientCommunication.data.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_REVIEW );
         this.clientCommunication.data.setDateofthought( LocalDateTime.now( ) );
         this.clientCommunication.save( );
 
@@ -61,7 +61,7 @@ public class ReviewUsOPS extends AbstractUserServicesOPS {
     public ResponseEntity<?> getResponse( ){
 
         if( getIsSuccessful( ) ){
-            return  new ResponseEntity< >( new ReviewUsRESP( ).getJSONRESP( ), HttpStatus.OK ) ;
+            return  new ResponseEntity< >( new ContactSupportRESP( ).getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse();

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,6 +56,7 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch friend request to user
+        this.userRequest.dataList = new ArrayList< >( );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
 
         //Check if friend request exists

@@ -60,6 +60,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
         }
 
         // Get friends from relationship table
+        this.userBlockList.dataList = new ArrayList<>( );
         this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE ) );
 
 

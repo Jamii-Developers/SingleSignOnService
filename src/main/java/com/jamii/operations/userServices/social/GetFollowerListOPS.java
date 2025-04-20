@@ -58,6 +58,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
         }
 
         // Get friends from relationship table
+        this.userRelationship.dataList = new ArrayList< >( );
         this.userRelationship.dataList.addAll( userRelationship.fetchFollowers( this.userLogin.data , UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE ) );
 
 

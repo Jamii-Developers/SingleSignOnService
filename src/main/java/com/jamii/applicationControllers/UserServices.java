@@ -3,6 +3,7 @@ package com.jamii.applicationControllers;
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiLoggingUtils;
 import com.jamii.Utils.JamiiMapperUtils;
+import com.jamii.operations.userServices.clientCommunication.ContactSupportOPS;
 import com.jamii.operations.userServices.clientCommunication.ReviewUsOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDeleteOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileDirectoryUpdateOPS;
@@ -71,6 +72,8 @@ public class UserServices {
     SendFollowRequestOPS sendFollowRequestOPS;
     @Autowired
     SendFriendRequestOPS sendFriendRequestOPS;
+    @Autowired
+    ContactSupportOPS contactSupportOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
     private final Map<String, Object> directoryMap = new HashMap<>();
@@ -100,6 +103,7 @@ public class UserServices {
         directoryMap.put( "blockuser", blockUserOPS);
         directoryMap.put( "getfriendlist", getFriendListOPS );
         directoryMap.put( "getblockuserlist", getBlockUserListOPS);
+        directoryMap.put( "contactsupport", contactSupportOPS);
 
 
     }
@@ -220,6 +224,11 @@ public class UserServices {
             if (handler instanceof SendFriendRequestOPS) {
                 ( (SendFriendRequestOPS) handler).reset( );
                 return ( ( SendFriendRequestOPS ) handler).run(requestPayload);
+            }
+
+            if (handler instanceof ContactSupportOPS) {
+                ( (ContactSupportOPS) handler).reset( );
+                return ( ( ContactSupportOPS ) handler).run( requestPayload );
             }
 
         }catch( Exception e ){

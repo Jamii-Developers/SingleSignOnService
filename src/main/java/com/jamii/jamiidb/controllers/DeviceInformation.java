@@ -17,8 +17,8 @@ public class DeviceInformation {
     private DeviceInformationREPO deviceInformationREPO;
 
     //Creating a table object to reference when creating data for that table
-    public DeviceInformationTBL data = new DeviceInformationTBL( );
-    public ArrayList< DeviceInformationTBL > dataList = new ArrayList<>( );
+    public DeviceInformationTBL data;
+    public ArrayList< DeviceInformationTBL > dataList;
 
     /**
      * Active Statuses

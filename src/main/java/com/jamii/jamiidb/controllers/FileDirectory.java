@@ -19,8 +19,8 @@ public class FileDirectory {
     FileDirectoryREPO fileDirectoryREPO;
 
     //Creating a table object to reference when creating data for that table
-    public FileDirectoryTBL data = new FileDirectoryTBL( );
-    public ArrayList< FileDirectoryTBL > dataList = new ArrayList<>( );
+    public FileDirectoryTBL data;
+    public ArrayList< FileDirectoryTBL > dataList;
 
     public FileDirectoryTBL createFileDirectory(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL, String uidirectory) {
 

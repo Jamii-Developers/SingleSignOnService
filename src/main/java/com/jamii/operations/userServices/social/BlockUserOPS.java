@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Service
 public class BlockUserOPS extends AbstractUserServicesOPS {
@@ -60,15 +61,18 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch requests between users
+        this.userRequest.dataList = new ArrayList< >( );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE ) );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
         //Fetch Block List
+        this.userBlockList.dataList = new ArrayList<>( );
         this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE ) );
 
         //Fetch Relationships
+        this.userRelationship.dataList = new ArrayList<>( );
         this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data , this.userLogin.otherUser, UserRelationship.STATUS_ACTIVE ) );
         this.userRelationship.dataList.addAll( userRelationship.fetch(  this.userLogin.otherUser, this.userLogin.data , UserRelationship.STATUS_ACTIVE ) );
 

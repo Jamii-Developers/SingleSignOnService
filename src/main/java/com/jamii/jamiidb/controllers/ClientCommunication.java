@@ -20,7 +20,7 @@ public class ClientCommunication {
     /**
      * These types indicate the client communication that is being submitted by the client
      */
-    public final static Integer TYPE_OF_THOUGHT_CONTACT_US = 1;
+    public final static Integer TYPE_OF_THOUGHT_CONTACT_SUPPORT = 1;
     public final static Integer TYPE_OF_THOUGHT_REVIEW = 2;
 
     /**

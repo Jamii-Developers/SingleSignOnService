@@ -46,6 +46,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         SearchUserServicesREQ req = ( SearchUserServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), SearchUserServicesREQ.class );
 
         //Fetch list of users based of User Login Information
+        this.userLogin.dataList = new ArrayList< >( );
         this.userLogin.dataList.addAll( this.userLogin.searchUserUsername( req.getSearchstring( ) ) );
         this.userLogin.dataList.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
         for( UserLoginTBL user : this.userLogin.dataList ){
@@ -75,6 +76,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch list based of User Data Information
+        this.userData.dataList = new ArrayList< >( );
         this.userData.dataList.addAll( this.userData.searchUserFirstname( req.getSearchstring( ) ) );
         this.userData.dataList.addAll( this.userData.searchUserMiddlename( req.getSearchstring( ) ) );
         this.userData.dataList.addAll( this.userData.searchUserLastname( req.getSearchstring( ) ) );

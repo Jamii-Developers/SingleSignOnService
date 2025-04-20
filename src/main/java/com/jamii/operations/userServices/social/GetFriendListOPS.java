@@ -58,6 +58,7 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
         }
 
         // Get friends from relationship table
+        this.userRelationship.dataList = new ArrayList< >( );
         this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE ) );
 
 

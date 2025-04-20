@@ -1,7 +1,5 @@
 package com.jamii.Utils;
 
-import java.time.format.DateTimeFormatter;
-
 public class JamiiConstants {
 
     public JamiiConstants() {
@@ -19,7 +17,7 @@ public class JamiiConstants {
     public static final String      RESPONSE_TYPE_CHANGE_PASSWORD               =   "SUC|004";
     public static final String      RESPONSE_TYPE_EDIT_REACTIVATE               =   "SUC|005";
     public static final String      RESPONSE_TYPE_EDIT_DEACTIVATE               =   "SUC|006";
-    public static final String      RESPONSE_TYPE_CONTACT_US                    =   "SUC|007";
+    public static final String      RESPONSE_TYPE_REVIEW_US                     =   "SUC|007";
     public static final String      RESPONSE_SEARCH_RESULTS                     =   "SUC|008";
     public static final String      RESPONSE_SEND_FRIEND_REQUEST                =   "SUC|009";
     public static final String      RESPONSE_SEND_FOLLOW_REQUEST                =   "SUC|010";
@@ -37,6 +35,7 @@ public class JamiiConstants {
     public static final String      RESPONSE_GET_BLOCK_USER_LIST_REQUEST        =   "SUC|022";
     public static final String      RESPONSE_FETCH_USER_DATA                    =   "SUC|023";
     public static final String      RESPONSE_LOGOFF                             =   "SUC|024";
+    public static final String      RESPONSE_CONTACT_SUPPORT                    =   "SUC|025";
 
 
 

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -57,6 +58,7 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
         }
 
         //Fetch follow request from the sender
+        this.userRequest.dataList = new ArrayList< >( );
         this.userRequest.dataList.addAll( userRequest.fetch( this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 
         Optional <UserRequestsTBL> validFollowRequest = this.userRequest.dataList.stream( ).filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && x.getReceiverid( ) == this.userLogin.data ).findFirst();

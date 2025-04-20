@@ -2,6 +2,7 @@ package com.jamii.Utils;
 
 import com.jamii.jamiidb.controllers.ApiErrorLog;
 import com.jamii.jamiidb.model.AUXUtils.ApiErrorLog_AUX_DATA;
+import com.jamii.jamiidb.model.ApiErrorLogTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class JamiiLoggingUtils {
         }else{
             this.errorLog.data.setUserloginid( 0 );
         }
+
+        errorLog.data = new ApiErrorLogTBL( );
         errorLog.data.setCreationdate( LocalDateTime.now( ) );
         errorLog.data.setLastupdated( LocalDateTime.now( ) );
         errorLog.data.setClassname( className );
