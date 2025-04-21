@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: A9x#Lp7qRz2!WvE
+      MYSQL_DATABASE: jamiidb
+      MYSQL_USER: system
+      MYSQL_PASSWORD: A9x#Lp7qRz2!WvE
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  springboot-app:
+    image: jamiix:latest
+    container_name: jamiix
+    depends_on:
+      - mysql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_HOST: mysql
+      MYSQL_USER: system
+      MYSQL_PASSWORD: A9x#Lp7qRz2!WvE
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:

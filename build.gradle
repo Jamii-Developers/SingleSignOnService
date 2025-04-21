@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.jamii'
-version = '0.0.1-SNAPSHOT'
+version = 'JamiiX-0.0.1-SNAPSHOT'
 
 mainClassName = 'com.jamii.ApplicationStart'
 
@@ -22,14 +22,12 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'mysql:mysql-connector-java:8.0.31'
+	implementation 'com.mysql:mysql-connector-j:9.2.0'
 	implementation 'org.json:json:20231013'
 	implementation 'com.google.code.gson:gson:2.8.9'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.session:spring-session-jdbc'
-
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
 }
 
 tasks.named('test') {

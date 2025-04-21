@@ -1,18 +1,14 @@
-FROM eclipse-temurin:17-jdk AS builder
+# Step 1: Use a base image that has OpenJDK 19
+FROM openjdk:19-jdk-slim as builder
 
+# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-COPY . .
+# Step 3: Copy the built JAR file from the build directory
+COPY build/libs/*.jar app.jar
 
-RUN chmod +x ./gradlew
-RUN ./gradlew build -x test
-
-FROM eclipse-temurin:17-jdk
-
-WORKDIR /app
-
-COPY --from=builder /app/build/libs/*.jar app.jar
-
+# Step 4: Expose the port the app will run on
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+# Step 5: Run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]
