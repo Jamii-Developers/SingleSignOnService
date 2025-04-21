@@ -1,11 +1,5 @@
 # Stage 1: Build the application
-FROM openjdk:19-jdk-slim as builder
-
-# Install Gradle manually in the image
-RUN apt-get update && apt-get install -y wget unzip
-RUN wget https://services.gradle.org/distributions/gradle-7.4.2-bin.zip -P /tmp
-RUN unzip /tmp/gradle-7.4.2-bin.zip -d /opt
-RUN ln -s /opt/gradle-7.4.2/bin/gradle /usr/bin/gradle
+FROM gradle:7.4.2-jdk19 as builder
 
 # Set the working directory
 WORKDIR /app
@@ -27,8 +21,6 @@ RUN ./gradlew build
 
 # Stage 2: Run the application
 FROM openjdk:19-jdk-slim
-
-#Use OpenJDK 19 for the runtime environment
 
 # Set the working directory
 WORKDIR /app
