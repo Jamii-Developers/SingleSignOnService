@@ -17,10 +17,11 @@ RUN ./gradlew build
 RUN ls -alh /app/build/libs
 
 # Step 6: Copy the built JAR file into the app directory
-COPY /app/build/libs/*.jar app.jar
+# Copy the generated JAR file (adjust the path if necessary)
+COPY --from=builder /app/build/libs/app-JamiiX-0.0.1-SNAPSHOT.jar /app/app-JamiiX-0.0.1-SNAPSHOT.jar
 
 # Step 7: Expose the port the app will run on
 EXPOSE 8080
 
 # Step 8: Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app-JamiiX-0.0.1-SNAPSHOT.jar"]
