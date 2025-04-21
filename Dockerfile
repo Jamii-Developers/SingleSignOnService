@@ -1,21 +1,12 @@
-# Stage 1: Build the app
-FROM gradle:8.5.0-jdk17 AS build
-WORKDIR /home/app
-
-# Copy everything and build the jar
-COPY --chown=gradle:gradle . .
-RUN gradle build -x test
-
-# Stage 2: Run the app
-FROM eclipse-temurin:17-jdk-jammy
-VOLUME /tmp
+# Step 1: Build the app using Gradle wrapper
+FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
+COPY . .
+RUN ./gradlew build -x test
 
-# Copy the jar from the build stage
-COPY --from=build /home/app/build/libs/*.jar app.jar
-
-# Expose port (change if needed)
+# Step 2: Run the app
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
-
-# Run the app
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
