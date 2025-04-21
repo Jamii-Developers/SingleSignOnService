@@ -7,14 +7,17 @@ WORKDIR /app
 # Step 3: Copy the entire project to the container
 COPY . .
 
-# Step 4: Run the Gradle build process to create the JAR
+# Step 4: Give gradlew executable permissions
+RUN chmod +x gradlew
+
+# Step 5: Run the Gradle build process to create the JAR
 RUN ./gradlew build
 
-# Step 5: Copy the built JAR file into the app directory
+# Step 6: Copy the built JAR file into the app directory
 COPY build/libs/*.jar app.jar
 
-# Step 6: Expose the port the app will run on
+# Step 7: Expose the port the app will run on
 EXPOSE 8080
 
-# Step 7: Run the JAR file
+# Step 8: Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
