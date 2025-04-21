@@ -4,11 +4,17 @@ FROM openjdk:19-jdk-slim as builder
 # Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy the built JAR file from the build directory
+# Step 3: Copy the entire project to the container
+COPY . .
+
+# Step 4: Run the Gradle build process to create the JAR
+RUN ./gradlew build
+
+# Step 5: Copy the built JAR file into the app directory
 COPY build/libs/*.jar app.jar
 
-# Step 4: Expose the port the app will run on
+# Step 6: Expose the port the app will run on
 EXPOSE 8080
 
-# Step 5: Run the JAR file
+# Step 7: Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
