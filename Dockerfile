@@ -2,7 +2,7 @@
 FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN ./gradlew build -x test
+RUN ./gradlew build
 
 # Step 2: Use a lightweight Java image to run the app
 FROM eclipse-temurin:17-jdk
