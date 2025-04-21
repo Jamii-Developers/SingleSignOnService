@@ -13,8 +13,11 @@ RUN chmod +x gradlew
 # Step 5: Run the Gradle build process to create the JAR
 RUN ./gradlew build
 
+# Debug step: List the directory contents to ensure the JAR file is being generated
+RUN ls -alh /app/build/libs
+
 # Step 6: Copy the built JAR file into the app directory
-COPY build/libs/*.jar app.jar
+COPY /app/build/libs/*.jar app.jar
 
 # Step 7: Expose the port the app will run on
 EXPOSE 8080
