@@ -1,29 +1,26 @@
-# Stage 1: Build the application
-FROM gradle:8.5-jdk19 AS builder
+# Step 1: Use a base image that has OpenJDK 19
+FROM openjdk:19-jdk-slim as builder
 
-# Set working directory
+# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Copy project files
-COPY --chown=gradle:gradle . .
+# Step 3: Copy the entire project to the container
+COPY . .
 
-# Grant execution permission to Gradle wrapper
-RUN chmod +x ./gradlew
+# Step 4: Give gradlew executable permissions
+RUN chmod +x gradlew
 
-# Build the project (you can change `bootJar` to `build` if not using Spring Boot plugin)
-RUN ./gradlew bootJar
+# Step 5: Run the Gradle build process to create the JAR
+RUN ./gradlew build
 
-# Stage 2: Run the application
-FROM openjdk:19-jdk-slim
+# Debug step: List the directory contents to ensure the JAR file is being generated
+RUN ls -alh /app/build/libs
 
-# Set working directory
-WORKDIR /app
+# Step 6: Copy the built JAR file into the app directory
+COPY /build/libs/*.jar app-JamiiX-0.0.1-SNAPSHOT.jar
 
-# Copy the built JAR from the builder stage
-COPY --from=builder /app/build/libs/*.jar app-JamiiX-0.0.1-SNAPSHOT.jar
-
-# Expose application port
+# Step 7: Expose the port the app will run on
 EXPOSE 8080
 
-# Set the entrypoint
+# Step 8: Run the JAR file
 ENTRYPOINT ["java", "-jar", "app-JamiiX-0.0.1-SNAPSHOT.jar"]
