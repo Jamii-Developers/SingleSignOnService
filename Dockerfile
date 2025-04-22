@@ -14,7 +14,7 @@ RUN chmod +x gradlew
 RUN ./gradlew build
 
 # Debug step: List the directory contents to ensure the JAR file is being generated
-RUN ls -alh /app/build/libs
+RUN ls -alh /app/build/
 
 # Step 6: Copy the built JAR file into the app directory
 COPY /build/libs/*.jar app-JamiiX-0.0.1-SNAPSHOT.jar
