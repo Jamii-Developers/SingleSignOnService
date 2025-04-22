@@ -8,17 +8,12 @@ plugins {
 group = 'com.jamii'
 version = 'JamiiX-0.0.1-SNAPSHOT'
 
-mainClassName = 'com.jamii.ApplicationStart'
-
+springBoot {
+	mainClass = 'com.jamii.ApplicationStart'
+}
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_19
-}
-
-tasks.named('bootJar') {
-	manifest {
-		attributes 'Start-Class': 'com.jamii.ApplicationStart'
-	}
 }
 
 repositories {
