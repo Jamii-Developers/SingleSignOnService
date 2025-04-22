@@ -1,26 +1,26 @@
-# Step 1: Use a base image that has OpenJDK 19
-FROM openjdk:19-jdk-slim as builder
+# Stage 1: Build the application
+FROM gradle:8.5-jdk19 AS builder
 
-# Step 2: Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Step 3: Copy the entire project to the container
+# Copy everything and give permissions
 COPY . .
+RUN chmod +x ./gradlew
 
-# Step 4: Give gradlew executable permissions
-RUN chmod +x gradlew
-
-# Step 5: Run the Gradle build process to create the JAR
+# Build the Spring Boot app (change `build` to `bootJar` if you use Spring Boot)
 RUN ./gradlew build
 
-# Debug step: List the directory contents to ensure the JAR file is being generated
-RUN ls -alh /app/build/
+# Stage 2: Create the final image
+FROM openjdk:19-jdk-slim
 
-# Step 6: Copy the built JAR file into the app directory
-COPY /build/libs/*.jar app-JamiiX-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 
-# Step 7: Expose the port the app will run on
+# Copy the jar from the builder stage
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Expose port 8080
 EXPOSE 8080
 
-# Step 8: Run the JAR file
-ENTRYPOINT ["java", "-jar", "app-JamiiX-0.0.1-SNAPSHOT.jar"]
+# Run the app
+ENTRYPOINT ["java", "-jar", "app.jar"]
