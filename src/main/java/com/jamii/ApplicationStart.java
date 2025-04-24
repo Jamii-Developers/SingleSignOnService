@@ -1,6 +1,9 @@
 package com.jamii;
 
+import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiLoggingUtils;
+import com.jamii.applicationControllers.AbstractApplicationControllers;
+import com.jamii.applicationControllers.HealthCheck;
 import com.jamii.applicationControllers.PublicServices;
 import com.jamii.applicationControllers.UserServices;
 import jakarta.annotation.PostConstruct;
@@ -29,11 +32,15 @@ public class ApplicationStart {
     PublicServices publicServices;
     @Autowired
     UserServices userServices;
+    @Autowired
+    HealthCheck healthCheck;
+
+    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
 
     public static void main(String[ ] args ) {SpringApplication.run( ApplicationStart.class, args); }
 
-    Map<String, Object > directoryMap = new HashMap< >( );
+    Map<String, AbstractApplicationControllers > directoryMap = new HashMap< >( );
 
     @PostConstruct
     private void initGlobalPathing( ){
@@ -44,15 +51,17 @@ public class ApplicationStart {
     @PostMapping(path = "{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<?> processRequest( @PathVariable String requestType,@RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload) {
         try {
-            Object handler = directoryMap.get(requestType);
+            jamiiDebug.info("Received request for operation: " + operation);
 
-            if (handler instanceof PublicServices) {
-                return ((PublicServices) handler).processRequest(operation, jsonPayload);
+            // Lookup the handler
+            AbstractApplicationControllers handler = directoryMap.get(operation);
+
+            if (handler == null) {
+                jamiiDebug.warn("Unknown operation: " + operation);
+                throw new Exception( "Operation could not be found " + operation );
             }
 
-            if (handler instanceof UserServices) {
-                return ( (UserServices) handler).processRequest(operation, jsonPayload);
-            }
+            return handler.processJSONRequest( operation, jsonPayload );
 
         } catch (Exception e) {
             jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
@@ -70,15 +79,14 @@ public class ApplicationStart {
             @RequestParam String sessionKey,
             @RequestParam(value = "uploadFile" ) MultipartFile file) {
         try {
-            Object handler = directoryMap.get(requestType);
+            AbstractApplicationControllers handler = directoryMap.get(requestType);
 
-            if (handler instanceof PublicServices) {
-                return ((PublicServices) handler).processMultipartRequest(operation, userKey, deviceKey, sessionKey, file );
+            if (handler == null) {
+                jamiiDebug.warn("Unknown operation: " + operation);
+                throw new Exception( "Operation could not be found " + operation );
             }
 
-            if (handler instanceof UserServices) {
-                return ((UserServices) handler).processMultipartRequest( operation, userKey, deviceKey, sessionKey, file);
-            }
+            return handler.processMultipartRequest( operation, userKey, deviceKey, sessionKey, file);
 
         } catch (Exception e) {
             jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
@@ -87,18 +95,31 @@ public class ApplicationStart {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "{requestType}/{filename}")
+    @GetMapping( path = "{requestType}/{filename}")
     public ResponseEntity<?> processFileDownloadRequest( @PathVariable String requestType, @RequestHeader("Service-Header") String operation, @RequestBody( required = true ) Object jsonPayload) {
         try {
-            Object handler = directoryMap.get(requestType);
+            AbstractApplicationControllers handler = directoryMap.get(requestType);
 
-            if (handler instanceof PublicServices) {
-                return ((PublicServices) handler).processRequest(operation, jsonPayload);
+            if (handler == null) {
+                jamiiDebug.warn("Unknown operation: " + operation);
+                throw new Exception( "Operation could not be found " + operation );
             }
 
-            if (handler instanceof UserServices) {
-                return ((UserServices) handler).processRequest(operation, jsonPayload);
-            }
+            return handler.processJSONRequest( operation, jsonPayload );
+
+        } catch (Exception e) {
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
+        }
+
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping( path = "health" )
+    public ResponseEntity<?> processHealthRequestCheck( ) {
+        try {
+            jamiiDebug.info("Received request for operation: health ");
+
+            return healthCheck.processJSONRequest( null, null );
 
         } catch (Exception e) {
             jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;

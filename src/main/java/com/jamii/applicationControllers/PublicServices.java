@@ -1,20 +1,22 @@
 package com.jamii.applicationControllers;
 
-import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiLoggingUtils;
-import com.jamii.operations.publicServices.*;
+import com.jamii.operations.publicServices.AbstractPublicServices;
+import com.jamii.operations.publicServices.CreateNewUserOPS;
+import com.jamii.operations.publicServices.ReactivateUserOPS;
+import com.jamii.operations.publicServices.UserLoginOPS;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class PublicServices {
+@Controller
+public class PublicServices extends AbstractApplicationControllers {
 
 	@Autowired
 	JamiiLoggingUtils jamiiLoggingUtils;
@@ -25,17 +27,16 @@ public class PublicServices {
 	@Autowired
 	ReactivateUserOPS reactivateUserOPS;
 
-	private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
 	private final Map<String, AbstractPublicServices> directoryMap = new HashMap<>();
 
     @PostConstruct
-	private void initPathing() {
+	protected void initPathing() {
 		directoryMap.put("createnewuser", createNewUserOPS );
 		directoryMap.put("userlogin", userLoginOPS );
 		directoryMap.put("reactivateuser", reactivateUserOPS );
 	}
 
-	public ResponseEntity<?> processRequest( String operation, Object requestPayload) throws Exception {
+	public ResponseEntity<?> processJSONRequest(String operation, Object requestPayload) {
 
 		try{
 			jamiiDebug.info("Received request for operation: " + operation);

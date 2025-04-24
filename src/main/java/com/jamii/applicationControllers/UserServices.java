@@ -16,14 +16,14 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class UserServices {
+@Controller
+public class UserServices extends AbstractApplicationControllers {
 
     @Autowired
     JamiiLoggingUtils jamiiLoggingUtils;
@@ -80,7 +80,7 @@ public class UserServices {
     private final Map<String, AbstractUserServicesOPS > directoryMap = new HashMap<>();
 
     @PostConstruct
-    private void initPathing() {
+    protected void initPathing() {
         directoryMap.put( "reviewus", reviewUsOPS);
         directoryMap.put( "userfileupload", userFileUploadOPS);
         directoryMap.put( "userdirupd", userFileDirectoryUpdateOPS );
@@ -109,13 +109,13 @@ public class UserServices {
 
     }
 
-    public ResponseEntity<?> processRequest( String operation, Object requestPayload ) {
+    public ResponseEntity<?> processJSONRequest(String operation, Object requestPayload ) {
 
         try {
             jamiiDebug.info("Received request for operation: " + operation);
 
             // Lookup the handler
-            AbstractUserServicesOPS handler = directoryMap.get(operation);
+            AbstractUserServicesOPS handler = directoryMap.get( operation );
 
             if (handler == null) {
                 jamiiDebug.warn("Unknown operation: " + operation);
@@ -132,7 +132,7 @@ public class UserServices {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file) {
+    public ResponseEntity<?> processMultipartRequest( String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file) {
 
         try{
             jamiiDebug.info("Received request for operation: " + operation);
