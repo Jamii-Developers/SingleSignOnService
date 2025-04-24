@@ -19,8 +19,8 @@ public class UserData {
     private UserDataREPO userDataREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserDataTBL data;
-    public ArrayList< UserDataTBL > dataList;
+    public UserDataTBL data = new UserDataTBL( );
+    public ArrayList< UserDataTBL > dataList = new ArrayList<>( );
 
     /**
      * Below are the Current Statuses. "Current" reffers to the most recent record of a particular user

@@ -18,8 +18,8 @@ public class UserCookies {
     private UserCookiesREPO userCookiesREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserCookiesTBL data;
-    public ArrayList< UserCookiesTBL > dataList;
+    public UserCookiesTBL data = new UserCookiesTBL( );
+    public ArrayList< UserCookiesTBL > dataList = new ArrayList< >( );
 
     //ACTIVE STATUS
     public static boolean ACTIVE_STATUS_ENABLED = true;

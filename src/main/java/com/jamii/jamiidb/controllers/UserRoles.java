@@ -14,8 +14,8 @@ public class UserRoles {
     private UserRolesREPO userRolesREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserRolesTBL data;
-    public ArrayList< UserRolesTBL > dataList;
+    public UserRolesTBL data = new UserRolesTBL( );
+    public ArrayList< UserRolesTBL > dataList = new ArrayList<>( );
 
     public void save( ){
         data = this.userRolesREPO.save( data );

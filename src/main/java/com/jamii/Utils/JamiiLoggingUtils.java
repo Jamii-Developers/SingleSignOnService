@@ -18,13 +18,13 @@ public class JamiiLoggingUtils {
 
     public void ExceptionLogger( String className , Exception exception, UserLoginTBL user ){
 
+        errorLog.data = new ApiErrorLogTBL( );
+
         if( user != null ){
             this.errorLog.data.setUserloginid( user.getId( ) );
         }else{
             this.errorLog.data.setUserloginid( 0 );
         }
-
-        errorLog.data = new ApiErrorLogTBL( );
         errorLog.data.setCreationdate( LocalDateTime.now( ) );
         errorLog.data.setLastupdated( LocalDateTime.now( ) );
         errorLog.data.setClassname( className );

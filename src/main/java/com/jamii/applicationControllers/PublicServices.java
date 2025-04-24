@@ -2,9 +2,7 @@ package com.jamii.applicationControllers;
 
 import com.jamii.Utils.JamiiDebug;
 import com.jamii.Utils.JamiiLoggingUtils;
-import com.jamii.operations.publicServices.CreateNewUserOPS;
-import com.jamii.operations.publicServices.ReactivateUserOPS;
-import com.jamii.operations.publicServices.UserLoginOPS;
+import com.jamii.operations.publicServices.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,8 @@ public class PublicServices {
 	ReactivateUserOPS reactivateUserOPS;
 
 	private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
-	private final Map<String, Object> directoryMap = new HashMap<>();
+	private final Map<String, AbstractPublicServices> directoryMap = new HashMap<>();
+
     @PostConstruct
 	private void initPathing() {
 		directoryMap.put("createnewuser", createNewUserOPS );
@@ -42,22 +41,15 @@ public class PublicServices {
 			jamiiDebug.info("Received request for operation: " + operation);
 
 			// Lookup the handler
-			Object handler = directoryMap.get(operation);
+			AbstractPublicServices handler = directoryMap.get(operation);
 
-			if ( handler instanceof UserLoginOPS ){
-				( (UserLoginOPS) handler).reset( );
-				return ( (UserLoginOPS) handler).run( requestPayload );
+			if (handler == null) {
+				jamiiDebug.warn("Unknown operation: " + operation);
+				throw new Exception( "Operation could not be found " + operation );
 			}
 
-			if( handler instanceof CreateNewUserOPS ){
-				( ( CreateNewUserOPS) handler ).reset( );
-				return ( ( CreateNewUserOPS) handler ).run( requestPayload );
-			}
-
-			if( handler instanceof ReactivateUserOPS ){
-				( (ReactivateUserOPS) handler).reset( );
-				return ( (ReactivateUserOPS) handler).run( requestPayload );
-			}
+			handler.reset();
+			return handler.run(requestPayload);
 
 		} catch (Exception e) {
 			jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;

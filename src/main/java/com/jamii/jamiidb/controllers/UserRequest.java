@@ -17,8 +17,8 @@ public class UserRequest {
     UserRequestsREPO userRequestsREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserRequestsTBL data;
-    public ArrayList< UserRequestsTBL > dataList;
+    public UserRequestsTBL data = new UserRequestsTBL( );
+    public ArrayList< UserRequestsTBL > dataList = new ArrayList< >( );
 
     // REQUEST_TYPE
     public static final Integer TYPE_FRIEND = 1;

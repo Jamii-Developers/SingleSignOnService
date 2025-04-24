@@ -17,8 +17,8 @@ public class UserBlockList {
     UserBlockListREPO userBlockListREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserBlockListTBL data;
-    public ArrayList< UserBlockListTBL > dataList;
+    public UserBlockListTBL data = new UserBlockListTBL( );
+    public ArrayList< UserBlockListTBL > dataList = new ArrayList< >( );
 
     // STATUS
     public static final Integer STATUS_INACTIVE = 0;

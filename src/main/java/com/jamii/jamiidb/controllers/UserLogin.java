@@ -20,9 +20,9 @@ public class UserLogin {
     private UserLoginREPO userLoginREPO;
 
     //Creating a table object to reference when creating data for that table
-    public UserLoginTBL data;
-    public UserLoginTBL otherUser;
-    public ArrayList< UserLoginTBL > dataList;
+    public UserLoginTBL data = new UserLoginTBL( );
+    public UserLoginTBL otherUser = new UserLoginTBL( );
+    public ArrayList< UserLoginTBL > dataList = new ArrayList< >( );
 
     /**
      * ACTIVE STATUSES

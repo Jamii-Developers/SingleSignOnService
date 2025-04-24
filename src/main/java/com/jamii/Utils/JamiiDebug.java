@@ -22,8 +22,7 @@ public class JamiiDebug {
         logger.info( text );
     }
 
-    private void logError( ){
-
+    public void warn( String s ) {
+        logger.warning( s );
     }
-
 }

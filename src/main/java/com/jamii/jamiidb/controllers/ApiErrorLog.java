@@ -16,8 +16,8 @@ public class ApiErrorLog {
     private ApiErrorLogREPO apiErrorLogREPO;
 
     //Creating a table object to reference when creating data for that table
-    public ApiErrorLogTBL data;
-    public ArrayList< ApiErrorLogTBL > dataList;
+    public ApiErrorLogTBL data = new ApiErrorLogTBL( );
+    public ArrayList< ApiErrorLogTBL > dataList = new ArrayList<>();
 
     /**
      *  Error types that can be saved in the database

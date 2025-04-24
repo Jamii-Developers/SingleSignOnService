@@ -17,8 +17,8 @@ public class PasswordHashRecords {
     @Autowired
     private PasswordHashRecordsREPO passwordHashRecordsREPO;
 
-    public PasswordHashRecordsTBL data;
-    public ArrayList < PasswordHashRecordsTBL > dataList;
+    public PasswordHashRecordsTBL data = new PasswordHashRecordsTBL( );
+    public ArrayList < PasswordHashRecordsTBL > dataList = new ArrayList< >( );
 
     public PasswordHashRecordsTBL addUserNewPasswordRecord(UserLoginTBL userLoginTBL) {
 
