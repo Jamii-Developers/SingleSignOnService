@@ -45,7 +45,7 @@ public class PublicServices extends AbstractApplicationControllers {
 			AbstractPublicServices handler = directoryMap.get(operation);
 
 			if (handler == null) {
-				jamiiDebug.warn("Unknown operation: " + operation);
+				jamiiDebug.warn("Unknown Service-Header: " + operation);
 				throw new Exception( "Operation could not be found " + operation );
 			}
 

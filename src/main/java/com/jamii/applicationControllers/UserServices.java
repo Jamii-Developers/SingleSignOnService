@@ -118,7 +118,7 @@ public class UserServices extends AbstractApplicationControllers {
             AbstractUserServicesOPS handler = directoryMap.get( operation );
 
             if (handler == null) {
-                jamiiDebug.warn("Unknown operation: " + operation);
+                jamiiDebug.warn("Unknown Service-Header : " + operation);
                 throw new Exception( "Operation could not be found " + operation );
             }
 
@@ -141,7 +141,7 @@ public class UserServices extends AbstractApplicationControllers {
             AbstractUserServicesOPS handler = directoryMap.get(operation);
 
             if (handler == null) {
-                jamiiDebug.warn("Unknown operation: " + operation);
+                jamiiDebug.warn("Unknown Service-Header: " + operation);
                 throw new Exception( "Operation could not be found " + operation );
             }
 
