@@ -48,17 +48,17 @@ public class ApplicationStart {
         directoryMap.put( "user", userServices );
     }
 
-    @PostMapping(path = "/{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping(path = "{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<?> processRequest( @PathVariable String requestType,@RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload) {
         try {
-            jamiiDebug.info("Received request for operation: " + requestType);
+            jamiiDebug.info("Received request for requestType: " + requestType);
 
             // Lookup the handler
             AbstractApplicationControllers handler = directoryMap.get(requestType);
 
             if (handler == null) {
-                jamiiDebug.warn("Unknown operation: " + operation);
-                throw new Exception( "Operation could not be found " + operation );
+                jamiiDebug.warn("Unknown requestType: " + requestType);
+                throw new Exception( "Operation could not be found " + requestType );
             }
 
             return handler.processJSONRequest( operation, jsonPayload );
@@ -82,8 +82,8 @@ public class ApplicationStart {
             AbstractApplicationControllers handler = directoryMap.get(requestType);
 
             if (handler == null) {
-                jamiiDebug.warn("Unknown operation: " + requestType);
-                throw new Exception( "Operation could not be found " + requestType );
+                jamiiDebug.warn("Unknown requestType: " + requestType);
+                throw new Exception( "requestType could not be found " + requestType );
             }
 
             return handler.processMultipartRequest( operation, userKey, deviceKey, sessionKey, file);
@@ -101,8 +101,8 @@ public class ApplicationStart {
             AbstractApplicationControllers handler = directoryMap.get(requestType);
 
             if (handler == null) {
-                jamiiDebug.warn("Unknown operation: " + requestType);
-                throw new Exception( "Operation could not be found " + requestType );
+                jamiiDebug.warn("Unknown requestType: " + requestType);
+                throw new Exception( "requestType could not be found " + requestType );
             }
 
             return handler.processJSONRequest( operation, jsonPayload );
