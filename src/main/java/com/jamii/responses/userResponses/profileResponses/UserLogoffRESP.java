@@ -6,8 +6,8 @@ import com.jamii.responses.AbstractResponses;
 public class UserLogoffRESP extends AbstractResponses {
 
     public UserLogoffRESP() {
-        UI_SUBJECT = "Success";
-        UI_MESSAGE = "You have logged off Successfully";
-        MSG_TYPE = JamiiConstants.RESPONSE_LOGOFF;
+        this.UI_SUBJECT = "Success";
+        this.UI_MESSAGE = "You have logged off Successfully";
+        this.MSG_TYPE = JamiiConstants.RESPONSE_LOGOFF;
     }
 }
