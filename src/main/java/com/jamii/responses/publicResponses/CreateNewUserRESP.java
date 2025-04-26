@@ -8,18 +8,14 @@ public class CreateNewUserRESP extends AbstractResponses {
     public CreateNewUserRESP( ) {
         this.UI_SUBJECT = "Profile Creation Successful!";
         this.UI_MESSAGE = "Your account has been created was successfully!";
+        this.MSG_TYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     }
 
-    private String MSGTYPE = JamiiConstants.RESPONSE_TYPE_CREATE_NEW_USER;
     private String USER_KEY;
     private String USERNAME;
     private String DEVICE_KEY;
     private String EMAIL_ADDRESS;
     private String DATE_CREATED;
-
-    public String getMSGTYPE() {
-        return MSGTYPE;
-    }
 
     public String getUSER_KEY() {
         return USER_KEY;
