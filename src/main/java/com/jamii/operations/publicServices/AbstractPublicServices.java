@@ -36,7 +36,7 @@ public abstract class AbstractPublicServices {
         this.JamiiError = "";
         this.jamiiErrorsMessagesRESP = new JamiiErrorsMessagesRESP( );
         setRequest( null );
-        setIsSuccessful( false );
+        setIsSuccessful( true );
     }
 
     /**
