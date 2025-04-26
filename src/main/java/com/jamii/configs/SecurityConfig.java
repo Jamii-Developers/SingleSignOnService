@@ -33,7 +33,7 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // Allow frontend origin
+        config.setAllowedOrigins(List.of("http://localhost:3000", "https://jamiix.netlify.app" )); // Allow frontend origin
         config.setAllowedMethods(List.of("GET", "POST")); // Allow necessary methods
         config.setAllowedHeaders(List.of("*")); // Allow all headers
         config.setAllowCredentials(true); // Allow credentials like cookies
