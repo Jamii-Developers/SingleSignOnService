@@ -12,7 +12,7 @@ public abstract class AbstractPublicServices {
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
     protected JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
 
-    protected Boolean isSuccessful = false;
+    protected Boolean isSuccessful = true;
     protected Boolean getIsSuccessful( ) {
         return isSuccessful;
     }

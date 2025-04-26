@@ -84,6 +84,7 @@ public class UserLogin {
      * @param createNewUserREQ - This class creates the new user
      * @return - returns boolean on whether a new user was created
      */
+    @Deprecated
     public UserLoginTBL createNewUser(CreateNewUserREQ createNewUserREQ) {
         //Save the newly created user
         return add(createNewUserREQ);
@@ -99,21 +100,24 @@ public class UserLogin {
      * @param createNewUserREQ - Contains the basic details we need to populate the userLoginTBL
      * @return - returns the user login information
      */
-    public UserLoginTBL add(CreateNewUserREQ createNewUserREQ) {
+    @Deprecated
+    public UserLoginTBL add( CreateNewUserREQ createNewUserREQ ) {
 
-        data.setEmailAddress(createNewUserREQ.getEmailaddress());
-        data.setUsername(createNewUserREQ.getUsername());
-        data.setPasswordsalt(JamiiUserPasswordEncryptTool.encryptPassword(createNewUserREQ.getPassword()));
-        data.setActive(ACTIVE_ON);
-        data.setPrivacy(0);
+        UserLoginTBL user = new UserLoginTBL();
+        user.setEmailAddress(createNewUserREQ.getEmailaddress());
+        user.setUsername(createNewUserREQ.getUsername());
+        user.setPasswordsalt(JamiiUserPasswordEncryptTool.encryptPassword(createNewUserREQ.getPassword()));
+        user.setActive(ACTIVE_ON);
+        user.setPrivacy(0);
 
         LocalDateTime dateCreated = LocalDateTime.now();
-        data.setDatecreated(dateCreated);
+        user.setDatecreated(dateCreated);
 
-        String userKey = JamiiUserPasswordEncryptTool.generateUserKey(data.getUsername(), data.getEmailaddress(), data.getDatecreated().toString());
-        data.setUserKey(userKey);
+        String userKey = JamiiUserPasswordEncryptTool.generateUserKey( user.getUsername(), user.getEmailaddress(), user.getDatecreated().toString());
+        user.setUserKey(userKey);
 
-        return userLoginREPO.save(data);
+
+        return userLoginREPO.save(user);
     }
 
     /**

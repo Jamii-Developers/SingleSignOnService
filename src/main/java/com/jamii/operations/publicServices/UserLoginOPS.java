@@ -35,6 +35,7 @@ public class UserLoginOPS extends AbstractPublicServices {
         if ( this.userLogin.data == null ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
             return;
         }
 
@@ -67,8 +68,6 @@ public class UserLoginOPS extends AbstractPublicServices {
 
         // save both the key and the device key to create a cookie, that can be share back to the device.
         this.userCookies.data = this.userCookies.add( this.userLogin.data , this.deviceInformation.data, sessionkey, req.getRememberLogin());
-
-        setIsSuccessful( true );
     }
 
 

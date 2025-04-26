@@ -29,6 +29,7 @@ public class ReactivateUserOPS extends AbstractPublicServices {
             jamiiDebug.warning( "No deactivated user matches the information shared " + req.getUsername( ) );
             this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            setIsSuccessful( false );
             return;
         }
 
@@ -42,8 +43,6 @@ public class ReactivateUserOPS extends AbstractPublicServices {
 
         //Reactivate user
         userLogin.reactivateUser( user.get( ) );
-        setIsSuccessful( true );
-
     }
 
     @Override
