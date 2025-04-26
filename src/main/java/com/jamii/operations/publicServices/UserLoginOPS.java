@@ -6,6 +6,9 @@ import com.jamii.Utils.JamiiRandomKeyToolGen;
 import com.jamii.jamiidb.controllers.DeviceInformation;
 import com.jamii.jamiidb.controllers.UserCookies;
 import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.model.DeviceInformationTBL;
+import com.jamii.jamiidb.model.UserCookiesTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.publicServices.UserLoginREQ;
 import com.jamii.responses.publicResponses.UserLoginRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ public class UserLoginOPS extends AbstractPublicServices {
         UserLoginREQ req = ( UserLoginREQ ) JamiiMapperUtils.mapObject( getRequest( ), UserLoginREQ.class );
 
         // First check if the user information is in our system by validating the username or email address
+        this.userLogin.data = new UserLoginTBL();
         this.userLogin.data = this.userLogin.checkAndRetrieveValidLogin( req.getLoginCredential( ), req.getLoginPassword( ) ) ;
         if ( this.userLogin.data == null ) {
             this.jamiiErrorsMessagesRESP.setLoginError( );
@@ -53,6 +57,7 @@ public class UserLoginOPS extends AbstractPublicServices {
         }
 
         // Then create a device key that matches this specific device and save it in the system
+        this.deviceInformation.data = new DeviceInformationTBL( );
         this.deviceInformation.data = this.deviceInformation.add( this.userLogin.data, key, req.getLoginDeviceName( ), req.getLocation() );
         boolean checkIfSessionKeyExists = false;
         JamiiRandomKeyToolGen sessionkeyToolGen = new JamiiRandomKeyToolGen( );
@@ -67,6 +72,7 @@ public class UserLoginOPS extends AbstractPublicServices {
         }
 
         // save both the key and the device key to create a cookie, that can be share back to the device.
+        this.userCookies.data = new UserCookiesTBL( );
         this.userCookies.data = this.userCookies.add( this.userLogin.data , this.deviceInformation.data, sessionkey, req.getRememberLogin());
     }
 

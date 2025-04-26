@@ -5,6 +5,8 @@ import com.jamii.Utils.JamiiUserPasswordEncryptTool;
 import com.jamii.configs.FileServerConfigs;
 import com.jamii.jamiidb.controllers.PasswordHashRecords;
 import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.jamiidb.model.PasswordHashRecordsTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.requests.publicServices.CreateNewUserREQ;
 import com.jamii.responses.publicResponses.CreateNewUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ public class CreateNewUserOPS extends AbstractPublicServices {
             return;
         }
 
+        this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data.setEmailAddress( req.getEmailaddress() );
         this.userLogin.data.setUsername( req.getUsername());
         this.userLogin.data.setPasswordsalt( JamiiUserPasswordEncryptTool.encryptPassword(req.getPassword()));
@@ -51,6 +54,7 @@ public class CreateNewUserOPS extends AbstractPublicServices {
         this.userLogin.save( );
 
         //Add new password records
+        this.passwordHashRecords.data = new PasswordHashRecordsTBL( );
         if( this.userLogin.data != null){
             this.passwordHashRecords.addUserNewPasswordRecord( this.userLogin.data ) ;
         }
