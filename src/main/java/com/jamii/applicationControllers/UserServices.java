@@ -12,6 +12,7 @@ import com.jamii.operations.userServices.fileManagement.UserFileDownloadOPS;
 import com.jamii.operations.userServices.fileManagement.UserFileUploadOPS;
 import com.jamii.operations.userServices.social.*;
 import com.jamii.operations.userServices.userProfile.*;
+import com.jamii.operations.userServices.utilityClasses.SessionValidator;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,6 +76,8 @@ public class UserServices extends AbstractApplicationControllers {
     SendFriendRequestOPS sendFriendRequestOPS;
     @Autowired
     ContactSupportOPS contactSupportOPS;
+    @Autowired
+    SessionValidator sessionValidator;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
     private final Map<String, AbstractUserServicesOPS > directoryMap = new HashMap<>();
@@ -105,6 +108,7 @@ public class UserServices extends AbstractApplicationControllers {
         directoryMap.put( "getfriendlist", getFriendListOPS );
         directoryMap.put( "getblockuserlist", getBlockUserListOPS);
         directoryMap.put( "contactsupport", contactSupportOPS);
+        directoryMap.put( "validate-session", sessionValidator );
 
 
     }
