@@ -14,9 +14,9 @@ public interface UserRelationshipREPO extends CrudRepository<UserRelationshipTBL
     List<UserRelationshipTBL> findBySenderidAndReceiverid(UserLoginTBL sender, UserLoginTBL receiver);
     List<UserRelationshipTBL> findByReceiveridAndTypeAndStatus(UserLoginTBL sender, int type, int status);
 
-    List<UserRelationshipTBL> findBySenderIdOrReceiverIdAndStatusAndType(
-            int senderId,
-            int receiverId,
+    List<UserRelationshipTBL> findBySenderidOrReceiveridAndStatusAndType(
+            UserLoginTBL senderId,
+            UserLoginTBL receiverId,
             int status,
             int type
     );
