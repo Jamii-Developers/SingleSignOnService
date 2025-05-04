@@ -3,46 +3,100 @@ package com.jamii.responses.userResponses.socialResponses;
 import com.jamii.Utils.JamiiConstants;
 import com.jamii.responses.AbstractResponses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchUserRESP extends AbstractResponses {
 
     public SearchUserRESP( ) {
         this.MSG_TYPE = JamiiConstants.RESPONSE_SEARCH_RESULTS;
     }
 
-    private String USER_KEY;
-    private String USERNAME;
-    private String FIRSTNAME;
-    private String LASTNAME;
+    List< Results > results = new ArrayList<>( );
 
-    public String getUSER_KEY() {
-        return USER_KEY;
+    public List<Results> getResults() {
+        return results;
     }
 
-    public void setUSER_KEY(String USER_KEY) {
-        this.USER_KEY = USER_KEY;
+    public void setResults(List<Results> results) {
+        this.results = results;
     }
 
-    public String getUSERNAME() {
-        return USERNAME;
+    public static class Results{
+
+        private String userKey;
+        private String username;
+        private String firstname;
+        private String lastname;
+        private boolean isFriend;
+        private boolean isFollowing;
+        private boolean hasPendingFriendRequest;
+        private boolean hasPendingFollowingRequest;
+
+        public String getUserKey() {
+            return userKey;
+        }
+
+        public void setUserKey(String userKey) {
+            this.userKey = userKey;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getFirstname() {
+            return firstname;
+        }
+
+        public void setFirstname(String firstname) {
+            this.firstname = firstname;
+        }
+
+        public String getLastname() {
+            return lastname;
+        }
+
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+
+        public boolean isFriend() {
+            return isFriend;
+        }
+
+        public void setFriend(boolean friend) {
+            isFriend = friend;
+        }
+
+        public boolean isFollowing() {
+            return isFollowing;
+        }
+
+        public void setFollowing(boolean following) {
+            isFollowing = following;
+        }
+
+        public boolean isHasPendingFriendRequest() {
+            return hasPendingFriendRequest;
+        }
+
+        public void setHasPendingFriendRequest(boolean hasPendingFriendRequest) {
+            this.hasPendingFriendRequest = hasPendingFriendRequest;
+        }
+
+        public boolean isHasPendingFollowingRequest() {
+            return hasPendingFollowingRequest;
+        }
+
+        public void setHasPendingFollowingRequest(boolean hasPendingFollowingRequest) {
+            this.hasPendingFollowingRequest = hasPendingFollowingRequest;
+        }
     }
 
-    public void setUSERNAME(String USERNAME) {
-        this.USERNAME = USERNAME;
-    }
 
-    public String getFIRSTNAME() {
-        return FIRSTNAME;
-    }
-
-    public void setFIRSTNAME(String FIRSTNAME) {
-        this.FIRSTNAME = FIRSTNAME;
-    }
-
-    public String getLASTNAME() {
-        return LASTNAME;
-    }
-
-    public void setLASTNAME(String LASTNAME) {
-        this.LASTNAME = LASTNAME;
-    }
 }

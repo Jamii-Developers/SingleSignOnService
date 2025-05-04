@@ -96,7 +96,7 @@ public class UserServices extends AbstractApplicationControllers {
         directoryMap.put( "userlogoff", userLogoffOPS );
         directoryMap.put( "searchuser", searchUsersOPS );
         directoryMap.put( "sendfriendrequest", sendFriendRequestOPS );
-        directoryMap.put( "getfriendrequestist", getFriendRequestListOPS );
+        directoryMap.put( "getfriendrequestlist", getFriendRequestListOPS );
         directoryMap.put( "getfollowerlist", getFollowerListOPS );
         directoryMap.put( "getfollowerrequestlist", getFollowRequestListOPS );
         directoryMap.put( "sendfollowrequest", sendFollowRequestOPS );

@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class RejectFriendRequestServicesREQ extends AbstractUserServicesREQ {
 
-    private String receiveruserkey;
+    private String targetUserKey;
 
-    public String getReceiveruserkey() {
-        return receiveruserkey;
+    public String getTargetUserKey() {
+        return targetUserKey;
     }
 
-    public void setReceiveruserkey(String receiveruserkey) {
-        this.receiveruserkey = receiveruserkey;
+    public void setTargetUserKey(String targetUserKey) {
+        this.targetUserKey = targetUserKey;
     }
 }

@@ -1,16 +1,15 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserBlockList;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserBlockListTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
-import com.jamii.operations.userServices.social.Utils.SocialHelper;
+import com.jamii.operations.userServices.social.Utils.SearchResultsHelper;
 import com.jamii.requests.userServices.socialREQ.GetBlockUserListServicesREQ;
-import com.jamii.responses.userResponses.socialResponses.GetFollowListRESP;
+import com.jamii.responses.userResponses.socialResponses.GetBlockUserListRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +17,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class GetBlockUserListOPS extends AbstractUserServicesOPS {
 
-    private HashMap< String, SocialHelper.RelationShipResults > relationshipResults = new HashMap<>( );
+    private HashMap< String, SearchResultsHelper.RelationShipResults > relationshipResults = new HashMap<>( );
 
     @Autowired
     private UserBlockList userBlockList;
@@ -67,7 +65,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
         //Get the necessary relationships and fetch the user information
         for( UserBlockListTBL blockeduser : this.userBlockList.dataList ){
 
-            SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
+            SearchResultsHelper.RelationShipResults obj = new SearchResultsHelper.RelationShipResults( );
             UserLoginTBL user = blockeduser.getBlockedid();
 
             this.userData.data = this.userData.fetch( user, UserData.CURRENT_STATUS_ON ).orElse( null );
@@ -92,27 +90,27 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
         if( this.relationshipResults.isEmpty( ) ){
             this.jamiiErrorsMessagesRESP.setGetBlockUserList_NoBlockedUsers( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
+            setIsSuccessful(false);
         }
     }
 
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( getIsSuccessful() ){
 
-            List< String > response = new ArrayList<>( );
-            for( Map.Entry< String , SocialHelper.RelationShipResults > entry : this.relationshipResults.entrySet( ) ){
-                GetFollowListRESP resp = new GetFollowListRESP( );
-                resp.setUSERNAME( entry.getValue( ).getUSERNAME( ) );
-                resp.setUSER_KEY( entry.getValue( ).getUSER_KEY( ) );
-                resp.setFIRSTNAME( entry.getValue( ).getFIRSTNAME( ) );
-                resp.setLASTNAME( entry.getValue( ).getLASTNAME( ) );
-                response.add( resp.getJSONRESP( ) );
+            GetBlockUserListRESP response = new GetBlockUserListRESP( );
+            for( Map.Entry< String , SearchResultsHelper.RelationShipResults > entry : this.relationshipResults.entrySet( ) ){
+                GetBlockUserListRESP.Results resp = new GetBlockUserListRESP.Results();
+                resp.setUsername( entry.getValue( ).getUSERNAME( ) );
+                resp.setUserKey( entry.getValue( ).getUSER_KEY( ) );
+                resp.setFirstname( entry.getValue( ).getFIRSTNAME( ) );
+                resp.setLastname( entry.getValue( ).getLASTNAME( ) );
+                response.getResults( ).add( resp );
             }
 
 
-            return  new ResponseEntity< >( JamiiStringUtils.separateWithDelimiter( response, ","), HttpStatus.OK ) ;
+            return  new ResponseEntity< >( response, HttpStatus.OK ) ;
         }
 
         return super.getResponse( );

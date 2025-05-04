@@ -251,7 +251,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
     }
 
     public void setSendFollowRequestOPS_PendingFollowRequest() {
-        setERROR_FIELD_SUBJECT( "Error!"  );
+        setERROR_FIELD_SUBJECT( "Oops!"  );
         setERROR_FIELD_MESSAGE( "You already have a pending follow request" );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0037 ) ;
     }
@@ -301,7 +301,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
     public void setGetFriendRequestList_NoNewFriendRequests() {
         setERROR_FIELD_SUBJECT( "Oops!"  );
-        setERROR_FIELD_MESSAGE( "Seems you have do not any new follow requests"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not any new friend requests"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0045 ) ;
     }
 
@@ -321,5 +321,11 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_SUBJECT( "Oops!"  );
         setERROR_FIELD_MESSAGE( "We don't have any information stored in our database about your profile"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0048 ) ;
+    }
+
+    public void setSearchUserOPS_GenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
     }
 }

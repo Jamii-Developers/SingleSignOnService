@@ -1,12 +1,16 @@
 package com.jamii.operations.userServices.social.Utils;
 
-public class SocialHelper {
+public class SearchResultsHelper {
 
      public static class SearchResults{
         private String USER_KEY;
         private String USERNAME;
         private String FIRSTNAME;
         private String LASTNAME;
+        private boolean isFriend;
+        private boolean isFollowing;
+        private boolean hasPendingFriendRequest;
+        private boolean hasPendingFollowingRequest;
 
         public String getUSER_KEY() {
             return USER_KEY;
@@ -39,7 +43,39 @@ public class SocialHelper {
         public void setLASTNAME(String LASTNAME) {
             this.LASTNAME = LASTNAME;
         }
-    }
+
+         public boolean isFriend() {
+             return isFriend;
+         }
+
+         public void setFriend(boolean friend) {
+             isFriend = friend;
+         }
+
+         public boolean isFollowing() {
+             return isFollowing;
+         }
+
+         public void setFollowing(boolean following) {
+             isFollowing = following;
+         }
+
+         public boolean isHasPendingFriendRequest() {
+             return hasPendingFriendRequest;
+         }
+
+         public void setHasPendingFriendRequest(boolean hasPendingFriendRequest) {
+             this.hasPendingFriendRequest = hasPendingFriendRequest;
+         }
+
+         public boolean isHasPendingFollowingRequest() {
+             return hasPendingFollowingRequest;
+         }
+
+         public void setHasPendingFollowingRequest(boolean hasPendingFollowingRequest) {
+             this.hasPendingFollowingRequest = hasPendingFollowingRequest;
+         }
+     }
 
     public static class RelationShipResults{
         private String USER_KEY;

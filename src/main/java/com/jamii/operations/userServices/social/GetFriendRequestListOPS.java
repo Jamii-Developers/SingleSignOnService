@@ -1,7 +1,6 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.Utils.JamiiStringUtils;
 import com.jamii.jamiidb.controllers.UserData;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRequest;
@@ -9,7 +8,7 @@ import com.jamii.jamiidb.model.UserDataTBL;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
-import com.jamii.operations.userServices.social.Utils.SocialHelper;
+import com.jamii.operations.userServices.social.Utils.SearchResultsHelper;
 import com.jamii.requests.userServices.socialREQ.GetFriendRequestListServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.GetFriendRequestListRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
 
-    private HashMap< String, SocialHelper.RelationShipResults> relationshipResults = new HashMap<>( );
+    private HashMap< String, SearchResultsHelper.RelationShipResults> relationshipResults = new HashMap<>( );
 
     @Autowired
     private UserRequest userRequest;
@@ -65,7 +67,7 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
         //Get the necessary relationships and fetch the user information
         for( UserRequestsTBL request : this.userRequest.dataList){
 
-            SocialHelper.RelationShipResults obj = new SocialHelper.RelationShipResults( );
+            SearchResultsHelper.RelationShipResults obj = new SearchResultsHelper.RelationShipResults( );
             UserLoginTBL user = request.getSenderid( );
 
             Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
@@ -97,18 +99,19 @@ public class GetFriendRequestListOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful ){
+        if( getIsSuccessful() ){
 
-            List< String > response = new ArrayList<>( );
-            for( Map.Entry< String , SocialHelper.RelationShipResults > entry : this.relationshipResults.entrySet( ) ){
-                GetFriendRequestListRESP resp = new GetFriendRequestListRESP( );
-                resp.setUSERNAME( entry.getValue( ).getUSERNAME( ) );
-                resp.setUSER_KEY( entry.getValue( ).getUSER_KEY( ) );
-                resp.setFIRSTNAME( entry.getValue( ).getFIRSTNAME( ) );
-                resp.setLASTNAME( entry.getValue( ).getLASTNAME( ) );
-                response.add( resp.getJSONRESP( ) );
+            GetFriendRequestListRESP response = new GetFriendRequestListRESP( );
+            for( Map.Entry< String , SearchResultsHelper.RelationShipResults > entry : this.relationshipResults.entrySet( ) ){
+                GetFriendRequestListRESP.Results resp = new GetFriendRequestListRESP.Results();
+                resp.setUsername( entry.getValue( ).getUSERNAME( ) );
+                resp.setUserKey( entry.getValue( ).getUSER_KEY( ) );
+                resp.setFirstname( entry.getValue( ).getFIRSTNAME( ) );
+                resp.setLastname( entry.getValue( ).getLASTNAME( ) );
+                response.getResults( ).add( resp );
             }
-            return  new ResponseEntity< >( JamiiStringUtils.separateWithDelimiter( response, ","), HttpStatus.OK ) ;
+
+            return new ResponseEntity< >( response, HttpStatus.OK ) ;
         }
 
         return super.getResponse( );

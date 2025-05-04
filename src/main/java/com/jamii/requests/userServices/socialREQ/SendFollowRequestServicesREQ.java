@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendFollowRequestServicesREQ extends AbstractUserServicesREQ {
 
-    private String receiveruserkey;
+    private String followKey;
 
-    public String getReceiveruserkey() {
-        return receiveruserkey;
+    public String getFollowKey() {
+        return followKey;
     }
 
-    public void setReceiveruserkey(String receiveruserkey) {
-        this.receiveruserkey = receiveruserkey;
+    public void setFollowKey(String followKey) {
+        this.followKey = followKey;
     }
 }
