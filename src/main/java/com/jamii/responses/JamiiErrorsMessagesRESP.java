@@ -289,7 +289,7 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
 
     public void setGetFollowList_NoFollowers() {
         setERROR_FIELD_SUBJECT( "Oops!"  );
-        setERROR_FIELD_MESSAGE( "Seems you have do not followers on your list"  );
+        setERROR_FIELD_MESSAGE( "Seems you have do not follows on your list"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0043 ) ;
     }
 
@@ -327,5 +327,11 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_SUBJECT( "Oops!"  );
         setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void setGetBlockUserList_GenericFailure() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something went wrong!"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0046 ) ;
     }
 }

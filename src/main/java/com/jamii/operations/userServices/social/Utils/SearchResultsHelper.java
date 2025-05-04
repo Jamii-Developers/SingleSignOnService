@@ -114,5 +114,54 @@ public class SearchResultsHelper {
         public void setLASTNAME(String LASTNAME) {
             this.LASTNAME = LASTNAME;
         }
+
+    }
+
+    public static class FollowRelationShipResults{
+        private String USER_KEY;
+        private String USERNAME;
+        private String FIRSTNAME;
+        private String LASTNAME;
+        private String typeOfFollower;
+
+        public String getUSER_KEY() {
+            return USER_KEY;
+        }
+
+        public void setUSER_KEY(String USER_KEY) {
+            this.USER_KEY = USER_KEY;
+        }
+
+        public String getUSERNAME() {
+            return USERNAME;
+        }
+
+        public void setUSERNAME(String USERNAME) {
+            this.USERNAME = USERNAME;
+        }
+
+        public String getFIRSTNAME() {
+            return FIRSTNAME;
+        }
+
+        public void setFIRSTNAME(String FIRSTNAME) {
+            this.FIRSTNAME = FIRSTNAME;
+        }
+
+        public String getLASTNAME() {
+            return LASTNAME;
+        }
+
+        public void setLASTNAME(String LASTNAME) {
+            this.LASTNAME = LASTNAME;
+        }
+
+        public String getTypeOfFollower() {
+            return typeOfFollower;
+        }
+
+        public void setTypeOfFollower(String typeOfFollower) {
+            this.typeOfFollower = typeOfFollower;
+        }
     }
 }

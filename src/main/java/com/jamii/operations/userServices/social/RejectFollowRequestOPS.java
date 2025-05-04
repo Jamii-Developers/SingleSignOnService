@@ -3,6 +3,7 @@ package com.jamii.operations.userServices.social;
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRequest;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.RejectFollowRequestServicesREQ;
@@ -44,6 +45,9 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
         RejectFollowRequestServicesREQ req = ( RejectFollowRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), RejectFollowRequestServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
+        this.userLogin.otherUser = new UserLoginTBL( );
+
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){

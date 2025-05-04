@@ -4,6 +4,7 @@ import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiRelationshipUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRequest;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.SendFriendRequestServicesREQ;
@@ -44,6 +45,9 @@ public class SendFriendRequestOPS extends AbstractUserServicesOPS {
         SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), SendFriendRequestServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
+        this.userLogin.otherUser = new UserLoginTBL( );
+
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getFriendKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){

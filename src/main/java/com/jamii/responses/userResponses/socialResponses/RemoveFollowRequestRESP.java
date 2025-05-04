@@ -4,6 +4,7 @@ import com.jamii.Utils.JamiiConstants;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.responses.AbstractResponses;
 
+@Deprecated /** Use RejectFollowRequestResp Instead **/
 public class RemoveFollowRequestRESP extends AbstractResponses {
 
     public RemoveFollowRequestRESP(UserLoginTBL user) {

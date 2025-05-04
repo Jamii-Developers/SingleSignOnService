@@ -52,6 +52,7 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
         GetFollowerRequestListServicesREQ req = ( GetFollowerRequestListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerRequestListServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
@@ -59,7 +60,7 @@ public class GetFollowRequestListOPS extends AbstractUserServicesOPS {
             this.isSuccessful = false;
         }
 
-        // Get friends from relationship table
+        // Get followers from relationship table
         this.userRequest.dataList = new ArrayList< >( );
         this.userRequest.dataList.addAll( userRequest.fetchRequests( this.userLogin.data , UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE ) );
 

@@ -28,6 +28,7 @@ public class GetFollowListRESP extends AbstractResponses {
         private String username;
         private String firstname;
         private String lastname;
+        private String typeOfFollow;
 
         public String getUserKey() {
             return userKey;
@@ -59,6 +60,14 @@ public class GetFollowListRESP extends AbstractResponses {
 
         public void setLastname(String lastname) {
             this.lastname = lastname;
+        }
+
+        public String getTypeOfFollow() {
+            return typeOfFollow;
+        }
+
+        public void setTypeOfFollow(String typeOfFollow) {
+            this.typeOfFollow = typeOfFollow;
         }
     }
 }

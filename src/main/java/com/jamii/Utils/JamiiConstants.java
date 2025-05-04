@@ -30,7 +30,9 @@ public class JamiiConstants {
     public static final String      RESPONSE_GET_FRIEND_REQUEST_LIST_REQUEST    =   "SUC|017";
     public static final String      RESPONSE_GET_FOLLOW_REQUEST_LIST_REQUEST    =   "SUC|018";
     public static final String      RESPONSE_BLOCK_USER_REQUEST                 =   "SUC|019";
+    @Deprecated /** Use RESPONSE_REJECT_FRIEND_REQUEST instead **/
     public static final String      RESPONSE_REMOVE_FRIEND_REQUEST              =   "SUC|020";
+    @Deprecated /** Use RESPONSE_REJECT_FOLLOW_REQUEST instead **/
     public static final String      RESPONSE_REMOVE_FOLLOW_REQUEST              =   "SUC|021";
     public static final String      RESPONSE_GET_BLOCK_USER_LIST_REQUEST        =   "SUC|022";
     public static final String      RESPONSE_FETCH_USER_DATA                    =   "SUC|023";

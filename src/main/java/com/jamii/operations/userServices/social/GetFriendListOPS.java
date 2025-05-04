@@ -49,6 +49,7 @@ public class GetFriendListOPS extends AbstractUserServicesOPS {
         GetFriendListServicesREQ req = ( GetFriendListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFriendListServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );

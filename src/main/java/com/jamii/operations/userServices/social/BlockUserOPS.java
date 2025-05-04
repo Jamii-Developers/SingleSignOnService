@@ -6,6 +6,7 @@ import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserBlockListTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -52,10 +53,12 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
         BlockUserRequestServicesREQ req = ( BlockUserRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), BlockUserRequestServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
+        this.userLogin.otherUser = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
-        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getReceiveruserkey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
+            this.jamiiErrorsMessagesRESP.setGetBlockUserList_GenericFailure( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
@@ -73,8 +76,11 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
 
         //Fetch Relationships
         this.userRelationship.dataList = new ArrayList<>( );
-        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data , this.userLogin.otherUser, UserRelationship.STATUS_ACTIVE ) );
-        this.userRelationship.dataList.addAll( userRelationship.fetch(  this.userLogin.otherUser, this.userLogin.data , UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data , this.userLogin.otherUser, UserRelationship.TYPE_FRIEND,UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.otherUser, this.userLogin.data , UserRelationship.TYPE_FRIEND,UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data , this.userLogin.otherUser, UserRelationship.TYPE_FOLLOW,UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.otherUser, this.userLogin.data , UserRelationship.TYPE_FOLLOW,UserRelationship.STATUS_ACTIVE ) );
+
 
         //Deactivate any active relationships
         if( !this.userRelationship.dataList.isEmpty( ) ){
@@ -103,8 +109,10 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
             this.userBlockList.saveAll( );
         }else{
             // If there is no blocked record available then create a new one and block the user
+            this.userBlockList.data = new UserBlockListTBL( );
             this.userBlockList.data.setUserid( this.userLogin.data );
             this.userBlockList.data.setBlockedid( this.userLogin.otherUser);
+            this.userBlockList.data.setStatus( UserBlockList.STATUS_ACTIVE );
             this.userBlockList.data.setDateupdated( LocalDateTime.now( ) );
             this.userBlockList.save( );
         }

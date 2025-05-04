@@ -13,6 +13,7 @@ import java.util.List;
 @Component
 public class UserRequest {
 
+
     @Autowired
     UserRequestsREPO userRequestsREPO;
 

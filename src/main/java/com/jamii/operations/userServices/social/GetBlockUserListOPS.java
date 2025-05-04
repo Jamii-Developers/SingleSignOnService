@@ -50,6 +50,7 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
         GetBlockUserListServicesREQ req = ( GetBlockUserListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetBlockUserListServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
@@ -57,7 +58,8 @@ public class GetBlockUserListOPS extends AbstractUserServicesOPS {
             this.isSuccessful = false;
         }
 
-        // Get friends from relationship table
+        // Get friends from userblock list table
+
         this.userBlockList.dataList = new ArrayList<>( );
         this.userBlockList.dataList.addAll( userBlockList.fetch( this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE ) );
 

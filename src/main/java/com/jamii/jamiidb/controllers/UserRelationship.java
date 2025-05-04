@@ -41,6 +41,10 @@ public class UserRelationship {
         return userRelationshipREPO.findBySenderidAndReceiveridAndTypeAndStatus(sender, receiver, type, status);
     }
 
+    public boolean checkIfRelationShipExists(UserLoginTBL sender, UserLoginTBL receiver, int type, int status) {
+        return userRelationshipREPO.findBySenderidAndReceiveridAndTypeAndStatus(sender, receiver, type, status).isEmpty( );
+    }
+
     public List<UserRelationshipTBL> fetch(UserLoginTBL sender, UserLoginTBL receiver, int type) {
         return userRelationshipREPO.findBySenderidAndReceiveridAndType(sender, receiver, type);
     }
@@ -49,8 +53,8 @@ public class UserRelationship {
         return userRelationshipREPO.findBySenderidAndReceiverid(sender, receiver);
     }
 
-    public List<UserRelationshipTBL> fetch(UserLoginTBL sender, int type, int status) {
-        return userRelationshipREPO.findBySenderidOrReceiveridAndStatusAndType( sender, sender, type, status);
+    public List<UserRelationshipTBL> fetch(UserLoginTBL sender, int status, int type) {
+        return userRelationshipREPO.findBySenderOrReceiverAndStatusAndType( sender, sender, status, type);
     }
 
     public List<UserRelationshipTBL> fetchFollowers(UserLoginTBL sender, int type, int status) {

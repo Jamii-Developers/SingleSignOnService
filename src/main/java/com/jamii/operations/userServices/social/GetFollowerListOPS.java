@@ -16,15 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GetFollowerListOPS extends AbstractUserServicesOPS {
 
-    private HashMap< String, SearchResultsHelper.RelationShipResults > relationshipResults = new HashMap<>( );
+    private ArrayList< SearchResultsHelper.FollowRelationShipResults > relationshipResults = new ArrayList<>( );
 
     @Autowired
     private UserRelationship userRelationship;
@@ -52,6 +49,7 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
         GetFollowerListServicesREQ req = ( GetFollowerListServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), GetFollowerListServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  ){
             this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
@@ -61,14 +59,24 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
 
         // Get friends from relationship table
         this.userRelationship.dataList = new ArrayList< >( );
-        this.userRelationship.dataList.addAll( userRelationship.fetchFollowers( this.userLogin.data , UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE ) );
+        this.userRelationship.dataList.addAll( userRelationship.fetch( this.userLogin.data, UserRelationship.STATUS_ACTIVE, UserRelationship.TYPE_FOLLOW ) );
 
 
         //Get the necessary relationships and fetch the user information
         for( UserRelationshipTBL relationship : this.userRelationship.dataList ){
 
-            SearchResultsHelper.RelationShipResults obj = new SearchResultsHelper.RelationShipResults( );
-            UserLoginTBL user = relationship.getSenderid();
+            SearchResultsHelper.FollowRelationShipResults obj = new SearchResultsHelper.FollowRelationShipResults( );
+
+            UserLoginTBL user;
+
+            if( Objects.equals( relationship.getSenderid().getId(), this.userLogin.data.getId( ) ) ){
+                user = relationship.getReceiverid( );
+                obj.setTypeOfFollower( "following" );
+            }else{
+                user = relationship.getSenderid( );
+                obj.setTypeOfFollower( "follower" );
+            }
+
 
             Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
             if( userdata.isPresent( ) ){
@@ -78,14 +86,14 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
                 obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
                 obj.setLASTNAME( userdata.get( ).getLastname( ) );
 
-                this.relationshipResults.put( user.getUserKey( ), obj );
+                this.relationshipResults.add(  obj );
             }else{
                 obj.setUSERNAME( user.getUsername( ) );
                 obj.setUSER_KEY( user.getUserKey( ) );
                 obj.setFIRSTNAME( "N/A" );
                 obj.setLASTNAME( "N/A" );
 
-                this.relationshipResults.put( user.getUserKey( ), obj );
+                this.relationshipResults.add( obj );
             }
         }
 
@@ -102,12 +110,13 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
         if( getIsSuccessful() ){
 
             GetFollowListRESP response = new GetFollowListRESP( );
-            for( Map.Entry< String , SearchResultsHelper.RelationShipResults > entry : this.relationshipResults.entrySet( ) ){
+            for( SearchResultsHelper.FollowRelationShipResults  res : this.relationshipResults ){
                 GetFollowListRESP.Results resp = new GetFollowListRESP.Results();
-                resp.setUsername( entry.getValue( ).getUSERNAME( ) );
-                resp.setUserKey( entry.getValue( ).getUSER_KEY( ) );
-                resp.setFirstname( entry.getValue( ).getFIRSTNAME( ) );
-                resp.setLastname( entry.getValue( ).getLASTNAME( ) );
+                resp.setUsername( res.getUSERNAME( ) );
+                resp.setUserKey( res.getUSER_KEY( ) );
+                resp.setFirstname( res.getFIRSTNAME( ) );
+                resp.setLastname( res.getLASTNAME( ) );
+                resp.setTypeOfFollow( res.getTypeOfFollower( ) );
                 response.getResults( ).add( resp );
             }
 
@@ -120,6 +129,6 @@ public class GetFollowerListOPS extends AbstractUserServicesOPS {
     @Override
     public void reset( ){
         super.reset( );
-        this.relationshipResults = new HashMap<>( );
+        this.relationshipResults = new ArrayList<>( );
     }
 }

@@ -4,6 +4,8 @@ import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.controllers.UserRequest;
+import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.AcceptFriendRequestServicesREQ;
@@ -47,6 +49,8 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
         AcceptFriendRequestServicesREQ req = ( AcceptFriendRequestServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), AcceptFriendRequestServicesREQ.class );
 
         // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
+        this.userLogin.otherUser = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
@@ -70,6 +74,7 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
             this.userRequest.save( );
 
             //Create Relationship
+            this.userRelationship.data = new UserRelationshipTBL( );
             this.userRelationship.data.setReceiverid( this.userLogin.data );
             this.userRelationship.data.setSenderid( this.userLogin.otherUser);
             this.userRelationship.data.setType( UserRelationship.TYPE_FRIEND );
