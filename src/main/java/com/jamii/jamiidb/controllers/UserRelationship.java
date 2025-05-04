@@ -50,7 +50,7 @@ public class UserRelationship {
     }
 
     public List<UserRelationshipTBL> fetch(UserLoginTBL sender, int type, int status) {
-        return userRelationshipREPO.findBySenderidOrReceiverid(sender.getId(), sender.getId(), type, status);
+        return userRelationshipREPO.findBySenderIdOrReceiverIdAndStatusAndType( sender.getId(), sender.getId(), type, status);
     }
 
     public List<UserRelationshipTBL> fetchFollowers(UserLoginTBL sender, int type, int status) {
