@@ -62,7 +62,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         this.userLogin.dataList.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
         for( UserLoginTBL user : this.userLogin.dataList ){
 
-            if( this.userLogin.data == user ){
+            if( Objects.equals( this.userLogin.data.getId( ), user.getId( ) ) ){
                 continue;
             }
 
@@ -131,7 +131,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
                 continue;
             }
 
-            if( this.userLogin.data == user ){
+            if( Objects.equals(this.userLogin.data.getId( ), user.getId( ) ) ){
                 continue;
             }
 
