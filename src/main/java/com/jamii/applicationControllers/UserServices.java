@@ -78,6 +78,16 @@ public class UserServices extends AbstractApplicationControllers {
     ContactSupportOPS contactSupportOPS;
     @Autowired
     SessionValidator sessionValidator;
+    @Autowired
+    RemoveFollowerOPS removeFollowerOPS;
+    @Autowired
+    UnFriendOPS unFriendOPS;
+    @Autowired
+    UnBlockUserOPS unBlockUserOPS;
+    @Autowired
+    UnfollowOPS unfollowOPS;
+    @Autowired
+    ViewUserProfileOPS viewUserProfileOPS;
 
     private final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass() );
     private final Map<String, AbstractUserServicesOPS > directoryMap = new HashMap<>();
@@ -109,6 +119,11 @@ public class UserServices extends AbstractApplicationControllers {
         directoryMap.put( "getblockuserlist", getBlockUserListOPS);
         directoryMap.put( "contactsupport", contactSupportOPS);
         directoryMap.put( "validate-session", sessionValidator );
+        directoryMap.put( "removefollower", removeFollowerOPS );
+        directoryMap.put( "unfriend", unFriendOPS);
+        directoryMap.put( "unblockuser", unBlockUserOPS );
+        directoryMap.put( "unfollow", unFriendOPS );
+        directoryMap.put( "viewuserprofile", viewUserProfileOPS );
 
 
     }

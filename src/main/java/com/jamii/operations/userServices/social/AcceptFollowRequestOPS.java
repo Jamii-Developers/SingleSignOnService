@@ -71,7 +71,6 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
         if( validFollowRequest.isPresent( ) ){
 
             // Deactivate Follow Request
-            this.userRequest.data = new UserRequestsTBL();
             this.userRequest.data = validFollowRequest.get( );
             this.userRequest.data.setStatus( UserRequest.STATUS_INACTIVE );
             this.userRequest.data.setDateupdated( LocalDateTime.now( ) );
@@ -87,6 +86,8 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
             this.userRelationship.save( );
 
         }else{
+            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
     }

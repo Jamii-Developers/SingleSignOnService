@@ -4,6 +4,7 @@ import com.jamii.requests.userServices.AbstractUserServicesREQ;
 import org.springframework.stereotype.Component;
 
 @Component
+@Deprecated /** Use RejectFriendRequestServicesREQ **/
 public class RemoveFriendRequestServicesREQ extends AbstractUserServicesREQ {
 
     private String receiveruserkey;

@@ -334,4 +334,34 @@ public class JamiiErrorsMessagesRESP extends AbstractResponses {
         setERROR_FIELD_MESSAGE( "Something went wrong!"  );
         setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0046 ) ;
     }
+
+    public void setGenerateGenericError( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Something has gone wrong"  );
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void setUnBlockUserOPS( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "This user is not blocked currently");
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void set_RemoveFollowerOPS_NotFriends() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you are the user is currently not following you");
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void set_Unfollow_NotFollowing() {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you are not following this user");
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
+
+    public void set_UnFriend_NotFriends( ) {
+        setERROR_FIELD_SUBJECT( "Oops!"  );
+        setERROR_FIELD_MESSAGE( "Seems you are not friends with this user");
+        setERROR_FIELD_CODE( JamiiErrorUtils.ERROR_CODE_0036 ) ;
+    }
 }

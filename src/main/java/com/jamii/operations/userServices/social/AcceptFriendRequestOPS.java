@@ -83,6 +83,8 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
             this.userRelationship.save( );
 
         }else{
+            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
 

@@ -2,6 +2,11 @@ package com.jamii.Utils;
 
 public class JamiiConstants {
 
+    public static final String RESPONSE_REJECT_REMOVE_FOLLOWER = "";
+    public static final String RESPONSE_REJECT_REMOVED_FRIEND = "";
+    public static final String RESPONSE_UN_FOLLOW = "";
+    public static final String RESPONSE_VIEW_USER_PROFILE = "";
+
     public JamiiConstants() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }

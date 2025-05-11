@@ -6,10 +6,6 @@ import com.jamii.responses.AbstractResponses;
 
 public class SendFollowRequestRESP extends AbstractResponses {
 
-    public SendFollowRequestRESP() {
-
-    }
-
     public void init(int followRequestType, UserLoginTBL user ){
         if( followRequestType == 0 ){
             this.UI_SUBJECT = "Success!";
