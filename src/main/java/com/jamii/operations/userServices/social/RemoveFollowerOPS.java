@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -47,7 +48,7 @@ public class RemoveFollowerOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
@@ -60,6 +61,7 @@ public class RemoveFollowerOPS extends AbstractUserServicesOPS {
         if( this.userRelationship.data != null ){
             for( UserRelationshipTBL relationship : this.userRelationship.dataList ){
                 relationship.setStatus( UserRelationship.STATUS_INACTIVE );
+                relationship.setDateupdated( LocalDateTime.now( ) );
             }
             this.userRelationship.saveAll( );
         }else{
@@ -74,7 +76,7 @@ public class RemoveFollowerOPS extends AbstractUserServicesOPS {
 
         if( getIsSuccessful() ){
 
-            return new ResponseEntity< >( new RemoveFollowerRESP( this.userLogin.otherUser ), HttpStatus.OK ) ;
+            return new ResponseEntity< >( new RemoveFollowerRESP( this.userLogin.otherUser ).getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );

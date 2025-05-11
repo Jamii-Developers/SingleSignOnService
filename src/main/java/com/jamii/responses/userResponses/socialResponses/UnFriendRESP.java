@@ -8,7 +8,7 @@ public class UnFriendRESP extends AbstractResponses {
 
     public UnFriendRESP(UserLoginTBL user) {
         this.UI_SUBJECT = "Success!";
-        this.UI_MESSAGE = "You have successfully removed @" + user.getUsername( ) + "as a friend" ;
-        this.MSG_TYPE = JamiiConstants.RESPONSE_REJECT_REMOVED_FRIEND;
+        this.UI_MESSAGE = "You have successfully removed @" + user.getUsername( ) + " as a friend." ;
+        this.MSG_TYPE = JamiiConstants.RESPONSE_UN_FRIEND;
     }
 }

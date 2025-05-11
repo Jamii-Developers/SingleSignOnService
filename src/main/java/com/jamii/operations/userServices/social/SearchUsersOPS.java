@@ -50,7 +50,7 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
         this.userLogin.data = new UserLoginTBL( );
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null ){
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_GenerateGenericError();
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;

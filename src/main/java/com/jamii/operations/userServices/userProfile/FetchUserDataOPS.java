@@ -70,7 +70,7 @@ public class FetchUserDataOPS extends AbstractUserServicesOPS {
             }
 
         }else {
-            this.jamiiErrorsMessagesRESP.setFetchUserData_GenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             setIsSuccessful( false );
         }

@@ -55,7 +55,7 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
@@ -86,7 +86,7 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
             this.userRelationship.save( );
 
         }else{
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
@@ -95,11 +95,11 @@ public class AcceptFollowRequestOPS extends AbstractUserServicesOPS {
     @Override
     public ResponseEntity<?> getResponse( ){
 
-        if( this.isSuccessful && this.userLogin.otherUser != null ){
+        if( getIsSuccessful() && this.userLogin.otherUser != null ){
             AcceptFollowRequestRESP acceptFollowRequestRESP = new AcceptFollowRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( acceptFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
-            this.jamiiErrorsMessagesRESP.setAcceptFollowRequest_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 

@@ -9,6 +9,6 @@ public class UnBlockUserRESP extends AbstractResponses {
     public UnBlockUserRESP( UserLoginTBL user ) {
         this.UI_SUBJECT = "Success!";
         this.UI_MESSAGE = "You have successfully unblocked @" + user.getUsername( ) ;
-        this.MSG_TYPE = JamiiConstants.RESPONSE_REJECT_REMOVE_FOLLOWER;
+        this.MSG_TYPE = JamiiConstants.RESPONSE_UNBLOCK_USER;
     }
 }

@@ -51,7 +51,7 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
@@ -84,7 +84,7 @@ public class RejectFollowRequestOPS extends AbstractUserServicesOPS {
             RejectFollowRequestRESP rejectFollowRequestRESP = new RejectFollowRequestRESP( this.userLogin.otherUser );
             return  new ResponseEntity< >( rejectFollowRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
-            this.jamiiErrorsMessagesRESP.setRejectFollowRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 

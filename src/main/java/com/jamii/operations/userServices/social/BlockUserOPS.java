@@ -58,7 +58,7 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setGetBlockUserList_GenericFailure( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
@@ -126,7 +126,7 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
             BlockUserRequestRESP blockUserRequestRESP = new BlockUserRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( blockUserRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
-            this.jamiiErrorsMessagesRESP.setBlockUserRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 

@@ -122,7 +122,7 @@ public class UserServices extends AbstractApplicationControllers {
         directoryMap.put( "removefollower", removeFollowerOPS );
         directoryMap.put( "unfriend", unFriendOPS);
         directoryMap.put( "unblockuser", unBlockUserOPS );
-        directoryMap.put( "unfollow", unFriendOPS );
+        directoryMap.put( "unfollow", unfollowOPS );
         directoryMap.put( "viewuserprofile", viewUserProfileOPS );
 
 

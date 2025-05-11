@@ -54,7 +54,7 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
@@ -83,7 +83,7 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
             this.userRelationship.save( );
 
         }else{
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
         }
@@ -98,7 +98,7 @@ public class AcceptFriendRequestOPS extends AbstractUserServicesOPS {
             AcceptFriendRequestRESP acceptFriendRequestRESP = new AcceptFriendRequestRESP( this.userLogin.otherUser);
             return  new ResponseEntity< >( acceptFriendRequestRESP.getJSONRESP( ), HttpStatus.OK ) ;
         }else{
-            this.jamiiErrorsMessagesRESP.setAcceptFriendRequest_GenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
         }
 

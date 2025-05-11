@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -47,7 +48,7 @@ public class UnBlockUserOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setSendFriendRequestOPS_GenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
@@ -59,6 +60,7 @@ public class UnBlockUserOPS extends AbstractUserServicesOPS {
         if( this.blockList.dataList != null ){
             for(UserBlockListTBL blocked : this.blockList.dataList ){
                 blocked.setStatus( UserBlockList.STATUS_INACTIVE);
+                blocked.setDateupdated( LocalDateTime.now( ) );
             }
             this.blockList.saveAll( );
         }else{
@@ -74,7 +76,7 @@ public class UnBlockUserOPS extends AbstractUserServicesOPS {
 
         if( getIsSuccessful() ){
 
-            return new ResponseEntity< >( new UnBlockUserRESP( this.userLogin.otherUser ), HttpStatus.OK ) ;
+            return new ResponseEntity< >( new UnBlockUserRESP( this.userLogin.otherUser ).getJSONRESP( ), HttpStatus.OK ) ;
         }
 
         return super.getResponse( );

@@ -46,7 +46,7 @@ public class ViewUserProfileOPS extends AbstractUserServicesOPS {
         this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
         this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
         if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setGenerateGenericError( );
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
             this.isSuccessful = false;
             return;
@@ -62,7 +62,7 @@ public class ViewUserProfileOPS extends AbstractUserServicesOPS {
 
         if( getIsSuccessful() ){
 
-            return new ResponseEntity< >( new ViewUserProfileRESP( this.userLogin.otherUser, this.userData.data ), HttpStatus.OK ) ;
+            return new ResponseEntity< >( new ViewUserProfileRESP( this.userLogin.otherUser, this.userData.data ).getJSONRESP( ), HttpStatus.OK ) ;
         }
         return super.getResponse( );
     }

@@ -8,7 +8,7 @@ public class RemoveFollowerRESP extends AbstractResponses {
 
     public RemoveFollowerRESP( UserLoginTBL user ) {
         this.UI_SUBJECT = "Success!";
-        this.UI_MESSAGE = "You have successfully removed @" + user.getUsername( ) + "as a follower" ;
+        this.UI_MESSAGE = "You have successfully removed @" + user.getUsername( ) + " as a follower" ;
         this.MSG_TYPE = JamiiConstants.RESPONSE_REJECT_REMOVE_FOLLOWER;
     }
 }
