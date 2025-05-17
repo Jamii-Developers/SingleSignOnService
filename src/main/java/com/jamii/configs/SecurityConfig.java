@@ -26,7 +26,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/health").permitAll( )
                         .requestMatchers("/api/monitor-health").permitAll( )
                         .requestMatchers("/api/public/**").permitAll( )
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/user/**").permitAll( )
+                        .anyRequest( ).denyAll( )
                 );
 
         return http.build();
@@ -37,10 +38,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "https://jamiix.netlify.app",
-                "http://uptimerobot.com",
-                "https://uptimerobot.com",
-                "https://*.uptimerobot.com")); // Allow frontend origin
+                "https://jamiix.netlify.app"
+        ) ); // Allow frontend origin
         config.setAllowedMethods(List.of("GET", "POST", "HEAD", "OPTIONS")); // Allow necessary methods
         config.setAllowedHeaders(List.of("*")); // Allow all headers
         config.setAllowCredentials(true); // Allow credentials like cookies
