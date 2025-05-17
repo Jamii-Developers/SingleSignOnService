@@ -11,9 +11,12 @@ public class ViewUserProfileRESP extends AbstractResponses {
         this.MSG_TYPE = JamiiConstants.RESPONSE_VIEW_USER_PROFILE;
         setUsername( user.getUsername( ) );
         setEmailaddress( user.getEmailaddress( ) );
-        setFirstname( userData.getFirstname( ) == null ? "" : userData.getFirstname() );
-        setMiddlename( userData.getMiddlename( ) == null ? "" : userData.getMiddlename( ) );
-        setLastname( userData.getLastname( ) == null ? "" : userData.getLastname( ) );
+
+        if( userData != null ) {
+            setFirstname(userData.getFirstname());
+            setMiddlename(userData.getMiddlename());
+            setLastname(userData.getLastname());
+        }
     }
 
     private String username;
