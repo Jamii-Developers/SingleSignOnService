@@ -114,10 +114,22 @@ public class ApplicationStart {
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping( path = "health" )
     @PostMapping( path = "health" )
-    @RequestMapping(path = "health", method = RequestMethod.HEAD)
-    public ResponseEntity<?> processHealthRequestCheck( ) {
+    public ResponseEntity<?> processWebHealthRequestCheck( ) {
+        try {
+            jamiiDebug.info("Received request for operation: health ");
+
+            return healthCheck.processJSONRequest( null, null );
+
+        } catch (Exception e) {
+            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
+        }
+
+        return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(path = "monitor-health", method = RequestMethod.HEAD)
+    public ResponseEntity<?> processMonitorHealthRequestCheck( ) {
         try {
             jamiiDebug.info("Received request for operation: health ");
 
