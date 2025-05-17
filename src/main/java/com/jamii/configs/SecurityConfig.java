@@ -34,6 +34,12 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://jamiix.netlify.app",
+                "http://uptimerobot.com",
+                "https://uptimerobot.com",
+                "https://*.uptimerobot.com")); // Allow frontend origin
         config.setAllowedMethods(List.of("GET", "POST", "HEAD", "OPTIONS")); // Allow necessary methods
         config.setAllowedHeaders(List.of("*")); // Allow all headers
         config.setAllowCredentials(true); // Allow credentials like cookies
