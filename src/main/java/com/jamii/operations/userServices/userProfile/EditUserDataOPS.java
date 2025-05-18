@@ -64,7 +64,6 @@ public class EditUserDataOPS extends AbstractUserServicesOPS {
 
         if( getIsSuccessful( ) ){
             StringBuilder response = new StringBuilder( );
-            jamiiDebug.warning( "Profile has been update successfully" );
             EditUserDataRESP editUserDataRESP = new EditUserDataRESP( );
             response.append( editUserDataRESP.getJSONRESP( ) );
             return new ResponseEntity<>( response.toString( ), HttpStatus.OK );

@@ -39,6 +39,7 @@ public class UserData {
 
     public void add( UserLoginTBL user, EditUserDataServicesREQ editUserDataREQ ) {
 
+        data = new UserDataTBL( );
         data.setFirstname(editUserDataREQ.getFirstname());
         data.setLastname(editUserDataREQ.getLastname());
         data.setMiddlename(editUserDataREQ.getMiddlename());
