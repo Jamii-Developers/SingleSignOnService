@@ -6,6 +6,7 @@ import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.controllers.UserRelationship;
 import com.jamii.jamiidb.controllers.UserRequest;
 import com.jamii.jamiidb.model.UserBlockListTBL;
+import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.jamiidb.model.UserRelationshipTBL;
 import com.jamii.jamiidb.model.UserRequestsTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -48,6 +49,19 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
         }
 
         BlockUserRequestServicesREQ req = (BlockUserRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), BlockUserRequestServicesREQ.class);
+
+        // Check if both users exist in the system
+        this.userLogin.data = new UserLoginTBL( );
+        this.userLogin.otherUser = new UserLoginTBL( );
+
+        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
+        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.isSuccessful = false;
+            return;
+        }
 
         // Fetch user data concurrently
         CompletableFuture<Void> fetchRequests = fetchRequests();
