@@ -13,14 +13,17 @@ import com.jamii.responses.userResponses.socialResponses.SearchUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SearchUsersOPS extends AbstractUserServicesOPS {
 
-    private HashMap< String, SearchResultsHelper.SearchResults > searchResults = new HashMap<>( );
+    private final Map<String, SearchResultsHelper.SearchResults> searchResults = new ConcurrentHashMap<>();
 
     @Autowired
     private UserLogin userLogin;
@@ -30,184 +33,147 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
     private JamiiRelationshipUtils jamiiRelationshipUtils;
 
     @Override
-    public void validateCookie( ) throws Exception{
-        SearchUserServicesREQ req = ( SearchUserServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), SearchUserServicesREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey() );
-        super.validateCookie( );
+    public void validateCookie() throws Exception {
+        SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest( ) throws Exception {
+    public void processRequest() throws Exception {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
 
-        SearchUserServicesREQ req = ( SearchUserServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), SearchUserServicesREQ.class );
+        SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
 
-        this.userLogin.data = new UserLoginTBL( );
-        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
-        if( this.userLogin.data == null ){
-            this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            this.isSuccessful = false;
-            return;
+        // Run searches in parallel
+        CompletableFuture<Void> emailUsernameSearch = searchUsingEmailAndUsername(req);
+        CompletableFuture<Void> namesSearch = searchUsingNames(req);
+
+        // Wait for both to complete
+        CompletableFuture.allOf(emailUsernameSearch, namesSearch).join();
+
+        setIsSuccessful(true);
+    }
+
+    @Override
+    public ResponseEntity<?> getResponse() {
+        if (getIsSuccessful()) {
+            SearchUserRESP resp = new SearchUserRESP();
+            for (Map.Entry<String, SearchResultsHelper.SearchResults> entry : this.searchResults.entrySet()) {
+                SearchUserRESP.Results res = new SearchUserRESP.Results();
+                res.setUsername(entry.getValue().getUSERNAME());
+                res.setUserKey(entry.getValue().getUSER_KEY());
+                res.setFirstname(entry.getValue().getFIRSTNAME());
+                res.setLastname(entry.getValue().getLASTNAME());
+                res.setFriend(entry.getValue().isFriend());
+                res.setFollowing(entry.getValue().isFollowing());
+                res.setHasPendingFriendRequest(entry.getValue().isHasPendingFriendRequest());
+                res.setHasPendingFollowingRequest(entry.getValue().isHasPendingFollowingRequest());
+                resp.getResults().add(res);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
         }
+        return super.getResponse();
+    }
 
-        //Fetch list of users based of User Login Information
-        this.userLogin.dataList = new ArrayList< >( );
-        this.userLogin.dataList.addAll( this.userLogin.searchUserUsername( req.getSearchstring( ) ) );
-        this.userLogin.dataList.addAll( this.userLogin.searchUserEmailAddress( req.getSearchstring( ) ) );
-        for( UserLoginTBL user : this.userLogin.dataList ){
+    @Async
+    public CompletableFuture<Void> searchUsingEmailAndUsername(SearchUserServicesREQ req) {
+        this.userLogin.dataList = new ArrayList<>();
+        List<CompletableFuture<List<UserLoginTBL>>> loginFutures = Arrays.asList(
+                CompletableFuture.supplyAsync(() -> this.userLogin.searchUserUsername(req.getSearchstring())),
+                CompletableFuture.supplyAsync(() -> this.userLogin.searchUserEmailAddress(req.getSearchstring()))
+        );
 
-            if( Objects.equals( this.userLogin.data.getId( ), user.getId( ) ) ){
-                continue;
+        // Wait for all futures to complete and aggregate the results
+        List<UserLoginTBL> allLoginUsers = loginFutures.stream()
+                .map(CompletableFuture::join)
+                .flatMap(List::stream)
+                .toList();
+
+        this.userLogin.dataList.addAll(allLoginUsers);
+
+        this.userLogin.dataList.parallelStream().forEach(user -> {
+            if (Objects.equals(this.userLogin.data.getId(), user.getId())) {
+                return;
             }
 
-            SearchResultsHelper.SearchResults obj = new SearchResultsHelper.SearchResults( );
-            Optional<UserDataTBL> userdata = this.userData.fetch( user, UserData.CURRENT_STATUS_ON );
+            Optional<UserDataTBL> userdata = this.userData.fetch(user, UserData.CURRENT_STATUS_ON);
+            jamiiRelationshipUtils.setSender(this.userLogin.data);
+            jamiiRelationshipUtils.setReceiver(user);
+            jamiiRelationshipUtils.initRelationShip();
 
-            jamiiRelationshipUtils.setSender( this.userLogin.data );
-            jamiiRelationshipUtils.setReceiver( user );
-            jamiiRelationshipUtils.initRelationShip( ) ;
-
-            if( jamiiRelationshipUtils.checkIfUserIsBlocked( )){
-                continue;
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserHasBlockedReceiver( ) ){
-                continue;
-            }
-
-            if( jamiiRelationshipUtils.checkIfUsersAreFriends(  )){
-                obj.setFriend( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserIsFollowing(  )){
-                obj.setFollowing( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest(  )){
-                obj.setHasPendingFriendRequest( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest(  )){
-                obj.setHasPendingFollowingRequest( true );
-            }
-
-            if( !this.searchResults.containsKey( user.getUserKey( ) ) ){
-
-                if( userdata.isPresent( ) ){
-
-                    obj.setUSERNAME( user.getUsername( ) );
-                    obj.setUSER_KEY( user.getUserKey( ) );
-                    obj.setFIRSTNAME( userdata.get( ).getFirstname( ) );
-                    obj.setLASTNAME( userdata.get( ).getLastname( ) );
-
-                    this.searchResults.put( user.getUserKey( ), obj );
-                }else{
-                    obj.setUSERNAME( user.getUsername( ) );
-                    obj.setUSER_KEY( user.getUserKey( ) );
-                    obj.setFIRSTNAME( "N/A" );
-                    obj.setLASTNAME( "N/A" );
-
-                    this.searchResults.put( user.getUserKey( ), obj );
-                }
-            }
-        }
-
-        //Fetch list based of User Data Information
-        this.userData.dataList = new ArrayList< >( );
-        this.userData.dataList.addAll( this.userData.searchUserFirstname( req.getSearchstring( ) ) );
-        this.userData.dataList.addAll( this.userData.searchUserMiddlename( req.getSearchstring( ) ) );
-        this.userData.dataList.addAll( this.userData.searchUserLastname( req.getSearchstring( ) ) );
-
-        for( UserDataTBL userdata : this.userData.dataList ){
-
-            UserLoginTBL user = this.userLogin.fetchByUserKey( userdata.getUserloginid().getUserKey( ) , UserLogin.ACTIVE_ON ).orElse( null );
-            if( user == null ){
-                continue;
-            }
-
-            if( Objects.equals(this.userLogin.data.getId( ), user.getId( ) ) ){
-                continue;
+            if (jamiiRelationshipUtils.checkIfUserIsBlocked() || jamiiRelationshipUtils.checkIfUserHasBlockedReceiver()) {
+                return;
             }
 
             SearchResultsHelper.SearchResults obj = new SearchResultsHelper.SearchResults();
-
-            jamiiRelationshipUtils.setSender( this.userLogin.data );
-            jamiiRelationshipUtils.setReceiver( user );
-            jamiiRelationshipUtils.initRelationShip( ) ;
-
-            if( jamiiRelationshipUtils.checkIfUserIsBlocked( )){
-                continue;
+            if (userdata.isPresent()) {
+                obj.setUSERNAME(user.getUsername());
+                obj.setUSER_KEY(user.getUserKey());
+                obj.setFIRSTNAME(userdata.get().getFirstname());
+                obj.setLASTNAME(userdata.get().getLastname());
+            } else {
+                obj.setUSERNAME(user.getUsername());
+                obj.setUSER_KEY(user.getUserKey());
+                obj.setFIRSTNAME("N/A");
+                obj.setLASTNAME("N/A");
             }
 
-            if( jamiiRelationshipUtils.checkIfUserHasBlockedReceiver( ) ){
-                continue;
-            }
+            obj.setFriend(jamiiRelationshipUtils.checkIfUsersAreFriends());
+            obj.setFollowing(jamiiRelationshipUtils.checkIfUserIsFollowing());
+            obj.setHasPendingFriendRequest(jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest());
+            obj.setHasPendingFollowingRequest(jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest());
 
-            if( jamiiRelationshipUtils.checkIfUsersAreFriends(  )){
-                obj.setFriend( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserIsFollowing(  )){
-                obj.setFollowing( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest(  )){
-                obj.setHasPendingFriendRequest( true );
-            }
-
-            if( jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest(  )){
-                obj.setHasPendingFollowingRequest( true );
-            }
-
-            if( !this.searchResults.containsKey( user.getUserKey( ) ) ){
-
-                obj.setUSERNAME( user.getUsername( ) );
-                obj.setUSER_KEY( user.getUserKey( ) );
-                obj.setFIRSTNAME( userdata.getFirstname( ) );
-                obj.setLASTNAME( userdata.getLastname( ) );
-
-                this.searchResults.put( user.getUserKey( ), obj );
-            }
-        }
-
-        setIsSuccessful( true );
+            this.searchResults.putIfAbsent(user.getUserKey(), obj);
+        });
+        return CompletableFuture.completedFuture(null);
     }
 
-    @Override
-    public ResponseEntity<?> getResponse( ){
+    @Async
+    public CompletableFuture<Void> searchUsingNames(SearchUserServicesREQ req) {
+        List<CompletableFuture<List<UserDataTBL>>> futures = Arrays.asList(
+                CompletableFuture.supplyAsync(() -> this.userData.searchUserFirstname(req.getSearchstring())),
+                CompletableFuture.supplyAsync(() -> this.userData.searchUserMiddlename(req.getSearchstring())),
+                CompletableFuture.supplyAsync(() -> this.userData.searchUserLastname(req.getSearchstring()))
+        );
 
-        if( getIsSuccessful( ) ){
+        // Wait for all futures to complete and aggregate the results
+        List<UserDataTBL> allUsers = futures.stream()
+                .map(CompletableFuture::join)
+                .flatMap(List::stream)
+                .toList();
 
-            SearchUserRESP resp = new SearchUserRESP( );
-            for( Map.Entry< String , SearchResultsHelper.SearchResults > entry : this.searchResults.entrySet( ) ){
-                SearchUserRESP.Results res = new SearchUserRESP.Results( );
-                res.setUsername( entry.getValue( ).getUSERNAME( ) );
-                res.setUserKey( entry.getValue( ).getUSER_KEY( ) );
-                res.setFirstname( entry.getValue( ).getFIRSTNAME( ) );
-                res.setLastname( entry.getValue( ).getLASTNAME( ) );
-                res.setFriend( entry.getValue().isFriend( ) );
-                res.setFollowing( entry.getValue().isFollowing( ) );
-                res.setHasPendingFriendRequest( entry.getValue().isHasPendingFriendRequest( ) );
-                res.setHasPendingFollowingRequest( entry.getValue( ).isHasPendingFollowingRequest( ));
-                resp.getResults().add( res );
+        allUsers.parallelStream().forEach(userdata -> {
+            UserLoginTBL user = this.userLogin.fetchByUserKey(userdata.getUserloginid().getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+            if (user == null || Objects.equals(this.userLogin.data.getId(), user.getId())) {
+                return;
             }
 
-            return  new ResponseEntity< >( resp , HttpStatus.OK ) ;
-        }
+            jamiiRelationshipUtils.setSender(this.userLogin.data);
+            jamiiRelationshipUtils.setReceiver(user);
+            jamiiRelationshipUtils.initRelationShip();
 
-        return super.getResponse( );
+            if (jamiiRelationshipUtils.checkIfUserIsBlocked() || jamiiRelationshipUtils.checkIfUserHasBlockedReceiver()) {
+                return;
+            }
+
+            SearchResultsHelper.SearchResults obj = new SearchResultsHelper.SearchResults();
+            obj.setUSERNAME(user.getUsername());
+            obj.setUSER_KEY(user.getUserKey());
+            obj.setFIRSTNAME(userdata.getFirstname());
+            obj.setLASTNAME(userdata.getLastname());
+            obj.setFriend(jamiiRelationshipUtils.checkIfUsersAreFriends());
+            obj.setFollowing(jamiiRelationshipUtils.checkIfUserIsFollowing());
+            obj.setHasPendingFriendRequest(jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest());
+            obj.setHasPendingFollowingRequest(jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest());
+
+            this.searchResults.putIfAbsent(user.getUserKey(), obj);
+        });
+        return CompletableFuture.completedFuture(null);
     }
-
-    @Override
-    public void reset( ){
-        super.reset( );
-        this.searchResults = new HashMap<>( );
-    }
-
 }
