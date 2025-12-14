@@ -1,25 +1,37 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Stage 1: Build the application
+# Stage 1: Cache dependencies
 ################################################################################
-FROM eclipse-temurin:21-jdk-jammy AS build
+FROM eclipse-temurin:21-jdk-jammy AS deps
 
 WORKDIR /build
 
-# Copy Gradle wrapper and project files
+# Copy Gradle wrapper and config files first (so dependencies are cached)
 COPY gradlew .
 COPY gradle/ gradle/
 COPY build.gradle.kts settings.gradle.kts ./
-COPY src/ src/
 
 RUN chmod +x gradlew
 
-# Build Spring Boot executable jar (skip tests for faster builds)
+# Pre-download dependencies without building
+RUN ./gradlew build -x test --refresh-dependencies --no-daemon --stacktrace
+
+################################################################################
+# Stage 2: Build Spring Boot application
+################################################################################
+FROM deps AS build
+
+WORKDIR /build
+
+# Copy source code
+COPY src/ src/
+
+# Build executable bootJar (skip tests for speed)
 RUN ./gradlew bootJar -x test --no-daemon --stacktrace
 
 ################################################################################
-# Stage 2: Runtime image
+# Stage 3: Runtime image
 ################################################################################
 FROM eclipse-temurin:21-jre-jammy AS runtime
 
