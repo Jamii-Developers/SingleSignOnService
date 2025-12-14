@@ -5,21 +5,14 @@
 ################################################################################
 FROM eclipse-temurin:21-jdk-jammy AS deps
 
-# Cache-busting ARG: increment to force rebuild
-ARG CACHEBUST=1
-
 WORKDIR /build
 
-# Copy Gradle wrapper and configuration
+# Copy Gradle wrapper and configs
 COPY gradlew .
 COPY gradle/ gradle/
 COPY build.gradle.kts settings.gradle.kts ./
 
-# Ensure gradlew is executable
 RUN chmod +x gradlew
-
-# Dummy cache-busting step
-RUN echo "Cache bust value: $CACHEBUST"
 
 # Pre-download dependencies (skip tests)
 RUN ./gradlew build -x test --refresh-dependencies --no-daemon --stacktrace --info
@@ -34,7 +27,7 @@ WORKDIR /build
 # Copy source code
 COPY src/ src/
 
-# Build Spring Boot jar, skip tests
+# Build bootJar
 RUN ./gradlew bootJar -x test --no-daemon --stacktrace
 
 ################################################################################
@@ -44,8 +37,8 @@ FROM package AS extract
 
 WORKDIR /build
 
-# Extract layered jar directly from bootJar output
-RUN java -Djarmode=layertools -jar build/libs/*.jar extract --destination build/extracted
+# Extract layered boot jar (executable jar)
+RUN java -Djarmode=layertools -jar build/libs/*-boot.jar extract --destination build/extracted
 
 ################################################################################
 # Stage 4: Final runtime image
@@ -66,7 +59,7 @@ USER appuser
 
 WORKDIR /app
 
-# Copy only necessary Spring Boot layers
+# Copy Spring Boot layers
 COPY --from=extract /build/build/extracted/dependencies/ ./
 COPY --from=extract /build/build/extracted/spring-boot-loader/ ./
 COPY --from=extract /build/build/extracted/application/ ./

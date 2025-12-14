@@ -16,10 +16,6 @@ repositories {
     mavenCentral()
 }
 
-application {
-    mainClass.set("com.jamii.ApplicationStart")
-}
-
 dependencies {
     implementation(libs.org.springframework.boot.spring.boot.starter.web)
     implementation(libs.org.springframework.boot.spring.boot.starter.data.jpa)
@@ -38,11 +34,17 @@ version = "0.0.1-SNAPSHOT"
 description = "JamiiX"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
-tasks.withType<BootJar> {
+tasks.jar {
+    enabled = false // Disable the plain jar
+}
+
+application {
     mainClass.set("com.jamii.ApplicationStart")
 }
 
-
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    mainClass.set("com.jamii.ApplicationStart")
+}
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
