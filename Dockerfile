@@ -16,7 +16,7 @@ COPY build.gradle.kts settings.gradle.kts ./
 RUN chmod +x gradlew
 
 # Download dependencies only to take advantage of Docker layer caching
-RUN ./gradlew build -x test --refresh-dependencies
+# RUN ./gradlew build -x test --refresh-dependencies
 
 ################################################################################
 # Stage 2: Build the application
