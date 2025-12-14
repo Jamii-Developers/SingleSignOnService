@@ -43,6 +43,8 @@ application {
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    archiveBaseName.set("app")      // fixed jar name
+    archiveVersion.set("0.0.1")
     mainClass.set("com.jamii.ApplicationStart")
 }
 
