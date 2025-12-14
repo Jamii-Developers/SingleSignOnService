@@ -2,15 +2,19 @@ package com.jamii.requests.userServices.socialREQ;
 
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
-public class RemoveFollowerServicesREQ extends AbstractUserServicesREQ {
+public class RemoveFollowerServicesREQ
+        extends AbstractUserServicesREQ
+{
 
     private String targetUserKey;
 
-    public String getTargetUserKey() {
+    public String getTargetUserKey()
+    {
         return targetUserKey;
     }
 
-    public void setTargetUserKey(String targetUserKey) {
+    public void setTargetUserKey(String targetUserKey)
+    {
         this.targetUserKey = targetUserKey;
     }
 }

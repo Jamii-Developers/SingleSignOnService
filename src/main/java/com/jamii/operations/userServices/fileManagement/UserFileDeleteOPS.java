@@ -16,72 +16,77 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Service
-public class UserFileDeleteOPS extends AbstractUserServicesOPS {
+public class UserFileDeleteOPS
+        extends AbstractUserServicesOPS
+{
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private FileTableOwner fileTableOwner;
+    @Autowired private UserLogin userLogin;
+    @Autowired private FileTableOwner fileTableOwner;
 
     @Override
-    public void validateCookie( ) throws Exception{
-        UserFileDeleteREQ req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDeleteREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey() );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        UserFileDeleteREQ req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDeleteREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest() throws IOException {
+    public void processRequest()
+            throws IOException
+    {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
 
-        UserFileDeleteREQ req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDeleteREQ.class );
+        UserFileDeleteREQ req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDeleteREQ.class);
 
-        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
-        if( this.userLogin.data == null ){
-            jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
-            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingUserKey( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+        this.userLogin.data = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+        if (this.userLogin.data == null) {
+            jamiiDebug.warning("This user key does not exists : " + req.getUserKey());
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_NoMatchingUserKey();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        this.fileTableOwner.data = this.fileTableOwner.fetch( this.userLogin.data ,req.getFileName( ) ).orElse( null );
-        if( this.fileTableOwner.data == null ) {
-            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ));
-            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+        this.fileTableOwner.data = this.fileTableOwner.fetch(this.userLogin.data, req.getFileName()).orElse(null);
+        if (this.fileTableOwner.data == null) {
+            jamiiDebug.warning("This the file is in trash or has been deleted from the system: " + req.getFileName());
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        ArrayList< Integer > checkAvailability = new ArrayList<>(Arrays.asList( FileTableOwner.ACTIVE_STATUS_IN_TRASH, FileTableOwner.ACTIVE_STATUS_DELETED ) );
-        if( this.fileTableOwner.checkStatus( checkAvailability ) ) {
-            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getFileName( ));
-            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+        ArrayList<Integer> checkAvailability = new ArrayList<>(Arrays.asList(FileTableOwner.ACTIVE_STATUS_IN_TRASH, FileTableOwner.ACTIVE_STATUS_DELETED));
+        if (this.fileTableOwner.checkStatus(checkAvailability)) {
+            jamiiDebug.warning("This the file is in trash or has been deleted from the system: " + req.getFileName());
+            this.jamiiErrorsMessagesRESP.setUserFileDeleteOPS_FileIsInTrash();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        this.fileTableOwner.data.setStatus( FileTableOwner.ACTIVE_STATUS_IN_TRASH );
-        this.fileTableOwner.save( );
+        this.fileTableOwner.data.setStatus(FileTableOwner.ACTIVE_STATUS_IN_TRASH);
+        this.fileTableOwner.save();
 
-        setIsSuccessful( true );
+        setIsSuccessful(true);
     }
 
     @Override
-    public ResponseEntity<?> getResponse( ){
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
-            UserFileDeleteRESP userFileDeleteRESP = new UserFileDeleteRESP( );
-            return  new ResponseEntity< >( userFileDeleteRESP.getJSONRESP( ), HttpStatus.OK ) ;
+        if (getIsSuccessful()) {
+            UserFileDeleteRESP userFileDeleteRESP = new UserFileDeleteRESP();
+            return new ResponseEntity<>(userFileDeleteRESP.getJSONRESP(), HttpStatus.OK);
         }
 
-        return super.getResponse( );
+        return super.getResponse();
     }
 }

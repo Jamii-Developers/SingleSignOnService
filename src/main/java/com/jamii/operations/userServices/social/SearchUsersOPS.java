@@ -18,26 +18,30 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class SearchUsersOPS extends AbstractUserServicesOPS {
-
+public class SearchUsersOPS
+        extends AbstractUserServicesOPS
+{
     private Map<String, SearchResultsHelper.SearchResults> searchResults = new ConcurrentHashMap<>();
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private UserData userData;
-    @Autowired
-    private JamiiRelationshipUtils jamiiRelationshipUtils;
-    @Autowired
-    JamiiLoggingUtils jamiiLoggingUtils;
+    @Autowired JamiiLoggingUtils jamiiLoggingUtils;
+    @Autowired private UserLogin userLogin;
+    @Autowired private UserData userData;
+    @Autowired private JamiiRelationshipUtils jamiiRelationshipUtils;
 
     @Override
-    public void validateCookie() throws Exception {
+    public void validateCookie()
+            throws Exception
+    {
         SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
@@ -46,23 +50,25 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
     }
 
     @Override
-    public void processRequest() throws Exception {
-        try{
+    public void processRequest()
+            throws Exception
+    {
+        try {
             if (!getIsSuccessful()) {
                 return;
             }
 
             this.searchResults = new ConcurrentHashMap<>();
             this.userData.dataList = new ArrayList<>();
-            this.userLogin.data = new UserLoginTBL( );
+            this.userLogin.data = new UserLoginTBL();
 
             SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
 
             // Fetch user information
-            this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getUserKey(), UserLogin.ACTIVE_ON ).orElse( null );
-            if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-                this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
-                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            this.userLogin.otherUser = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+            if (this.userLogin.data == null || this.userLogin.otherUser == null) {
+                this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
+                this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
                 this.isSuccessful = false;
             }
 
@@ -71,18 +77,19 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
             CompletableFuture<Void> namesSearch = searchUsingNames(req);
 
             // Wait for both to complete
-            CompletableFuture.allOf(emailUsernameSearch,namesSearch).join();
-
-        }catch( Exception e ){
-            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , null ) ;
-            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+            CompletableFuture.allOf(emailUsernameSearch, namesSearch).join();
+        }
+        catch (Exception e) {
+            jamiiLoggingUtils.ExceptionLogger(this.getClass().getName(), e, null);
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
             setIsSuccessful(false);
         }
     }
 
     @Override
-    public ResponseEntity<?> getResponse() {
+    public ResponseEntity<?> getResponse()
+    {
         if (getIsSuccessful()) {
             SearchUserRESP resp = new SearchUserRESP();
             for (Map.Entry<String, SearchResultsHelper.SearchResults> entry : this.searchResults.entrySet()) {
@@ -104,16 +111,11 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
 
     @Async
     @Transactional(readOnly = true)
-    public CompletableFuture<Void> searchUsingEmailAndUsername(SearchUserServicesREQ req) {
-        List<CompletableFuture<List<UserLoginTBL>>> loginFutures = Arrays.asList(
-                CompletableFuture.supplyAsync(() -> this.userLogin.searchUserUsername(req.getSearchstring())),
-                CompletableFuture.supplyAsync(() -> this.userLogin.searchUserEmailAddress(req.getSearchstring()))
-        );
+    public CompletableFuture<Void> searchUsingEmailAndUsername(SearchUserServicesREQ req)
+    {
+        List<CompletableFuture<List<UserLoginTBL>>> loginFutures = Arrays.asList(CompletableFuture.supplyAsync(() -> this.userLogin.searchUserUsername(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userLogin.searchUserEmailAddress(req.getSearchstring())));
 
-        List<UserLoginTBL> allLoginUsers = loginFutures.stream()
-                .map(CompletableFuture::join)
-                .flatMap(List::stream)
-                .toList();
+        List<UserLoginTBL> allLoginUsers = loginFutures.stream().map(CompletableFuture::join).flatMap(List::stream).toList();
 
         allLoginUsers.parallelStream().forEach(user -> {
             if (Objects.equals(this.userLogin.data.getId(), user.getId())) {
@@ -135,7 +137,8 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
             if (userdata.isPresent()) {
                 obj.setFIRSTNAME(userdata.get().getFirstname());
                 obj.setLASTNAME(userdata.get().getLastname());
-            } else {
+            }
+            else {
                 obj.setFIRSTNAME("N/A");
                 obj.setLASTNAME("N/A");
             }
@@ -152,17 +155,11 @@ public class SearchUsersOPS extends AbstractUserServicesOPS {
 
     @Async
     @Transactional(readOnly = true)
-    public CompletableFuture<Void> searchUsingNames(SearchUserServicesREQ req) {
-        List<CompletableFuture<List<UserDataTBL>>> futures = Arrays.asList(
-                CompletableFuture.supplyAsync(() -> this.userData.searchUserFirstname(req.getSearchstring())),
-                CompletableFuture.supplyAsync(() -> this.userData.searchUserMiddlename(req.getSearchstring())),
-                CompletableFuture.supplyAsync(() -> this.userData.searchUserLastname(req.getSearchstring()))
-        );
+    public CompletableFuture<Void> searchUsingNames(SearchUserServicesREQ req)
+    {
+        List<CompletableFuture<List<UserDataTBL>>> futures = Arrays.asList(CompletableFuture.supplyAsync(() -> this.userData.searchUserFirstname(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userData.searchUserMiddlename(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userData.searchUserLastname(req.getSearchstring())));
 
-        List<UserDataTBL> allUsers = futures.stream()
-                .map(CompletableFuture::join)
-                .flatMap(List::stream)
-                .toList();
+        List<UserDataTBL> allUsers = futures.stream().map(CompletableFuture::join).flatMap(List::stream).toList();
 
         allUsers.parallelStream().forEach(userdata -> {
             Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey(userdata.getUserloginid().getUserKey(), UserLogin.ACTIVE_ON);

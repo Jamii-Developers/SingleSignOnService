@@ -18,102 +18,105 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class UserFileDownloadOPS extends AbstractUserServicesOPS {
+public class UserFileDownloadOPS
+        extends AbstractUserServicesOPS
+{
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    protected FileTableOwner fileTableOwner;
-    @Autowired
-    JamiiLoggingUtils jamiiLoggingUtils;
-
+    @Autowired protected FileTableOwner fileTableOwner;
+    @Autowired JamiiLoggingUtils jamiiLoggingUtils;
+    @Autowired private UserLogin userLogin;
 
     private Resource resource;
-    public Resource getResource() {
+
+    public Resource getResource()
+    {
         return resource;
     }
-    public void setResource(Resource resource) {
+
+    public void setResource(Resource resource)
+    {
         this.resource = resource;
     }
 
     @Override
-    public void reset( ){
-        super.reset( );
-        setResource( null ) ;
+    public void reset()
+    {
+        super.reset();
+        setResource(null);
     }
 
     @Override
-    public void validateCookie( ) throws Exception{
-        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDownloadREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey() );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDownloadREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest() throws IOException {
+    public void processRequest()
+            throws IOException
+    {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
-        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject( getRequest( ), UserFileDownloadREQ.class );
+        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDownloadREQ.class);
 
-        this.userLogin.data = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
-        if( this.userLogin.data == null ){
-            jamiiDebug.warning( "This user key does not exists : " + req.getUserKey( ) );
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+        this.userLogin.data = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+        if (this.userLogin.data == null) {
+            jamiiDebug.warning("This user key does not exists : " + req.getUserKey());
+            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoMatchingUserKey();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        this.fileTableOwner.data = this.fileTableOwner.fetch( this.userLogin.data ,req.getFileName( ) ).orElse( null );
-        if( this.fileTableOwner == null ){
-            jamiiDebug.warning( "This the file is in trash or has been deleted from the system: " + req.getDeviceKey( ));
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+        this.fileTableOwner.data = this.fileTableOwner.fetch(this.userLogin.data, req.getFileName()).orElse(null);
+        if (this.fileTableOwner == null) {
+            jamiiDebug.warning("This the file is in trash or has been deleted from the system: " + req.getDeviceKey());
+            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_NoActiveFileFound();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        JamiiFileDownloadUtils downloadUtil = new JamiiFileDownloadUtils( );
+        JamiiFileDownloadUtils downloadUtil = new JamiiFileDownloadUtils();
 
         try {
 
             assert this.fileTableOwner.data != null;
-            String fileLocation = this.fileTableOwner.data.getFilelocation( );
-            String systemFilename = this.fileTableOwner.data.getSystemfilename( );
-            String fileExtension = JamiiFileUtils.getFileExtension( this.fileTableOwner.data.getFiletype( ) );
-            setResource( downloadUtil.getFileAsResource( fileLocation, systemFilename, fileExtension ) );
-
-        }catch( Exception e ){
-            jamiiLoggingUtils.ExceptionLogger( this.getClass().getName() , e , this.userLogin.data ) ;
-            jamiiDebug.error( "Error creating resource : " + req.getDeviceKey( ) );
-            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-            return ;
+            String fileLocation = this.fileTableOwner.data.getFilelocation();
+            String systemFilename = this.fileTableOwner.data.getSystemfilename();
+            String fileExtension = JamiiFileUtils.getFileExtension(this.fileTableOwner.data.getFiletype());
+            setResource(downloadUtil.getFileAsResource(fileLocation, systemFilename, fileExtension));
+        }
+        catch (Exception e) {
+            jamiiLoggingUtils.ExceptionLogger(this.getClass().getName(), e, this.userLogin.data);
+            jamiiDebug.error("Error creating resource : " + req.getDeviceKey());
+            this.jamiiErrorsMessagesRESP.setDownloadFileOPS_OopsWeCannotFindThisFile();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
         }
 
-        setIsSuccessful( true );
+        setIsSuccessful(true);
     }
 
     @Override
-    public ResponseEntity<?> getResponse( ){
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
+        if (getIsSuccessful()) {
             String contentType = "application/octet-stream";
-            String headerValue = "attachment; filename=\"" + getResource( ).getFilename() + "\"";
+            String headerValue = "attachment; filename=\"" + getResource().getFilename() + "\"";
 
-            return ResponseEntity.ok()
-                    .contentType( MediaType.parseMediaType(contentType) )
-                    .header(HttpHeaders.CONTENT_DISPOSITION, headerValue )
-                    .body( getResource( ) );
-
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, headerValue).body(getResource());
         }
 
-        return super.getResponse( );
+        return super.getResponse();
     }
-
 }

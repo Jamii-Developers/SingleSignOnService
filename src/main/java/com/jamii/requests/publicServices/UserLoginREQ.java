@@ -1,6 +1,8 @@
 package com.jamii.requests.publicServices;
 
-public class UserLoginREQ extends AbstractPublicServicesREQ{
+public class UserLoginREQ
+        extends AbstractPublicServicesREQ
+{
 
     private String loginCredential;
     private String loginPassword;
@@ -8,10 +10,12 @@ public class UserLoginREQ extends AbstractPublicServicesREQ{
     private String location;
     private Boolean rememberLogin;
 
-    public UserLoginREQ() {
+    public UserLoginREQ()
+    {
     }
 
-    public UserLoginREQ(String loginCredential, String loginPassword, String loginDeviceName, String location, Boolean rememberLogin) {
+    public UserLoginREQ(String loginCredential, String loginPassword, String loginDeviceName, String location, Boolean rememberLogin)
+    {
         this.loginCredential = loginCredential;
         this.loginPassword = loginPassword;
         this.loginDeviceName = loginDeviceName;
@@ -19,43 +23,53 @@ public class UserLoginREQ extends AbstractPublicServicesREQ{
         this.rememberLogin = rememberLogin;
     }
 
-    public String getLoginCredential() {
+    public String getLoginCredential()
+    {
         return loginCredential;
     }
 
-    public void setLoginCredential(String loginCredential) {
+    public void setLoginCredential(String loginCredential)
+    {
         this.loginCredential = loginCredential;
     }
 
-    public String getLoginPassword() {
+    public String getLoginPassword()
+    {
         return loginPassword;
     }
 
-    public void setLoginPassword(String loginPassword) {
+    public void setLoginPassword(String loginPassword)
+    {
         this.loginPassword = loginPassword;
     }
 
-    public String getLoginDeviceName() {
+    public String getLoginDeviceName()
+    {
         return loginDeviceName;
     }
 
-    public void setLoginDeviceName(String loginDeviceName) {
+    public void setLoginDeviceName(String loginDeviceName)
+    {
         this.loginDeviceName = loginDeviceName;
     }
 
-    public String getLocation() {
+    public String getLocation()
+    {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String location)
+    {
         this.location = location;
     }
 
-    public Boolean getRememberLogin() {
+    public Boolean getRememberLogin()
+    {
         return rememberLogin;
     }
 
-    public void setRememberLogin(Boolean rememberLogin) {
+    public void setRememberLogin(Boolean rememberLogin)
+    {
         this.rememberLogin = rememberLogin;
     }
 }

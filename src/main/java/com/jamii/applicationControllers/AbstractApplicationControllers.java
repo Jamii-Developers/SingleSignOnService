@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-public abstract class AbstractApplicationControllers {
+public abstract class AbstractApplicationControllers
+{
 
-    @Autowired
-    protected JamiiLoggingUtils jamiiLoggingUtils;
+    protected final JamiiDebug jamiiDebug = new JamiiDebug(this.getClass());
 
-    protected final JamiiDebug jamiiDebug = new JamiiDebug( this.getClass( ) );
+    @Autowired protected JamiiLoggingUtils jamiiLoggingUtils;
 
     @PostConstruct
     protected abstract void initPathing();
 
-    public abstract ResponseEntity<?> processJSONRequest( String operation, Object requestPayload );
+    public abstract ResponseEntity<?> processJSONRequest(String operation, Object requestPayload);
 
-    public abstract ResponseEntity<?> processMultipartRequest( String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file);
+    public abstract ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file);
 }

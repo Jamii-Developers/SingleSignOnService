@@ -16,80 +16,84 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-@Component
-public class UserLogoffOPS extends AbstractUserServicesOPS {
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private DeviceInformation deviceInformation;
-    @Autowired
-    private UserCookies userCookies;
+@Component
+public class UserLogoffOPS
+        extends AbstractUserServicesOPS
+{
+
+    @Autowired private UserLogin userLogin;
+    @Autowired private DeviceInformation deviceInformation;
+    @Autowired private UserCookies userCookies;
 
     @Override
-    public void validateCookie( ) throws Exception{
-        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLogoffREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey( ) );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject(getRequest(), UserLogoffREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest() throws Exception {
+    public void processRequest()
+            throws Exception
+    {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
 
-        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject( getRequest( ), UserLogoffREQ.class );
+        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject(getRequest(), UserLogoffREQ.class);
 
-        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON );
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON);
 
-        if ( user.isEmpty( ) ) {
-            this.jamiiErrorsMessagesRESP.setLoginError( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+        if (user.isEmpty()) {
+            this.jamiiErrorsMessagesRESP.setLoginError();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
             this.isSuccessful = false;
             return;
         }
 
-        Optional<DeviceInformationTBL> device = this.deviceInformation.fetch( user.get( ), req.getDeviceKey());
+        Optional<DeviceInformationTBL> device = this.deviceInformation.fetch(user.get(), req.getDeviceKey());
 
-        if ( device.isEmpty( )) {
-            this.jamiiErrorsMessagesRESP.setLoginError( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
+        if (device.isEmpty()) {
+            this.jamiiErrorsMessagesRESP.setLoginError();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
             return;
-        }else{
-            device.get().setActive( DeviceInformation.ACTIVE_STATUS_DISABLED );
-            this.deviceInformation.update( device.get( ) );
+        }
+        else {
+            device.get().setActive(DeviceInformation.ACTIVE_STATUS_DISABLED);
+            this.deviceInformation.update(device.get());
         }
 
-        Optional<UserCookiesTBL> cookie = this.userCookies.fetch( user.get( ), device.get( ), req.getSessionKey( ) , UserCookies.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookie = this.userCookies.fetch(user.get(), device.get(), req.getSessionKey(), UserCookies.ACTIVE_STATUS_ENABLED);
 
-        if ( cookie.isEmpty( ) ) {
-            this.jamiiErrorsMessagesRESP.setLoginError( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            setIsSuccessful( false );
-        }else{
-            cookie.get().setActive( UserCookies.ACTIVE_STATUS_DISABLED );
-            this.userCookies.update( cookie.get( ) );
+        if (cookie.isEmpty()) {
+            this.jamiiErrorsMessagesRESP.setLoginError();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+        }
+        else {
+            cookie.get().setActive(UserCookies.ACTIVE_STATUS_DISABLED);
+            this.userCookies.update(cookie.get());
         }
 
-        setIsSuccessful( true );
-
+        setIsSuccessful(true);
     }
 
     @Override
-    public ResponseEntity< ? > getResponse( ){
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
+        if (getIsSuccessful()) {
 
-            StringBuilder response = new StringBuilder( );
-            UserLogoffRESP userLogoffRESP = new UserLogoffRESP(  );
-            response.append( userLogoffRESP.getJSONRESP( ) );
-            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
+            UserLogoffRESP userLogoffRESP = new UserLogoffRESP();
+            return new ResponseEntity<>(String.valueOf(userLogoffRESP.getJSONRESP()), HttpStatus.OK);
         }
-        return super.getResponse( );
+        return super.getResponse();
     }
 }

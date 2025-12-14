@@ -15,61 +15,60 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EditUserDataOPS extends AbstractUserServicesOPS {
+public class EditUserDataOPS
+        extends AbstractUserServicesOPS
+{
 
-    public EditUserDataOPS( ) { }
+    @Autowired private UserLogin userLogin;
+    @Autowired private UserData userData;
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private UserData userData;
+    public EditUserDataOPS() {}
 
     @Override
-    public void validateCookie( ) throws Exception{
-        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), EditUserDataServicesREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey( ) );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject(getRequest(), EditUserDataServicesREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest( ) throws Exception {
+    public void processRequest()
+            throws Exception
+    {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
 
-        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject( getRequest( ), EditUserDataServicesREQ.class );
-        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( req.getUserKey( ), UserLogin.ACTIVE_ON );
+        EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject(getRequest(), EditUserDataServicesREQ.class);
+        Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON);
 
         //Find userData currently active and deactivate them all
-        this.userData.markAllPreviousUserDataInActive( user.get( ) );
+        this.userData.markAllPreviousUserDataInActive(user.get());
 
         //Adds the latest userData to the database
-        this.userData.add( user.get( ), req );
+        this.userData.add(user.get(), req);
 
         //Updates Privacy Settings
-        user.get( ).setPrivacy( req.getPrivacy( ) );
-        this.userLogin.add( user.get( ) );
+        user.get().setPrivacy(req.getPrivacy());
+        this.userLogin.add(user.get());
 
-        setIsSuccessful( true );
-
+        setIsSuccessful(true);
     }
 
-
-
     @Override
-    public ResponseEntity< ? > getResponse( ) {
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
-            StringBuilder response = new StringBuilder( );
-            EditUserDataRESP editUserDataRESP = new EditUserDataRESP( );
-            response.append( editUserDataRESP.getJSONRESP( ) );
-            return new ResponseEntity<>( response.toString( ), HttpStatus.OK );
+        if (getIsSuccessful()) {
+            EditUserDataRESP editUserDataRESP = new EditUserDataRESP();
+            return new ResponseEntity<>(String.valueOf(editUserDataRESP.getJSONRESP()), HttpStatus.OK);
         }
 
-
-        return super.getResponse( );
+        return super.getResponse();
     }
 }

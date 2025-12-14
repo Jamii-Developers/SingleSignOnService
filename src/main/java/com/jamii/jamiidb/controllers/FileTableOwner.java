@@ -11,50 +11,56 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class FileTableOwner {
-
-    @Autowired
-    private FileTableOwnerREPO fileTableOwnerREPO;
-
-    //Creating a table object to reference when creating data for that table
-    public FileTableOwnerTBL data = new FileTableOwnerTBL( );
-    public ArrayList< FileTableOwnerTBL > dataList = new ArrayList< >( );
+public class FileTableOwner
+{
 
     /**
      * Setting active statuses
      */
-    public final static Integer ACTIVE_STATUS_STORE             = 1;
-    public final static Integer ACTIVE_STATUS_IN_TRASH          = 2;
-    public final static Integer ACTIVE_STATUS_DELETED           = 3;
+    public final static Integer ACTIVE_STATUS_STORE = 1;
+    public final static Integer ACTIVE_STATUS_IN_TRASH = 2;
+    public final static Integer ACTIVE_STATUS_DELETED = 3;
 
-    public FileTableOwnerTBL add(FileTableOwnerTBL fileTableOwnerTBL) {
+    //Creating a table object to reference when creating data for that table
+    public FileTableOwnerTBL data = new FileTableOwnerTBL();
+    public ArrayList<FileTableOwnerTBL> dataList = new ArrayList<>();
+    @Autowired private FileTableOwnerREPO fileTableOwnerREPO;
+
+    public FileTableOwnerTBL add(FileTableOwnerTBL fileTableOwnerTBL)
+    {
         return this.fileTableOwnerREPO.save(fileTableOwnerTBL);
     }
 
-    public Optional<FileTableOwnerTBL> fetch(UserLoginTBL user, String filename) {
+    public Optional<FileTableOwnerTBL> fetch(UserLoginTBL user, String filename)
+    {
         return this.fileTableOwnerREPO.findByUserloginidAndSystemfilename(user, filename).stream().findFirst();
     }
 
     /**
      * This has been deprecated use the function save( )
+     *
      * @param fileInformation
      */
     @Deprecated
-    public void update(FileTableOwnerTBL fileInformation) {
+    public void update(FileTableOwnerTBL fileInformation)
+    {
         this.fileTableOwnerREPO.save(fileInformation);
     }
 
-    public void save( ){
-        data = this.fileTableOwnerREPO.save( data );
+    public void save()
+    {
+        data = this.fileTableOwnerREPO.save(data);
     }
 
-    public void saveAll( ){
-        Iterable<FileTableOwnerTBL> datalist = this.fileTableOwnerREPO.saveAll( dataList ) ;
-        dataList.clear( );
-        datalist.forEach( x -> dataList.add( x ) );
+    public void saveAll()
+    {
+        Iterable<FileTableOwnerTBL> datalist = this.fileTableOwnerREPO.saveAll(dataList);
+        dataList.clear();
+        datalist.forEach(x -> dataList.add(x));
     }
 
-    public boolean checkStatus( ArrayList<Integer> checkAvailability ) {
-        return checkAvailability.stream( ).anyMatch( x-> Objects.equals( data.getStatus(), x ) );
+    public boolean checkStatus(ArrayList<Integer> checkAvailability)
+    {
+        return checkAvailability.stream().anyMatch(x -> Objects.equals(data.getStatus(), x));
     }
 }

@@ -15,53 +15,57 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class ReviewUsOPS extends AbstractUserServicesOPS {
+public class ReviewUsOPS
+        extends AbstractUserServicesOPS
+{
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private ClientCommunication clientCommunication;
+    @Autowired private UserLogin userLogin;
+    @Autowired private ClientCommunication clientCommunication;
 
     @Override
-    public void validateCookie( ) throws Exception{
-        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey() );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        ReviewUsServicesREQ req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ReviewUsServicesREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public void processRequest() throws Exception {
+    public void processRequest()
+            throws Exception
+    {
 
-        if( !getIsSuccessful( ) ){
+        if (!getIsSuccessful()) {
             return;
         }
 
-        ReviewUsServicesREQ req = ( ReviewUsServicesREQ ) JamiiMapperUtils.mapObject( getRequest( ), ReviewUsServicesREQ.class );
-        this.userLogin.data = this.userLogin.fetch( req.getEmailaddress( ), req.getUsername( ), UserLogin.ACTIVE_ON ).orElse( null ) ;
+        ReviewUsServicesREQ req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ReviewUsServicesREQ.class);
+        this.userLogin.data = this.userLogin.fetch(req.getEmailaddress(), req.getUsername(), UserLogin.ACTIVE_ON).orElse(null);
 
-        if( this.userLogin.data == null ){
-            jamiiDebug.warning( String.format( "This username or email address does not exist %s|%s ", req.getUsername( ), req.getEmailaddress() ) );
-            this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
-            return ;
+        if (this.userLogin.data == null) {
+            jamiiDebug.warning(String.format("This username or email address does not exist %s|%s ", req.getUsername(), req.getEmailaddress()));
+            this.jamiiErrorsMessagesRESP.setContactUsOPS_UserNotFound();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            return;
         }
 
-        this.clientCommunication.data = new ClientCommunicationTBL( );
-        this.clientCommunication.data.setUserloginid( this.userLogin.data );
-        this.clientCommunication.data.setClientthoughts( req.getClient_thoughts( ) );
-        this.clientCommunication.data.setTypeofthought( ClientCommunication.TYPE_OF_THOUGHT_CONTACT_SUPPORT );
-        this.clientCommunication.data.setDateofthought( LocalDateTime.now( ) );
-        this.clientCommunication.save( );
-
+        this.clientCommunication.data = new ClientCommunicationTBL();
+        this.clientCommunication.data.setUserloginid(this.userLogin.data);
+        this.clientCommunication.data.setClientthoughts(req.getClient_thoughts());
+        this.clientCommunication.data.setTypeofthought(ClientCommunication.TYPE_OF_THOUGHT_CONTACT_SUPPORT);
+        this.clientCommunication.data.setDateofthought(LocalDateTime.now());
+        this.clientCommunication.save();
     }
 
     @Override
-    public ResponseEntity<?> getResponse( ){
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
-            return  new ResponseEntity< >( new ReviewUsRESP( ).getJSONRESP( ), HttpStatus.OK ) ;
+        if (getIsSuccessful()) {
+            return new ResponseEntity<>(new ReviewUsRESP().getJSONRESP(), HttpStatus.OK);
         }
 
         return super.getResponse();

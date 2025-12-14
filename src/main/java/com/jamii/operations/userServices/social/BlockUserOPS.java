@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class BlockUserOPS extends AbstractUserServicesOPS {
+public class BlockUserOPS
+        extends AbstractUserServicesOPS
+{
 
-    @Autowired
-    private UserLogin userLogin;
-    @Autowired
-    private UserRelationship userRelationship;
-    @Autowired
-    private UserRequest userRequest;
-    @Autowired
-    private UserBlockList userBlockList;
+    @Autowired private UserLogin userLogin;
+    @Autowired private UserRelationship userRelationship;
+    @Autowired private UserRequest userRequest;
+    @Autowired private UserBlockList userBlockList;
 
     @Override
-    public void validateCookie() throws Exception {
+    public void validateCookie()
+            throws Exception
+    {
         BlockUserRequestServicesREQ req = (BlockUserRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), BlockUserRequestServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
@@ -42,7 +42,9 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
     }
 
     @Override
-    public void processRequest() throws Exception {
+    public void processRequest()
+            throws Exception
+    {
 
         if (!getIsSuccessful()) {
             return;
@@ -51,14 +53,14 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
         BlockUserRequestServicesREQ req = (BlockUserRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), BlockUserRequestServicesREQ.class);
 
         // Check if both users exist in the system
-        this.userLogin.data = new UserLoginTBL( );
-        this.userLogin.otherUser = new UserLoginTBL( );
+        this.userLogin.data = new UserLoginTBL();
+        this.userLogin.otherUser = new UserLoginTBL();
 
-        this.userLogin.data = this.userLogin.fetchByUserKey( UserKey, UserLogin.ACTIVE_ON ).orElse( null );
-        this.userLogin.otherUser = this.userLogin.fetchByUserKey( req.getTargetUserKey( ), UserLogin.ACTIVE_ON ).orElse( null );
-        if( this.userLogin.data == null  || this.userLogin.otherUser == null ){
-            this.jamiiErrorsMessagesRESP.setGenericErrorMessage( );
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP( ) ;
+        this.userLogin.data = this.userLogin.fetchByUserKey(UserKey, UserLogin.ACTIVE_ON).orElse(null);
+        this.userLogin.otherUser = this.userLogin.fetchByUserKey(req.getTargetUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+        if (this.userLogin.data == null || this.userLogin.otherUser == null) {
+            this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
             this.isSuccessful = false;
             return;
         }
@@ -92,7 +94,8 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
                 blcklst.setDateupdated(LocalDateTime.now());
             });
             this.userBlockList.saveAll();
-        } else {
+        }
+        else {
             // Create a new block entry if none exist
             this.userBlockList.data = new UserBlockListTBL();
             this.userBlockList.data.setUserid(this.userLogin.data);
@@ -104,34 +107,27 @@ public class BlockUserOPS extends AbstractUserServicesOPS {
     }
 
     @Async
-    public CompletableFuture<Void> fetchRequests() {
+    public CompletableFuture<Void> fetchRequests()
+    {
         this.userRequest.dataList = new ArrayList<>();
-        List<CompletableFuture<List<UserRequestsTBL>>> futures = List.of(
-                CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE))
-        );
+        List<CompletableFuture<List<UserRequestsTBL>>> futures = List.of(CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FRIEND, UserRequest.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.otherUser, this.userLogin.data, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRequest.fetch(this.userLogin.data, this.userLogin.otherUser, UserRequest.TYPE_FOLLOW, UserRequest.STATUS_ACTIVE)));
         this.userRequest.dataList.addAll(futures.stream().map(CompletableFuture::join).flatMap(List::stream).toList());
         return CompletableFuture.completedFuture(null);
     }
 
     @Async
-    public CompletableFuture<Void> fetchBlockList() {
-        this.userBlockList.dataList = new ArrayList<>( );
-        this.userBlockList.dataList.addAll( userBlockList.fetch(this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE) );
+    public CompletableFuture<Void> fetchBlockList()
+    {
+        this.userBlockList.dataList = new ArrayList<>();
+        this.userBlockList.dataList.addAll(userBlockList.fetch(this.userLogin.data, this.userLogin.otherUser, UserBlockList.STATUS_ACTIVE));
         return CompletableFuture.completedFuture(null);
     }
 
     @Async
-    public CompletableFuture<Void> fetchRelationships() {
+    public CompletableFuture<Void> fetchRelationships()
+    {
         this.userRelationship.dataList = new ArrayList<>();
-        List<CompletableFuture<List<UserRelationshipTBL>>> futures = List.of(
-                CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.data, this.userLogin.otherUser, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.otherUser, this.userLogin.data, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.data, this.userLogin.otherUser, UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE)),
-                CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.otherUser, this.userLogin.data, UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE))
-        );
+        List<CompletableFuture<List<UserRelationshipTBL>>> futures = List.of(CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.data, this.userLogin.otherUser, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.otherUser, this.userLogin.data, UserRelationship.TYPE_FRIEND, UserRelationship.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.data, this.userLogin.otherUser, UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE)), CompletableFuture.supplyAsync(() -> userRelationship.fetch(this.userLogin.otherUser, this.userLogin.data, UserRelationship.TYPE_FOLLOW, UserRelationship.STATUS_ACTIVE)));
         this.userRelationship.dataList.addAll(futures.stream().map(CompletableFuture::join).flatMap(List::stream).toList());
         return CompletableFuture.completedFuture(null);
     }

@@ -2,7 +2,9 @@ package com.jamii.requests.userServices.profileREQ;
 
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
-public class EditUserDataServicesREQ extends AbstractUserServicesREQ {
+public class EditUserDataServicesREQ
+        extends AbstractUserServicesREQ
+{
 
     private Integer privacy;
     private String firstname;
@@ -16,91 +18,113 @@ public class EditUserDataServicesREQ extends AbstractUserServicesREQ {
     private String country;
     private String zipcode;
 
-    public String getFirstname() {
+    public String getFirstname()
+    {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname(String firstname)
+    {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
+    public String getLastname()
+    {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastname(String lastname)
+    {
         this.lastname = lastname;
     }
 
-    public String getMiddlename() {
+    public String getMiddlename()
+    {
         return middlename;
     }
 
-    public void setMiddlename(String middlename) {
+    public void setMiddlename(String middlename)
+    {
         this.middlename = middlename;
     }
 
-    public String getAddress1() {
+    public String getAddress1()
+    {
         return address1;
     }
 
-    public void setAddress1(String address1) {
+    public void setAddress1(String address1)
+    {
         this.address1 = address1;
     }
 
-    public String getAddress2() {
+    public String getAddress2()
+    {
         return address2;
     }
 
-    public void setAddress2(String address2) {
+    public void setAddress2(String address2)
+    {
         this.address2 = address2;
     }
 
-    public String getCity() {
+    public String getCity()
+    {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city)
+    {
         this.city = city;
     }
 
-    public String getState() {
+    public String getState()
+    {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(String state)
+    {
         this.state = state;
     }
 
-    public String getProvince() {
+    public String getProvince()
+    {
         return province;
     }
 
-    public void setProvince(String province) {
+    public void setProvince(String province)
+    {
         this.province = province;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         this.country = country;
     }
 
-    public String getZipcode() {
+    public String getZipcode()
+    {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipcode(String zipcode)
+    {
         this.zipcode = zipcode;
     }
 
-    public Integer getPrivacy() {
+    public Integer getPrivacy()
+    {
         return privacy;
     }
 
-    public void setPrivacy(Integer privacy) {
+    public void setPrivacy(Integer privacy)
+    {
         this.privacy = privacy;
     }
 }

@@ -6,8 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface PasswordHashRecordsREPO extends CrudRepository<PasswordHashRecordsTBL, Integer> {
+public interface PasswordHashRecordsREPO
+        extends CrudRepository<PasswordHashRecordsTBL, Integer>
+{
 
-    @Query( value = "SELECT * FROM jamiidb.Password_Hash_Records WHERE USER_LOGIN_ID = ? ORDER BY ID DESC LIMIT 10", nativeQuery = true)
-    List< PasswordHashRecordsTBL > findLast10Passwords( int userloginid );
+    @Query(value = "SELECT * FROM jamiidb.Password_Hash_Records WHERE USER_LOGIN_ID = ? ORDER BY ID DESC LIMIT 10", nativeQuery = true)
+    List<PasswordHashRecordsTBL> findLast10Passwords(int userloginid);
 }

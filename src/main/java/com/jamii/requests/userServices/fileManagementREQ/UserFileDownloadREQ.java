@@ -2,15 +2,19 @@ package com.jamii.requests.userServices.fileManagementREQ;
 
 import com.jamii.requests.userServices.AbstractUserServicesREQ;
 
-public class UserFileDownloadREQ extends AbstractUserServicesREQ {
+public class UserFileDownloadREQ
+        extends AbstractUserServicesREQ
+{
 
     private String fileName;
 
-    public String getFileName() {
+    public String getFileName()
+    {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(String fileName)
+    {
         this.fileName = fileName;
     }
 }

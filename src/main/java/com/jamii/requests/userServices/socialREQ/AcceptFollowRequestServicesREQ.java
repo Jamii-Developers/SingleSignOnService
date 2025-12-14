@@ -4,15 +4,19 @@ import com.jamii.requests.userServices.AbstractUserServicesREQ;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AcceptFollowRequestServicesREQ extends AbstractUserServicesREQ {
+public class AcceptFollowRequestServicesREQ
+        extends AbstractUserServicesREQ
+{
 
     private String targetUserKey;
 
-    public String getTargetUserKey() {
+    public String getTargetUserKey()
+    {
         return targetUserKey;
     }
 
-    public void setTargetUserKey(String targetUserKey) {
+    public void setTargetUserKey(String targetUserKey)
+    {
         this.targetUserKey = targetUserKey;
     }
 }

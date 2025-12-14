@@ -7,7 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface FileDirectoryREPO extends CrudRepository<FileDirectoryTBL, Integer> {
+public interface FileDirectoryREPO
+        extends CrudRepository<FileDirectoryTBL, Integer>
+{
 
-    public List< FileDirectoryTBL > findByUserloginidAndFiletableownerid(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL );
+    List<FileDirectoryTBL> findByUserloginidAndFiletableownerid(UserLoginTBL userLoginTBL, FileTableOwnerTBL fileTableOwnerTBL);
 }

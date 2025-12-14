@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PasswordHashRecords {
+public class PasswordHashRecords
+{
 
-    @Autowired
-    private PasswordHashRecordsREPO passwordHashRecordsREPO;
+    public PasswordHashRecordsTBL data = new PasswordHashRecordsTBL();
+    public ArrayList<PasswordHashRecordsTBL> dataList = new ArrayList<>();
 
-    public PasswordHashRecordsTBL data = new PasswordHashRecordsTBL( );
-    public ArrayList < PasswordHashRecordsTBL > dataList = new ArrayList< >( );
+    @Autowired private PasswordHashRecordsREPO passwordHashRecordsREPO;
 
-    public PasswordHashRecordsTBL addUserNewPasswordRecord(UserLoginTBL userLoginTBL) {
+    public PasswordHashRecordsTBL addUserNewPasswordRecord(UserLoginTBL userLoginTBL)
+    {
 
-        data.setPasswordsalt( userLoginTBL.getPasswordsalt( ) );
-        data.setUserloginid( userLoginTBL);
-        data.setDateadded( LocalDateTime.now( ) );
+        data.setPasswordsalt(userLoginTBL.getPasswordsalt());
+        data.setUserloginid(userLoginTBL);
+        data.setDateadded(LocalDateTime.now());
 
-        return passwordHashRecordsREPO.save( data );
-
+        return passwordHashRecordsREPO.save(data);
     }
 
-    public Boolean isPasswordInLastTenRecords(UserLoginTBL userLoginTBL) {
+    public Boolean isPasswordInLastTenRecords(UserLoginTBL userLoginTBL)
+    {
 
         List<PasswordHashRecordsTBL> passwordHashRecords = passwordHashRecordsREPO.findLast10Passwords(userLoginTBL.getId());
         for (PasswordHashRecordsTBL passwordHashRecord : passwordHashRecords) {
@@ -42,14 +43,15 @@ public class PasswordHashRecords {
         return false;
     }
 
-    public void save( ){
-        data = this.passwordHashRecordsREPO.save( data );
+    public void save()
+    {
+        data = this.passwordHashRecordsREPO.save(data);
     }
 
-    public void saveAll( ){
-        Iterable< PasswordHashRecordsTBL > datalist = this.passwordHashRecordsREPO.saveAll( dataList ) ;
-        dataList.clear( );
-        datalist.forEach( x -> dataList.add( x ) );
+    public void saveAll()
+    {
+        Iterable<PasswordHashRecordsTBL> datalist = this.passwordHashRecordsREPO.saveAll(dataList);
+        dataList.clear();
+        datalist.forEach(x -> dataList.add(x));
     }
-
 }

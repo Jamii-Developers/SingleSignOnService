@@ -6,7 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface UserBlockListREPO extends CrudRepository<UserBlockListTBL, Integer> {
+public interface UserBlockListREPO
+        extends CrudRepository<UserBlockListTBL, Integer>
+{
 
     List<UserBlockListTBL> findByUseridAndBlockedidAndStatus(UserLoginTBL userid, UserLoginTBL blockedid, Integer status);
 

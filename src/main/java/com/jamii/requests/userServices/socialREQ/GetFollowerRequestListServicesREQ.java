@@ -4,5 +4,6 @@ import com.jamii.requests.userServices.AbstractUserServicesREQ;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetFollowerRequestListServicesREQ extends AbstractUserServicesREQ {
-}
+public class GetFollowerRequestListServicesREQ
+        extends AbstractUserServicesREQ
+{}

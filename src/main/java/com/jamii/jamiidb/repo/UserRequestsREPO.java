@@ -6,10 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface UserRequestsREPO extends CrudRepository<UserRequestsTBL, Integer> {
+public interface UserRequestsREPO
+        extends CrudRepository<UserRequestsTBL, Integer>
+{
 
-    List< UserRequestsTBL > findBySenderidAndReceiverid(UserLoginTBL user1, UserLoginTBL user2);
-    List< UserRequestsTBL > findBySenderidAndReceiveridAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer status);
+    List<UserRequestsTBL> findBySenderidAndReceiverid(UserLoginTBL user1, UserLoginTBL user2);
+
+    List<UserRequestsTBL> findBySenderidAndReceiveridAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer status);
 
     List<UserRequestsTBL> findBySenderidAndReceiveridAndTypeAndStatus(UserLoginTBL user1, UserLoginTBL user2, Integer type, Integer status);
 

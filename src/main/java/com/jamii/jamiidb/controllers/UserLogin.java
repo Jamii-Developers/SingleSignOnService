@@ -14,15 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class UserLogin {
-
-    @Autowired
-    private UserLoginREPO userLoginREPO;
-
-    //Creating a table object to reference when creating data for that table
-    public UserLoginTBL data = new UserLoginTBL( );
-    public UserLoginTBL otherUser = new UserLoginTBL( );
-    public ArrayList< UserLoginTBL > dataList = new ArrayList< >( );
+public class UserLogin
+{
 
     /**
      * ACTIVE STATUSES
@@ -37,6 +30,12 @@ public class UserLogin {
     public static final Integer PRIVACY_OFF = 0;
     public static final Integer PRIVACY_ON = 1;
 
+    //Creating a table object to reference when creating data for that table
+    public UserLoginTBL data = new UserLoginTBL();
+    public UserLoginTBL otherUser = new UserLoginTBL();
+    public ArrayList<UserLoginTBL> dataList = new ArrayList<>();
+    @Autowired private UserLoginREPO userLoginREPO;
+
     /**
      * Checks the database  user_login table for a valid login information
      *
@@ -45,7 +44,8 @@ public class UserLogin {
      * @return
      */
 
-    public UserLoginTBL checkAndRetrieveValidLogin(String logincredential, String password) {
+    public UserLoginTBL checkAndRetrieveValidLogin(String logincredential, String password)
+    {
 
         // Adding this so we are able to check only users that are active
         List<UserLoginTBL> fetchCredential = new ArrayList<>();
@@ -73,7 +73,8 @@ public class UserLogin {
      * @param username
      * @return
      */
-    public boolean checkifUserExists(String emailaddress, String username) {
+    public boolean checkifUserExists(String emailaddress, String username)
+    {
         List<UserLoginTBL> checkCredential = new ArrayList<>(userLoginREPO.findByEmailaddressOrUsername(emailaddress, username));
         return !checkCredential.isEmpty();
     }
@@ -85,12 +86,14 @@ public class UserLogin {
      * @return - returns boolean on whether a new user was created
      */
     @Deprecated
-    public UserLoginTBL createNewUser(CreateNewUserREQ createNewUserREQ) {
+    public UserLoginTBL createNewUser(CreateNewUserREQ createNewUserREQ)
+    {
         //Save the newly created user
         return add(createNewUserREQ);
     }
 
-    public void add(UserLoginTBL userLoginTBL) {
+    public void add(UserLoginTBL userLoginTBL)
+    {
         userLoginREPO.save(userLoginTBL);
     }
 
@@ -101,7 +104,8 @@ public class UserLogin {
      * @return - returns the user login information
      */
     @Deprecated
-    public UserLoginTBL add( CreateNewUserREQ createNewUserREQ ) {
+    public UserLoginTBL add(CreateNewUserREQ createNewUserREQ)
+    {
 
         UserLoginTBL user = new UserLoginTBL();
         user.setEmailAddress(createNewUserREQ.getEmailaddress());
@@ -113,9 +117,8 @@ public class UserLogin {
         LocalDateTime dateCreated = LocalDateTime.now();
         user.setDatecreated(dateCreated);
 
-        String userKey = JamiiUserPasswordEncryptTool.generateUserKey( user.getUsername(), user.getEmailaddress(), user.getDatecreated().toString());
+        String userKey = JamiiUserPasswordEncryptTool.generateUserKey(user.getUsername(), user.getEmailaddress(), user.getDatecreated().toString());
         user.setUserKey(userKey);
-
 
         return userLoginREPO.save(user);
     }
@@ -123,73 +126,85 @@ public class UserLogin {
     /**
      * Fetches User using both username and email
      *
-     * @param username     - Clients username
+     * @param username - Clients username
      * @param emailAddress - Clients email address
      * @return - returns the information on a fetched user
      */
-    public Optional<UserLoginTBL> fetch(String emailAddress, String username) {
+    public Optional<UserLoginTBL> fetch(String emailAddress, String username)
+    {
         return userLoginREPO.findByEmailaddressAndUsername(emailAddress, username).stream().findFirst();
     }
 
     /**
      * This is an overloaded method that checks if a user is active
      *
-     * @param username     - Intakes the username
+     * @param username - Intakes the username
      * @param emailAddress - intakes the email address
-     * @param active       - Intakes the user's active state
+     * @param active - Intakes the user's active state
      * @return - returns the user record
      */
-    public Optional<UserLoginTBL> fetch(String emailAddress, String username, int active) {
+    public Optional<UserLoginTBL> fetch(String emailAddress, String username, int active)
+    {
         return userLoginREPO.findByEmailaddressAndUsernameAndActive(emailAddress, username, active).stream().findFirst();
     }
 
-    public Optional<UserLoginTBL> fetch(String emailAddress, String username, String userkey, int active) {
+    public Optional<UserLoginTBL> fetch(String emailAddress, String username, String userkey, int active)
+    {
         return userLoginREPO.findByEmailaddressAndUsernameAndUserkeyAndActive(emailAddress, username, userkey, active).stream().findFirst();
     }
 
-    public Optional<UserLoginTBL> fetchByUserKey(String userkey, int active) {
+    public Optional<UserLoginTBL> fetchByUserKey(String userkey, int active)
+    {
         return userLoginREPO.findByUserkeyAndActive(userkey, active).stream().findFirst();
     }
 
-    public Optional<UserLoginTBL> fetch(int id, int active) {
+    public Optional<UserLoginTBL> fetch(int id, int active)
+    {
         return userLoginREPO.findById(id).stream().findFirst();
     }
 
-    public void update(UserLoginTBL userLoginTBL) {
+    public void update(UserLoginTBL userLoginTBL)
+    {
         userLoginREPO.save(userLoginTBL);
     }
 
-    public Boolean isPasswordValid(String password, UserLoginTBL user) {
+    public Boolean isPasswordValid(String password, UserLoginTBL user)
+    {
         String encryptedPassword = JamiiUserPasswordEncryptTool.encryptPassword(password);
         return JamiiStringUtils.equals(encryptedPassword, user.getPasswordsalt());
     }
 
-    public void deactivateUser(UserLoginTBL userLoginTBL) {
+    public void deactivateUser(UserLoginTBL userLoginTBL)
+    {
         userLoginTBL.setActive(ACTIVE_OFF);
         userLoginREPO.save(userLoginTBL);
     }
 
-    public void reactivateUser(UserLoginTBL userLoginTBL) {
+    public void reactivateUser(UserLoginTBL userLoginTBL)
+    {
         userLoginTBL.setActive(ACTIVE_ON);
         userLoginREPO.save(userLoginTBL);
     }
 
-    public List<UserLoginTBL> searchUserUsername(String searchString) {
+    public List<UserLoginTBL> searchUserUsername(String searchString)
+    {
         return userLoginREPO.findByUsernameStartingWithAndActive(searchString, ACTIVE_ON);
     }
 
-    public List<UserLoginTBL> searchUserEmailAddress(String searchString) {
+    public List<UserLoginTBL> searchUserEmailAddress(String searchString)
+    {
         return userLoginREPO.findByEmailaddressStartingWithAndActive(searchString, ACTIVE_ON);
     }
 
-    public void save( ){
-        data = this.userLoginREPO.save( data );
+    public void save()
+    {
+        data = this.userLoginREPO.save(data);
     }
 
-    public void saveAll( ){
-        Iterable<UserLoginTBL> datalist = this.userLoginREPO.saveAll( dataList ) ;
-        dataList.clear( );
-        datalist.forEach( x -> dataList.add( x ) );
+    public void saveAll()
+    {
+        Iterable<UserLoginTBL> datalist = this.userLoginREPO.saveAll(dataList);
+        dataList.clear();
+        datalist.forEach(x -> dataList.add(x));
     }
-
 }

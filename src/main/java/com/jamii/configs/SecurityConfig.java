@@ -14,32 +14,25 @@ import java.util.List;
 
 @Configuration
 @EnableMethodSecurity // Enables @PreAuthorize and other method-level security annotations
-public class SecurityConfig {
+public class SecurityConfig
+{
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use custom CORS config
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception
+    {
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use custom CORS config
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for testing
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/health").permitAll( )
-                        .requestMatchers("/api/monitor-health").permitAll( )
-                        .requestMatchers("/api/public/**").permitAll( )
-                        .requestMatchers("/api/user/**").permitAll( )
-                        .anyRequest( ).denyAll( )
-                );
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth.requestMatchers("/api/health").permitAll().requestMatchers("/api/monitor-health").permitAll().requestMatchers("/api/public/**").permitAll().requestMatchers("/api/user/**").permitAll().anyRequest().denyAll());
 
         return http.build();
     }
 
     @Bean
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    public UrlBasedCorsConfigurationSource corsConfigurationSource()
+    {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "https://jamiix.netlify.app"
-        ) ); // Allow frontend origin
+        config.setAllowedOrigins(List.of("http://localhost:3000", "https://jamiix.netlify.app")); // Allow frontend origin
         config.setAllowedMethods(List.of("GET", "POST", "HEAD", "OPTIONS")); // Allow necessary methods
         config.setAllowedHeaders(List.of("*")); // Allow all headers
         config.setAllowCredentials(true); // Allow credentials like cookies

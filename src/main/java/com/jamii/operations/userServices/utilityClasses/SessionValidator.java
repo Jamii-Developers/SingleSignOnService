@@ -8,28 +8,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SessionValidator extends AbstractUserServicesOPS {
+public class SessionValidator
+        extends AbstractUserServicesOPS
+{
 
     @Override
-    public void processRequest() throws Exception {
+    public void processRequest()
+            throws Exception
+    {
     }
 
     @Override
-    public void validateCookie( ) throws Exception{
-        SessionValidatorREQ req = ( SessionValidatorREQ ) JamiiMapperUtils.mapObject( getRequest( ), SessionValidatorREQ.class );
-        setDeviceKey( req.getDeviceKey( ) );
-        setUserKey( req.getUserKey( ) );
-        setSessionKey( req.getSessionKey( ) );
-        super.validateCookie( );
+    public void validateCookie()
+            throws Exception
+    {
+        SessionValidatorREQ req = (SessionValidatorREQ) JamiiMapperUtils.mapObject(getRequest(), SessionValidatorREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+        super.validateCookie();
     }
 
     @Override
-    public ResponseEntity< ? > getResponse( ){
+    public ResponseEntity<?> getResponse()
+    {
 
-        if( getIsSuccessful( ) ){
-            return new ResponseEntity<>( HttpStatus.OK );
-        }else{
-            return new ResponseEntity<>( HttpStatus.EXPECTATION_FAILED );
+        if (getIsSuccessful()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.jamii.requests.userServices;
 
-public class AbstractUserServicesREQ {
+public class AbstractUserServicesREQ
+{
 
     protected String userKey;
     protected String deviceKey;
@@ -8,21 +9,25 @@ public class AbstractUserServicesREQ {
 
     public String getUserKey() {return userKey;}
 
-    public void setUserKey(String userKey) {
+    public void setUserKey(String userKey)
+    {
         this.userKey = userKey;
     }
 
     public String getDeviceKey() {return deviceKey;}
 
-    public void setDeviceKey(String deviceKey) {
+    public void setDeviceKey(String deviceKey)
+    {
         this.deviceKey = deviceKey;
     }
 
-    public String getSessionKey() {
+    public String getSessionKey()
+    {
         return sessionKey;
     }
 
-    public void setSessionKey(String sessionKey) {
+    public void setSessionKey(String sessionKey)
+    {
         this.sessionKey = sessionKey;
     }
 }

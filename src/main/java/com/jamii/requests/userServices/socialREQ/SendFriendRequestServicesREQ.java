@@ -4,15 +4,19 @@ import com.jamii.requests.userServices.AbstractUserServicesREQ;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendFriendRequestServicesREQ extends AbstractUserServicesREQ {
+public class SendFriendRequestServicesREQ
+        extends AbstractUserServicesREQ
+{
 
     private String friendKey;
 
-    public String getFriendKey() {
+    public String getFriendKey()
+    {
         return friendKey;
     }
 
-    public void setFriendKey(String friendKey) {
+    public void setFriendKey(String friendKey)
+    {
         this.friendKey = friendKey;
     }
 }
