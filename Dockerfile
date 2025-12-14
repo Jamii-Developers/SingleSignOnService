@@ -29,7 +29,7 @@ WORKDIR /build
 COPY src/ src/
 
 # Build Spring Boot executable jar
-RUN ./gradlew bootJar -x test
+#RUN ./gradlew bootJar -x test
 
 # Rename jar to app.jar for consistency
 RUN cp build/libs/*.jar build/app.jar
