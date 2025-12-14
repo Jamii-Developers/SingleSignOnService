@@ -3,7 +3,7 @@
 ################################################################################
 # Stage 1: Download Gradle dependencies
 ################################################################################
-FROM eclipse-temurin:19-jdk-jammy AS deps
+FROM eclipse-temurin:21-jdk-jammy AS deps
 
 WORKDIR /build
 
@@ -16,7 +16,7 @@ COPY build.gradle.kts settings.gradle.kts ./
 RUN chmod +x gradlew
 
 # Download dependencies only to take advantage of Docker layer caching
-# RUN ./gradlew build -x test --refresh-dependencies
+RUN ./gradlew build -x test --refresh-dependencies
 
 ################################################################################
 # Stage 2: Build the application
@@ -28,8 +28,8 @@ WORKDIR /build
 # Copy source code
 COPY src/ src/
 
-# Build Spring Boot executable jar
-#RUN ./gradlew bootJar -x test
+# Build Spring Boot executable jar, skip tests
+RUN ./gradlew bootJar -x test
 
 # Rename jar to app.jar for consistency
 RUN cp build/libs/*.jar build/app.jar
@@ -47,7 +47,7 @@ RUN java -Djarmode=layertools -jar build/app.jar extract --destination build/ext
 ################################################################################
 # Stage 4: Final runtime image
 ################################################################################
-FROM eclipse-temurin:19-jre-jammy AS final
+FROM eclipse-temurin:21-jre-jammy AS final
 
 # Create a non-privileged user
 ARG UID=10001
