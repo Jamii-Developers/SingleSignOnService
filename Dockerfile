@@ -1,51 +1,53 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Stage 1: Download Gradle dependencies
+# Stage 1: Download Gradle dependencies (optimized for CI/CD)
 ################################################################################
 FROM eclipse-temurin:21-jdk-jammy AS deps
 
 WORKDIR /build
 
-# Copy Gradle wrapper and config
+# Copy Gradle wrapper and configuration files
 COPY gradlew .
 COPY gradle/ gradle/
 COPY build.gradle.kts settings.gradle.kts ./
 
-# Make wrapper executable
+# Ensure wrapper is executable
 RUN chmod +x gradlew
 
-# Download dependencies only to take advantage of Docker layer caching
-RUN ./gradlew build -x test --refresh-dependencies
+# Download dependencies only to take advantage of Docker caching
+# --no-daemon prevents Gradle daemon issues in CI/CD environments
+# --stacktrace gives better error logs
+RUN ./gradlew build -x test --refresh-dependencies --no-daemon --stacktrace
 
 ################################################################################
-# Stage 2: Build the application
+# Stage 2: Build the Spring Boot application
 ################################################################################
 FROM deps AS package
 
 WORKDIR /build
 
-# Copy source code
+# Copy application source code
 COPY src/ src/
 
-# Build Spring Boot executable jar, skip tests
-RUN ./gradlew bootJar -x test
+# Build the executable Spring Boot jar, skip tests, disable daemon
+RUN ./gradlew bootJar -x test --no-daemon --stacktrace
 
-# Rename jar to app.jar for consistency
+# Rename the jar to app.jar for consistency
 RUN cp build/libs/*.jar build/app.jar
 
 ################################################################################
-# Stage 3: Extract Spring Boot layers
+# Stage 3: Extract Spring Boot layers for caching
 ################################################################################
 FROM package AS extract
 
 WORKDIR /build
 
-# Extract layered jar for caching
+# Extract layered jar
 RUN java -Djarmode=layertools -jar build/app.jar extract --destination build/extracted
 
 ################################################################################
-# Stage 4: Final runtime image
+# Stage 4: Final runtime image (optimized slim)
 ################################################################################
 FROM eclipse-temurin:21-jre-jammy AS final
 
@@ -63,14 +65,14 @@ USER appuser
 
 WORKDIR /app
 
-# Copy extracted layers
+# Copy only the necessary layers
 COPY --from=extract /build/build/extracted/dependencies/ ./
 COPY --from=extract /build/build/extracted/spring-boot-loader/ ./
-COPY --from=extract /build/build/extracted/snapshot-dependencies/ ./
 COPY --from=extract /build/build/extracted/application/ ./
+# snapshot-dependencies layer omitted to reduce image size
 
-# Expose default Spring Boot port
+# Expose Spring Boot default port
 EXPOSE 8080
 
-# Run the Spring Boot application
+# Run the Spring Boot application with UAT profile
 ENTRYPOINT ["java", "-Dspring.profiles.active=UAT", "org.springframework.boot.loader.JarLauncher"]
