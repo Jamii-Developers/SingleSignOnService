@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Stage 1: Download Gradle dependencies (optimized for CI/CD)
+# Stage 1: Pre-download Gradle dependencies to reduce network issues
 ################################################################################
 FROM eclipse-temurin:21-jdk-jammy AS deps
 
@@ -12,12 +12,10 @@ COPY gradlew .
 COPY gradle/ gradle/
 COPY build.gradle.kts settings.gradle.kts ./
 
-# Ensure wrapper is executable
+# Ensure gradlew is executable
 RUN chmod +x gradlew
 
-# Download dependencies only to take advantage of Docker caching
-# --no-daemon prevents Gradle daemon issues in CI/CD environments
-# --stacktrace gives better error logs
+# Pre-download all dependencies (skip tests)
 RUN ./gradlew build -x test --refresh-dependencies --no-daemon --stacktrace
 
 ################################################################################
@@ -30,10 +28,10 @@ WORKDIR /build
 # Copy application source code
 COPY src/ src/
 
-# Build the executable Spring Boot jar, skip tests, disable daemon
+# Build Spring Boot executable jar, skip tests, no daemon
 RUN ./gradlew bootJar -x test --no-daemon --stacktrace
 
-# Rename the jar to app.jar for consistency
+# Rename jar for consistency
 RUN cp build/libs/*.jar build/app.jar
 
 ################################################################################
@@ -43,15 +41,15 @@ FROM package AS extract
 
 WORKDIR /build
 
-# Extract layered jar
+# Extract layered jar for caching and smaller final image
 RUN java -Djarmode=layertools -jar build/app.jar extract --destination build/extracted
 
 ################################################################################
-# Stage 4: Final runtime image (optimized slim)
+# Stage 4: Final runtime image (slim)
 ################################################################################
 FROM eclipse-temurin:21-jre-jammy AS final
 
-# Create a non-privileged user
+# Create a non-privileged user for security
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -65,13 +63,12 @@ USER appuser
 
 WORKDIR /app
 
-# Copy only the necessary layers
+# Copy only the necessary layers (omit snapshot-dependencies for smaller image)
 COPY --from=extract /build/build/extracted/dependencies/ ./
 COPY --from=extract /build/build/extracted/spring-boot-loader/ ./
 COPY --from=extract /build/build/extracted/application/ ./
-# snapshot-dependencies layer omitted to reduce image size
 
-# Expose Spring Boot default port
+# Expose default Spring Boot port
 EXPOSE 8080
 
 # Run the Spring Boot application with UAT profile
