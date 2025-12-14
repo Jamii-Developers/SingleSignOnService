@@ -57,115 +57,85 @@ public class JamiiRelationshipUtils {
         this.status = status;
     }
 
-    public void initRelationShip(  ){
+    public void initRelationShip() {
 
         // Initial Available BlockList
-        this.userBlockList.dataList = new ArrayList< >( );
-        this.userBlockList.dataList.addAll( userBlockList.fetch( sender, receiver ) );
-        this.userBlockList.dataList.addAll( userBlockList.fetch( receiver, sender ) );
+        this.userBlockList.dataList = new ArrayList<>();
+        this.userBlockList.dataList.addAll(userBlockList.fetch(sender, receiver));
+        this.userBlockList.dataList.addAll(userBlockList.fetch(receiver, sender));
 
         // Initialize Available Requests
-        this.userRequest.dataList = new ArrayList< >( );
-        this.userRequest.dataList.addAll( userRequest.fetch( sender, receiver ) );
-        this.userRequest.dataList.addAll( userRequest.fetch( receiver, sender ) );
+        this.userRequest.dataList = new ArrayList<>();
+        this.userRequest.dataList.addAll(userRequest.fetch(sender, receiver));
+        this.userRequest.dataList.addAll(userRequest.fetch(receiver, sender));
 
         // Initialize Available Relationships
         //Fetch Relationships
-        this.userRelationship.dataList = new ArrayList< >( );
-        this.userRelationship.dataList.addAll( userRelationship.fetch( sender, receiver ) );
-        this.userRelationship.dataList.addAll( userRelationship.fetch( receiver, sender ) );
+        this.userRelationship.dataList = new ArrayList<>();
+        this.userRelationship.dataList.addAll(userRelationship.fetch(sender, receiver));
+        this.userRelationship.dataList.addAll(userRelationship.fetch(receiver, sender));
 
     }
 
-    public boolean checkIfUserIsBlocked( ) {
+    public boolean checkIfUserIsBlocked() {
 
-        if ( !this.userBlockList.dataList.isEmpty()
-                && this.userBlockList.dataList.stream( ).anyMatch(
+        return !this.userBlockList.dataList.isEmpty()
+                && this.userBlockList.dataList.stream().anyMatch(
                 x -> Objects.equals(
-                        x.getStatus(), UserRequest.STATUS_ACTIVE )
-                        && x.getUserid( ) == getReceiver( ) ) )
-        {
-            return true;
-        }
-
-        return false;
+                        x.getStatus(), UserRequest.STATUS_ACTIVE)
+                        && x.getUserid() == getReceiver());
     }
 
-    public boolean checkIfUserHasBlockedReceiver(  ){
+    public boolean checkIfUserHasBlockedReceiver() {
 
-        if ( !this.userBlockList.dataList.isEmpty()
-                && this.userBlockList.dataList.stream( ).anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE )
-                                && x.getUserid( ) == getSender( ) ) ){
-            return true;
-        }
-
-        return false;
+        return !this.userBlockList.dataList.isEmpty()
+                && this.userBlockList.dataList.stream().anyMatch(
+                x -> Objects.equals(x.getStatus(), UserRequest.STATUS_ACTIVE)
+                        && x.getUserid() == getSender());
 
     }
 
-    public boolean checkIfUsersAreFriends( ) {
+    public boolean checkIfUsersAreFriends() {
 
-        if( !this.userRelationship.dataList.isEmpty() &&
+        return !this.userRelationship.dataList.isEmpty() &&
                 this.userRelationship.dataList.stream().anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE )
-                                && Objects.equals( x.getType(), UserRelationship.TYPE_FRIEND) ) ){
-            return true;
-        }
-
-
-        return false;
+                        x -> Objects.equals(x.getStatus(), UserRelationship.STATUS_ACTIVE)
+                                && Objects.equals(x.getType(), UserRelationship.TYPE_FRIEND));
     }
 
-    public boolean checkIfUserIsFollowing(  ){
+    public boolean checkIfUserIsFollowing() {
 
-        if( !this.userRelationship.dataList.isEmpty() &&
+        return !this.userRelationship.dataList.isEmpty() &&
                 this.userRelationship.dataList.stream().anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE ) &&
-                                x.getSenderid( ) == getSender( ) &&
-                                Objects.equals(x.getType(), UserRelationship.TYPE_FOLLOW) ) ){
-            return true;
-        }
-
-        return false;
+                        x -> Objects.equals(x.getStatus(), UserRelationship.STATUS_ACTIVE) &&
+                                x.getSenderid() == getSender() &&
+                                Objects.equals(x.getType(), UserRelationship.TYPE_FOLLOW));
     }
 
-    public boolean checkIfUserHasPendingFriendRequest( ) {
+    public boolean checkIfUserHasPendingFriendRequest() {
 
-        if( !this.userRequest.dataList.isEmpty() &&
+        return !this.userRequest.dataList.isEmpty() &&
                 this.userRequest.dataList.stream().anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) &&
-                                x.getSenderid( ) == getSender( ) &&
-                                Objects.equals(x.getType(), UserRequest.TYPE_FRIEND ) ) ){
-            return true;
-        }
-
-        return false;
+                        x -> Objects.equals(x.getStatus(), UserRequest.STATUS_ACTIVE) &&
+                                x.getSenderid() == getSender() &&
+                                Objects.equals(x.getType(), UserRequest.TYPE_FRIEND));
     }
 
-    public boolean checkifUserHasAPendingRequestFriendFromReceiver( ){
-        if( !this.userRequest.dataList.isEmpty() &&
+    public boolean checkifUserHasAPendingRequestFriendFromReceiver() {
+        return !this.userRequest.dataList.isEmpty() &&
                 this.userRequest.dataList.stream().anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) &&
-                                x.getSenderid( ) == getReceiver( ) &&
-                                Objects.equals(x.getType(), UserRequest.TYPE_FRIEND ) ) ){
-            return true;
-        }
-
-        return false;
+                        x -> Objects.equals(x.getStatus(), UserRequest.STATUS_ACTIVE) &&
+                                x.getSenderid() == getReceiver() &&
+                                Objects.equals(x.getType(), UserRequest.TYPE_FRIEND));
     }
 
-    public boolean checkIfUserHasPendingFollowRequest( ) {
+    public boolean checkIfUserHasPendingFollowRequest() {
 
-        if( !this.userRequest.dataList.isEmpty() &&
+        return !this.userRequest.dataList.isEmpty() &&
                 this.userRequest.dataList.stream().anyMatch(
-                        x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE ) &&
-                                x.getSenderid( ) == getSender( ) &&
-                                Objects.equals(x.getType(), UserRelationship.TYPE_FOLLOW) ) ){
-            return true;
-        }
-
-        return false;
+                        x -> Objects.equals(x.getStatus(), UserRequest.STATUS_ACTIVE) &&
+                                x.getSenderid() == getSender() &&
+                                Objects.equals(x.getType(), UserRelationship.TYPE_FOLLOW));
     }
 
 }

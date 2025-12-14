@@ -44,7 +44,6 @@ public class FileTableOwnerTBL {
     private Long filesize;
 
     @Column( name = DATE_CREATED )
-    @GeneratedValue( strategy= GenerationType.IDENTITY )
     private LocalDateTime datecreated;
 
     @Column( name = STATUS , nullable = false)
