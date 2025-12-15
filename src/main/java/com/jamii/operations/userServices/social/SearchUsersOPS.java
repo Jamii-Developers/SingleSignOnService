@@ -65,11 +65,12 @@ public class SearchUsersOPS
             SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
 
             // Fetch user information
-            this.userLogin.otherUser = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
-            if (this.userLogin.data == null || this.userLogin.otherUser == null) {
+            this.userLogin.data = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
+            if ( this.userLogin.data.getId() == null ) {
                 this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
                 this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
                 this.isSuccessful = false;
+                return;
             }
 
             // Run searches in parallel
@@ -80,7 +81,7 @@ public class SearchUsersOPS
             CompletableFuture.allOf(emailUsernameSearch, namesSearch).join();
         }
         catch (Exception e) {
-            jamiiLoggingUtils.ExceptionLogger(this.getClass().getName(), e, null);
+            jamiiLoggingUtils.ExceptionLogger(this.getClass().getName(), e, this.userLogin.data );
             this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
             setIsSuccessful(false);
