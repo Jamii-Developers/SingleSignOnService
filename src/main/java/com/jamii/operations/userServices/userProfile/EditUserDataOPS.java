@@ -2,6 +2,7 @@ package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.jamiidb.controllers.UserData;
+import com.jamii.jamiidb.controllers.UserDataHistory;
 import com.jamii.jamiidb.controllers.UserLogin;
 import com.jamii.jamiidb.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
@@ -21,6 +22,7 @@ public class EditUserDataOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private UserData userData;
+    @Autowired private UserDataHistory userDataHistory;
 
     public EditUserDataOPS() {}
 
@@ -47,11 +49,11 @@ public class EditUserDataOPS
         EditUserDataServicesREQ req = (EditUserDataServicesREQ) JamiiMapperUtils.mapObject(getRequest(), EditUserDataServicesREQ.class);
         Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON);
 
-        //Find userData currently active and deactivate them all
-        this.userData.markAllPreviousUserDataInActive(user.get());
-
         //Adds the latest userData to the database
-        this.userData.add(user.get(), req);
+        this.userData.add(user.get( ), req);
+
+        //Create a record of the new update
+        this.userDataHistory.copyUserData( this.userData.data );
 
         //Updates Privacy Settings
         user.get().setPrivacy(req.getPrivacy());

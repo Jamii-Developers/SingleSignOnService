@@ -1,12 +1,16 @@
 package com.jamii.jamiidb.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,19 +41,20 @@ public class UserLoginTBL
     @Column(name = DATE_CREATED, nullable = false) private LocalDateTime datecreated;
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
     //Foreign Keys
-    @OneToMany(mappedBy = "userloginid") private List<DeviceInformationTBL> deviceInformationTBL;
-    @OneToMany(mappedBy = "userloginid") private List<UserDataTBL> userDataTBL;
-    @OneToMany(mappedBy = "userloginid") private List<PasswordHashRecordsTBL> passwordHashRecordsTBL;
-    @OneToMany(mappedBy = "userloginid") private List<UserGroupsTBL> userGroupsTBL;
-    @OneToMany(mappedBy = "userloginid") private List<UserRolesTBL> userRolesTBL;
-    @OneToMany(mappedBy = "userloginid") private List<FileTableOwnerTBL> fileTableOwnerTBL;
-    @OneToMany(mappedBy = "userloginid") private List<FileDirectoryTBL> fileDirectoryTBL;
-    @OneToMany(mappedBy = "userloginid") private List<UserCookiesTBL> userCookiesTBL;
-    @OneToMany(mappedBy = "senderid") private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
-    @OneToMany(mappedBy = "senderid") private List<UserRequestsTBL> senderIDUserRequests;
-    @OneToMany(mappedBy = "receiverid") private List<UserRequestsTBL> receiverIDUserRequests;
-    @OneToMany(mappedBy = "userid") private List<UserBlockListTBL> useridUserBlockListTBL;
-    @OneToMany(mappedBy = "blockedid") private List<UserBlockListTBL> blockedidUserBlockListTBL;
+    @OneToOne( mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private UserDataTBL userData;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<DeviceInformationTBL> deviceInformation;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<PasswordHashRecordsTBL> passwordHashRecord;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserGroupsTBL> userGroupsTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRolesTBL> userRolesTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<FileTableOwnerTBL> fileTableOwnerTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<FileDirectoryTBL> fileDirectoryTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserCookiesTBL> userCookiesTBL;
+    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
+    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRelationshipTBL> receiverIDuserRelationshipTBLS;
+    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRequestsTBL> senderIDUserRequests;
+    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRequestsTBL> receiverIDUserRequests;
+    @OneToMany(mappedBy = "userid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserBlockListTBL> useridUserBlockListTBL;
+    @OneToMany(mappedBy = "blockedid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserBlockListTBL> blockedidUserBlockListTBL;
 
     public UserLoginTBL() {}
 
@@ -163,34 +168,34 @@ public class UserLoginTBL
         this.auxdata = auxdata;
     }
 
-    public List<DeviceInformationTBL> getDeviceInformationTBL()
+    public List<DeviceInformationTBL> getDeviceInformation()
     {
-        return deviceInformationTBL;
+        return deviceInformation;
     }
 
-    public void setDeviceInformationTBL(List<DeviceInformationTBL> deviceInformationTBL)
+    public void setDeviceInformation(List<DeviceInformationTBL> deviceInformation)
     {
-        this.deviceInformationTBL = deviceInformationTBL;
+        this.deviceInformation = deviceInformation;
     }
 
-    public List<UserDataTBL> getUserDataTBL()
+    public void setUserData(UserDataTBL userData)
     {
-        return userDataTBL;
+        this.userData = userData;
     }
 
-    public void setUserDataTBL(List<UserDataTBL> userDataTBL)
+    public List<UserRelationshipTBL> getSenderIDuserRelationshipTBLS()
     {
-        this.userDataTBL = userDataTBL;
+        return senderIDuserRelationshipTBLS;
     }
 
-    public List<PasswordHashRecordsTBL> getPasswordHashRecordsTBL()
+    public List<PasswordHashRecordsTBL> getPasswordHashRecord()
     {
-        return passwordHashRecordsTBL;
+        return passwordHashRecord;
     }
 
-    public void setPasswordHashRecordsTBL(List<PasswordHashRecordsTBL> passwordHashRecordsTBL)
+    public void setPasswordHashRecord(List<PasswordHashRecordsTBL> passwordHashRecord)
     {
-        this.passwordHashRecordsTBL = passwordHashRecordsTBL;
+        this.passwordHashRecord = passwordHashRecord;
     }
 
     public List<UserGroupsTBL> getUserGroupsTBL()
@@ -243,7 +248,7 @@ public class UserLoginTBL
         this.userCookiesTBL = userCookiesTBL;
     }
 
-    public List<UserRelationshipTBL> getSenderIDuserRelationshipTBLS()
+    public List<UserRelationshipTBL> getSenderIDuserRelationship()
     {
         return senderIDuserRelationshipTBLS;
     }
@@ -251,6 +256,16 @@ public class UserLoginTBL
     public void setSenderIDuserRelationshipTBLS(List<UserRelationshipTBL> senderIDuserRelationshipTBLS)
     {
         this.senderIDuserRelationshipTBLS = senderIDuserRelationshipTBLS;
+    }
+
+    public List<UserRelationshipTBL> getReceiverIDuserRelationshipTBLS()
+    {
+        return receiverIDuserRelationshipTBLS;
+    }
+
+    public void setReceiverIDuserRelationshipTBLS(List<UserRelationshipTBL> receiverIDuserRelationshipTBLS)
+    {
+        this.receiverIDuserRelationshipTBLS = receiverIDuserRelationshipTBLS;
     }
 
     public List<UserRequestsTBL> getSenderIDUserRequests()
@@ -291,5 +306,10 @@ public class UserLoginTBL
     public void setBlockedidUserBlockListTBL(List<UserBlockListTBL> blockedidUserBlockListTBL)
     {
         this.blockedidUserBlockListTBL = blockedidUserBlockListTBL;
+    }
+
+    public UserDataTBL getUserData()
+    {
+        return userData;
     }
 }

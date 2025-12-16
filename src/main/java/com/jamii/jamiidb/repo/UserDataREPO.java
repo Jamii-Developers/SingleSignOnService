@@ -10,11 +10,11 @@ public interface UserDataREPO
         extends CrudRepository<UserDataTBL, Integer>
 {
 
-    List<UserDataTBL> findByUserloginidAndCurrent(UserLoginTBL userLoginTBL, boolean current);
+    List<UserDataTBL> findByUserloginid(UserLoginTBL userLoginTBL);
 
-    List<UserDataTBL> findByFirstnameStartingWithAndCurrent(String searchString, Boolean currentStatusOn);
+    List<UserDataTBL> findByFirstnameStartingWith(String searchString);
 
-    List<UserDataTBL> findByLastnameStartingWithAndCurrent(String searchString, Boolean currentStatusOn);
+    List<UserDataTBL> findByLastnameStartingWith(String searchString);
 
-    List<UserDataTBL> findByMiddlenameStartingWithAndCurrent(String searchString, Boolean currentStatusOn);
+    List<UserDataTBL> findByMiddlenameStartingWith(String searchString);
 }

@@ -1,29 +1,25 @@
 package com.jamii.jamiidb.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
-@Table(name = "user_data", schema = "jamiidb")
-public class UserDataTBL
+@Table(name = "user_data_history", schema = "jamiidb")
+public class UserDataHistoryTBL
 {
-    public static final String TABLE_NAME = "user_data";
+
+    public static final String TABLE_NAME = "user_data_history";
     public static final String ID = "ID";
-    public static final String USER_LOGIN_ID = "USER_LOGIN_ID";
+    public static final String USER_DATA_ID = "USER_DATA_ID";
     public static final String FIRST_NAME = "FIRST_NAME";
     public static final String LAST_NAME = "LAST_NAME";
     public static final String MIDDLE_NAME = "MIDDLE_NAME";
@@ -52,10 +48,9 @@ public class UserDataTBL
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
 
     //Foreign Keys
-    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
-    @OneToMany(mappedBy = "userdataid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE) private List<UserDataHistoryTBL> userdatahistorylist;
+    @ManyToOne @JoinColumn(name = USER_DATA_ID, nullable = false) private UserDataTBL userdataid;
 
-    public UserDataTBL() {}
+    public UserDataHistoryTBL() {}
 
     public Integer getId()
     {
@@ -197,23 +192,13 @@ public class UserDataTBL
         this.auxdata = auxdata;
     }
 
-    public UserLoginTBL getUserloginid()
+    public UserDataTBL getUserdataid()
     {
-        return userloginid;
+        return userdataid;
     }
 
-    public void setUserloginid(UserLoginTBL userloginid)
+    public void setUserdataid(UserDataTBL userdataid)
     {
-        this.userloginid = userloginid;
-    }
-
-    public List<UserDataHistoryTBL> getUserdatahistorylist()
-    {
-        return userdatahistorylist;
-    }
-
-    public void setUserdatahistorylist(List<UserDataHistoryTBL> userdatahistorylist)
-    {
-        this.userdatahistorylist = userdatahistorylist;
+        this.userdataid = userdataid;
     }
 }

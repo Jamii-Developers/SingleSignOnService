@@ -61,19 +61,46 @@ public class JamiiRelationshipUtils {
 
         // Initial Available BlockList
         this.userBlockList.dataList = new ArrayList<>();
-        this.userBlockList.dataList.addAll(userBlockList.fetch(sender, receiver));
-        this.userBlockList.dataList.addAll(userBlockList.fetch(receiver, sender));
+        this.userBlockList.dataList.addAll(
+                sender.getUseridUserBlockListTBL().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserBlockList.STATUS_ACTIVE) && Objects.equals( x.getBlockedid().getId(), receiver.getId( ) ) )
+                        .toList()
+        );
+
+        this.userBlockList.dataList.addAll(
+                receiver.getBlockedidUserBlockListTBL().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserBlockList.STATUS_ACTIVE) && Objects.equals( x.getBlockedid().getId(), sender.getId( ) ) )
+                        .toList()
+        );
 
         // Initialize Available Requests
         this.userRequest.dataList = new ArrayList<>();
-        this.userRequest.dataList.addAll(userRequest.fetch(sender, receiver));
-        this.userRequest.dataList.addAll(userRequest.fetch(receiver, sender));
+        this.userRequest.dataList.addAll(
+                sender.getSenderIDUserRequests().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && Objects.equals( x.getReceiverid().getId(), receiver.getId( ) ) )
+                        .toList()
+        );
+
+        this.userRequest.dataList.addAll(
+                receiver.getSenderIDUserRequests().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserRequest.STATUS_ACTIVE) && Objects.equals( x.getReceiverid().getId(), sender.getId( ) ) )
+                        .toList()
+        );
 
         // Initialize Available Relationships
-        //Fetch Relationships
         this.userRelationship.dataList = new ArrayList<>();
-        this.userRelationship.dataList.addAll(userRelationship.fetch(sender, receiver));
-        this.userRelationship.dataList.addAll(userRelationship.fetch(receiver, sender));
+        this.userRelationship.dataList.addAll(
+                sender.getSenderIDuserRelationship().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE) && Objects.equals( x.getReceiverid().getId(), receiver.getId( ) ) )
+                        .toList()
+        );
+
+        this.userRelationship.dataList.addAll(
+                receiver.getSenderIDuserRelationship().stream()
+                        .filter( x -> Objects.equals( x.getStatus(), UserRelationship.STATUS_ACTIVE) && Objects.equals( x.getReceiverid().getId(), sender.getId( ) ) )
+                        .toList()
+        );
+
 
     }
 

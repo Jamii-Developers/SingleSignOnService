@@ -17,30 +17,46 @@ public class UserData
 {
 
     /**
-     * Below are the Current Statuses. "Current" reffers to the most recent record of a particular user
+     * Below are the Current Statuses. "Current" refers to the most recent record of a particular user
+     *
+     * 2025-12-16 - This status is no longer needed.
+     *
      */
+    @Deprecated
     public static final Boolean CURRENT_STATUS_OFF = false;
+    @Deprecated
     public static final Boolean CURRENT_STATUS_ON = true;
 
     //Creating a table object to reference when creating data for that table
     public UserDataTBL data = new UserDataTBL();
     public ArrayList<UserDataTBL> dataList = new ArrayList<>();
+
     @Autowired private UserDataREPO userDataREPO;
 
-    public void markAllPreviousUserDataInActive(UserLoginTBL user)
+    /**
+     * All updates old user profile snapshots will be added to the user data history at the time of saving
+     * @param user
+     */
+    @Deprecated
+    public void migratePreviousRecordtoUserHistory(UserLoginTBL user)
     {
+
         List<UserDataTBL> records = new ArrayList<>();
-        for (UserDataTBL record : this.userDataREPO.findByUserloginidAndCurrent(user, CURRENT_STATUS_ON)) {
-            record.setCurrent(CURRENT_STATUS_OFF);
+        for (UserDataTBL record : this.userDataREPO.findByUserloginid(user)) {
             records.add(record);
         }
+
         userDataREPO.saveAll(records);
     }
 
-    public void add(UserLoginTBL user, EditUserDataServicesREQ editUserDataREQ)
+    public void add( UserLoginTBL user, EditUserDataServicesREQ editUserDataREQ )
     {
 
-        data = new UserDataTBL();
+        if (user.getUserData() != null) {
+            data = user.getUserData( );
+        }else{
+            data = new UserDataTBL();
+        }
         data.setFirstname(editUserDataREQ.getFirstname());
         data.setLastname(editUserDataREQ.getLastname());
         data.setMiddlename(editUserDataREQ.getMiddlename());
@@ -52,7 +68,6 @@ public class UserData
         data.setCity(editUserDataREQ.getCity());
         data.setCountry(editUserDataREQ.getCountry());
         data.setZipcode(editUserDataREQ.getZipcode());
-        data.setCurrent(CURRENT_STATUS_ON);
         data.setLastupdated(LocalDateTime.now());
         data.setUserloginid(user);
 
@@ -61,22 +76,22 @@ public class UserData
 
     public Optional<UserDataTBL> fetch(UserLoginTBL user, Boolean active)
     {
-        return this.userDataREPO.findByUserloginidAndCurrent(user, active).stream().findFirst();
+        return this.userDataREPO.findByUserloginid( user ).stream().findFirst();
     }
 
     public List<UserDataTBL> searchUserFirstname(String searchString)
     {
-        return this.userDataREPO.findByFirstnameStartingWithAndCurrent(searchString, CURRENT_STATUS_ON);
+        return this.userDataREPO.findByFirstnameStartingWith(searchString);
     }
 
     public List<UserDataTBL> searchUserLastname(String searchString)
     {
-        return this.userDataREPO.findByLastnameStartingWithAndCurrent(searchString, CURRENT_STATUS_ON);
+        return this.userDataREPO.findByLastnameStartingWith(searchString);
     }
 
     public List<UserDataTBL> searchUserMiddlename(String searchString)
     {
-        return this.userDataREPO.findByMiddlenameStartingWithAndCurrent(searchString, CURRENT_STATUS_ON);
+        return this.userDataREPO.findByMiddlenameStartingWith(searchString);
     }
 
     public void save()

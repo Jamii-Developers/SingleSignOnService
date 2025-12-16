@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +35,7 @@ public class SearchUsersOPS
     @Autowired JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired private UserLogin userLogin;
     @Autowired private UserData userData;
-    @Autowired private JamiiRelationshipUtils jamiiRelationshipUtils;
+    @Autowired private JamiiRelationshipUtils rutils;
 
     @Override
     public void validateCookie()
@@ -114,43 +113,44 @@ public class SearchUsersOPS
     @Transactional(readOnly = true)
     public CompletableFuture<Void> searchUsingEmailAndUsername(SearchUserServicesREQ req)
     {
-        List<CompletableFuture<List<UserLoginTBL>>> loginFutures = Arrays.asList(CompletableFuture.supplyAsync(() -> this.userLogin.searchUserUsername(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userLogin.searchUserEmailAddress(req.getSearchstring())));
+        List<UserLoginTBL> allUsers = List.of(
+                        userLogin.searchUserUsername(req.getSearchstring()),
+                        userLogin.searchUserEmailAddress(req.getSearchstring())
+                ).stream().flatMap(List::stream).toList();
 
-        List<UserLoginTBL> allLoginUsers = loginFutures.stream().map(CompletableFuture::join).flatMap(List::stream).toList();
+        for( UserLoginTBL user : allUsers ){
 
-        allLoginUsers.parallelStream().forEach(user -> {
-            if (Objects.equals(this.userLogin.data.getId(), user.getId())) {
-                return;
+            if( Objects.equals(this.userLogin.data.getId(), user.getId())){
+                continue;
             }
 
-            Optional<UserDataTBL> userdata = this.userData.fetch(user, UserData.CURRENT_STATUS_ON);
-            jamiiRelationshipUtils.setSender(this.userLogin.data);
-            jamiiRelationshipUtils.setReceiver(user);
-            jamiiRelationshipUtils.initRelationShip();
+            rutils.setSender(this.userLogin.data);
+            rutils.setReceiver(user);
+            rutils.initRelationShip();
 
-            if (jamiiRelationshipUtils.checkIfUserIsBlocked() || jamiiRelationshipUtils.checkIfUserHasBlockedReceiver()) {
-                return;
+            if (rutils.checkIfUserIsBlocked() || rutils.checkIfUserHasBlockedReceiver()) {
+                continue;
             }
 
             SearchResultsHelper.SearchResults obj = new SearchResultsHelper.SearchResults();
             obj.setUSERNAME(user.getUsername());
             obj.setUSER_KEY(user.getUserKey());
-            if (userdata.isPresent()) {
-                obj.setFIRSTNAME(userdata.get().getFirstname());
-                obj.setLASTNAME(userdata.get().getLastname());
+            if ( user.getUserData() != null ) {
+                obj.setFIRSTNAME(user.getUserData().getFirstname());
+                obj.setLASTNAME(user.getUserData().getLastname());
             }
             else {
                 obj.setFIRSTNAME("N/A");
                 obj.setLASTNAME("N/A");
             }
 
-            obj.setFriend(jamiiRelationshipUtils.checkIfUsersAreFriends());
-            obj.setFollowing(jamiiRelationshipUtils.checkIfUserIsFollowing());
-            obj.setHasPendingFriendRequest(jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest());
-            obj.setHasPendingFollowingRequest(jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest());
+            obj.setFriend(rutils.checkIfUsersAreFriends());
+            obj.setFollowing(rutils.checkIfUserIsFollowing());
+            obj.setHasPendingFriendRequest(rutils.checkIfUserHasPendingFriendRequest());
+            obj.setHasPendingFollowingRequest(rutils.checkIfUserHasPendingFollowRequest());
 
             this.searchResults.putIfAbsent(user.getUserKey(), obj);
-        });
+        };
         return CompletableFuture.completedFuture(null);
     }
 
@@ -158,22 +158,26 @@ public class SearchUsersOPS
     @Transactional(readOnly = true)
     public CompletableFuture<Void> searchUsingNames(SearchUserServicesREQ req)
     {
-        List<CompletableFuture<List<UserDataTBL>>> futures = Arrays.asList(CompletableFuture.supplyAsync(() -> this.userData.searchUserFirstname(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userData.searchUserMiddlename(req.getSearchstring())), CompletableFuture.supplyAsync(() -> this.userData.searchUserLastname(req.getSearchstring())));
+        List<UserDataTBL> allUsers =
+                List.of(
+                        userData.searchUserFirstname(req.getSearchstring()),
+                        userData.searchUserMiddlename(req.getSearchstring()),
+                        userData.searchUserLastname(req.getSearchstring())
+                ).stream().flatMap(List::stream).toList();
 
-        List<UserDataTBL> allUsers = futures.stream().map(CompletableFuture::join).flatMap(List::stream).toList();
+        for( UserDataTBL userdata : allUsers ){
 
-        allUsers.parallelStream().forEach(userdata -> {
-            Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey(userdata.getUserloginid().getUserKey(), UserLogin.ACTIVE_ON);
+            Optional<UserLoginTBL> user = Optional.ofNullable( userdata.getUserloginid() );
             if (user.isEmpty() || Objects.equals(this.userLogin.data.getId(), user.get().getId())) {
-                return;
+                continue;
             }
 
-            jamiiRelationshipUtils.setSender(this.userLogin.data);
-            jamiiRelationshipUtils.setReceiver(user.get());
-            jamiiRelationshipUtils.initRelationShip();
+            rutils.setSender(this.userLogin.data);
+            rutils.setReceiver(user.get());
+            rutils.initRelationShip();
 
-            if (jamiiRelationshipUtils.checkIfUserIsBlocked() || jamiiRelationshipUtils.checkIfUserHasBlockedReceiver()) {
-                return;
+            if (rutils.checkIfUserIsBlocked() || rutils.checkIfUserHasBlockedReceiver()) {
+                continue;
             }
 
             SearchResultsHelper.SearchResults obj = new SearchResultsHelper.SearchResults();
@@ -181,13 +185,13 @@ public class SearchUsersOPS
             obj.setUSER_KEY(user.get().getUserKey());
             obj.setFIRSTNAME(userdata.getFirstname());
             obj.setLASTNAME(userdata.getLastname());
-            obj.setFriend(jamiiRelationshipUtils.checkIfUsersAreFriends());
-            obj.setFollowing(jamiiRelationshipUtils.checkIfUserIsFollowing());
-            obj.setHasPendingFriendRequest(jamiiRelationshipUtils.checkIfUserHasPendingFriendRequest());
-            obj.setHasPendingFollowingRequest(jamiiRelationshipUtils.checkIfUserHasPendingFollowRequest());
+            obj.setFriend(rutils.checkIfUsersAreFriends());
+            obj.setFollowing(rutils.checkIfUserIsFollowing());
+            obj.setHasPendingFriendRequest(rutils.checkIfUserHasPendingFriendRequest());
+            obj.setHasPendingFollowingRequest(rutils.checkIfUserHasPendingFollowRequest());
 
             this.searchResults.putIfAbsent(user.get().getUserKey(), obj);
-        });
+        };
         return CompletableFuture.completedFuture(null);
     }
 }
