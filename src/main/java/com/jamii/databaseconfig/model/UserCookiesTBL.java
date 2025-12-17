@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_cookies", schema = "databaseconfig")
+@Table(name = "user_cookies", schema = "jamiidb")
 public class UserCookiesTBL
 {
     public static final String TABLE_NAME = "user_cookies";

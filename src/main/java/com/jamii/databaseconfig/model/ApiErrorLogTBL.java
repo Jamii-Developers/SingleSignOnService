@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "system_error_logs", schema = "databaseconfig")
+@Table(name = "system_error_logs", schema = "jamiidb")
 public class ApiErrorLogTBL
 {
 

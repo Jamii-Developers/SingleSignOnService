@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = "file_directory", schema = "databaseconfig")
+@Table(name = "file_directory", schema = "jamiidb")
 public class FileDirectoryTBL
 {
 

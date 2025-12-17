@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "file_table_owner", schema = "databaseconfig")
+@Table(name = "file_table_owner", schema = "jamiidb")
 public class FileTableOwnerTBL
 {
 

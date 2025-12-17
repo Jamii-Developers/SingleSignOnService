@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "user_data", schema = "databaseconfig")
+@Table(name = "user_data", schema = "jamiidb")
 public class UserDataTBL
 {
     public static final String TABLE_NAME = "user_data";
