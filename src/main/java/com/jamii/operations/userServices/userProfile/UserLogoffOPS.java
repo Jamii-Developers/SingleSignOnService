@@ -1,12 +1,12 @@
 package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.DeviceInformation;
-import com.jamii.jamiidb.controllers.UserCookies;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.DeviceInformationTBL;
-import com.jamii.jamiidb.model.UserCookiesTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.DeviceInformation;
+import com.jamii.databaseconfig.controllers.UserCookies;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.DeviceInformationTBL;
+import com.jamii.databaseconfig.model.UserCookiesTBL;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.UserLogoffREQ;
 import com.jamii.responses.userResponses.profileResponses.UserLogoffRESP;

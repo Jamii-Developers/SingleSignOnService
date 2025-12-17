@@ -1,11 +1,11 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserBlockList;
-import com.jamii.jamiidb.controllers.UserData;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.UserBlockListTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.UserBlockList;
+import com.jamii.databaseconfig.controllers.UserData;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.UserBlockListTBL;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.operations.userServices.social.Utils.SearchResultsHelper;
 import com.jamii.requests.userServices.socialREQ.GetBlockUserListServicesREQ;

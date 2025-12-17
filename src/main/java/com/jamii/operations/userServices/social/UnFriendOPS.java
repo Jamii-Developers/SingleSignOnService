@@ -1,10 +1,10 @@
 package com.jamii.operations.userServices.social;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.controllers.UserRelationship;
-import com.jamii.jamiidb.model.UserLoginTBL;
-import com.jamii.jamiidb.model.UserRelationshipTBL;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.controllers.UserRelationship;
+import com.jamii.databaseconfig.model.UserLoginTBL;
+import com.jamii.databaseconfig.model.UserRelationshipTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.UnFriendServicesREQ;
 import com.jamii.responses.userResponses.socialResponses.UnFriendRESP;

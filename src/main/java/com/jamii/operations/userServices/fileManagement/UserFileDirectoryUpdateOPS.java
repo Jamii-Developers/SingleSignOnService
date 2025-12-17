@@ -2,9 +2,9 @@ package com.jamii.operations.userServices.fileManagement;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.FileDirectory;
-import com.jamii.jamiidb.controllers.FileTableOwner;
-import com.jamii.jamiidb.controllers.UserLogin;
+import com.jamii.databaseconfig.controllers.FileDirectory;
+import com.jamii.databaseconfig.controllers.FileTableOwner;
+import com.jamii.databaseconfig.controllers.UserLogin;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.fileManagementREQ.UserFileDirectoryUpdateREQ;
 import com.jamii.responses.userResponses.fileManagement.UserFileDirectoryUpdateRESP;

@@ -1,9 +1,9 @@
 package com.jamii.Utils;
 
-import com.jamii.jamiidb.controllers.UserBlockList;
-import com.jamii.jamiidb.controllers.UserRelationship;
-import com.jamii.jamiidb.controllers.UserRequest;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.UserBlockList;
+import com.jamii.databaseconfig.controllers.UserRelationship;
+import com.jamii.databaseconfig.controllers.UserRequest;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

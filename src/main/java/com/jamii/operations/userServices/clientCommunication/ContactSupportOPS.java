@@ -1,9 +1,9 @@
 package com.jamii.operations.userServices.clientCommunication;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.ClientCommunication;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.ClientCommunicationTBL;
+import com.jamii.databaseconfig.controllers.ClientCommunication;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.ClientCommunicationTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.clientCommunicationREQ.ContactSupportServicesREQ;
 import com.jamii.responses.userResponses.clientCommunication.ContactSupportRESP;

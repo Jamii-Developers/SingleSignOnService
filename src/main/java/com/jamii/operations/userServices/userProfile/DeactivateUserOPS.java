@@ -1,8 +1,8 @@
 package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.profileREQ.DeactivateUserREQ;
 import com.jamii.responses.userResponses.profileResponses.DeactivateUserRESP;

@@ -1,7 +1,7 @@
 package com.jamii.responses.userResponses.socialResponses;
 
 import com.jamii.Utils.JamiiConstants;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.responses.AbstractResponses;
 
 public class RejectFriendRequestRESP extends AbstractResponses {

@@ -2,10 +2,10 @@ package com.jamii.operations.userServices.userProfile;
 
 import com.jamii.Utils.JamiiMapperUtils;
 import com.jamii.Utils.JamiiStringUtils;
-import com.jamii.jamiidb.controllers.UserData;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.UserDataTBL;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.UserData;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.UserDataTBL;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.operations.userServices.AbstractUserServicesOPS;
 import com.jamii.requests.userServices.socialREQ.FetchUserDataREQ;
 import com.jamii.responses.userResponses.profileResponses.FetchUserProfileRESP;

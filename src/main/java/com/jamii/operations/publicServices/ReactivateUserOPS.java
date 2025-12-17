@@ -1,8 +1,8 @@
 package com.jamii.operations.publicServices;
 
 import com.jamii.Utils.JamiiMapperUtils;
-import com.jamii.jamiidb.controllers.UserLogin;
-import com.jamii.jamiidb.model.UserLoginTBL;
+import com.jamii.databaseconfig.controllers.UserLogin;
+import com.jamii.databaseconfig.model.UserLoginTBL;
 import com.jamii.requests.publicServices.ReactivateUserREQ;
 import com.jamii.responses.publicResponses.ReactivateUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
