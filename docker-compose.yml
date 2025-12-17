@@ -4,7 +4,7 @@ services:
     container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: A9x#Lp7qRz2!WvE
-      MYSQL_DATABASE: databaseconfig
+      MYSQL_DATABASE: jamiidb
       MYSQL_USER: system
       MYSQL_PASSWORD: A9x#Lp7qRz2!WvE
     ports:
