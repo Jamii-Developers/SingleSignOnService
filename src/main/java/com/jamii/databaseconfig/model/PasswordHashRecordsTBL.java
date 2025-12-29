@@ -1,14 +1,8 @@
 package com.jamii.databaseconfig.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +24,9 @@ public class PasswordHashRecordsTBL
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
 
     //Foreign Keys
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
+    @ManyToOne @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
+    @OneToOne( mappedBy = "passwordhashrecordsid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE) private PasswordHashRecordsHistoryTBL passwordHashRecordsHistory;
+
 
     public PasswordHashRecordsTBL()
     {

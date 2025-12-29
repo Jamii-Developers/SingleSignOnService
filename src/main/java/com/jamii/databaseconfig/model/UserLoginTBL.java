@@ -42,19 +42,19 @@ public class UserLoginTBL
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
     //Foreign Keys
     @OneToOne( mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private UserDataTBL userData;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<DeviceInformationTBL> deviceInformation;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<PasswordHashRecordsTBL> passwordHashRecord;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserGroupsTBL> userGroupsTBL;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRolesTBL> userRolesTBL;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<FileTableOwnerTBL> fileTableOwnerTBL;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<FileDirectoryTBL> fileDirectoryTBL;
-    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserCookiesTBL> userCookiesTBL;
-    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
-    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRelationshipTBL> receiverIDuserRelationshipTBLS;
-    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRequestsTBL> senderIDUserRequests;
-    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRequestsTBL> receiverIDUserRequests;
-    @OneToMany(mappedBy = "userid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserBlockListTBL> useridUserBlockListTBL;
-    @OneToMany(mappedBy = "blockedid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserBlockListTBL> blockedidUserBlockListTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE) private List<DeviceInformationTBL> deviceInformation;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<PasswordHashRecordsTBL> passwordHashRecord;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserGroupsTBL> userGroupsTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserRolesTBL> userRolesTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<FileTableOwnerTBL> fileTableOwnerTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<FileDirectoryTBL> fileDirectoryTBL;
+    @OneToMany(mappedBy = "userloginid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserCookiesTBL> userCookiesTBL;
+    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserRelationshipTBL> senderIDuserRelationshipTBLS;
+    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserRelationshipTBL> receiverIDuserRelationshipTBLS;
+    @OneToMany(mappedBy = "senderid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserRequestsTBL> senderIDUserRequests;
+    @OneToMany(mappedBy = "receiverid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserRequestsTBL> receiverIDUserRequests;
+    @OneToMany(mappedBy = "userid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserBlockListTBL> useridUserBlockListTBL;
+    @OneToMany(mappedBy = "blockedid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) @OnDelete(action = OnDeleteAction.CASCADE)private List<UserBlockListTBL> blockedidUserBlockListTBL;
 
     public UserLoginTBL() {}
 
