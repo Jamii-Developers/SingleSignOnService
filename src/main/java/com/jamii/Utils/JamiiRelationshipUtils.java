@@ -59,7 +59,7 @@ public class JamiiRelationshipUtils {
 
     public void initRelationShip() {
 
-        // Initial Available BlockList
+        // Initialize Available BlockList
         this.userBlockList.dataList = new ArrayList<>();
         this.userBlockList.dataList.addAll(
                 sender.getUseridUserBlockListTBL().stream()
@@ -104,6 +104,12 @@ public class JamiiRelationshipUtils {
 
     }
 
+    /**
+     * Check if a specific sender ID is blocked by a receiver
+     *
+     * @return true or false
+     */
+
     public boolean checkIfUserIsBlocked() {
 
         return !this.userBlockList.dataList.isEmpty()
@@ -113,6 +119,11 @@ public class JamiiRelationshipUtils {
                         && x.getUserid() == getReceiver());
     }
 
+    /**
+     * Check if a sender ID has blocked a receiver
+     *
+     * @return true or false
+     */
     public boolean checkIfUserHasBlockedReceiver() {
 
         return !this.userBlockList.dataList.isEmpty()
@@ -122,6 +133,11 @@ public class JamiiRelationshipUtils {
 
     }
 
+    /**
+     * Check a Sender ID and Receiver ID have a valid relationship
+     *
+     * @return true or false
+     */
     public boolean checkIfUsersAreFriends() {
 
         return !this.userRelationship.dataList.isEmpty() &&
@@ -130,6 +146,11 @@ public class JamiiRelationshipUtils {
                                 && Objects.equals(x.getType(), UserRelationship.TYPE_FRIEND));
     }
 
+    /**
+     * Check if a Sender ID is following a Receiver ID.
+     *
+     * @return true or false
+     */
     public boolean checkIfUserIsFollowing() {
 
         return !this.userRelationship.dataList.isEmpty() &&
@@ -139,6 +160,11 @@ public class JamiiRelationshipUtils {
                                 Objects.equals(x.getType(), UserRelationship.TYPE_FOLLOW));
     }
 
+    /**
+     * Check if there is a pending Sender ID Friend Request.
+     *
+     * @return true or false
+     */
     public boolean checkIfUserHasPendingFriendRequest() {
 
         return !this.userRequest.dataList.isEmpty() &&
@@ -148,6 +174,11 @@ public class JamiiRelationshipUtils {
                                 Objects.equals(x.getType(), UserRequest.TYPE_FRIEND));
     }
 
+    /**
+     * Check if there is a pending Receiver ID Friend Request
+     *
+     * @return true or false
+     */
     public boolean checkifUserHasAPendingRequestFriendFromReceiver() {
         return !this.userRequest.dataList.isEmpty() &&
                 this.userRequest.dataList.stream().anyMatch(
@@ -155,6 +186,12 @@ public class JamiiRelationshipUtils {
                                 x.getSenderid() == getReceiver() &&
                                 Objects.equals(x.getType(), UserRequest.TYPE_FRIEND));
     }
+
+    /**
+     * Check if Sender ID has pending Receiver ID Follow Request
+     *
+     * @return true or false
+     */
 
     public boolean checkIfUserHasPendingFollowRequest() {
 

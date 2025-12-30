@@ -42,6 +42,12 @@ public class JamiiRandomKeyToolGen {
         this.include_special_chars = include_special_chars;
     }
 
+    /**
+     * Generates a Key that can be used for multiple purposes
+     *
+     * @return
+     */
+
     public String generate( ){
 
         try{

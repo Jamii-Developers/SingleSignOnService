@@ -1,9 +1,7 @@
 package com.jamii.databaseconfig.controllers;
 
 import com.jamii.databaseconfig.model.PasswordHashRecordsHistoryTBL;
-import com.jamii.databaseconfig.model.PasswordHashRecordsTBL;
 import com.jamii.databaseconfig.repo.PasswordHashRecordsHistoryREPO;
-import com.jamii.databaseconfig.repo.PasswordHashRecordsREPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
