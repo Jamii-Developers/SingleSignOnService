@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "user_login", schema = "jamiidb")
+@Table(name = "user_login")
 public class UserLoginTBL
 {
 

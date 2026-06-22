@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_relationship", schema = "jamiidb")
+@Table(name = "user_relationship")
 public class UserRelationshipTBL
 {
 

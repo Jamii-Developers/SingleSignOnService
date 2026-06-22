@@ -19,13 +19,13 @@ repositories {
 dependencies {
     implementation(libs.org.springframework.boot.spring.boot.starter.web)
     implementation(libs.org.springframework.boot.spring.boot.starter.data.jpa)
-    implementation(libs.com.mysql.mysql.connector.j)
     implementation(libs.org.json.json)
     implementation(libs.com.google.code.gson.gson)
     implementation(libs.org.springframework.boot.spring.boot.starter.security)
     implementation(libs.org.springframework.session.spring.session.jdbc)
     implementation(libs.commons.net.commons.net)
 
+    runtimeOnly(libs.postgresql)
     testImplementation(libs.org.springframework.boot.spring.boot.starter.test)
 }
 

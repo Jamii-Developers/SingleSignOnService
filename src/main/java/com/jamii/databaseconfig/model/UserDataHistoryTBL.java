@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "user_data_history", schema = "jamiidb")
+@Table(name = "user_data_history")
 public class UserDataHistoryTBL
 {
 

@@ -3,7 +3,7 @@
 
 [versions]
 com-google-code-gson-gson = "2.8.9"
-com-mysql-mysql-connector-j = "9.2.0"
+postgresql = "42.7.7"
 commons-net-commons-net = "3.8.0"
 org-json-json = "20231013"
 org-springframework-boot-spring-boot-starter-data-jpa = "3.1.0"
@@ -14,7 +14,6 @@ org-springframework-session-spring-session-jdbc = "3.1.0"
 
 [libraries]
 com-google-code-gson-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson-gson" }
-com-mysql-mysql-connector-j = { module = "com.mysql:mysql-connector-j", version.ref = "com-mysql-mysql-connector-j" }
 commons-net-commons-net = { module = "commons-net:commons-net", version.ref = "commons-net-commons-net" }
 org-json-json = { module = "org.json:json", version.ref = "org-json-json" }
 org-springframework-boot-spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "org-springframework-boot-spring-boot-starter-data-jpa" }
@@ -22,3 +21,4 @@ org-springframework-boot-spring-boot-starter-security = { module = "org.springfr
 org-springframework-boot-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "org-springframework-boot-spring-boot-starter-test" }
 org-springframework-boot-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "org-springframework-boot-spring-boot-starter-web" }
 org-springframework-session-spring-session-jdbc = { module = "org.springframework.session:spring-session-jdbc", version.ref = "org-springframework-session-spring-session-jdbc" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }

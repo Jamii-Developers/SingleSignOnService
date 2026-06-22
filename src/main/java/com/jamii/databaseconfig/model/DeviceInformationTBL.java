@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "device_information", schema = "jamiidb")
+@Table(name = "device_information")
 public class DeviceInformationTBL
 {
 

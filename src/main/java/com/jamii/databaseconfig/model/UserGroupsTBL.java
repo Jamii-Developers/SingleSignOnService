@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "user_groups", schema = "jamiidb")
+@Table(name = "user_groups")
 public class UserGroupsTBL
 {
 

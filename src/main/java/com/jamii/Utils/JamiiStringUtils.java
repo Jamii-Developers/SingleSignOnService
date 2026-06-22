@@ -1,12 +1,8 @@
 package com.jamii.Utils;
 
-import com.mysql.cj.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class JamiiStringUtils extends StringUtils {
+public class JamiiStringUtils {
 
     public JamiiStringUtils() throws IllegalAccessException {
         throw new IllegalAccessException("This is a utility Class");

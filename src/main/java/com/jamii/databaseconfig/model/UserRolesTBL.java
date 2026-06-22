@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user_roles", schema = "jamiidb")
+@Table(name = "user_roles")
 public class UserRolesTBL
 {
     public static final String TABLE_NAME = "user_roles";

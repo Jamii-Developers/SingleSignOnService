@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Password_Hash_Records_History", schema = "jamiidb")
+@Table(name = "Password_Hash_Records_History")
 public class PasswordHashRecordsHistoryTBL {
 
     public static final String TABLE_NAME = "PasswordHashRecordsHistory";

@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Password_Hash_Records", schema = "jamiidb")
+@Table(name = "Password_Hash_Records")
 public class PasswordHashRecordsTBL
 {
 
