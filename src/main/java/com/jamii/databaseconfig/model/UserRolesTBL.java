@@ -1,6 +1,5 @@
 package com.jamii.databaseconfig.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,8 +22,8 @@ public class UserRolesTBL
     @Id @Column(name = ID) @GeneratedValue(strategy = GenerationType.IDENTITY) private Integer id;
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
     //Foreign Keys
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = USER_GROUPS_ID, nullable = false) private UserGroupsTBL usergroupsid;
+    @ManyToOne@JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
+    @ManyToOne@JoinColumn(name = USER_GROUPS_ID, nullable = false) private UserGroupsTBL usergroupsid;
 
     public UserRolesTBL()
     {

@@ -1,6 +1,5 @@
 package com.jamii.databaseconfig.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +32,8 @@ public class UserRequestsTBL
     @Column(name = AUX_DATA, columnDefinition = "text") private String auxdata;
 
     //Foreign Keys
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = SENDER_ID, nullable = false) private UserLoginTBL senderid;
-
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = RECEIVER_ID, nullable = false) private UserLoginTBL receiverid;
+    @ManyToOne @JoinColumn(name = SENDER_ID, nullable = false) private UserLoginTBL senderid;
+    @ManyToOne @JoinColumn(name = RECEIVER_ID, nullable = false) private UserLoginTBL receiverid;
 
     public Integer getId()
     {

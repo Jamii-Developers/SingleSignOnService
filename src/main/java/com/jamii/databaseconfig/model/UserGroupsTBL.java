@@ -25,8 +25,8 @@ public class UserGroupsTBL
 
     @Id @Column(name = ID) @GeneratedValue(strategy = GenerationType.IDENTITY) private Integer id;
     //Foreign Keys
-    @OneToMany(mappedBy = "usergroupsid") private List<UserRolesTBL> userRolesTBL;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
+    @OneToMany(mappedBy = "usergroupsid", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) private List<UserRolesTBL> userRolesTBL;
+    @ManyToOne @JoinColumn(name = USER_LOGIN_ID, nullable = false) private UserLoginTBL userloginid;
 
     public UserGroupsTBL() {}
 
