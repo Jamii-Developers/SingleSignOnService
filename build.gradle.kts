@@ -24,6 +24,8 @@ dependencies {
     implementation(libs.org.springframework.boot.spring.boot.starter.security)
     implementation(libs.org.springframework.session.spring.session.jdbc)
     implementation(libs.commons.net.commons.net)
+    implementation(libs.flyway.core)
+    implementation(libs.flyway.postgresql)
 
     runtimeOnly(libs.postgresql)
     testImplementation(libs.org.springframework.boot.spring.boot.starter.test)
@@ -32,7 +34,7 @@ dependencies {
 group = "com.jamii"
 version = "0.0.1-SNAPSHOT"
 description = "JamiiX"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_23
 
 tasks.jar {
     enabled = false // Disable the plain jar
