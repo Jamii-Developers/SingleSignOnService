@@ -1,21 +1,22 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Stage 1: Cache dependencies
+# Stage 1: Cache Gradle dependencies
 ################################################################################
-FROM eclipse-temurin:21-jdk-jammy AS deps
+FROM eclipse-temurin:25-jdk AS deps
 
 WORKDIR /build
 
-# Copy Gradle wrapper and config files first (so dependencies are cached)
+# Gradle wrapper and build files
 COPY gradlew .
 COPY gradle/ gradle/
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle.kts .
+COPY settings.gradle.kts .
 
 RUN chmod +x gradlew
 
-# Pre-download dependencies without building
-RUN ./gradlew build -x test --refresh-dependencies --no-daemon --stacktrace
+# Download dependencies and populate Gradle cache
+RUN ./gradlew dependencies --no-daemon
 
 ################################################################################
 # Stage 2: Build Spring Boot application
@@ -24,24 +25,23 @@ FROM deps AS build
 
 WORKDIR /build
 
-# Copy source code
+# Application source
 COPY src/ src/
 
-# Build executable bootJar (skip tests for speed)
-RUN ./gradlew bootJar -x test --no-daemon --stacktrace
+# Build executable Spring Boot jar
+RUN ./gradlew bootJar -x test --no-daemon
 
 ################################################################################
 # Stage 3: Runtime image
 ################################################################################
-FROM eclipse-temurin:21-jre-jammy AS runtime
+FROM eclipse-temurin:25-jdk
 
 WORKDIR /app
 
-# Copy the bootJar from build stage
-COPY --from=build /build/build/libs/app-0.0.1.jar app.jar
+# Copy generated jar
+COPY --from=build /build/build/libs/*.jar app.jar
 
-# Expose Spring Boot port
 EXPOSE 8080
 
-# Run Spring Boot application with UAT profile
+# UAT profile
 ENTRYPOINT ["java", "-Dspring.profiles.active=UAT", "-jar", "app.jar"]
