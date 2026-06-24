@@ -73,13 +73,6 @@ tasks.javadoc {
     }
 }
 
-tasks.register<Javadoc>("generateDocs") {
-    source = sourceSets.main.get().allJava
-
-    classpath = sourceSets.main.get().compileClasspath
-
-    destinationDir = file("${projectDir}/docs/javadocs")
-}
 
 tasks.register<Copy>("publishJavadocs") {
     dependsOn(tasks.javadoc)
