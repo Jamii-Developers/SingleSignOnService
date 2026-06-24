@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2025-12-30">
-<meta name="description" content="declaration: package: com.jamii.databaseconfig.controllers, class: UserBlockList">
+<meta name="description" content="declaration: package: com.jamii.administrative.controllers, class: UserBlockList">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -84,11 +84,11 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.jamii.databaseconfig.controllers</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.jamii.administrative.controllers</a></div>
 <h1 title="Class UserBlockList" class="title">Class UserBlockList</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.databaseconfig.controllers.UserBlockList</div>
+<div class="inheritance">com.jamii.social.controllers.UserBlockList</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -107,10 +107,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a></code></div>
+<div class="col-first even-row-color"><code><a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a></code></div>
 <div class="col-second even-row-color"><code><a href="#data" class="member-name-link">data</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#dataList" class="member-name-link">dataList</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
@@ -147,21 +147,21 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">add</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">add</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchBlockedList(com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetchBlockedList</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;user,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchBlockedList(com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetchBlockedList</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -171,7 +171,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#saveAll()" class="member-name-link">saveAll</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#update(com.jamii.databaseconfig.model.UserBlockListTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&nbsp;blockListTBL)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#update(com.jamii.social.model.UserBlockListTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&nbsp;blockListTBL)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span></div>
 </div>
@@ -207,13 +207,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="data">
 <h3>data</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a></span>&nbsp;<span class="element-name">data</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a></span>&nbsp;<span class="element-name">data</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="dataList">
 <h3>dataList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
 </section>
 </li>
 </ul>
@@ -239,32 +239,32 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="fetch(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)">
+<section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>fetch</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="fetch(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL)">
+<section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)">
 <h3>fetch</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="fetchBlockedList(com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)">
+<section class="detail" id="fetchBlockedList(com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>fetchBlockedList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchBlockedList</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;user,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchBlockedList</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="update(com.jamii.databaseconfig.model.UserBlockListTBL)">
+<section class="detail" id="update(com.jamii.social.model.UserBlockListTBL)">
 <h3>update</h3>
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.databaseconfig.model">UserBlockListTBL</a>&nbsp;blockListTBL)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.administrative.model">UserBlockListTBL</a>&nbsp;blockListTBL)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Use the save ( ) function</div>
 <dl class="notes">
@@ -274,10 +274,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="add(com.jamii.databaseconfig.model.UserLoginTBL,com.jamii.databaseconfig.model.UserLoginTBL,java.lang.Integer)">
+<section class="detail" id="add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../model/UserLoginTBL.html" title="class in com.jamii.databaseconfig.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../model/UserLoginTBL.html" title="class in com.jamii.administrative.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 </section>
 </li>

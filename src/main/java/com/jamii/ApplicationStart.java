@@ -1,11 +1,13 @@
 package com.jamii;
 
-import com.jamii.Utils.JamiiDebug;
-import com.jamii.Utils.JamiiLoggingUtils;
-import com.jamii.applicationControllers.AbstractApplicationControllers;
-import com.jamii.applicationControllers.HealthCheck;
-import com.jamii.applicationControllers.PublicServices;
-import com.jamii.applicationControllers.UserServices;
+import com.jamii.abstractClasses.AbstractApplicationControllers;
+import com.jamii.administrative.AdministrativeServices;
+import com.jamii.administrative.services.monitoring.HealthCheck;
+import com.jamii.social.SocialServices;
+import com.jamii.users.PublicServices;
+import com.jamii.users.UserServices;
+import com.jamii.utils.JamiiDebug;
+import com.jamii.utils.JamiiLoggingUtils;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -40,6 +42,8 @@ public class ApplicationStart
     @Autowired JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired PublicServices publicServices;
     @Autowired UserServices userServices;
+    @Autowired SocialServices socialServices;
+    @Autowired AdministrativeServices administrativeServices;
     @Autowired HealthCheck healthCheck;
 
     Map<String, AbstractApplicationControllers> directoryMap = new HashMap<>();
@@ -51,6 +55,8 @@ public class ApplicationStart
     {
         directoryMap.put("public", publicServices);
         directoryMap.put("user", userServices);
+        directoryMap.put("social", socialServices);
+        directoryMap.put("administrative", administrativeServices);
     }
 
     @PostMapping(path = "{requestType}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
