@@ -13,20 +13,48 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.zip.InflaterInputStream;
 
+/**
+ * Utility class for file download operations.
+ * 
+ * <p>This class handles decompressing and retrieving files from the file server,
+ * including caching operations for improved performance.</p>
+ */
 public class JamiiFileDownloadUtils {
 
 
 
+    /**
+     * The path of the found file after processing.
+     */
     private Path foundFile;
 
+    /**
+     * Gets the found file path.
+     * @return the found file path
+     */
     public Path getFoundFile() {
         return foundFile;
     }
 
+    /**
+     * Sets the found file path.
+     * @param foundFile the found file path to set
+     */
     public void setFoundFile(Path foundFile) {
         this.foundFile = foundFile;
     }
 
+    /**
+     * Gets a file as a Spring Resource after decompressing it.
+     * 
+     * <p>This method decompresses a file from the source path, caches it in the
+     * file caching store, and returns it as a Resource for download.</p>
+     * @param filePath the directory path of the file
+     * @param fileName the name of the file
+     * @param fileExtension the file extension
+     * @return the file as a Resource, or null if not found
+     * @throws IOException if an I/O error occurs during file operations
+     */
     public Resource getFileAsResource(String filePath, String fileName, String fileExtension ) throws IOException {
 
         FileInputStream fis = new FileInputStream( filePath + File.separator + fileName );

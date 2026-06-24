@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Utility class for managing user relationships, requests, and block lists.
+ * 
+ * <p>This class provides methods to check the relationship status between users,
+ * including friendship, following, blocking, and pending requests.</p>
+ */
 @Component
 public class JamiiRelationshipUtils {
 
@@ -25,38 +31,73 @@ public class JamiiRelationshipUtils {
     private Integer type;
     private Integer status;
 
+    /**
+     * Gets the sender user.
+     * @return the sender user
+     */
     public UserLoginTBL getSender() {
         return sender;
     }
 
+    /**
+     * Sets the sender user.
+     * @param sender the sender user to set
+     */
     public void setSender(UserLoginTBL sender) {
         this.sender = sender;
     }
 
+    /**
+     * Gets the receiver user.
+     * @return the receiver user
+     */
     public UserLoginTBL getReceiver() {
         return receiver;
     }
 
+    /**
+     * Sets the receiver user.
+     * @param receiver the receiver user to set
+     */
     public void setReceiver(UserLoginTBL receiver) {
         this.receiver = receiver;
     }
 
+    /**
+     * Gets the relationship type.
+     * @return the relationship type
+     */
     public Integer getType() {
         return type;
     }
 
+    /**
+     * Sets the relationship type.
+     * @param type the relationship type to set
+     */
     public void setType(Integer type) {
         this.type = type;
     }
 
+    /**
+     * Gets the relationship status.
+     * @return the relationship status
+     */
     public Integer getStatus() {
         return status;
     }
 
+    /**
+     * Sets the relationship status.
+     * @param status the relationship status to set
+     */
     public void setStatus(Integer status) {
         this.status = status;
     }
 
+    /**
+     * Initializes the relationship data by loading block lists, requests, and relationships.
+     */
     public void initRelationShip() {
 
         // Initialize Available BlockList
@@ -105,11 +146,9 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if a specific sender ID is blocked by a receiver
-     *
-     * @return true or false
+     * Checks if the sender is blocked by the receiver.
+     * @return true if the sender is blocked, false otherwise
      */
-
     public boolean checkIfUserIsBlocked() {
 
         return !this.userBlockList.dataList.isEmpty()
@@ -120,9 +159,8 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if a sender ID has blocked a receiver
-     *
-     * @return true or false
+     * Checks if the sender has blocked the receiver.
+     * @return true if the sender has blocked the receiver, false otherwise
      */
     public boolean checkIfUserHasBlockedReceiver() {
 
@@ -134,9 +172,8 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check a Sender ID and Receiver ID have a valid relationship
-     *
-     * @return true or false
+     * Checks if the sender and receiver have a valid friendship relationship.
+     * @return true if the users are friends, false otherwise
      */
     public boolean checkIfUsersAreFriends() {
 
@@ -147,9 +184,8 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if a Sender ID is following a Receiver ID.
-     *
-     * @return true or false
+     * Checks if the sender is following the receiver.
+     * @return true if the sender is following the receiver, false otherwise
      */
     public boolean checkIfUserIsFollowing() {
 
@@ -161,9 +197,8 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if there is a pending Sender ID Friend Request.
-     *
-     * @return true or false
+     * Checks if the sender has a pending friend request to the receiver.
+     * @return true if there is a pending friend request, false otherwise
      */
     public boolean checkIfUserHasPendingFriendRequest() {
 
@@ -175,9 +210,8 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if there is a pending Receiver ID Friend Request
-     *
-     * @return true or false
+     * Checks if the receiver has a pending friend request to the sender.
+     * @return true if there is a pending friend request from the receiver, false otherwise
      */
     public boolean checkifUserHasAPendingRequestFriendFromReceiver() {
         return !this.userRequest.dataList.isEmpty() &&
@@ -188,11 +222,9 @@ public class JamiiRelationshipUtils {
     }
 
     /**
-     * Check if Sender ID has pending Receiver ID Follow Request
-     *
-     * @return true or false
+     * Checks if the sender has a pending follow request to the receiver.
+     * @return true if there is a pending follow request, false otherwise
      */
-
     public boolean checkIfUserHasPendingFollowRequest() {
 
         return !this.userRequest.dataList.isEmpty() &&

@@ -18,6 +18,8 @@ dependencies {
     implementation(libs.json)
     implementation(libs.gson)
     implementation(libs.commons.net)
+    implementation(libs.springdoc.openapi)
+
 
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgresql)

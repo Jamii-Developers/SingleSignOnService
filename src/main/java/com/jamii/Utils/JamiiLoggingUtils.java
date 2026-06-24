@@ -10,12 +10,24 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+/**
+ * Logging utility class for recording exceptions to the database.
+ * 
+ * <p>This class provides methods to log exceptions with detailed information
+ * including stack traces, class names, and associated user information.</p>
+ */
 @Component
 public class JamiiLoggingUtils {
 
     @Autowired
     private ApiErrorLog errorLog;
 
+    /**
+     * Logs an exception to the database with associated user information.
+     * @param className the class where the exception occurred
+     * @param exception the exception to log
+     * @param user the user associated with the exception (can be null)
+     */
     public void ExceptionLogger( String className , Exception exception, UserLoginTBL user ){
 
         errorLog.data = new ApiErrorLogTBL( );
