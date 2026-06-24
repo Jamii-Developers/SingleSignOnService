@@ -51,10 +51,17 @@ public class SecurityConfig
     /**
      * Endpoints used for OpenAPI and Swagger documentation.
      */
-    private static final String[] DOCUMENTATION_ENDPOINTS = {
+    private static final String[] SWAGGER_DOCUMENTATION_ENDPOINTS = {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/v3/api-docs/**"
+    };
+
+    /**
+     * Endpoints used for Internal documentation.
+     */
+    private static final String[] INTERNAL_DOCUMENTATION_ENDPOINTS = {
+            "/docs/**"
     };
 
     /**
@@ -101,8 +108,11 @@ public class SecurityConfig
                         // Public endpoints
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 
-                        // API documentation
-                        .requestMatchers(DOCUMENTATION_ENDPOINTS).permitAll()
+                        // Public API documentation
+                        .requestMatchers(SWAGGER_DOCUMENTATION_ENDPOINTS).denyAll()
+
+                        // Internal API documentation
+                        .requestMatchers(INTERNAL_DOCUMENTATION_ENDPOINTS).denyAll()
 
                         // Explicitly deny all other requests
                         .anyRequest().denyAll());
