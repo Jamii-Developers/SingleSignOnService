@@ -1,4 +1,4 @@
-package com.jamii.Utils;
+package com.jamii.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
