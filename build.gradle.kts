@@ -72,3 +72,19 @@ tasks.javadoc {
             .addBooleanOption("Xdoclint:all", true)
     }
 }
+
+tasks.register<Javadoc>("generateDocs") {
+    source = sourceSets.main.get().allJava
+
+    classpath = sourceSets.main.get().compileClasspath
+
+    destinationDir = file("${projectDir}/docs/javadocs")
+}
+
+tasks.register<Copy>("publishJavadocs") {
+    dependsOn(tasks.javadoc)
+
+    from(tasks.javadoc.get().destinationDir)
+
+    into("src/main/resources/static/docs/javadocs")
+}
