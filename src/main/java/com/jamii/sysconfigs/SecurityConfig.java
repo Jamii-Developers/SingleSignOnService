@@ -45,7 +45,16 @@ public class SecurityConfig
             "/api/health",
             "/api/monitor-health",
             "/api/public/**",
-            "/api/user/**"
+            "/api/user/**",
+            "/api/social/**",
+            "/api/jdrive/**"
+    };
+
+    /**
+     * Endpoints used for Administrative Interface.
+     */
+    private static final String[] ADMINISTRATIVE_ENDPOINTS = {
+            "/admin/**"
     };
 
     /**
@@ -63,6 +72,8 @@ public class SecurityConfig
     private static final String[] INTERNAL_DOCUMENTATION_ENDPOINTS = {
             "/docs/**"
     };
+
+
 
     /**
      * Comma-separated list of allowed CORS origins.
@@ -107,6 +118,9 @@ public class SecurityConfig
 
                         // Public endpoints
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+
+                        // Administrative endpoints
+                        .requestMatchers(ADMINISTRATIVE_ENDPOINTS).permitAll()
 
                         // Public API documentation
                         .requestMatchers(SWAGGER_DOCUMENTATION_ENDPOINTS).denyAll()
@@ -153,7 +167,8 @@ public class SecurityConfig
                 "PUT",
                 "PATCH",
                 "DELETE",
-                "OPTIONS"
+                "OPTIONS",
+                "HEAD"
         ));
 
         config.setAllowedHeaders(List.of("*"));

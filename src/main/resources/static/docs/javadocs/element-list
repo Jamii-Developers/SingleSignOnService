@@ -9,6 +9,7 @@ com.jamii.administrative.requests
 com.jamii.administrative.responses
 com.jamii.administrative.services.clientCommunication
 com.jamii.administrative.services.monitoring
+com.jamii.jDrive
 com.jamii.jDrive.controllers
 com.jamii.jDrive.model
 com.jamii.jDrive.repo

@@ -1,29 +1,30 @@
 package com.jamii.administrative;
 
 import com.jamii.abstractClasses.AbstractApplicationControllers;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
+import com.jamii.administrative.services.clientCommunication.ContactSupportOPS;
+import com.jamii.administrative.services.clientCommunication.ReviewUsOPS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
+@RestController
+@RequestMapping("/api/admin/")
+@CrossOrigin(origins = "*")
 public class AdministrativeServices
  extends AbstractApplicationControllers
 {
+
+    @Autowired ReviewUsOPS reviewUsOPS;
+    @Autowired ContactSupportOPS contactSupportOPS;
+
     @Override
     protected void initPathing()
     {
+        directoryMap.put("reviewus", reviewUsOPS);
+        directoryMap.put("contactsupport", contactSupportOPS);
 
     }
 
-    @Override
-    public ResponseEntity<?> processJSONRequest(String operation, Object requestPayload)
-    {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file)
-    {
-        return null;
-    }
 }

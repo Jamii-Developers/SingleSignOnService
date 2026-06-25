@@ -65,8 +65,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#initPathing()" tabindex="0">initPathing()</a></li>
-<li><a href="#processJSONRequest(java.lang.String,java.lang.Object)" tabindex="0">processJSONRequest(String, Object)</a></li>
-<li><a href="#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" tabindex="0">processMultipartRequest(String, String, String, String, MultipartFile)</a></li>
+<li><a href="#processMonitorHealthRequest()" tabindex="0">processMonitorHealthRequest()</a></li>
+<li><a href="#processHealthRequest()" tabindex="0">processHealthRequest()</a></li>
 </ol>
 </li>
 </ol>
@@ -84,7 +84,9 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="annotations">@Service
+<div class="type-signature"><span class="annotations">@RestController
+@RequestMapping("/api/")
+@CrossOrigin(origins="*")
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">HealthCheck</span>
 <span class="extends-implements">extends <a href="../../../abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></span></div>
 </div>
@@ -97,7 +99,7 @@ loadScripts(document, 'script');</script>
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.jamii.abstractClasses.AbstractApplicationControllers">Fields inherited from class&nbsp;<a href="../../../abstractClasses/AbstractApplicationControllers.html#field-summary" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></h3>
-<code><a href="../../../abstractClasses/AbstractApplicationControllers.html#jamiiDebug">jamiiDebug</a>, <a href="../../../abstractClasses/AbstractApplicationControllers.html#jamiiLoggingUtils">jamiiLoggingUtils</a></code></div>
+<code><a href="../../../abstractClasses/AbstractApplicationControllers.html#directoryMap">directoryMap</a>, <a href="../../../abstractClasses/AbstractApplicationControllers.html#jamiiDebug">jamiiDebug</a>, <a href="../../../abstractClasses/AbstractApplicationControllers.html#jamiiLoggingUtils">jamiiLoggingUtils</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -128,19 +130,17 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initPathing()" class="member-name-link">initPathing</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.http.ResponseEntity<wbr>&lt;?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;operation,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;requestPayload)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processHealthRequest()" class="member-name-link">processHealthRequest</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.http.ResponseEntity<wbr>&lt;?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;operation,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userKey,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceKey,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sessionKey,
- org.springframework.web.multipart.MultipartFile&nbsp;file)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processMonitorHealthRequest()" class="member-name-link">processMonitorHealthRequest</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.jamii.abstractClasses.AbstractApplicationControllers">Methods inherited from class&nbsp;<a href="../../../abstractClasses/AbstractApplicationControllers.html#method-summary" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></h3>
+<code><a href="../../../abstractClasses/AbstractApplicationControllers.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.Object)" title="processMultipartRequest(String, String, Object)">processMultipartRequest</a>, <a href="../../../abstractClasses/AbstractApplicationControllers.html#processRequest(java.lang.String,java.lang.Object)" title="processRequest(String, Object)">processRequest</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -184,31 +184,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="processJSONRequest(java.lang.String,java.lang.Object)">
-<h3>processJSONRequest</h3>
+<section class="detail" id="processMonitorHealthRequest()">
+<h3>processMonitorHealthRequest</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;?&gt;</span>&nbsp;<span class="element-name">processJSONRequest</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;operation,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;requestPayload)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../abstractClasses/AbstractApplicationControllers.html#processJSONRequest(java.lang.String,java.lang.Object)">processJSONRequest</a></code>&nbsp;in class&nbsp;<code><a href="../../../abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></code></dd>
-</dl>
+<div class="member-signature"><span class="annotations">@RequestMapping(path="monitor-health",
+                method=HEAD)
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;?&gt;</span>&nbsp;<span class="element-name">processMonitorHealthRequest</span>()</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)">
-<h3>processMultipartRequest</h3>
+<section class="detail" id="processHealthRequest()">
+<h3>processHealthRequest</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;?&gt;</span>&nbsp;<span class="element-name">processMultipartRequest</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;operation,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userKey,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceKey,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sessionKey,
- org.springframework.web.multipart.MultipartFile&nbsp;file)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../abstractClasses/AbstractApplicationControllers.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)">processMultipartRequest</a></code>&nbsp;in class&nbsp;<code><a href="../../../abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></code></dd>
-</dl>
+<div class="member-signature"><span class="annotations">@PostMapping(path="health")
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.http.ResponseEntity&lt;?&gt;</span>&nbsp;<span class="element-name">processHealthRequest</span>()</div>
 </div>
 </section>
 </li>

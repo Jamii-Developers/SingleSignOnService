@@ -3,10 +3,15 @@ package com.jamii.administrative.services.monitoring;
 import com.jamii.abstractClasses.AbstractApplicationControllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Service
+@RestController
+@RequestMapping("/api/")
+@CrossOrigin(origins = "*")
 public class HealthCheck
         extends AbstractApplicationControllers
 {
@@ -14,15 +19,18 @@ public class HealthCheck
     @Override
     protected void initPathing() {}
 
-    @Override
-    public ResponseEntity<?> processJSONRequest(String operation, Object requestPayload)
+    @RequestMapping(path = "monitor-health", method = RequestMethod.HEAD)
+    public ResponseEntity<?> processMonitorHealthRequest()
     {
+        jamiiDebug.info("Received request for operation: health ");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile file)
+    @PostMapping(path = "health")
+    public ResponseEntity<?> processHealthRequest( )
     {
+        jamiiDebug.info("Received request for operation: health ");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

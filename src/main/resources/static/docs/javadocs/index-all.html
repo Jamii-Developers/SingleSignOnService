@@ -487,6 +487,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/administrative/services/monitoring/package-summary.html">com.jamii.administrative.services.monitoring</a> - package com.jamii.administrative.services.monitoring</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/jamii/jDrive/package-summary.html">com.jamii.jDrive</a> - package com.jamii.jDrive</dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/jamii/jDrive/controllers/package-summary.html">com.jamii.jDrive.controllers</a> - package com.jamii.jDrive.controllers</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/jDrive/model/package-summary.html">com.jamii.jDrive.model</a> - package com.jamii.jDrive.model</dt>
@@ -851,6 +853,8 @@ configuration.</div>
 <dd>
 <div class="block">Checks if a directory exists.</div>
 </dd>
+<dt><a href="com/jamii/abstractClasses/AbstractApplicationControllers.html#directoryMap" class="member-name-link">directoryMap</a> - Variable in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/jamii/utils/JamiiUserPasswordEncryptTool.html#doEncrypt(java.lang.String)" class="member-name-link">doEncrypt(String)</a> - Static method in class com.jamii.utils.<a href="com/jamii/utils/JamiiUserPasswordEncryptTool.html" title="class in com.jamii.utils">JamiiUserPasswordEncryptTool</a></dt>
 <dd>
 <div class="block">Encrypts text using MD5 hashing algorithm.</div>
@@ -2608,6 +2612,8 @@ configuration.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/administrative/services/monitoring/HealthCheck.html#initPathing()" class="member-name-link">initPathing()</a> - Method in class com.jamii.administrative.services.monitoring.<a href="com/jamii/administrative/services/monitoring/HealthCheck.html" title="class in com.jamii.administrative.services.monitoring">HealthCheck</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/jamii/jDrive/JDriveServices.html#initPathing()" class="member-name-link">initPathing()</a> - Method in class com.jamii.jDrive.<a href="com/jamii/jDrive/JDriveServices.html" title="class in com.jamii.jDrive">JDriveServices</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/jamii/social/SocialServices.html#initPathing()" class="member-name-link">initPathing()</a> - Method in class com.jamii.social.<a href="com/jamii/social/SocialServices.html" title="class in com.jamii.social">SocialServices</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/users/PublicServices.html#initPathing()" class="member-name-link">initPathing()</a> - Method in class com.jamii.users.<a href="com/jamii/users/PublicServices.html" title="class in com.jamii.users">PublicServices</a></dt>
@@ -2701,8 +2707,6 @@ configuration.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/abstractClasses/AbstractUserServicesOPS.html#jamiiDebug" class="member-name-link">jamiiDebug</a> - Variable in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractUserServicesOPS.html" title="class in com.jamii.abstractClasses">AbstractUserServicesOPS</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/jamii/ApplicationStart.html#jamiiDebug" class="member-name-link">jamiiDebug</a> - Variable in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/jamii/utils/JamiiDebug.html" class="type-name-link" title="class in com.jamii.utils">JamiiDebug</a> - Class in <a href="com/jamii/utils/package-summary.html">com.jamii.utils</a></dt>
 <dd>
 <div class="block">Debug logging utility class for the Jamii application.</div>
@@ -2790,6 +2794,10 @@ configuration.</div>
 <div class="block">Utility class for password encryption and user key generation.</div>
 </dd>
 <dt><a href="com/jamii/utils/JamiiUserPasswordEncryptTool.html#%3Cinit%3E()" class="member-name-link">JamiiUserPasswordEncryptTool()</a> - Constructor for class com.jamii.utils.<a href="com/jamii/utils/JamiiUserPasswordEncryptTool.html" title="class in com.jamii.utils">JamiiUserPasswordEncryptTool</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/jamii/jDrive/JDriveServices.html" class="type-name-link" title="class in com.jamii.jDrive">JDriveServices</a> - Class in <a href="com/jamii/jDrive/package-summary.html">com.jamii.jDrive</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/jamii/jDrive/JDriveServices.html#%3Cinit%3E()" class="member-name-link">JDriveServices()</a> - Constructor for class com.jamii.jDrive.<a href="com/jamii/jDrive/JDriveServices.html" title="class in com.jamii.jDrive">JDriveServices</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/utils/JamiiFileUtils.html#JPEG_CONTENT_TYPE" class="member-name-link">JPEG_CONTENT_TYPE</a> - Static variable in class com.jamii.utils.<a href="com/jamii/utils/JamiiFileUtils.html" title="class in com.jamii.utils">JamiiFileUtils</a></dt>
 <dd>
@@ -2955,35 +2963,11 @@ configuration.</div>
 <dd>
 <div class="block">User privacy status constant for private profiles.</div>
 </dd>
-<dt><a href="com/jamii/ApplicationStart.html#processFileDownloadRequest(java.lang.String,java.lang.String,java.lang.Object)" class="member-name-link">processFileDownloadRequest(String, String, Object)</a> - Method in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
+<dt><a href="com/jamii/administrative/services/monitoring/HealthCheck.html#processHealthRequest()" class="member-name-link">processHealthRequest()</a> - Method in class com.jamii.administrative.services.monitoring.<a href="com/jamii/administrative/services/monitoring/HealthCheck.html" title="class in com.jamii.administrative.services.monitoring">HealthCheck</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/jamii/ApplicationStart.html#processFileUploadRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processFileUploadRequest(String, String, String, String, String, MultipartFile)</a> - Method in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
+<dt><a href="com/jamii/administrative/services/monitoring/HealthCheck.html#processMonitorHealthRequest()" class="member-name-link">processMonitorHealthRequest()</a> - Method in class com.jamii.administrative.services.monitoring.<a href="com/jamii/administrative/services/monitoring/HealthCheck.html" title="class in com.jamii.administrative.services.monitoring">HealthCheck</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/jamii/abstractClasses/AbstractApplicationControllers.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/administrative/AdministrativeServices.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.administrative.<a href="com/jamii/administrative/AdministrativeServices.html" title="class in com.jamii.administrative">AdministrativeServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/administrative/services/monitoring/HealthCheck.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.administrative.services.monitoring.<a href="com/jamii/administrative/services/monitoring/HealthCheck.html" title="class in com.jamii.administrative.services.monitoring">HealthCheck</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/social/SocialServices.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.social.<a href="com/jamii/social/SocialServices.html" title="class in com.jamii.social">SocialServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/users/PublicServices.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.users.<a href="com/jamii/users/PublicServices.html" title="class in com.jamii.users">PublicServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/users/UserServices.html#processJSONRequest(java.lang.String,java.lang.Object)" class="member-name-link">processJSONRequest(String, Object)</a> - Method in class com.jamii.users.<a href="com/jamii/users/UserServices.html" title="class in com.jamii.users">UserServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/ApplicationStart.html#processMonitorHealthRequestCheck()" class="member-name-link">processMonitorHealthRequestCheck()</a> - Method in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/abstractClasses/AbstractApplicationControllers.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/administrative/AdministrativeServices.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.administrative.<a href="com/jamii/administrative/AdministrativeServices.html" title="class in com.jamii.administrative">AdministrativeServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/administrative/services/monitoring/HealthCheck.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.administrative.services.monitoring.<a href="com/jamii/administrative/services/monitoring/HealthCheck.html" title="class in com.jamii.administrative.services.monitoring">HealthCheck</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/social/SocialServices.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.social.<a href="com/jamii/social/SocialServices.html" title="class in com.jamii.social">SocialServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/users/PublicServices.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.users.<a href="com/jamii/users/PublicServices.html" title="class in com.jamii.users">PublicServices</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/jamii/users/UserServices.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)" class="member-name-link">processMultipartRequest(String, String, String, String, MultipartFile)</a> - Method in class com.jamii.users.<a href="com/jamii/users/UserServices.html" title="class in com.jamii.users">UserServices</a></dt>
+<dt><a href="com/jamii/abstractClasses/AbstractApplicationControllers.html#processMultipartRequest(java.lang.String,java.lang.String,java.lang.Object)" class="member-name-link">processMultipartRequest(String, String, Object)</a> - Method in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/abstractClasses/AbstractPublicServices.html#processRequest()" class="member-name-link">processRequest()</a> - Method in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractPublicServices.html" title="class in com.jamii.abstractClasses">AbstractPublicServices</a></dt>
 <dd>
@@ -3057,9 +3041,9 @@ configuration.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/users/services/UserLogoffOPS.html#processRequest()" class="member-name-link">processRequest()</a> - Method in class com.jamii.users.services.<a href="com/jamii/users/services/UserLogoffOPS.html" title="class in com.jamii.users.services">UserLogoffOPS</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/jamii/ApplicationStart.html#processRequest(java.lang.String,java.lang.String,java.lang.Object)" class="member-name-link">processRequest(String, String, Object)</a> - Method in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
+<dt><a href="com/jamii/abstractClasses/AbstractApplicationControllers.html#processRequest(java.lang.String,java.lang.Object)" class="member-name-link">processRequest(String, Object)</a> - Method in class com.jamii.abstractClasses.<a href="com/jamii/abstractClasses/AbstractApplicationControllers.html" title="class in com.jamii.abstractClasses">AbstractApplicationControllers</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/jamii/ApplicationStart.html#processWebHealthRequestCheck()" class="member-name-link">processWebHealthRequestCheck()</a> - Method in class com.jamii.<a href="com/jamii/ApplicationStart.html" title="class in com.jamii">ApplicationStart</a></dt>
+<dt><a href="com/jamii/users/PublicServices.html#processRequest(java.lang.String,java.lang.Object)" class="member-name-link">processRequest(String, Object)</a> - Method in class com.jamii.users.<a href="com/jamii/users/PublicServices.html" title="class in com.jamii.users">PublicServices</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jamii/users/model/UserDataHistoryTBL.html#PROVINCE" class="member-name-link">PROVINCE</a> - Static variable in class com.jamii.users.model.<a href="com/jamii/users/model/UserDataHistoryTBL.html" title="class in com.jamii.users.model">UserDataHistoryTBL</a></dt>
 <dd>

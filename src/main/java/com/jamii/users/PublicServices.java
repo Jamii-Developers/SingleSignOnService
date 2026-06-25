@@ -1,6 +1,5 @@
 package com.jamii.users;
 
-import com.jamii.utils.JamiiLoggingUtils;
 import com.jamii.abstractClasses.AbstractApplicationControllers;
 import com.jamii.abstractClasses.AbstractPublicServices;
 import com.jamii.users.services.CreateNewUserOPS;
@@ -9,21 +8,22 @@ import com.jamii.users.services.UserLoginOPS;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Controller
+@RestController
+@RequestMapping("/api/public/")
+@CrossOrigin(origins = "*")
 public class PublicServices
         extends AbstractApplicationControllers
 {
 
-    private final Map<String, AbstractPublicServices> directoryMap = new HashMap<>();
-
-    @Autowired JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired CreateNewUserOPS createNewUserOPS;
     @Autowired UserLoginOPS userLoginOPS;
     @Autowired ReactivateUserOPS reactivateUserOPS;
@@ -36,14 +36,15 @@ public class PublicServices
         directoryMap.put("reactivateuser", reactivateUserOPS);
     }
 
-    public ResponseEntity<?> processJSONRequest(String operation, Object requestPayload)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> processRequest( @RequestHeader("Service-Header") String operation, @RequestBody Object jsonPayload)
     {
 
         try {
             jamiiDebug.info("Received request for operation: " + operation);
 
             // Lookup the handler
-            AbstractPublicServices handler = directoryMap.get(operation);
+            AbstractPublicServices handler = (AbstractPublicServices) directoryMap.get(operation);
 
             if (handler == null) {
                 jamiiDebug.warn("Unknown Service-Header: " + operation);
@@ -51,7 +52,7 @@ public class PublicServices
             }
 
             handler.reset();
-            return handler.run(requestPayload);
+            return handler.run(jsonPayload);
         }
         catch (Exception e) {
             jamiiLoggingUtils.ExceptionLogger(this.getClass().getName(), e, null);
@@ -59,8 +60,4 @@ public class PublicServices
         return new ResponseEntity<>("Oops! something went wrong with your request", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<?> processMultipartRequest(String operation, String userKey, String deviceKey, String sessionKey, MultipartFile multipartFile)
-    {
-        return null;
-    }
 }
