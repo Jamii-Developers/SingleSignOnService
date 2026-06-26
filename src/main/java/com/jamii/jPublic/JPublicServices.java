@@ -1,10 +1,10 @@
-package com.jamii.users;
+package com.jamii.jPublic;
 
 import com.jamii.abstractClasses.AbstractApplicationControllers;
 import com.jamii.abstractClasses.AbstractPublicServices;
-import com.jamii.users.services.CreateNewUserOPS;
-import com.jamii.users.services.ReactivateUserOPS;
-import com.jamii.users.services.UserLoginOPS;
+import com.jamii.jPublic.services.CreateNewUserOPS;
+import com.jamii.jPublic.services.ReactivateUserOPS;
+import com.jamii.jPublic.services.UserLoginOPS;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/public/")
+@RequestMapping("/jpublic/")
 @CrossOrigin(origins = "*")
-public class PublicServices
+public class JPublicServices
         extends AbstractApplicationControllers
 {
 
