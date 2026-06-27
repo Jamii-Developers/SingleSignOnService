@@ -1,9 +1,9 @@
 package com.jamii.utils;
 
-import com.jamii.administrative.controllers.ApiErrorLog;
-import com.jamii.administrative.AUXUtils.ApiErrorLog_AUX_DATA;
-import com.jamii.administrative.model.ApiErrorLogTBL;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jAdmin.controllers.ApiErrorLog;
+import com.jamii.jAdmin.model.AUXUtils.ApiErrorLog_AUX_DATA;
+import com.jamii.jAdmin.model.ApiErrorLogTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
