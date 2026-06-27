@@ -14,14 +14,13 @@ dependencies {
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.session.jdbc)
+    implementation(libs.spring.boot.starter.flyway)
 
     implementation(libs.json)
     implementation(libs.gson)
     implementation(libs.commons.net)
     implementation(libs.springdoc.openapi)
 
-
-    implementation(libs.flyway.core)
     implementation(libs.flyway.postgresql)
 
     runtimeOnly(libs.postgresql)

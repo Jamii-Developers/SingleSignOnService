@@ -27,14 +27,14 @@ import java.time.LocalDateTime;
  * </ul>
  */
 @Entity
-@Table(name = "system_error_logs")
+@Table(name = "api_error_logs")
 public class ApiErrorLogTBL
 {
 
     /**
      * Database table name constant.
      */
-    public static final String TABLE_NAME = "system_error_logs";
+    public static final String TABLE_NAME = "api_error_logs";
     
     /**
      * Column name constant for ID.
