@@ -5,7 +5,7 @@
 <title>ClientCommunication (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.administrative.controllers, class: ClientCommunication">
+<meta name="description" content="declaration: package: com.jamii.jAdmin.controllers, class: ClientCommunication">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.administrative.controllers</a></li>
+<li><a href="package-summary.html">com.jamii.jAdmin.controllers</a></li>
 <li><a href="ClientCommunication.html" class="current-selection">ClientCommunication</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -85,7 +85,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class ClientCommunication" class="title">Class ClientCommunication</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.administrative.controllers.ClientCommunication</div>
+<div class="inheritance">com.jamii.jSupport.controllers.ClientCommunication</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -116,12 +116,12 @@ including support requests and reviews.</p>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a></code></div>
+<div class="col-first even-row-color"><code><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a></code></div>
 <div class="col-second even-row-color"><code><a href="#data" class="member-name-link">data</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Single communication record instance for creating new entries.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#dataList" class="member-name-link">dataList</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">List of communication records for batch operations.</div>
@@ -168,8 +168,8 @@ including support requests and reviews.</p>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Saves the current communication record from the <code>data</code> field to the database.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#save(com.jamii.administrative.model.ClientCommunicationTBL)" class="member-name-link">save</a><wbr>(<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a>&nbsp;record)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#save(com.jamii.administrative.model.ClientCommunicationTBL)" class="member-name-link">save</a><wbr>(<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a>&nbsp;record)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#save()"><code>save()</code></a> instead which operates on the <code>data</code> field</div>
@@ -219,7 +219,7 @@ including support requests and reviews.</p>
 <section class="detail" id="data">
 <h3>data</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a></span>&nbsp;<span class="element-name">data</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a></span>&nbsp;<span class="element-name">data</span></div>
 <div class="block">Single communication record instance for creating new entries.</div>
 </div>
 </section>
@@ -228,7 +228,7 @@ including support requests and reviews.</p>
 <section class="detail" id="dataList">
 <h3>dataList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
 <div class="block">List of communication records for batch operations.</div>
 </div>
 </section>
@@ -262,7 +262,7 @@ including support requests and reviews.</p>
 <h3>save</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a></span>&nbsp;<span class="element-name">save</span><wbr><span class="parameters">(<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.administrative.model">ClientCommunicationTBL</a>&nbsp;record)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a></span>&nbsp;<span class="element-name">save</span><wbr><span class="parameters">(<a href="../model/ClientCommunicationTBL.html" title="class in com.jamii.jAdmin.model">ClientCommunicationTBL</a>&nbsp;record)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#save()"><code>save()</code></a> instead which operates on the <code>data</code> field</div>
 </div>

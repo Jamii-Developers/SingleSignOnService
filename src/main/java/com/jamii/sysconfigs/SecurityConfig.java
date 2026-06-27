@@ -42,19 +42,20 @@ public class SecurityConfig
      * Endpoints that can be accessed without authentication.
      */
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/api/health",
-            "/api/monitor-health",
-            "/api/public/**",
-            "/api/user/**",
-            "/api/social/**",
-            "/api/jdrive/**"
+            "/health/**",
+            "/monitor-health/**",
+            "/jpublic/**",
+            "/juser/**",
+            "/jsocial/**",
+            "/jdrive/**",
+            "/jsupport/**"
     };
 
     /**
      * Endpoints used for Administrative Interface.
      */
     private static final String[] ADMINISTRATIVE_ENDPOINTS = {
-            "/admin/**"
+            "/jadmin/**"
     };
 
     /**

@@ -5,7 +5,7 @@
 <title>UserDataHistory (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.users.controller, class: UserDataHistory">
+<meta name="description" content="declaration: package: com.jamii.jUser.controller, class: UserDataHistory">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.users.controller</a></li>
+<li><a href="package-summary.html">com.jamii.jUser.controller</a></li>
 <li><a href="UserDataHistory.html" class="current-selection">UserDataHistory</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -77,7 +77,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class UserDataHistory" class="title">Class UserDataHistory</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.users.controller.UserDataHistory</div>
+<div class="inheritance">com.jamii.jUser.controller.UserDataHistory</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -125,12 +125,12 @@ profile is updated, the old data is copied to the history table.</p>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyUserData(com.jamii.users.model.UserDataTBL)" class="member-name-link">copyUserData</a><wbr>(<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&nbsp;user)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyUserData(com.jamii.users.model.UserDataTBL)" class="member-name-link">copyUserData</a><wbr>(<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&nbsp;user)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copies user profile data to the history table.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyUserData(java.util.Optional)" class="member-name-link">copyUserData</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&gt;&nbsp;user)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyUserData(java.util.Optional)" class="member-name-link">copyUserData</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&gt;&nbsp;user)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copies a user's current profile data to the history table.</div>
 </div>
@@ -204,7 +204,7 @@ profile is updated, the old data is copied to the history table.</p>
 <section class="detail" id="copyUserData(java.util.Optional)">
 <h3>copyUserData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyUserData</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&gt;&nbsp;user)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyUserData</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&gt;&nbsp;user)</span></div>
 <div class="block">Copies a user's current profile data to the history table.
 
 <p>This method checks if the user exists and has profile data before copying.
@@ -220,7 +220,7 @@ If the user is empty or has no profile data, the method returns without doing an
 <section class="detail" id="copyUserData(com.jamii.users.model.UserDataTBL)">
 <h3>copyUserData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyUserData</span><wbr><span class="parameters">(<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&nbsp;user)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">copyUserData</span><wbr><span class="parameters">(<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&nbsp;user)</span></div>
 <div class="block">Copies user profile data to the history table.
 
 <p>This method creates a new history record with all the profile fields

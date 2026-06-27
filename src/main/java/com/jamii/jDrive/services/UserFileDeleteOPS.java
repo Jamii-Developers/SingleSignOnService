@@ -2,7 +2,7 @@ package com.jamii.jDrive.services;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.jDrive.controllers.FileTableOwner;
-import com.jamii.users.controller.UserLogin;
+import com.jamii.jUser.controller.UserLogin;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jDrive.requests.UserFileDeleteREQ;
 import com.jamii.jDrive.responses.UserFileDeleteRESP;

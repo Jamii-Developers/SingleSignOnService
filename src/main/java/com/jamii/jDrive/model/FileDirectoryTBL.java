@@ -1,6 +1,6 @@
 package com.jamii.jDrive.model;
 
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

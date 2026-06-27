@@ -5,7 +5,7 @@
 <title>UserData (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.users.controller, class: UserData">
+<meta name="description" content="declaration: package: com.jamii.jUser.controller, class: UserData">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.users.controller</a></li>
+<li><a href="package-summary.html">com.jamii.jUser.controller</a></li>
 <li><a href="UserData.html" class="current-selection">UserData</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -90,7 +90,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class UserData" class="title">Class UserData</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.users.controller.UserData</div>
+<div class="inheritance">com.jamii.jUser.controller.UserData</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -137,12 +137,12 @@ It supports profile updates and maintains search functionality for finding users
 <div class="deprecation-comment">This status is no longer needed as of 2025-12-16.</div>
 </div>
 </div>
-<div class="col-first even-row-color"><code><a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a></code></div>
+<div class="col-first even-row-color"><code><a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a></code></div>
 <div class="col-second even-row-color"><code><a href="#data" class="member-name-link">data</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Single user data record instance for creating new entries.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#dataList" class="member-name-link">dataList</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">List of user data records for batch operations.</div>
@@ -175,19 +175,19 @@ It supports profile updates and maintains search functionality for finding users
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.requests.EditUserDataServicesREQ)" class="member-name-link">add</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
- <a href="../requests/EditUserDataServicesREQ.html" title="class in com.jamii.users.requests">EditUserDataServicesREQ</a>&nbsp;editUserDataREQ)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.requests.EditUserDataServicesREQ)" class="member-name-link">add</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
+ <a href="../requests/EditUserDataServicesREQ.html" title="class in com.jamii.jUser.requests">EditUserDataServicesREQ</a>&nbsp;editUserDataREQ)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds or updates user profile data from a request object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,java.lang.Boolean)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,java.lang.Boolean)" class="member-name-link">fetch</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;active)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches user profile data for a specific user.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#migratePreviousRecordtoUserHistory(com.jamii.users.model.UserLoginTBL)" class="member-name-link">migratePreviousRecordtoUserHistory</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#migratePreviousRecordtoUserHistory(com.jamii.users.model.UserLoginTBL)" class="member-name-link">migratePreviousRecordtoUserHistory</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This method is no longer needed</div>
@@ -203,17 +203,17 @@ It supports profile updates and maintains search functionality for finding users
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Saves all user data records in the <code>dataList</code> to the database in a batch operation.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUserFirstname(java.lang.String)" class="member-name-link">searchUserFirstname</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for users by first name prefix.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUserLastname(java.lang.String)" class="member-name-link">searchUserLastname</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for users by last name prefix.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUserMiddlename(java.lang.String)" class="member-name-link">searchUserMiddlename</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for users by middle name prefix.</div>
@@ -265,7 +265,7 @@ It supports profile updates and maintains search functionality for finding users
 <section class="detail" id="data">
 <h3>data</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a></span>&nbsp;<span class="element-name">data</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a></span>&nbsp;<span class="element-name">data</span></div>
 <div class="block">Single user data record instance for creating new entries.</div>
 </div>
 </section>
@@ -274,7 +274,7 @@ It supports profile updates and maintains search functionality for finding users
 <section class="detail" id="dataList">
 <h3>dataList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
 <div class="block">List of user data records for batch operations.</div>
 </div>
 </section>
@@ -308,7 +308,7 @@ It supports profile updates and maintains search functionality for finding users
 <h3>migratePreviousRecordtoUserHistory</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">migratePreviousRecordtoUserHistory</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">migratePreviousRecordtoUserHistory</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This method is no longer needed</div>
 </div>
@@ -327,8 +327,8 @@ It is no longer needed as the history migration is handled differently.</p></div
 <section class="detail" id="add(com.jamii.users.model.UserLoginTBL,com.jamii.users.requests.EditUserDataServicesREQ)">
 <h3>add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
- <a href="../requests/EditUserDataServicesREQ.html" title="class in com.jamii.users.requests">EditUserDataServicesREQ</a>&nbsp;editUserDataREQ)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
+ <a href="../requests/EditUserDataServicesREQ.html" title="class in com.jamii.jUser.requests">EditUserDataServicesREQ</a>&nbsp;editUserDataREQ)</span></div>
 <div class="block">Adds or updates user profile data from a request object.
 
 <p>This method populates the user's profile information from the request
@@ -346,7 +346,7 @@ the existing record; otherwise, it creates a new one.</p></div>
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,java.lang.Boolean)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;active)</span></div>
 <div class="block">Fetches user profile data for a specific user.</div>
 <dl class="notes">
@@ -363,7 +363,7 @@ the existing record; otherwise, it creates a new one.</p></div>
 <section class="detail" id="searchUserFirstname(java.lang.String)">
 <h3>searchUserFirstname</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserFirstname</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserFirstname</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
 <div class="block">Searches for users by first name prefix.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -378,7 +378,7 @@ the existing record; otherwise, it creates a new one.</p></div>
 <section class="detail" id="searchUserLastname(java.lang.String)">
 <h3>searchUserLastname</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserLastname</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserLastname</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
 <div class="block">Searches for users by last name prefix.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -393,7 +393,7 @@ the existing record; otherwise, it creates a new one.</p></div>
 <section class="detail" id="searchUserMiddlename(java.lang.String)">
 <h3>searchUserMiddlename</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.users.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserMiddlename</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserDataTBL.html" title="class in com.jamii.jUser.model">UserDataTBL</a>&gt;</span>&nbsp;<span class="element-name">searchUserMiddlename</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;searchString)</span></div>
 <div class="block">Searches for users by middle name prefix.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

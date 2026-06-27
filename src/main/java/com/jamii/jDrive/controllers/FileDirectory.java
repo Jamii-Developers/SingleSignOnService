@@ -2,7 +2,7 @@ package com.jamii.jDrive.controllers;
 
 import com.jamii.jDrive.model.FileDirectoryTBL;
 import com.jamii.jDrive.model.FileTableOwnerTBL;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.jDrive.repo.FileDirectoryREPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.Optional;
  * Service component for managing file directory records in the database.
  * 
  * <p>This class handles the storage and retrieval of file directory information,
- * associating directories with users and file table owners.</p>
+ * associating directories with jUser and file table owners.</p>
  * 
  * <p>Key functionality:</p>
  * <ul>

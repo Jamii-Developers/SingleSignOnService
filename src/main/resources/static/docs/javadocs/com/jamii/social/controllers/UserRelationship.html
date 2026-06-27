@@ -5,7 +5,7 @@
 <title>UserRelationship (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.social.controllers, class: UserRelationship">
+<meta name="description" content="declaration: package: com.jamii.jSocial.controllers, class: UserRelationship">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.social.controllers</a></li>
+<li><a href="package-summary.html">com.jamii.jSocial.controllers</a></li>
 <li><a href="UserRelationship.html" class="current-selection">UserRelationship</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class UserRelationship" class="title">Class UserRelationship</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.social.controllers.UserRelationship</div>
+<div class="inheritance">com.jamii.jSocial.controllers.UserRelationship</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -128,12 +128,12 @@ Relationships can have different types and statuses, allowing for flexible socia
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a></code></div>
+<div class="col-first even-row-color"><code><a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a></code></div>
 <div class="col-second even-row-color"><code><a href="#data" class="member-name-link">data</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Single relationship record instance for creating new entries.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#dataList" class="member-name-link">dataList</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">List of relationship records for batch operations.</div>
@@ -186,51 +186,51 @@ Relationships can have different types and statuses, allowing for flexible socia
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">add</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">add</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a new relationship record between two users.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkIfRelationShipExists(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">checkIfRelationShipExists</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkIfRelationShipExists(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">checkIfRelationShipExists</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if a relationship exists between two users with specific type and status.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
  int&nbsp;status,
  int&nbsp;type)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches relationship records for a user as sender or receiver with type and status filters.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches all relationship records between two users.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches relationship records between two users with type filter.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches relationship records between two users with type and status filters.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchFollowers(com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetchFollowers</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchFollowers(com.jamii.users.model.UserLoginTBL,int,int)" class="member-name-link">fetchFollowers</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
  int&nbsp;type,
  int&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -247,7 +247,7 @@ Relationships can have different types and statuses, allowing for flexible socia
 <div class="block">Saves all relationship records in the <code>dataList</code> to the database in a batch operation.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(com.jamii.social.model.UserRelationshipTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&nbsp;record)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(com.jamii.social.model.UserRelationshipTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&nbsp;record)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates a relationship record in the database.</div>
 </div>
@@ -308,7 +308,7 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="data">
 <h3>data</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a></span>&nbsp;<span class="element-name">data</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a></span>&nbsp;<span class="element-name">data</span></div>
 <div class="block">Single relationship record instance for creating new entries.</div>
 </div>
 </section>
@@ -317,7 +317,7 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="dataList">
 <h3>dataList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
 <div class="block">List of relationship records for batch operations.</div>
 </div>
 </section>
@@ -350,8 +350,8 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)">
 <h3>add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</span></div>
 <div class="block">Adds a new relationship record between two users.</div>
@@ -369,8 +369,8 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</span></div>
 <div class="block">Fetches relationship records between two users with type and status filters.</div>
@@ -390,8 +390,8 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="checkIfRelationShipExists(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int,int)">
 <h3>checkIfRelationShipExists</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkIfRelationShipExists</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkIfRelationShipExists</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type,
  int&nbsp;status)</span></div>
 <div class="block">Checks if a relationship exists between two users with specific type and status.</div>
@@ -411,8 +411,8 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,int)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver,
  int&nbsp;type)</span></div>
 <div class="block">Fetches relationship records between two users with type filter.</div>
 <dl class="notes">
@@ -430,8 +430,8 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;receiver)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;receiver)</span></div>
 <div class="block">Fetches all relationship records between two users.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -447,7 +447,7 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,int,int)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
  int&nbsp;status,
  int&nbsp;type)</span></div>
 <div class="block">Fetches relationship records for a user as sender or receiver with type and status filters.</div>
@@ -466,7 +466,7 @@ Relationships can have different types and statuses, allowing for flexible socia
 <section class="detail" id="fetchFollowers(com.jamii.users.model.UserLoginTBL,int,int)">
 <h3>fetchFollowers</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchFollowers</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;sender,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchFollowers</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;sender,
  int&nbsp;type,
  int&nbsp;status)</span></div>
 <div class="block">Fetches followers for a specific user.
@@ -488,7 +488,7 @@ effectively finding the user's followers.</p></div>
 <section class="detail" id="update(com.jamii.social.model.UserRelationshipTBL)">
 <h3>update</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.social.model">UserRelationshipTBL</a>&nbsp;record)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserRelationshipTBL.html" title="class in com.jamii.jSocial.model">UserRelationshipTBL</a>&nbsp;record)</span></div>
 <div class="block">Updates a relationship record in the database.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

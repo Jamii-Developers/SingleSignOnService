@@ -5,7 +5,7 @@
 <title>UserBlockList (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.social.controllers, class: UserBlockList">
+<meta name="description" content="declaration: package: com.jamii.jSocial.controllers, class: UserBlockList">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.social.controllers</a></li>
+<li><a href="package-summary.html">com.jamii.jSocial.controllers</a></li>
 <li><a href="UserBlockList.html" class="current-selection">UserBlockList</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -89,7 +89,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class UserBlockList" class="title">Class UserBlockList</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.jamii.social.controllers.UserBlockList</div>
+<div class="inheritance">com.jamii.jSocial.controllers.UserBlockList</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -122,12 +122,12 @@ from interacting with them. Blocked relationships can be tracked with different 
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a></code></div>
+<div class="col-first even-row-color"><code><a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a></code></div>
 <div class="col-second even-row-color"><code><a href="#data" class="member-name-link">data</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Single block list record instance for creating new entries.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#dataList" class="member-name-link">dataList</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">List of block list records for batch operations.</div>
@@ -170,27 +170,27 @@ from interacting with them. Blocked relationships can be tracked with different 
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">add</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">add</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a new block list entry.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches all block list records for a specific user-blocked user pair.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetch</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches block list records for a specific user-blocked user pair with status filter.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchBlockedList(com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetchBlockedList</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fetchBlockedList(com.jamii.users.model.UserLoginTBL,java.lang.Integer)" class="member-name-link">fetchBlockedList</a><wbr>(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Fetches all blocked users for a specific user with status filter.</div>
@@ -206,7 +206,7 @@ from interacting with them. Blocked relationships can be tracked with different 
 <div class="block">Saves all block list records in the <code>dataList</code> to the database in a batch operation.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#update(com.jamii.social.model.UserBlockListTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&nbsp;blockListTBL)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#update(com.jamii.social.model.UserBlockListTBL)" class="member-name-link">update</a><wbr>(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&nbsp;blockListTBL)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#save()"><code>save()</code></a> instead which operates on the <code>data</code> field</div>
@@ -251,7 +251,7 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="data">
 <h3>data</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a></span>&nbsp;<span class="element-name">data</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a></span>&nbsp;<span class="element-name">data</span></div>
 <div class="block">Single block list record instance for creating new entries.</div>
 </div>
 </section>
@@ -260,7 +260,7 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="dataList">
 <h3>dataList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">dataList</span></div>
 <div class="block">List of block list records for batch operations.</div>
 </div>
 </section>
@@ -293,8 +293,8 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 <div class="block">Fetches block list records for a specific user-blocked user pair with status filter.</div>
 <dl class="notes">
@@ -312,8 +312,8 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="fetch(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL)">
 <h3>fetch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetch</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid)</span></div>
 <div class="block">Fetches all block list records for a specific user-blocked user pair.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -329,7 +329,7 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="fetchBlockedList(com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>fetchBlockedList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchBlockedList</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;user,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&gt;</span>&nbsp;<span class="element-name">fetchBlockedList</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;user,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 <div class="block">Fetches all blocked users for a specific user with status filter.</div>
 <dl class="notes">
@@ -347,7 +347,7 @@ from interacting with them. Blocked relationships can be tracked with different 
 <h3>update</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.social.model">UserBlockListTBL</a>&nbsp;blockListTBL)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../model/UserBlockListTBL.html" title="class in com.jamii.jSocial.model">UserBlockListTBL</a>&nbsp;blockListTBL)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#save()"><code>save()</code></a> instead which operates on the <code>data</code> field</div>
 </div>
@@ -363,8 +363,8 @@ from interacting with them. Blocked relationships can be tracked with different 
 <section class="detail" id="add(com.jamii.users.model.UserLoginTBL,com.jamii.users.model.UserLoginTBL,java.lang.Integer)">
 <h3>add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userid,
- <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;blockedid,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userid,
+ <a href="../../users/model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;blockedid,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;status)</span></div>
 <div class="block">Adds a new block list entry.</div>
 <dl class="notes">

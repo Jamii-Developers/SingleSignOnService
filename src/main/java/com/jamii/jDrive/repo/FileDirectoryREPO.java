@@ -2,7 +2,7 @@ package com.jamii.jDrive.repo;
 
 import com.jamii.jDrive.model.FileDirectoryTBL;
 import com.jamii.jDrive.model.FileTableOwnerTBL;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

@@ -5,7 +5,7 @@
 <title>DeviceInformationREPO (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.users.repo, interface: DeviceInformationREPO">
+<meta name="description" content="declaration: package: com.jamii.jUser.repo, interface: DeviceInformationREPO">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.users.repo</a></li>
+<li><a href="package-summary.html">com.jamii.jUser.repo</a></li>
 <li><a href="DeviceInformationREPO.html" class="current-selection">DeviceInformationREPO</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -73,13 +73,13 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;, org.springframework.data.repository.Repository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></dd>
+<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;, org.springframework.data.repository.Repository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">DeviceInformationREPO</span><span class="extends-implements">
-extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span></div>
-<div class="block">Spring Data JPA repository for <a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model"><code>DeviceInformationTBL</code></a> entities.
+extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span></div>
+<div class="block">Spring Data JPA repository for <a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model"><code>DeviceInformationTBL</code></a> entities.
 
 <p>This repository provides CRUD operations and custom queries for device information records.</p></div>
 </div>
@@ -97,24 +97,24 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByDevicekey(java.lang.String)" class="member-name-link">findByDevicekey</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds device information records by device key.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginid(com.jamii.users.model.UserLoginTBL)" class="member-name-link">findByUserloginid</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginid(com.jamii.users.model.UserLoginTBL)" class="member-name-link">findByUserloginid</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds device information records by user.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginidAndDevicekey(com.jamii.users.model.UserLoginTBL,java.lang.String)" class="member-name-link">findByUserloginidAndDevicekey</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginidAndDevicekey(com.jamii.users.model.UserLoginTBL,java.lang.String)" class="member-name-link">findByUserloginidAndDevicekey</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Finds device information records by user and device key.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginidAndDevicekeyAndActive(com.jamii.users.model.UserLoginTBL,java.lang.String,int)" class="member-name-link">findByUserloginidAndDevicekeyAndActive</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findByUserloginidAndDevicekeyAndActive(com.jamii.users.model.UserLoginTBL,java.lang.String,int)" class="member-name-link">findByUserloginidAndDevicekeyAndActive</a><wbr>(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey,
  int&nbsp;active)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -141,7 +141,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <section class="detail" id="findByUserloginid(com.jamii.users.model.UserLoginTBL)">
 <h3>findByUserloginid</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginid</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginid</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL)</span></div>
 <div class="block">Finds device information records by user.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -156,7 +156,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <section class="detail" id="findByUserloginidAndDevicekey(com.jamii.users.model.UserLoginTBL,java.lang.String)">
 <h3>findByUserloginidAndDevicekey</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginidAndDevicekey</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL,
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginidAndDevicekey</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey)</span></div>
 <div class="block">Finds device information records by user and device key.</div>
 <dl class="notes">
@@ -173,7 +173,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <section class="detail" id="findByDevicekey(java.lang.String)">
 <h3>findByDevicekey</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByDevicekey</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByDevicekey</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey)</span></div>
 <div class="block">Finds device information records by device key.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -188,7 +188,7 @@ extends org.springframework.data.repository.CrudRepository&lt;<a href="../model/
 <section class="detail" id="findByUserloginidAndDevicekeyAndActive(com.jamii.users.model.UserLoginTBL,java.lang.String,int)">
 <h3>findByUserloginidAndDevicekeyAndActive</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.users.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginidAndDevicekeyAndActive</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.users.model">UserLoginTBL</a>&nbsp;userLoginTBL,
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/DeviceInformationTBL.html" title="class in com.jamii.jUser.model">DeviceInformationTBL</a>&gt;</span>&nbsp;<span class="element-name">findByUserloginidAndDevicekeyAndActive</span><wbr><span class="parameters">(<a href="../model/UserLoginTBL.html" title="class in com.jamii.jUser.model">UserLoginTBL</a>&nbsp;userLoginTBL,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;devicekey,
  int&nbsp;active)</span></div>
 <div class="block">Finds device information records by user, device key, and active status.</div>

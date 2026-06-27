@@ -1,9 +1,9 @@
 package com.jamii.utils;
 
-import com.jamii.social.controllers.UserBlockList;
-import com.jamii.social.controllers.UserRelationship;
-import com.jamii.social.controllers.UserRequest;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jSocial.controllers.UserBlockList;
+import com.jamii.jSocial.controllers.UserRelationship;
+import com.jamii.jSocial.controllers.UserRequest;
+import com.jamii.jUser.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Utility class for managing user relationships, requests, and block lists.
  * 
- * <p>This class provides methods to check the relationship status between users,
+ * <p>This class provides methods to check the relationship status between jUser,
  * including friendship, following, blocking, and pending requests.</p>
  */
 @Component
@@ -173,7 +173,7 @@ public class JamiiRelationshipUtils {
 
     /**
      * Checks if the sender and receiver have a valid friendship relationship.
-     * @return true if the users are friends, false otherwise
+     * @return true if the jUser are friends, false otherwise
      */
     public boolean checkIfUsersAreFriends() {
 

@@ -5,7 +5,7 @@
 <title>SearchUsersOPS (jamii-x 0.0.1-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.jamii.social.services, class: SearchUsersOPS">
+<meta name="description" content="declaration: package: com.jamii.jSocial.services, class: SearchUsersOPS">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">com.jamii.social.services</a></li>
+<li><a href="package-summary.html">com.jamii.jSocial.services</a></li>
 <li><a href="SearchUsersOPS.html" class="current-selection">SearchUsersOPS</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="../../abstractClasses/AbstractUserServicesOPS.html" title="class in com.jamii.abstractClasses">com.jamii.abstractClasses.AbstractUserServicesOPS</a>
-<div class="inheritance">com.jamii.social.services.SearchUsersOPS</div>
+<div class="inheritance">com.jamii.jUser.services.SearchUsersOPS</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
@@ -133,10 +133,10 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processRequest()" class="member-name-link">processRequest</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUsingEmailAndUsername(com.jamii.social.requests.SearchUserServicesREQ)" class="member-name-link">searchUsingEmailAndUsername</a><wbr>(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.social.requests">SearchUserServicesREQ</a>&nbsp;req)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUsingEmailAndUsername(com.jamii.social.requests.SearchUserServicesREQ)" class="member-name-link">searchUsingEmailAndUsername</a><wbr>(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.jSocial.requests">SearchUserServicesREQ</a>&nbsp;req)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUsingNames(com.jamii.social.requests.SearchUserServicesREQ)" class="member-name-link">searchUsingNames</a><wbr>(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.social.requests">SearchUserServicesREQ</a>&nbsp;req)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#searchUsingNames(com.jamii.social.requests.SearchUserServicesREQ)" class="member-name-link">searchUsingNames</a><wbr>(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.jSocial.requests">SearchUserServicesREQ</a>&nbsp;req)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateCookie()" class="member-name-link">validateCookie</a>()</code></div>
@@ -225,7 +225,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Async
 @Transactional(readOnly=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">searchUsingEmailAndUsername</span><wbr><span class="parameters">(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.social.requests">SearchUserServicesREQ</a>&nbsp;req)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">searchUsingEmailAndUsername</span><wbr><span class="parameters">(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.jSocial.requests">SearchUserServicesREQ</a>&nbsp;req)</span></div>
 </div>
 </section>
 </li>
@@ -235,7 +235,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Async
 @Transactional(readOnly=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">searchUsingNames</span><wbr><span class="parameters">(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.social.requests">SearchUserServicesREQ</a>&nbsp;req)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">searchUsingNames</span><wbr><span class="parameters">(<a href="../requests/SearchUserServicesREQ.html" title="class in com.jamii.jSocial.requests">SearchUserServicesREQ</a>&nbsp;req)</span></div>
 </div>
 </section>
 </li>

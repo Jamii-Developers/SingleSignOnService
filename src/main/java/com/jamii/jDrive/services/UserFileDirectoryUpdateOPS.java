@@ -4,7 +4,7 @@ import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.utils.JamiiStringUtils;
 import com.jamii.jDrive.controllers.FileDirectory;
 import com.jamii.jDrive.controllers.FileTableOwner;
-import com.jamii.users.controller.UserLogin;
+import com.jamii.jUser.controller.UserLogin;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jDrive.requests.UserFileDirectoryUpdateREQ;
 import com.jamii.jDrive.responses.UserFileDirectoryUpdateRESP;

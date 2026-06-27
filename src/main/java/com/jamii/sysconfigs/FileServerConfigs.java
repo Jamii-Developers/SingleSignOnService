@@ -18,7 +18,7 @@ public class FileServerConfigs
     FTP Server connection Settings
      */
     protected static final String FTP_Server_Host = "ftp-jamiix.alwaysdata.net";
-    protected static final String FTP_Server_Root_Directory = "/home/jamiix/users";
+    protected static final String FTP_Server_Root_Directory = "/home/jamiix/jUser";
     protected static final String FTP_Server_Password = ".:B%Wrfv.TW6rY!)jXRV";
     protected static final Integer FTP_Server_Port = 21;
     protected static final String FTP_Server_User = "jamiix_system";

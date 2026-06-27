@@ -1,7 +1,7 @@
 package com.jamii.jDrive.controllers;
 
 import com.jamii.jDrive.model.FileTableOwnerTBL;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.jDrive.repo.FileTableOwnerREPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * Service component for managing file table owner records in the database.
  * 
  * <p>This class handles file ownership tracking, allowing files to be associated
- * with users and managed through different lifecycle states (store, trash, deleted).</p>
+ * with jUser and managed through different lifecycle states (store, trash, deleted).</p>
  * 
  * <p>Key functionality:</p>
  * <ul>

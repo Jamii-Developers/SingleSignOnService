@@ -1,6 +1,6 @@
 package com.jamii.jDrive.model;
 
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import java.util.List;
  * JPA Entity representing file ownership records in the database.
  * 
  * <p>This class maps to the {@code file_table_owner} table and stores information about
- * files owned by users, including file metadata, location, size, and lifecycle status.</p>
+ * files owned by jUser, including file metadata, location, size, and lifecycle status.</p>
  * 
  * <p>Key fields:</p>
  * <ul>

@@ -1,11 +1,11 @@
 package com.jamii.utils;
 
-import com.jamii.users.controller.DeviceInformation;
-import com.jamii.users.controller.UserCookies;
-import com.jamii.users.controller.UserLogin;
-import com.jamii.users.model.DeviceInformationTBL;
-import com.jamii.users.model.UserCookiesTBL;
-import com.jamii.users.model.UserLoginTBL;
+import com.jamii.jUser.controller.DeviceInformation;
+import com.jamii.jUser.controller.UserCookies;
+import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.model.DeviceInformationTBL;
+import com.jamii.jUser.model.UserCookiesTBL;
+import com.jamii.jUser.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
