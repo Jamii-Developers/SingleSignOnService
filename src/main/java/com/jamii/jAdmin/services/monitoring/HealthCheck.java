@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class HealthCheck
         extends AbstractApplicationControllers
@@ -22,7 +22,7 @@ public class HealthCheck
     @RequestMapping(path = "monitor-health", method = RequestMethod.HEAD)
     public ResponseEntity<?> processMonitorHealthRequest()
     {
-        jamiiDebug.info("Received request for operation: health ");
+        jamiiDebug.info("Received request for operation: monitor-health ");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
