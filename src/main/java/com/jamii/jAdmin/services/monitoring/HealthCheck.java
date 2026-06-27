@@ -26,7 +26,7 @@ public class HealthCheck
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "health")
+    @PostMapping(path = "jhealth")
     public ResponseEntity<?> processHealthRequest( )
     {
         jamiiDebug.info("Received request for operation: health ");

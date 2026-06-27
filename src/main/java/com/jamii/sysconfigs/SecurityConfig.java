@@ -42,7 +42,7 @@ public class SecurityConfig
      * Endpoints that can be accessed without authentication.
      */
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/health/**",
+            "/jhealth/**",
             "/monitor-health/**",
             "/jpublic/**",
             "/juser/**",
