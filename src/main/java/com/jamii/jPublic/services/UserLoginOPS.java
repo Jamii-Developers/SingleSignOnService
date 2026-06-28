@@ -6,6 +6,8 @@ import com.jamii.jPublic.responses.UserLoginRESP;
 import com.jamii.jUser.controller.DeviceInformation;
 import com.jamii.jUser.controller.UserCookies;
 import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.model.DeviceInformationTBL;
+import com.jamii.jUser.model.UserCookiesTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.utils.JamiiDateUtils;
 import com.jamii.utils.JamiiMapperUtils;
@@ -79,6 +81,7 @@ public class UserLoginOPS
         }
 
         // Then create a device key that matches this specific device and save it in the system
+        this.deviceInformation.data = new DeviceInformationTBL();
         this.deviceInformation.data = this.deviceInformation.add(this.userLogin.data, deviceKey, req.getLoginDeviceName(), req.getLocation());
 
         // Generate unique session key
@@ -93,6 +96,7 @@ public class UserLoginOPS
         }
 
         // save both the key and the device key to create a cookie, that can be share back to the device.
+        this.userCookies.data = new UserCookiesTBL();
         this.userCookies.data = this.userCookies.add(this.userLogin.data, this.deviceInformation.data, sessionKey, req.getRememberLogin());
         jamiiDebug.info("User login completed successfully: " + this.userLogin.data.getUsername());
     }
