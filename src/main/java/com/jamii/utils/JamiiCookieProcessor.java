@@ -163,14 +163,15 @@ public class JamiiCookieProcessor {
         this.validatedUser = user.get();
 
         // Check if the device has been connected before
-        Optional< DeviceInformationTBL > deviceData = this.deviceInformation.fetch( user.get( ), getDEVICE_KEY( ), DeviceInformation.ACTIVE_STATUS_ENABLED );
+
+        Optional< DeviceInformationTBL > deviceData = user.get().getDeviceInformation().stream().filter( device -> device.getDevicekey().equals( getDEVICE_KEY( ) ) &&  device.getActive().equals( DeviceInformation.ACTIVE_STATUS_ENABLED  ) ).findFirst();
         if( deviceData.isEmpty( ) ){
             return false;
         }
         this.validatedDevice = deviceData.get();
 
         // Check if session exists
-        Optional<UserCookiesTBL> cookieData = this.userCookies.fetch( user.get( ), deviceData.get( ), getUSER_COOKIE( ) , UserCookies.ACTIVE_STATUS_ENABLED );
+        Optional<UserCookiesTBL> cookieData = user.get().getUserCookies().stream().filter( cookie -> cookie.getSessionkey().equals( getUSER_COOKIE( ) ) && cookie.isActive() == UserCookies.ACTIVE_STATUS_ENABLED ).findFirst();
         if( cookieData.isEmpty( ) ){
             return false;
         }

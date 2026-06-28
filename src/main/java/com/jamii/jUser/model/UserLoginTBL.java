@@ -544,7 +544,7 @@ public class UserLoginTBL
      * Gets the list of user cookie/session records.
      * @return the list of user cookies
      */
-    public List<UserCookiesTBL> getUserCookiesTBL()
+    public List<UserCookiesTBL> getUserCookies()
     {
         return userCookiesTBL;
     }
@@ -553,7 +553,7 @@ public class UserLoginTBL
      * Sets the list of user cookie/session records.
      * @param userCookiesTBL the list of user cookies to set
      */
-    public void setUserCookiesTBL(List<UserCookiesTBL> userCookiesTBL)
+    public void setUserCookies(List<UserCookiesTBL> userCookiesTBL)
     {
         this.userCookiesTBL = userCookiesTBL;
     }

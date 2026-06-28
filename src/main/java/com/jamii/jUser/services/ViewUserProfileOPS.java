@@ -116,11 +116,10 @@ public class ViewUserProfileOPS
 
         // Fetch the target user's profile data
         Optional<UserDataTBL> userProfile = this.userData.fetch(this.userLogin.otherUser, UserData.CURRENT_STATUS_ON);
-        
+
         if (userProfile.isEmpty()) {
             this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
-            setIsSuccessful(false);
             return;
         }
         
