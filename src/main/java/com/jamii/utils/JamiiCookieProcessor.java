@@ -51,6 +51,15 @@ public class JamiiCookieProcessor {
     private String USER_KEY;
     private String DEVICE_KEY;
     private String USER_COOKIE;
+    
+    /** Cached validated user from the last cookie check */
+    private UserLoginTBL validatedUser;
+    
+    /** Cached validated device from the last cookie check */
+    private DeviceInformationTBL validatedDevice;
+    
+    /** Cached validated cookie from the last cookie check */
+    private UserCookiesTBL validatedCookie;
 
     /**
      * Gets the user key.
@@ -101,6 +110,30 @@ public class JamiiCookieProcessor {
     }
 
     /**
+     * Gets the validated user from the last cookie check.
+     * @return the validated user, or null if no valid cookie check was performed
+     */
+    public UserLoginTBL getValidatedUser() {
+        return validatedUser;
+    }
+
+    /**
+     * Gets the validated device from the last cookie check.
+     * @return the validated device, or null if no valid cookie check was performed
+     */
+    public DeviceInformationTBL getValidatedDevice() {
+        return validatedDevice;
+    }
+
+    /**
+     * Gets the validated cookie from the last cookie check.
+     * @return the validated cookie, or null if no valid cookie check was performed
+     */
+    public UserCookiesTBL getValidatedCookie() {
+        return validatedCookie;
+    }
+
+    /**
      * Validates the cookie by checking user key, device information, and session expiration.
      * 
      * <p>This method performs the following validations:</p>
@@ -111,43 +144,53 @@ public class JamiiCookieProcessor {
      *     <li>Checks if the device was connected within the last 5 days</li>
      *     <li>Checks if the cookie has not expired</li>
      * </ul>
+     * <p>On successful validation, the user, device, and cookie entities are cached
+     * and can be retrieved via getter methods to avoid redundant database queries.</p>
      * @return true if the cookie is valid, false otherwise
      */
     public Boolean checkCookieIsValid( ){
+
+        // Reset cached entities
+        this.validatedUser = null;
+        this.validatedDevice = null;
+        this.validatedCookie = null;
 
         // Check if user key exists in the system
         Optional<UserLoginTBL> user = this.userLogin.fetchByUserKey( getUSER_KEY( ), UserLogin.ACTIVE_ON );
         if( user.isEmpty( ) ){
             return false;
         }
+        this.validatedUser = user.get();
 
         // Check if the device has been connected before
         Optional< DeviceInformationTBL > deviceData = this.deviceInformation.fetch( user.get( ), getDEVICE_KEY( ), DeviceInformation.ACTIVE_STATUS_ENABLED );
         if( deviceData.isEmpty( ) ){
             return false;
         }
+        this.validatedDevice = deviceData.get();
 
         // Check if session exists
         Optional<UserCookiesTBL> cookieData = this.userCookies.fetch( user.get( ), deviceData.get( ), getUSER_COOKIE( ) , UserCookies.ACTIVE_STATUS_ENABLED );
         if( cookieData.isEmpty( ) ){
             return false;
         }
+        this.validatedCookie = cookieData.get();
 
         // Check when was the last time the device was connected
         if( LocalDateTime.now( ).minusDays( 5 ).isAfter( deviceData.get().getLastconnected( ) ) ){
             deviceData.get( ).setActive( DeviceInformation.ACTIVE_STATUS_DISABLED );
-            this.deviceInformation.update( deviceData.get( ) );
+            this.deviceInformation.save( deviceData.get( ) );
             return false;
         }
 
         if( LocalDateTime.now( ).isAfter( cookieData.get( ).getExpiredate( ) ) ){
             cookieData.get( ).setActive( UserCookies.ACTIVE_STATUS_DISABLED );
-            this.userCookies.update( cookieData.get( ) );
+            this.userCookies.save( cookieData.get( ) );
             return false;
         }
 
         deviceData.get( ).setLastconnected( LocalDateTime.now( ) );
-        this.deviceInformation.update( deviceData.get( ) );
+        this.deviceInformation.save( deviceData.get( ) );
 
         return true;
     }

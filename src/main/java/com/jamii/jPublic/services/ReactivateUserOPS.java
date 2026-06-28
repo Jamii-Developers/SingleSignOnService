@@ -27,6 +27,31 @@ public class ReactivateUserOPS
 
         ReactivateUserREQ req = (ReactivateUserREQ) JamiiMapperUtils.mapObject(getRequest(), ReactivateUserREQ.class);
 
+        // Validate input parameters
+        if (req.getEmailaddress() == null || req.getEmailaddress().trim().isEmpty()) {
+            jamiiDebug.warning("Email address is empty");
+            this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
+        }
+
+        if (req.getUsername() == null || req.getUsername().trim().isEmpty()) {
+            jamiiDebug.warning("Username is empty");
+            this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
+        }
+
+        if (req.getPassword() == null || req.getPassword().trim().isEmpty()) {
+            jamiiDebug.warning("Password is empty");
+            this.jamiiErrorsMessagesRESP.setReactivateUser_PasswordsNotMatching();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+            return;
+        }
+
         //Check if the user exists as active
         Optional<UserLoginTBL> user = this.userLogin.fetch(req.getEmailaddress(), req.getUsername(), UserLogin.ACTIVE_ON);
         if (user.isEmpty()) {
@@ -37,33 +62,37 @@ public class ReactivateUserOPS
             return;
         }
 
+        UserLoginTBL userRecord = user.get();
+
         //Check if the password is valid
-        if (!this.userLogin.isPasswordValid(req.getPassword(), user.get())) {
+        if (!this.userLogin.isPasswordValid(req.getPassword(), userRecord)) {
             jamiiDebug.warning("Password is incorrect " + req.getUsername());
             this.jamiiErrorsMessagesRESP.setReactivateUser_PasswordsNotMatching();
             this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
             return;
         }
 
         //Reactivate user
-        userLogin.reactivateUser(user.get());
+        try {
+            userLogin.reactivateUser(userRecord);
+            jamiiDebug.info("User reactivated successfully: " + req.getUsername());
+        } catch (Exception e) {
+            jamiiDebug.error("Error reactivating user: " + req.getUsername() + " - " + e.getMessage());
+            this.jamiiErrorsMessagesRESP.setReactivateUser_UsernameOrEmailAddressDoesNotExist();
+            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+            setIsSuccessful(false);
+        }
     }
 
     @Override
     public ResponseEntity<?> getResponse()
     {
-
-        ReactivateUserREQ req = (ReactivateUserREQ) JamiiMapperUtils.mapObject(getRequest(), ReactivateUserREQ.class);
-
         if (getIsSuccessful()) {
-            StringBuilder response = new StringBuilder();
-            jamiiDebug.info(String.format("This is account has been Reactivated : %s ", req.getUsername()));
             ReactivateUserRESP reactivateUserRESP = new ReactivateUserRESP();
-            response.append(reactivateUserRESP.getJSONRESP());
-            return new ResponseEntity<>(response.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(reactivateUserRESP.getJSONRESP(), HttpStatus.OK);
         }
 
-        jamiiDebug.warning(String.format("Account Reactivation is unsuccessful : %s ", req.getUsername()));
         return super.getResponse();
     }
 }

@@ -123,6 +123,12 @@ public class UserCookies
         data = this.userCookiesREPO.save(data);
     }
 
+    public void save( UserCookiesTBL data )
+    {
+        this.userCookiesREPO.save(data);
+    }
+
+
     /**
      * Saves all cookie records in the {@code dataList} to the database in a batch operation.
      * 

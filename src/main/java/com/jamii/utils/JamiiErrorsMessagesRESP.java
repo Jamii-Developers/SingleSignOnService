@@ -183,7 +183,7 @@ public class JamiiErrorsMessagesRESP
 
     public void setSearchUserOPS_DeviceNotFound()
     {
-        setERROR_FIELD_SUBJECT("Device Error!");
+        setERROR_FIELD_SUBJECT("Oops!");
         setERROR_FIELD_MESSAGE("This device is not registered or your session has expired. Please try and login again");
     }
 
@@ -305,5 +305,10 @@ public class JamiiErrorsMessagesRESP
     {
         setERROR_FIELD_SUBJECT("Oops!");
         setERROR_FIELD_MESSAGE("Something went wrong on ourside! Please try again");
+    }
+
+    public void setSearchUserOPS_UserNotFound() {
+        setERROR_FIELD_SUBJECT("User not found!");
+        setERROR_FIELD_MESSAGE("We cannot find this user in our system");
     }
 }

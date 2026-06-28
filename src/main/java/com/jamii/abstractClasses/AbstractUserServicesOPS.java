@@ -7,46 +7,165 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Abstract base class for user service operations requiring authentication.
+ * 
+ * <p>This class provides common functionality for user-related operations including:
+ * <ul>
+ *   <li>Session validation through cookie-based authentication</li>
+ *   <li>Request processing workflow management</li>
+ *   <li>Error handling and response generation</li>
+ *   <li>Authentication key management (device, user, session)</li>
+ * </ul>
+ * 
+ * <p>Typical usage pattern:
+ * <pre>
+ * public class ConcreteService extends AbstractUserServicesOPS {
+ *     public void validateCookie() throws Exception {
+ *         // Extract keys from request and call super.validateCookie()
+ *     }
+ *     
+ *     public void processRequest() throws Exception {
+ *         // Implement business logic
+ *     }
+ * }
+ * </pre>
+ * 
+ * <p>Thread Safety: This class maintains instance-level authentication state,
+ * making it safe for concurrent use in web applications.
+ * 
+ * @see JamiiCookieProcessor
+ * @see JamiiErrorsMessagesRESP
+ */
 public abstract class AbstractUserServicesOPS
 {
 
-    protected static String DeviceKey = null;
-    protected static String UserKey = null;
-    protected static String SessionKey = null;
+    /** Device authentication key */
+    protected String deviceKey;
+    
+    /** User authentication key */
+    protected String userKey;
+    
+    /** Session authentication key */
+    protected String sessionKey;
+    
+    /** Debug logger for this service instance */
     protected final JamiiDebug jamiiDebug = new JamiiDebug(this.getClass());
+    
+    /** Error message string populated when validation fails */
     protected String JamiiError;
+    
+    /** Response object containing error messages and status */
     protected JamiiErrorsMessagesRESP jamiiErrorsMessagesRESP = null;
+    
+    /** Flag indicating whether the operation completed successfully */
     protected Boolean isSuccessful = true;
+    
+    /** The incoming request payload */
     protected Object request;
 
-    @Autowired private JamiiCookieProcessor cookie;
+    /** Cookie processor for validating session authentication */
+    @Autowired protected JamiiCookieProcessor cookie;
 
-    public static String getDeviceKey() {return DeviceKey;}
+    /**
+     * Gets the device authentication key.
+     * 
+     * @return the device key, or null if not set
+     */
+    protected String getDeviceKey() {
+        return deviceKey;
+    }
 
-    public static void setDeviceKey(String deviceKey) {DeviceKey = deviceKey;}
+    /**
+     * Sets the device authentication key.
+     * 
+     * @param deviceKey the device key to set
+     */
+    protected void setDeviceKey(String deviceKey) {
+        this.deviceKey = deviceKey;
+    }
 
-    public static String getUserKey() {return UserKey;}
+    /**
+     * Gets the user authentication key.
+     * 
+     * @return the user key, or null if not set
+     */
+    protected String getUserKey() {
+        return userKey;
+    }
 
-    public static void setUserKey(String userKey) {UserKey = userKey;}
+    /**
+     * Sets the user authentication key.
+     * 
+     * @param userKey the user key to set
+     */
+    protected void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
 
-    public static String getSessionKey() {return SessionKey;}
+    /**
+     * Gets the session authentication key.
+     * 
+     * @return the session key, or null if not set
+     */
+    protected String getSessionKey() {
+        return sessionKey;
+    }
 
-    public static void setSessionKey(String sessionKey) {SessionKey = sessionKey;}
+    /**
+     * Sets the session authentication key.
+     * 
+     * @param sessionKey the session key to set
+     */
+    protected void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
 
-    protected Boolean getIsSuccessful() {return isSuccessful;}
+    /**
+     * Gets the success status of the operation.
+     * 
+     * @return true if the operation succeeded, false otherwise
+     */
+    protected Boolean getIsSuccessful() {
+        return isSuccessful;
+    }
 
-    protected void setIsSuccessful(Boolean isSuccessful)
-    {
+    /**
+     * Sets the success status of the operation.
+     * 
+     * @param isSuccessful the success status to set
+     */
+    protected void setIsSuccessful(Boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
 
-    public Object getRequest() {return request;}
+    /**
+     * Gets the request payload.
+     * 
+     * @return the request object
+     */
+    public Object getRequest() {
+        return request;
+    }
 
-    public void setRequest(Object request) {this.request = request;}
+    /**
+     * Sets the request payload.
+     * 
+     * @param request the request object to set
+     */
+    public void setRequest(Object request) {
+        this.request = request;
+    }
 
-    public void reset()
-    {
-        this.JamiiError = "";
+    /**
+     * Resets the service state to initial values.
+     * 
+     * <p>This method clears all authentication keys, error messages,
+     * and resets the success flag. Should be called before processing
+     * a new request to ensure clean state.
+     */
+    public void reset() {
+        this.JamiiError = null;
         this.jamiiErrorsMessagesRESP = new JamiiErrorsMessagesRESP();
         setDeviceKey(null);
         setUserKey(null);
@@ -54,56 +173,105 @@ public abstract class AbstractUserServicesOPS
         setIsSuccessful(true);
     }
 
-    public abstract void processRequest()
-            throws Exception;
+    /**
+     * Processes the main business logic for the service operation.
+     * 
+     * <p>Subclasses must implement this method to define the specific
+     * business logic for their operation. The method is called after
+     * successful cookie validation.
+     * 
+     * @throws Exception if an error occurs during processing
+     */
+    public abstract void processRequest() throws Exception;
 
-    public ResponseEntity<?> run(Object requestPayload)
-            throws Exception
-    {
+    /**
+     * Executes the complete service operation workflow.
+     * 
+     * <p>This method orchestrates the full request processing pipeline:
+     * <ol>
+     *   <li>Resets service state</li>
+     *   <li>Sets the request payload</li>
+     *   <li>Validates the session cookie</li>
+     *   <li>Processes the business logic</li>
+     *   <li>Returns the response</li>
+     * </ol>
+     * 
+     * @param requestPayload the incoming request object
+     * @return ResponseEntity containing the operation result
+     * @throws Exception if an error occurs during execution
+     */
+    public ResponseEntity<?> run(Object requestPayload) throws Exception {
+        reset();
         jamiiDebug.info("Received request");
         setRequest(requestPayload);
         validateCookie();
-        processRequest();
+        if (getIsSuccessful()) {
+            processRequest();
+        }
         jamiiDebug.info("Request completed");
         return this.getResponse();
     }
 
-    public void validateCookie()
-            throws Exception
-    {
-
-        //Check if cookie information is available
-        if (DeviceKey == null || UserKey == null || SessionKey == null) {
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound();
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
-            setIsSuccessful(false);
+    /**
+     * Validates the session cookie and authentication keys.
+     * 
+     * <p>This method performs three levels of validation:
+     * <ol>
+     *   <li>Checks that device, user, and session keys are present (not null)</li>
+     *   <li>Checks that all keys are non-empty strings</li>
+     *   <li>Validates the session cookie using the cookie processor</li>
+     * </ol>
+     * 
+     * <p>If any validation fails, the error state is set and the operation
+     * is marked as unsuccessful.
+     * 
+     * @throws Exception if an error occurs during validation
+     */
+    public void validateCookie() throws Exception {
+        // Check if cookie information is available
+        if (deviceKey == null || userKey == null || sessionKey == null) {
+            setValidationError();
             return;
         }
 
-        if (DeviceKey.isEmpty() || UserKey.isEmpty() || SessionKey.isEmpty()) {
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound();
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
-            setIsSuccessful(false);
+        if (deviceKey.isEmpty() || userKey.isEmpty() || sessionKey.isEmpty()) {
+            setValidationError();
             return;
         }
 
-        //Check if user cookie is valid
+        // Check if user cookie is valid
         cookie.setUSER_KEY(getUserKey());
         cookie.setDEVICE_KEY(getDeviceKey());
         cookie.setUSER_COOKIE(getSessionKey());
 
         if (!cookie.checkCookieIsValid()) {
-            this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound();
-            this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
-            setIsSuccessful(false);
+            setValidationError();
         }
     }
 
-    public ResponseEntity<?> getResponse()
-    {
+    /**
+     * Sets the validation error state when cookie validation fails.
+     * 
+     * <p>This is a helper method to reduce code duplication in validateCookie().
+     */
+    private void setValidationError() {
+        this.jamiiErrorsMessagesRESP.setSearchUserOPS_DeviceNotFound();
+        this.JamiiError = jamiiErrorsMessagesRESP.getJSONRESP();
+        setIsSuccessful(false);
+    }
 
+    /**
+     * Generates the HTTP response for the service operation.
+     * 
+     * <p>If an error occurred during processing, returns the error message.
+     * Otherwise, returns an empty response. Subclasses should override
+     * this method to provide custom response handling.
+     * 
+     * @return ResponseEntity containing the response data with HTTP status
+     */
+    public ResponseEntity<?> getResponse() {
         StringBuilder response = new StringBuilder();
-        if (!JamiiError.isEmpty()) {
+        if (JamiiError != null && !JamiiError.isEmpty()) {
             response.append(this.JamiiError);
         }
 

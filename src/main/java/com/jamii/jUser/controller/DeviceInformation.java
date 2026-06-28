@@ -145,6 +145,11 @@ public class DeviceInformation
         data = deviceInformationREPO.save(data);
     }
 
+    public void save( DeviceInformationTBL data )
+    {
+        deviceInformationREPO.save(data);
+    }
+
     /**
      * Saves all device records in the {@code dataList} to the database in a batch operation.
      * 

@@ -49,7 +49,7 @@ public class UnBlockUserOPS
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();
         this.userLogin.otherUser = new UserLoginTBL();
-        this.userLogin.data = this.userLogin.fetchByUserKey(UserKey, UserLogin.ACTIVE_ON).orElse(null);
+        this.userLogin.data = this.cookie.getValidatedUser();
         this.userLogin.otherUser = this.userLogin.fetchByUserKey(req.getTargetUserKey(), UserLogin.ACTIVE_ON).orElse(null);
         if (this.userLogin.data == null || this.userLogin.otherUser == null) {
             this.jamiiErrorsMessagesRESP.setGenericErrorMessage();
