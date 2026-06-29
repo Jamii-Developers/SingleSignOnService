@@ -1,0 +1,90 @@
+2026-06-29 17:49:57 [main] INFO  com.jamii.ApplicationStart - Starting ApplicationStart using Java 25.0.1 with PID 28628 (F:\Jamii-Devs\webapi\build\classes\java\main started by mikea in F:\Jamii-Devs\webapi)
+2026-06-29 17:49:57 [main] INFO  com.jamii.ApplicationStart - The following 1 profile is active: "UAT"
+2026-06-29 17:49:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-29 17:49:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 17 JPA repository interfaces.
+2026-06-29 17:49:59 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-06-29 17:49:59 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-06-29 17:49:59 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-06-29 17:49:59 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1476 ms
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning for classpath resources at 'classpath:db/callback' ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Determining location urls for classpath:db/callback using ClassLoader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Unable to resolve location classpath:db/callback.
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning for classpath resources at 'classpath:migration' ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Determining location urls for classpath:migration using ClassLoader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning URL: file:/F:/Jamii-Devs/webapi/build/resources/main/migration
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.c.FileSystemClassPathLocationScanner - Scanning starting at classpath root in filesystem: F:\Jamii-Devs\webapi\build\resources\main\
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.c.FileSystemClassPathLocationScanner - Scanning for resources in path: F:\Jamii-Devs\webapi\build\resources\main\migration (migration)
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V1__Initial_schema.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V2__Add_user_posts_table.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V3__Fix_user_posts_content_type.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning for classpath resources at 'classpath:migration' ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Determining location urls for classpath:migration using ClassLoader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 ...
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning URL: file:/F:/Jamii-Devs/webapi/build/resources/main/migration
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V1__Initial_schema.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V2__Add_user_posts_table.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Found resource: migration/V3__Fix_user_posts_content_type.sql
+2026-06-29 17:49:59 [main] DEBUG o.f.c.i.s.classpath.ClassPathScanner - Scanning for classes at classpath:migration
+2026-06-29 17:49:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-29 17:50:01 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@24eecabf
+2026-06-29 17:50:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.r.ResourceNameValidator - Validating V3__Fix_user_posts_content_type.sql
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.r.ResourceNameValidator - Validating V2__Add_user_posts_table.sql
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.r.ResourceNameValidator - Validating V1__Initial_schema.sql
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.d.DatabaseTypeRegister - Multiple databases found that handle url 'jdbc:postgresql://ep-wild-rain-asmjrufc-pooler.c-4.eu-central-1.aws.neon.tech/jamiidb': CockroachDB,PostgreSQL
+2026-06-29 17:50:01 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://ep-wild-rain-asmjrufc-pooler.c-4.eu-central-1.aws.neon.tech/jamiidb (PostgreSQL 18.4)
+2026-06-29 17:50:01 [main] DEBUG org.flywaydb.core.FlywayExecutor - Database Type: PostgreSQL
+2026-06-29 17:50:01 [main] DEBUG org.flywaydb.core.FlywayExecutor - Driver: PostgreSQL JDBC Driver 42.7.7
+2026-06-29 17:50:01 [main] DEBUG org.flywaydb.core.FlywayExecutor - DDL Transactions Supported: true
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.s.SchemaHistoryFactory - Schemas: 
+2026-06-29 17:50:01 [main] DEBUG o.f.c.i.s.SchemaHistoryFactory - Default schema: null
+2026-06-29 17:50:02 [main] WARN  o.f.c.i.database.base.Database - Using PostgreSQL 18.4 which is newer than the version Flyway has been verified with. The latest verified version of PostgreSQL is 17.
+2026-06-29 17:50:02 [main] DEBUG org.flywaydb.core.FlywayExecutor - Scanning for script callbacks ...
+2026-06-29 17:50:02 [main] DEBUG o.f.c.i.c.SqlScriptCallbackFactory - Scanning for SQL callbacks ...
+2026-06-29 17:50:03 [main] DEBUG o.f.core.internal.command.DbSchemas - Skipping creation of existing schema: "public"
+2026-06-29 17:50:04 [main] DEBUG o.f.c.a.c.ClassicConfiguration - CherryPickConfigurationExtension not found
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V3__Fix_user_posts_content_type.sql (filename: V3__Fix_user_posts_content_type.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V2__Add_user_posts_table.sql (filename: V2__Add_user_posts_table.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V1__Initial_schema.sql (filename: V1__Initial_schema.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V3__Fix_user_posts_content_type.sql (filename: V3__Fix_user_posts_content_type.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V2__Add_user_posts_table.sql (filename: V2__Add_user_posts_table.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V1__Initial_schema.sql (filename: V1__Initial_schema.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V3__Fix_user_posts_content_type.sql (filename: V3__Fix_user_posts_content_type.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V2__Add_user_posts_table.sql (filename: V2__Add_user_posts_table.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V1__Initial_schema.sql (filename: V1__Initial_schema.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V3__Fix_user_posts_content_type.sql (filename: V3__Fix_user_posts_content_type.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V2__Add_user_posts_table.sql (filename: V2__Add_user_posts_table.sql)
+2026-06-29 17:50:04 [main] DEBUG o.f.core.internal.scanner.Scanner - Filtering out resource: migration/V1__Initial_schema.sql (filename: V1__Initial_schema.sql)
+2026-06-29 17:50:04 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 3
+2026-06-29 17:50:05 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2026-06-29 17:50:05 [main] DEBUG org.flywaydb.core.FlywayExecutor - Memory usage: 50 of 104M
+2026-06-29 17:50:06 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-29 17:50:06 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.19.Final
+2026-06-29 17:50:06 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-29 17:50:06 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-29 17:50:07 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://ep-wild-rain-asmjrufc-pooler.c-4.eu-central-1.aws.neon.tech/jamiidb]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: jamiidb/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-29 17:50:07 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-29 17:50:08 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-29 17:50:08 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-29 17:50:09 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-29 17:50:09 [main] WARN  o.s.b.s.a.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 9da51b6e-8681-44f6-bb03-56ca7ad06faa
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-29 17:50:09 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-29 17:50:10 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-06-29 17:50:10 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-06-29 17:50:10 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-06-29 17:50:10 [main] INFO  com.jamii.ApplicationStart - Started ApplicationStart in 13.095 seconds (process running for 13.453)
