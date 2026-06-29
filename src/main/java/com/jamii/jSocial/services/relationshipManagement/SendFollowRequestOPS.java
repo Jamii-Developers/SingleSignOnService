@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.utils.JamiiRelationshipUtils;
@@ -19,6 +19,34 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Service for sending follow requests to other users.
+ * 
+ * <p>This service allows authenticated users to send follow requests or directly follow
+ * users based on privacy settings. The operation requires valid session authentication
+ * and handles various relationship scenarios including blocks and existing relationships.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Check for blocking relationships</li>
+ *   <li>Check for existing follow requests/relationships</li>
+ *   <li>Create follow request or direct follow based on privacy settings</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>User is blocked or has blocked target</li>
+ *   <li>Existing follow request or relationship</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see SendFollowRequestServicesREQ
+ */
 @Service
 public class SendFollowRequestOPS
         extends AbstractUserServicesOPS
@@ -30,16 +58,22 @@ public class SendFollowRequestOPS
     @Autowired private JamiiRelationshipUtils jamiiRelationshipUtils;
 
     private Integer followerType;
+    
+    /** Request object containing follow request data */
+    protected SendFollowRequestServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link SendFollowRequestServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        SendFollowRequestServicesREQ req = (SendFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFollowRequestServicesREQ.class);
+        req = new SendFollowRequestServicesREQ();
+        req = (SendFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFollowRequestServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -51,7 +85,7 @@ public class SendFollowRequestOPS
             return;
         }
 
-        SendFollowRequestServicesREQ req = (SendFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFollowRequestServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

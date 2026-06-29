@@ -15,6 +15,51 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Service for handling user file deletion operations in the Jamii Drive system.
+ * 
+ * <p>This service allows authenticated users to delete their files using a soft delete
+ * approach. Files are moved to trash rather than being permanently deleted, allowing
+ * for potential recovery and maintaining data integrity.</p>
+ * 
+ * <p>Operation flow:</p>
+ * <ol>
+ *   <li>Extract authentication keys from request in {@link #validateCookie()}</li>
+ *   <li>Validate user session and ensure user is active</li>
+ *   <li>Locate file record in database using filename</li>
+ *   <li>Verify file ownership and current status</li>
+ *   <li>Update file status to "in trash" (soft delete)</li>
+ *   <li>Return deletion confirmation response</li>
+ * </ol>
+ * 
+ * <p>Key features:</p>
+ * <ul>
+ *   <li>Soft delete implementation (files moved to trash)</li>
+ *   <li>Ownership verification for security</li>
+ *   <li>Status validation to prevent duplicate operations</li>
+ *   <li>Database consistency maintenance</li>
+ * </ul>
+ * 
+ * <p>Error conditions:</p>
+ * <ul>
+ *   <li>Invalid or expired user session</li>
+ *   <li>User not found or inactive</li>
+ *   <li>File not found or already deleted</li>
+ *   <li>File already in trash</li>
+ *   <li>User does not own the file</li>
+ * </ul>
+ * 
+ * <p>Security considerations:</p>
+ * <ul>
+ *   <li>Users can only delete their own files</li>
+ *   <li>Soft delete prevents accidental permanent loss</li>
+ *   <li>Status validation prevents unauthorized state changes</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see UserFileDeleteREQ
+ * @see FileTableOwner
+ */
 @Service
 public class UserFileDeleteOPS
         extends AbstractUserServicesOPS
@@ -22,18 +67,40 @@ public class UserFileDeleteOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private FileTableOwner fileTableOwner;
+    
+    protected UserFileDeleteREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link UserFileDeleteREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        UserFileDeleteREQ req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDeleteREQ.class);
+        req = new UserFileDeleteREQ();
+        req = (UserFileDeleteREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDeleteREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
+    /**
+     * Processes the file deletion request using soft delete approach.
+     * 
+     * <p>Validates user ownership and file status before performing soft delete.
+     * Files are moved to trash rather than permanently deleted to allow recovery.</p>
+     * 
+     * <p>Process steps:</p>
+     * <ol>
+     *   <li>Validate user exists and is active</li>
+     *   <li>Locate file record using filename</li>
+     *   <li>Verify file is not already in trash or deleted</li>
+     *   <li>Update file status to "in trash"</li>
+     *   <li>Save changes to database</li>
+     * </ol>
+     * 
+     * @throws IOException if file processing fails
+     */
     @Override
     public void processRequest()
             throws IOException
@@ -78,6 +145,14 @@ public class UserFileDeleteOPS
         setIsSuccessful(true);
     }
 
+    /**
+     * Generates the HTTP response for the file deletion operation.
+     * 
+     * <p>Returns a success response with deletion confirmation if the operation
+     * completed successfully, otherwise delegates error handling to the parent class.</p>
+     * 
+     * @return ResponseEntity containing the deletion response or error details
+     */
     @Override
     public ResponseEntity<?> getResponse()
     {

@@ -44,7 +44,7 @@ public class JamiiDebug {
      * @param text the error message to log
      */
     public void error( String text ) {
-        logger.info( text );
+        logger.severe( text );
     }
 
     /**

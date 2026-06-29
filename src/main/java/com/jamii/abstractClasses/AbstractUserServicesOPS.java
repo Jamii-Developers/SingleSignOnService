@@ -64,6 +64,9 @@ public abstract class AbstractUserServicesOPS
     /** The incoming request payload */
     protected Object request;
 
+    /** The response object for successful operations */
+    protected Object Response;
+
     /** Cookie processor for validating session authentication */
     @Autowired protected JamiiCookieProcessor cookie;
 
@@ -173,6 +176,8 @@ public abstract class AbstractUserServicesOPS
         setIsSuccessful(true);
     }
 
+    protected abstract void setUserRequestData();
+
     /**
      * Processes the main business logic for the service operation.
      * 
@@ -204,6 +209,7 @@ public abstract class AbstractUserServicesOPS
         reset();
         jamiiDebug.info("Received request");
         setRequest(requestPayload);
+        setUserRequestData();
         validateCookie();
         if (getIsSuccessful()) {
             processRequest();

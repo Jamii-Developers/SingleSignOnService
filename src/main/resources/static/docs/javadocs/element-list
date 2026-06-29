@@ -23,7 +23,7 @@ com.jamii.jSocial.repo
 com.jamii.jSocial.requests
 com.jamii.jSocial.responses
 com.jamii.jSocial.services
-com.jamii.jSocial.services.Utils
+com.jamii.jSocial.services.utils
 com.jamii.sysconfigs
 com.jamii.jUser
 com.jamii.jUser.controller

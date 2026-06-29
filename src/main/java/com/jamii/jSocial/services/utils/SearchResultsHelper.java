@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services.Utils;
+package com.jamii.jSocial.services.utils;
 
 public class SearchResultsHelper {
 

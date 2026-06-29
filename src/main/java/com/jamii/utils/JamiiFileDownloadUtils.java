@@ -4,6 +4,8 @@ import com.jamii.sysconfigs.FileServerConfigs;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,11 +19,18 @@ import java.util.zip.InflaterInputStream;
  * Utility class for file download operations.
  * 
  * <p>This class handles decompressing and retrieving files from the file server,
- * including caching operations for improved performance.</p>
+ * including caching operations for improved performance. Uses optimized I/O operations
+ * and proper resource management for better performance.</p>
+ * 
+ * <p>Performance optimizations:</p>
+ * <ul>
+ *   <li>Uses buffered I/O for improved file operations</li>
+ *   <li>Proper resource management with try-with-resources</li>
+ *   <li>Optimized file searching with direct path construction</li>
+ *   <li>Reduced file system operations</li>
+ * </ul>
  */
 public class JamiiFileDownloadUtils {
-
-
 
     /**
      * The path of the found file after processing.
@@ -48,7 +57,9 @@ public class JamiiFileDownloadUtils {
      * Gets a file as a Spring Resource after decompressing it.
      * 
      * <p>This method decompresses a file from the source path, caches it in the
-     * file caching store, and returns it as a Resource for download.</p>
+     * file caching store, and returns it as a Resource for download. Uses optimized
+     * buffered I/O operations for better performance.</p>
+     * 
      * @param filePath the directory path of the file
      * @param fileName the name of the file
      * @param fileExtension the file extension
@@ -57,33 +68,32 @@ public class JamiiFileDownloadUtils {
      */
     public Resource getFileAsResource(String filePath, String fileName, String fileExtension ) throws IOException {
 
-        FileInputStream fis = new FileInputStream( filePath + File.separator + fileName );
-        FileOutputStream fos =new FileOutputStream( FileServerConfigs.FILE_CACHING_STORE + File.separator + fileName + fileExtension ) ;
-        InflaterInputStream decompressor = new InflaterInputStream( fis );
+        // Construct full paths once to avoid repeated string concatenation
+        String sourceFilePath = filePath + File.separator + fileName;
+        String cachedFilePath = FileServerConfigs.FILE_CACHING_STORE + File.separator + fileName + fileExtension;
+        
+        // Use try-with-resources for automatic resource management
+        try (FileInputStream fis = new FileInputStream(sourceFilePath);
+             FileOutputStream fos = new FileOutputStream(cachedFilePath);
+             InflaterInputStream decompressor = new InflaterInputStream(fis);
+             BufferedInputStream bis = new BufferedInputStream(decompressor);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
-        int data;
-        while((data=decompressor.read())!=-1)
-        {
-            fos.write(data);
-        }
-
-        //close the files
-        decompressor.close();
-        fis.close();
-        fos.flush();
-        fos.close();
-
-        Path dirPath = Paths.get( FileServerConfigs.FILE_CACHING_STORE );
-
-        Files.list(dirPath).forEach(file -> {
-            if (file.getFileName( ).toString( ).startsWith( fileName ) ) {
-                setFoundFile( file ) ;
+            // Use buffer for better I/O performance
+            byte[] buffer = new byte[8192]; // 8KB buffer
+            int bytesRead;
+            while ((bytesRead = bis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
             }
-        });
-
-        if ( getFoundFile( ) != null) {
-            return new UrlResource( getFoundFile( ).toUri());
         }
+
+        // Direct path construction instead of directory listing
+        Path potentialFile = Paths.get(cachedFilePath);
+        if (Files.exists(potentialFile) && Files.isReadable(potentialFile)) {
+            setFoundFile(potentialFile);
+            return new UrlResource(potentialFile.toUri());
+        }
+        
         return null;
     }
 }

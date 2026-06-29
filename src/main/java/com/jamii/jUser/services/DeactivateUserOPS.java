@@ -21,7 +21,8 @@ import org.springframework.stereotype.Service;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Verify user exists and is active</li>
  *   <li>Validate password matches current password</li>
  *   <li>Deactivate the user account</li>
@@ -47,24 +48,22 @@ public class DeactivateUserOPS
 
     /** Repository for user login operations */
     @Autowired private UserLogin userLogin;
+    
+    /** Request object containing user deactivation data */
+    protected DeactivateUserREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * request payload and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link DeactivateUserREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        DeactivateUserREQ req = (DeactivateUserREQ) JamiiMapperUtils.mapObject(getRequest(), DeactivateUserREQ.class);
+        req = new DeactivateUserREQ();
+        req = (DeactivateUserREQ) JamiiMapperUtils.mapObject(getRequest(), DeactivateUserREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**
@@ -89,7 +88,7 @@ public class DeactivateUserOPS
             return;
         }
 
-        DeactivateUserREQ req = (DeactivateUserREQ) JamiiMapperUtils.mapObject(getRequest(), DeactivateUserREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Validate request parameters
         if (req.getPassword() == null || req.getPassword().trim().isEmpty()) {

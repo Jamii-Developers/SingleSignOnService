@@ -21,16 +21,21 @@ public class ContactSupportOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private ClientCommunication clientCommunication;
+    
+    protected ContactSupportServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link ContactSupportServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        ContactSupportServicesREQ req = (ContactSupportServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ContactSupportServicesREQ.class);
+        req = new ContactSupportServicesREQ();
+        req = (ContactSupportServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ContactSupportServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -42,7 +47,7 @@ public class ContactSupportOPS
             return;
         }
 
-        ContactSupportServicesREQ req = (ContactSupportServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ContactSupportServicesREQ.class);
+        // Request is already mapped in setUserRequestData()
         this.userLogin.data = this.userLogin.fetch(req.getEmailaddress(), req.getUsername(), UserLogin.ACTIVE_ON).orElse(null);
 
         if (this.userLogin.data == null) {

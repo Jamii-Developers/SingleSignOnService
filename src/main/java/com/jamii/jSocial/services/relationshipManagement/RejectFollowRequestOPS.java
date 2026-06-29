@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.jUser.controller.UserLogin;
@@ -18,6 +18,32 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Service for rejecting follow requests from other users.
+ * 
+ * <p>This service allows authenticated users to reject follow requests,
+ * deactivating the pending follow request. The operation requires
+ * valid session authentication and an existing active follow request.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Fetch and validate the follow request exists</li>
+ *   <li>Deactivate the follow request</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>No active follow request found</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see RejectFollowRequestServicesREQ
+ */
 @Service
 public class RejectFollowRequestOPS
         extends AbstractUserServicesOPS
@@ -25,16 +51,22 @@ public class RejectFollowRequestOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private UserRequest userRequest;
+    
+    /** Request object containing follow request rejection data */
+    protected RejectFollowRequestServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link RejectFollowRequestServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        RejectFollowRequestServicesREQ req = (RejectFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), RejectFollowRequestServicesREQ.class);
+        req = new RejectFollowRequestServicesREQ();
+        req = (RejectFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), RejectFollowRequestServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -46,7 +78,7 @@ public class RejectFollowRequestOPS
             return;
         }
 
-        RejectFollowRequestServicesREQ req = (RejectFollowRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), RejectFollowRequestServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

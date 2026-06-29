@@ -24,7 +24,8 @@ import org.springframework.stereotype.Service;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Fetch and validate the user account</li>
  *   <li>Fetch and validate the device information</li>
  *   <li>Deactivate the device (set to DISABLED status)</li>
@@ -58,24 +59,22 @@ public class UserLogoffOPS
     
     /** Repository for user cookie operations */
     @Autowired private UserCookies userCookies;
+    
+    /** Request object containing user logoff information */
+    protected UserLogoffREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * logoff request and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link UserLogoffREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        UserLogoffREQ req = (UserLogoffREQ) JamiiMapperUtils.mapObject(getRequest(), UserLogoffREQ.class);
+        req = new UserLogoffREQ();
+        req = (UserLogoffREQ) JamiiMapperUtils.mapObject(getRequest(), UserLogoffREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**

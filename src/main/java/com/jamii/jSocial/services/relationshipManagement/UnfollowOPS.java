@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.jUser.controller.UserLogin;
@@ -16,6 +16,32 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Service for unfollowing users from the authenticated user's follow list.
+ * 
+ * <p>This service allows authenticated users to unfollow users they are currently
+ * following, deactivating the follow relationship. The operation requires valid
+ * session authentication and an existing active follow relationship.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Fetch and validate the follow relationship exists</li>
+ *   <li>Deactivate the follow relationship</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>No active follow relationship found</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see UnfollowServicesREQ
+ */
 @Service
 public class UnfollowOPS
         extends AbstractUserServicesOPS
@@ -23,16 +49,22 @@ public class UnfollowOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private UserRelationship userRelationship;
+    
+    /** Request object containing unfollow request data */
+    protected UnfollowServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link UnfollowServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        UnfollowServicesREQ req = (UnfollowServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnfollowServicesREQ.class);
+        req = new UnfollowServicesREQ();
+        req = (UnfollowServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnfollowServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -44,7 +76,7 @@ public class UnfollowOPS
             return;
         }
 
-        UnfollowServicesREQ req = (UnfollowServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnfollowServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

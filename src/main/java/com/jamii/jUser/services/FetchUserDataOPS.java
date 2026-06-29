@@ -23,7 +23,8 @@ import org.springframework.stereotype.Service;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Verify user exists and is active</li>
  *   <li>Fetch current user profile data</li>
  *   <li>Return profile information with safe string handling</li>
@@ -51,24 +52,22 @@ public class FetchUserDataOPS
 
     /** Response object containing fetched user profile data */
     private FetchUserProfileRESP fetchUserProfileRESP;
+    
+    /** Request object containing user data fetch information */
+    protected FetchUserDataREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * request payload and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link FetchUserDataREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        FetchUserDataREQ req = (FetchUserDataREQ) JamiiMapperUtils.mapObject(getRequest(), FetchUserDataREQ.class);
+        req = new FetchUserDataREQ();
+        req = (FetchUserDataREQ) JamiiMapperUtils.mapObject(getRequest(), FetchUserDataREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**
@@ -93,7 +92,7 @@ public class FetchUserDataOPS
             return;
         }
 
-        FetchUserDataREQ req = (FetchUserDataREQ) JamiiMapperUtils.mapObject(getRequest(), FetchUserDataREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Reuse validated user from cookie validation to avoid redundant database call
         UserLoginTBL userRecord = this.cookie.getValidatedUser();

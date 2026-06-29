@@ -17,6 +17,51 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * Service for handling user file download operations in the Jamii Drive system.
+ * 
+ * <p>This service allows authenticated users to download their files from the storage
+ * system. The service validates user permissions, locates files in the database,
+ * creates file resources from the physical storage, and streams them as HTTP responses.</p>
+ * 
+ * <p>Operation flow:</p>
+ * <ol>
+ *   <li>Extract authentication keys from request in {@link #validateCookie()}</li>
+ *   <li>Validate user session and ensure user is active</li>
+ *   <li>Locate file record in database using filename</li>
+ *   <li>Verify file ownership and active status</li>
+ *   <li>Create file resource from physical storage location</li>
+ *   <li>Stream file as HTTP response with proper headers</li>
+ * </ol>
+ * 
+ * <p>Key features:</p>
+ * <ul>
+ *   <li>Secure file access with ownership verification</li>
+ *   <li>Proper MIME type handling for different file types</li>
+ *   <li>Streaming download for efficient memory usage</li>
+ *   <li>Comprehensive error handling and logging</li>
+ * </ul>
+ * 
+ * <p>Error conditions:</p>
+ * <ul>
+ *   <li>Invalid or expired user session</li>
+ *   <li>User not found or inactive</li>
+ *   <li>File not found or not accessible</li>
+ *   <li>File system access errors</li>
+ *   <li>Resource creation failures</li>
+ * </ul>
+ * 
+ * <p>Security considerations:</p>
+ * <ul>
+ *   <li>Users can only download their own files</li>
+ *   <li>File path validation prevents directory traversal</li>
+ *   <li>Access logging for audit purposes</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see UserFileDownloadREQ
+ * @see JamiiFileDownloadUtils
+ */
 @Service
 public class UserFileDownloadOPS
         extends AbstractUserServicesOPS
@@ -25,19 +70,38 @@ public class UserFileDownloadOPS
     @Autowired protected FileTableOwner fileTableOwner;
     @Autowired JamiiLoggingUtils jamiiLoggingUtils;
     @Autowired private UserLogin userLogin;
+    
+    protected UserFileDownloadREQ req = null;
 
+    /** The file resource to be streamed to the client */
     private Resource resource;
 
+    /**
+     * Gets the file resource for download.
+     * 
+     * @return The Resource object containing the file data
+     */
     public Resource getResource()
     {
         return resource;
     }
 
+    /**
+     * Sets the file resource for download.
+     * 
+     * @param resource The Resource object containing the file data
+     */
     public void setResource(Resource resource)
     {
         this.resource = resource;
     }
 
+    /**
+     * Resets the service state for reuse.
+     * 
+     * <p>Clears the file resource and calls parent reset to clean up
+     * authentication and error state.</p>
+     */
     @Override
     public void reset()
     {
@@ -45,17 +109,37 @@ public class UserFileDownloadOPS
         setResource(null);
     }
 
+    /**
+     * Maps the incoming request to a {@link UserFileDownloadREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDownloadREQ.class);
+        req = new UserFileDownloadREQ();
+        req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDownloadREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
+    /**
+     * Processes the file download request.
+     * 
+     * <p>Validates user permissions, locates the file record, and creates
+     * a file resource from the physical storage for streaming to the client.</p>
+     * 
+     * <p>Process steps:</p>
+     * <ol>
+     *   <li>Validate user exists and is active</li>
+     *   <li>Locate file record using filename</li>
+     *   <li>Verify file is accessible and not deleted</li>
+     *   <li>Create file resource from storage location</li>
+     *   <li>Handle any file system errors gracefully</li>
+     * </ol>
+     * 
+     * @throws IOException if file processing fails
+     */
     @Override
     public void processRequest()
             throws IOException
@@ -64,7 +148,6 @@ public class UserFileDownloadOPS
         if (!getIsSuccessful()) {
             return;
         }
-        UserFileDownloadREQ req = (UserFileDownloadREQ) JamiiMapperUtils.mapObject(getRequest(), UserFileDownloadREQ.class);
 
         this.userLogin.data = this.userLogin.fetchByUserKey(req.getUserKey(), UserLogin.ACTIVE_ON).orElse(null);
         if (this.userLogin.data == null) {
@@ -106,6 +189,15 @@ public class UserFileDownloadOPS
         setIsSuccessful(true);
     }
 
+    /**
+     * Generates the HTTP response for file download.
+     * 
+     * <p>Creates a streaming response with the file resource and appropriate
+     * headers for browser download. Uses generic octet-stream content type
+     * and attachment disposition to force download behavior.</p>
+     * 
+     * @return ResponseEntity containing the file stream or error details
+     */
     @Override
     public ResponseEntity<?> getResponse()
     {

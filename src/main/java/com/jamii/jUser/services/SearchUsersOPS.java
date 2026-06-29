@@ -8,7 +8,7 @@ import com.jamii.jUser.controller.UserLogin;
 import com.jamii.jUser.model.UserDataTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
-import com.jamii.jSocial.services.Utils.SearchResultsHelper;
+import com.jamii.jSocial.services.utils.SearchResultsHelper;
 import com.jamii.jSocial.requests.SearchUserServicesREQ;
 import com.jamii.jSocial.responses.SearchUserRESP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Fetch and validate the searching user</li>
  *   <li>Execute parallel searches by email/username and by name fields</li>
  *   <li>Filter results to exclude blocked users and self</li>
@@ -81,24 +82,22 @@ public class SearchUsersOPS
     
     /** Utility for managing user relationships */
     @Autowired private JamiiRelationshipUtils rutils;
+    
+    /** Request object containing search parameters */
+    protected SearchUserServicesREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * search request payload and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link SearchUserServicesREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
+        req = new SearchUserServicesREQ();
+        req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**
@@ -131,7 +130,7 @@ public class SearchUsersOPS
             this.searchResults = new ConcurrentHashMap<>();
             this.userData.dataList = new ArrayList<>();
 
-            SearchUserServicesREQ req = (SearchUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SearchUserServicesREQ.class);
+            // Request parameters are already mapped in setUserRequestData()
 
             // Reuse validated user from cookie validation to avoid redundant database call
             this.userLogin.data = this.cookie.getValidatedUser();

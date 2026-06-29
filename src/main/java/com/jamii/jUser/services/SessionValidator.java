@@ -1,8 +1,8 @@
 package com.jamii.jUser.services;
 
-import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jUser.requests.SessionValidatorREQ;
+import com.jamii.utils.JamiiMapperUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,40 +43,36 @@ import org.springframework.stereotype.Service;
 public class SessionValidator
         extends AbstractUserServicesOPS
 {
+    protected SessionValidatorREQ req = null;
+
+    /**
+     * Maps the incoming request to a {@link SessionValidatorREQ} and extracts the
+     * authentication keys required for session validation.
+     */
+    @Override
+    protected void setUserRequestData()
+    {
+        req = new SessionValidatorREQ();
+        req = (SessionValidatorREQ) JamiiMapperUtils.mapObject(getRequest(), SessionValidatorREQ.class);
+        setDeviceKey(req.getDeviceKey());
+        setUserKey(req.getUserKey());
+        setSessionKey(req.getSessionKey());
+    }
 
     /**
      * Processes the session validation request.
-     * 
+     *
      * <p>This method is intentionally empty as this service only performs
-     * session validation. All validation logic is handled in {@link #validateCookie()}
-     * and the response is generated in {@link #getResponse()}.
-     * 
+     * session validation. The session keys are extracted in {@link #setUserRequestData()}
+     * and cookie validation is performed by the parent class.
+     *
      * @throws Exception if an error occurs during processing
      */
     @Override
     public void processRequest()
             throws Exception
     {
-        // No business logic needed - session validation is handled in validateCookie()
-    }
-
-    /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * session validation request and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
-     */
-    @Override
-    public void validateCookie()
-            throws Exception
-    {
-        SessionValidatorREQ req = (SessionValidatorREQ) JamiiMapperUtils.mapObject(getRequest(), SessionValidatorREQ.class);
-        setDeviceKey(req.getDeviceKey());
-        setUserKey(req.getUserKey());
-        setSessionKey(req.getSessionKey());
-        super.validateCookie();
+        // No business logic needed - session validation is handled in parent class validateCookie()
     }
 
     /**

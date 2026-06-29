@@ -24,7 +24,8 @@ import java.util.Optional;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Fetch and validate the requesting user exists and is active</li>
  *   <li>Fetch and validate the target user exists and is active</li>
  *   <li>Fetch the target user's profile data</li>
@@ -53,24 +54,22 @@ public class ViewUserProfileOPS
     
     /** Repository for user data operations */
     @Autowired private UserData userData;
+    
+    /** Request object containing target user information */
+    protected ViewUserProfileServicesREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * profile view request and delegates to the parent class for session validation.</p>
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link ViewUserProfileServicesREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        ViewUserProfileServicesREQ req = (ViewUserProfileServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ViewUserProfileServicesREQ.class);
+        req = new ViewUserProfileServicesREQ();
+        req = (ViewUserProfileServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ViewUserProfileServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**
@@ -95,7 +94,7 @@ public class ViewUserProfileOPS
             return;
         }
 
-        ViewUserProfileServicesREQ req = (ViewUserProfileServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ViewUserProfileServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Fetch and validate the requesting user
         Optional<UserLoginTBL> requestingUser = this.userLogin.fetchByUserKey(getUserKey(), UserLogin.ACTIVE_ON);

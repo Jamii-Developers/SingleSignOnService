@@ -2,10 +2,35 @@ package com.jamii.utils;
 
 import com.jamii.abstractClasses.AbstractResponses;
 
+/**
+ * Error response utility class for the Jamii application.
+ * 
+ * <p>This class provides standardized error message formatting and response generation
+ * for all error scenarios throughout the application. Each error method sets the
+ * appropriate error subject and message for specific error conditions.</p>
+ * 
+ * <p>Usage pattern:</p>
+ * <pre>
+ * JamiiErrorsMessagesRESP errorResponse = new JamiiErrorsMessagesRESP();
+ * errorResponse.setLoginError();
+ * String jsonResponse = errorResponse.getJSONRESP();
+ * </pre>
+ * 
+ * <p>This class extends {@link AbstractResponses} to inherit JSON response generation
+ * capabilities and uses constants from {@link JamiiErrorUtils} for consistent error codes.</p>
+ * 
+ * <p>Performance considerations:</p>
+ * <ul>
+ *   <li>This class maintains no state that requires database calls</li>
+ *   <li>All error messages are static strings for optimal performance</li>
+ *   <li>JSON generation is handled efficiently by the parent class</li>
+ * </ul>
+ */
 public class JamiiErrorsMessagesRESP
         extends AbstractResponses
 {
 
+    /** The error message type constant from JamiiErrorUtils */
     private final String ERROR_MSG_TYPE = JamiiErrorUtils.RESPONSE_TYPE;
 
     private String ERROR_FIELD_SUBJECT;
@@ -310,5 +335,55 @@ public class JamiiErrorsMessagesRESP
     public void setSearchUserOPS_UserNotFound() {
         setERROR_FIELD_SUBJECT("User not found!");
         setERROR_FIELD_MESSAGE("We cannot find this user in our system");
+    }
+
+    public void setCreateNewPost_InvalidContent() {
+        setERROR_FIELD_SUBJECT("CREATE_NEW_POST_INVALID_CONTENT");
+        setERROR_FIELD_MESSAGE("Post content cannot be empty or exceed maximum length");
+    }
+
+    public void setCreateNewPost_PostCreationFailed() {
+        setERROR_FIELD_SUBJECT("CREATE_NEW_POST_FAILED");
+        setERROR_FIELD_MESSAGE("Failed to create post. Please try again.");
+    }
+
+    public void setDeletePost_InvalidPostId() {
+        setERROR_FIELD_SUBJECT("DELETE_POST_INVALID_ID");
+        setERROR_FIELD_MESSAGE("Invalid post ID provided");
+    }
+
+    public void setDeletePost_PostNotFound() {
+        setERROR_FIELD_SUBJECT("DELETE_POST_NOT_FOUND");
+        setERROR_FIELD_MESSAGE("Post not found or already deleted");
+    }
+
+    public void setDeletePost_Unauthorized() {
+        setERROR_FIELD_SUBJECT("DELETE_POST_UNAUTHORIZED");
+        setERROR_FIELD_MESSAGE("You are not authorized to delete this post");
+    }
+
+    public void setEditPost_InvalidPostId() {
+        setERROR_FIELD_SUBJECT("EDIT_POST_INVALID_ID");
+        setERROR_FIELD_MESSAGE("Invalid post ID provided");
+    }
+
+    public void setEditPost_PostNotFound() {
+        setERROR_FIELD_SUBJECT("EDIT_POST_NOT_FOUND");
+        setERROR_FIELD_MESSAGE("Post not found or has been deleted");
+    }
+
+    public void setEditPost_Unauthorized() {
+        setERROR_FIELD_SUBJECT("EDIT_POST_UNAUTHORIZED");
+        setERROR_FIELD_MESSAGE("You are not authorized to edit this post");
+    }
+
+    public void setEditPost_InvalidContent() {
+        setERROR_FIELD_SUBJECT("EDIT_POST_INVALID_CONTENT");
+        setERROR_FIELD_MESSAGE("Post content cannot be empty or exceed maximum length");
+    }
+
+    public void setEditPost_UpdateFailed() {
+        setERROR_FIELD_SUBJECT("EDIT_POST_UPDATE_FAILED");
+        setERROR_FIELD_MESSAGE("Failed to update post. Please try again.");
     }
 }

@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.jUser.controller.UserLogin;
@@ -20,6 +20,33 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Service for accepting friend requests from other users.
+ * 
+ * <p>This service allows authenticated users to accept friend requests,
+ * creating a mutual friendship relationship between the users. The operation requires
+ * valid session authentication and an existing active friend request.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Fetch and validate the friend request exists</li>
+ *   <li>Deactivate the friend request</li>
+ *   <li>Create the friendship relationship</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>No active friend request found</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see AcceptFriendRequestServicesREQ
+ */
 @Service
 public class AcceptFriendRequestOPS
         extends AbstractUserServicesOPS
@@ -28,16 +55,22 @@ public class AcceptFriendRequestOPS
     @Autowired private UserLogin userLogin;
     @Autowired private UserRelationship userRelationship;
     @Autowired private UserRequest userRequest;
+    
+    /** Request object containing friend request acceptance data */
+    protected AcceptFriendRequestServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link AcceptFriendRequestServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        AcceptFriendRequestServicesREQ req = (AcceptFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), AcceptFriendRequestServicesREQ.class);
+        req = new AcceptFriendRequestServicesREQ();
+        req = (AcceptFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), AcceptFriendRequestServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -49,7 +82,7 @@ public class AcceptFriendRequestOPS
             return;
         }
 
-        AcceptFriendRequestServicesREQ req = (AcceptFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), AcceptFriendRequestServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

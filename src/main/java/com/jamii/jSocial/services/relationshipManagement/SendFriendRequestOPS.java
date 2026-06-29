@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.utils.JamiiRelationshipUtils;
@@ -16,6 +16,35 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * Service for sending friend requests to other users.
+ * 
+ * <p>This service allows authenticated users to send friend requests,
+ * creating pending friend relationships that can be accepted or rejected.
+ * The operation requires valid session authentication and handles various
+ * relationship scenarios including blocks and existing relationships.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Check for blocking relationships</li>
+ *   <li>Check for existing friend requests/relationships</li>
+ *   <li>Create friend request</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>User is blocked or has blocked target</li>
+ *   <li>Existing friend request or relationship</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see SendFriendRequestServicesREQ
+ */
 @Service
 public class SendFriendRequestOPS
         extends AbstractUserServicesOPS
@@ -24,16 +53,22 @@ public class SendFriendRequestOPS
     @Autowired private UserLogin userLogin;
     @Autowired private UserRequest userRequest;
     @Autowired private JamiiRelationshipUtils jamiiRelationshipUtils;
+    
+    /** Request object containing friend request data */
+    protected SendFriendRequestServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link SendFriendRequestServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFriendRequestServicesREQ.class);
+        req = new SendFriendRequestServicesREQ();
+        req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFriendRequestServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -45,7 +80,7 @@ public class SendFriendRequestOPS
             return;
         }
 
-        SendFriendRequestServicesREQ req = (SendFriendRequestServicesREQ) JamiiMapperUtils.mapObject(getRequest(), SendFriendRequestServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

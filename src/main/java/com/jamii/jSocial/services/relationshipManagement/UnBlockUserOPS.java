@@ -1,4 +1,4 @@
-package com.jamii.jSocial.services;
+package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.jSocial.controllers.UserBlockList;
@@ -16,6 +16,32 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Service for unblocking users from the authenticated user's block list.
+ * 
+ * <p>This service allows authenticated users to remove users from their block list,
+ * deactivating the block relationship. The operation requires valid session
+ * authentication and an existing active block relationship.
+ * 
+ * <p>Operation flow:
+ * <ol>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
+ *   <li>Verify both users exist and are active</li>
+ *   <li>Fetch and validate the block relationship exists</li>
+ *   <li>Deactivate the block relationship</li>
+ * </ol>
+ * 
+ * <p>Error conditions:
+ * <ul>
+ *   <li>Invalid or expired session</li>
+ *   <li>Users not found or inactive</li>
+ *   <li>No active block relationship found</li>
+ * </ul>
+ * 
+ * @see AbstractUserServicesOPS
+ * @see UnBlockUserServicesREQ
+ */
 @Service
 public class UnBlockUserOPS
         extends AbstractUserServicesOPS
@@ -23,16 +49,22 @@ public class UnBlockUserOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private UserBlockList blockList;
+    
+    /** Request object containing user unblock data */
+    protected UnBlockUserServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link UnBlockUserServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        UnBlockUserServicesREQ req = (UnBlockUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnBlockUserServicesREQ.class);
+        req = new UnBlockUserServicesREQ();
+        req = (UnBlockUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnBlockUserServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -44,7 +76,7 @@ public class UnBlockUserOPS
             return;
         }
 
-        UnBlockUserServicesREQ req = (UnBlockUserServicesREQ) JamiiMapperUtils.mapObject(getRequest(), UnBlockUserServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Check if both jUser exist in the system
         this.userLogin.data = new UserLoginTBL();

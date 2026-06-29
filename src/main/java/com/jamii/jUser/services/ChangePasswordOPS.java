@@ -23,7 +23,8 @@ import org.springframework.stereotype.Service;
  * 
  * <p>Operation flow:
  * <ol>
- *   <li>Validate session cookie (device key, user key, session key)</li>
+ *   <li>Extract authentication keys in {@link #setUserRequestData()}</li>
+ *   <li>Validate session cookie via parent class</li>
  *   <li>Verify user exists by email and username</li>
  *   <li>Validate old password matches current password</li>
  *   <li>Check new password is not in last 10 password history</li>
@@ -51,24 +52,22 @@ public class ChangePasswordOPS
     
     /** Repository for user login operations */
     @Autowired private UserLogin userLogin;
+    
+    /** Request object containing password change data */
+    protected ChangePasswordServicesREQ req = null;
 
     /**
-     * Validates the session cookie and extracts authentication keys from the request.
-     * 
-     * <p>This method extracts the device key, user key, and session key from the
-     * request payload and delegates to the parent class for session validation.
-     * 
-     * @throws Exception if cookie validation fails or session is invalid
+     * Maps the incoming request to a {@link ChangePasswordServicesREQ} and extracts the
+     * authentication keys required for session validation.
      */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ChangePasswordServicesREQ.class);
+        req = new ChangePasswordServicesREQ();
+        req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ChangePasswordServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     /**
@@ -95,7 +94,7 @@ public class ChangePasswordOPS
             return;
         }
 
-        ChangePasswordServicesREQ req = (ChangePasswordServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ChangePasswordServicesREQ.class);
+        // Request parameters are already mapped in setUserRequestData()
 
         // Validate request parameters
         if (req.getOld_password() == null || req.getOld_password().trim().isEmpty()) {

@@ -21,16 +21,21 @@ public class ReviewUsOPS
 
     @Autowired private UserLogin userLogin;
     @Autowired private ClientCommunication clientCommunication;
+    
+    protected ReviewUsServicesREQ req = null;
 
+    /**
+     * Maps the incoming request to a {@link ReviewUsServicesREQ} and extracts the
+     * authentication keys required for session validation.
+     */
     @Override
-    public void validateCookie()
-            throws Exception
+    protected void setUserRequestData()
     {
-        ReviewUsServicesREQ req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ReviewUsServicesREQ.class);
+        req = new ReviewUsServicesREQ();
+        req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ReviewUsServicesREQ.class);
         setDeviceKey(req.getDeviceKey());
         setUserKey(req.getUserKey());
         setSessionKey(req.getSessionKey());
-        super.validateCookie();
     }
 
     @Override
@@ -42,7 +47,7 @@ public class ReviewUsOPS
             return;
         }
 
-        ReviewUsServicesREQ req = (ReviewUsServicesREQ) JamiiMapperUtils.mapObject(getRequest(), ReviewUsServicesREQ.class);
+        // Request is already mapped in setUserRequestData()
         this.userLogin.data = this.userLogin.fetch(req.getEmailaddress(), req.getUsername(), UserLogin.ACTIVE_ON).orElse(null);
 
         if (this.userLogin.data == null) {
