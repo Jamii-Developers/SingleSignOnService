@@ -3,6 +3,7 @@ package com.jamii.abstractClasses;
 import com.jamii.utils.JamiiCookieProcessor;
 import com.jamii.utils.JamiiDebug;
 import com.jamii.utils.JamiiErrorsMessagesRESP;
+import com.jamii.utils.JamiiMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -173,9 +174,52 @@ public abstract class AbstractUserServicesOPS
         setDeviceKey(null);
         setUserKey(null);
         setSessionKey(null);
-        setIsSuccessful(true);
+        setIsSuccessful(false);
     }
 
+    /**
+     * Maps the incoming request to the appropriate request object and extracts authentication credentials.
+     * 
+     * <p>This abstract method must be implemented by all concrete service classes to handle
+     * request mapping and authentication key extraction. The method is called during the
+     * service execution workflow before session validation occurs.</p>
+     * 
+     * <p>Standard implementation pattern:</p>
+     * <ol>
+     *   <li>Create a new instance of the specific request class</li>
+     *   <li>Map the incoming request using {@code JamiiMapperUtils.mapObject()}</li>
+     *   <li>Extract and set authentication keys (deviceKey, userKey, sessionKey)</li>
+     *   <li>Store the mapped request object in a protected field for later use</li>
+     * </ol>
+     * 
+     * <p>Example implementation:</p>
+     * <pre>{@code
+     * protected void setUserRequestData() {
+     *     req = new MyServiceRequest();
+     *     req = (MyServiceRequest) JamiiMapperUtils.mapObject(getRequest(), MyServiceRequest.class);
+     *     setDeviceKey(req.getDeviceKey());
+     *     setUserKey(req.getUserKey());
+     *     setSessionKey(req.getSessionKey());
+     * }
+     * }</pre>
+     * 
+     * <p>Important considerations:</p>
+     * <ul>
+     *   <li>Must be implemented by all concrete service classes</li>
+     *   <li>Should follow the established pattern for consistency</li>
+     *   <li>Authentication keys are required for session validation</li>
+     *   <li>Request object should be stored in a protected field for {@code processRequest()}</li>
+     * </ul>
+     * 
+     * <p>This method is called automatically by the {@code run()} method in the service
+     * execution pipeline and should not be called directly by other methods.</p>
+     * 
+     * @see JamiiMapperUtils#mapObject(Object, Class)
+     * @see #setDeviceKey(String)
+     * @see #setUserKey(String) 
+     * @see #setSessionKey(String)
+     * @see #processRequest()
+     */
     protected abstract void setUserRequestData();
 
     /**

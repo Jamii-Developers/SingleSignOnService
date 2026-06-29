@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/jpublic/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"https://jamiix.netlify.app", "http://localhost:3000"})
 public class JPublicServices
         extends AbstractApplicationControllers
 {

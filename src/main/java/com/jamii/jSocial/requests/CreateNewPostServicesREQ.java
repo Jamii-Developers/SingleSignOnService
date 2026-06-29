@@ -1,6 +1,9 @@
 package com.jamii.jSocial.requests;
 
 import com.jamii.abstractClasses.AbstractUserServicesREQ;
+import com.jamii.utils.ValidationUtils;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * Request object for creating a new post.
@@ -19,6 +22,8 @@ import com.jamii.abstractClasses.AbstractUserServicesREQ;
  */
 public class CreateNewPostServicesREQ extends AbstractUserServicesREQ
 {
+    @NotBlank(message = "Post content cannot be empty")
+    @Size(min = 1, max = 2000, message = "Post content must be between 1 and 2000 characters")
     private String content;
 
     // Constructors
@@ -40,6 +45,35 @@ public class CreateNewPostServicesREQ extends AbstractUserServicesREQ
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = ValidationUtils.sanitize(content);
+    }
+
+    /**
+     * Validates the request data using ValidationUtils.
+     * 
+     * @return true if all required fields are valid, false otherwise
+     */
+    public boolean isValid() {
+        return ValidationUtils.isValidPostContent(content) &&
+               ValidationUtils.areAuthenticationKeysValid(
+                   getDeviceKey(), 
+                   getUserKey(), 
+                   getSessionKey()
+               );
+    }
+
+    /**
+     * Gets validation error messages.
+     * 
+     * @return error message if validation fails, null if valid
+     */
+    public String getValidationErrorMessage() {
+        if (!ValidationUtils.areAuthenticationKeysValid(getDeviceKey(), getUserKey(), getSessionKey())) {
+            return "Invalid authentication credentials";
+        }
+        if (!ValidationUtils.isValidPostContent(content)) {
+            return "Post content must be between 1 and 2000 characters";
+        }
+        return null;
     }
 }

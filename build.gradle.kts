@@ -15,6 +15,8 @@ dependencies {
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.session.jdbc)
     implementation(libs.spring.boot.starter.flyway)
+    implementation(libs.spring.boot.starter.cache)
+    implementation(libs.spring.boot.starter.actuator)
 
     implementation(libs.json)
     implementation(libs.gson)
@@ -26,6 +28,10 @@ dependencies {
     runtimeOnly(libs.postgresql)
 
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.testcontainers)
+    testImplementation(libs.testcontainers.postgresql)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.junit.jupiter)
 }
 
 group = "com.jamii"
@@ -61,8 +67,9 @@ tasks.withType<Javadoc> {
 }
 
 tasks.test {
-    failOnNoDiscoveredTests = false
-    enabled = false
+    failOnNoDiscoveredTests = true
+    enabled = true
+    useJUnitPlatform()
 }
 
 tasks.javadoc {

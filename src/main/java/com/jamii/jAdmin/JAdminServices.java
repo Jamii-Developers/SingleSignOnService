@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/jadmin/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"https://jamiix.netlify.app", "http://localhost:3000"})
 public class JAdminServices
  extends AbstractApplicationControllers
 {

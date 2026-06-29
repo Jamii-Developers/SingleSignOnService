@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/jsocial/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"https://jamiix.netlify.app", "http://localhost:3000"})
 public class JSocialServices
     extends AbstractApplicationControllers
 {

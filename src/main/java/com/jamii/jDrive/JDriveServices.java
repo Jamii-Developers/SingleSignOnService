@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/jdrive/")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"https://jamiix.netlify.app", "http://localhost:3000"})
 public class JDriveServices extends AbstractApplicationControllers
 {
 

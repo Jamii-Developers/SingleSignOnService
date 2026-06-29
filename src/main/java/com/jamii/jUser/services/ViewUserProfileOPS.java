@@ -9,6 +9,8 @@ import com.jamii.jUser.model.UserDataTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.utils.JamiiMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -134,5 +136,72 @@ public class ViewUserProfileOPS
             return new ResponseEntity<>(new ViewUserProfileRESP(this.userLogin.otherUser, this.userData.data).getJSONRESP(), HttpStatus.OK);
         }
         return super.getResponse();
+    }
+
+    /**
+     * Fetches user profile with caching for improved performance.
+     * 
+     * <p>This method caches user profile data to reduce database queries
+     * for frequently accessed profiles. The cache key is the user ID.</p>
+     * 
+     * @param user the user to fetch profile for
+     * @return Optional containing UserDataTBL if found, empty otherwise
+     */
+    @Cacheable(value = "user-profiles", key = "#user.id")
+    public Optional<UserDataTBL> fetchUserProfileWithCache(UserLoginTBL user) {
+        return this.userData.fetch(user, UserData.CURRENT_STATUS_ON);
+    }
+
+    /**
+     * Fetches user login information with caching.
+     * 
+     * <p>This method caches user login data to reduce database queries
+     * for frequently accessed user information.</p>
+     * 
+     * @param userId the user ID to fetch login info for
+     * @return Optional containing UserLoginTBL if found, empty otherwise
+     */
+    @Cacheable(value = "user-profiles", key = "'login:' + #userId")
+    public Optional<UserLoginTBL> fetchUserLoginWithCache(Integer userId) {
+        return this.userLogin.fetch(userId, UserLogin.ACTIVE_ON);
+    }
+
+    /**
+     * Evicts user profile cache when user data is updated.
+     * 
+     * <p>This method should be called when a user updates their profile
+     * to invalidate cached profile data.</p>
+     * 
+     * @param userId the user ID whose cache should be evicted
+     */
+    @CacheEvict(value = "user-profiles", key = "#userId")
+    public void evictUserProfileCache(Integer userId) {
+        // User profile cache eviction - method body can be empty
+    }
+
+    /**
+     * Evicts user login cache when user account is updated.
+     * 
+     * <p>This method should be called when a user's account information
+     * is updated (e.g., password change, status change).</p>
+     * 
+     * @param userId the user ID whose cache should be evicted
+     */
+    @CacheEvict(value = "user-profiles", key = "'login:' + #userId")
+    public void evictUserLoginCache(Integer userId) {
+        // User login cache eviction - method body can be empty
+    }
+
+    /**
+     * Evicts all user-related cache entries for a user.
+     * 
+     * <p>This method should be called when a user's account undergoes
+     * significant changes that affect all cached data.</p>
+     * 
+     * @param userId the user ID whose caches should be evicted
+     */
+    @CacheEvict(value = "user-profiles", allEntries = true)
+    public void evictAllUserCaches(Integer userId) {
+        // All user caches eviction - method body can be empty
     }
 }

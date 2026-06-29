@@ -1,14 +1,18 @@
 package com.jamii.jDrive.services;
 
+import com.jamii.abstractClasses.AbstractUserServicesOPS;
+import com.jamii.jDrive.controllers.FileTableOwner;
+import com.jamii.jDrive.model.FileTableOwnerTBL;
+import com.jamii.jDrive.requests.UserFileDownloadREQ;
+import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.utils.JamiiFileDownloadUtils;
 import com.jamii.utils.JamiiFileUtils;
 import com.jamii.utils.JamiiLoggingUtils;
 import com.jamii.utils.JamiiMapperUtils;
-import com.jamii.jDrive.controllers.FileTableOwner;
-import com.jamii.jUser.controller.UserLogin;
-import com.jamii.abstractClasses.AbstractUserServicesOPS;
-import com.jamii.jDrive.requests.UserFileDownloadREQ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Service for handling user file download operations in the Jamii Drive system.
@@ -210,5 +215,47 @@ public class UserFileDownloadOPS
         }
 
         return super.getResponse();
+    }
+
+    /**
+     * Fetches file metadata with caching for improved performance.
+     * 
+     * <p>This method caches file metadata to reduce database queries
+     * for frequently accessed file information.</p>
+     * 
+     * @param user the user to fetch file ownership for
+     * @param filename the system filename to fetch
+     * @return Optional containing FileTableOwnerTBL if found and accessible, empty otherwise
+     */
+    @Cacheable(value = "file-metadata", key = "#user.id + ':' + #filename")
+    public Optional<FileTableOwnerTBL> fetchFileMetadataWithCache(UserLoginTBL user, String filename) {
+        return this.fileTableOwner.fetch(user, filename);
+    }
+
+    /**
+     * Evicts file metadata cache when file is updated.
+     * 
+     * <p>This method should be called when a file's metadata is updated
+     * to invalidate cached file information.</p>
+     * 
+     * @param user the user who owns the file
+     * @param filename the filename whose cache should be evicted
+     */
+    @CacheEvict(value = "file-metadata", key = "#user.id + ':' + #filename")
+    public void evictFileMetadataCache(UserLoginTBL user, String filename) {
+        // File metadata cache eviction - method body can be empty
+    }
+
+    /**
+     * Evicts all file metadata cache for a user.
+     * 
+     * <p>This method should be called when a user's files undergo
+     * bulk operations that affect cached file data.</p>
+     * 
+     * @param userId the user ID whose file caches should be evicted
+     */
+    @CacheEvict(value = "file-metadata", allEntries = true)
+    public void evictAllFileCaches(Integer userId) {
+        // All file caches eviction - method body can be empty
     }
 }
