@@ -1,8 +1,8 @@
 package com.jamii.jSupport.services;
 
 import com.jamii.utils.JamiiMapperUtils;
-import com.jamii.jSupport.controllers.ClientCommunication;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jSupport.peer.ClientCommunication;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jSupport.model.ClientCommunicationTBL;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jSupport.requests.ContactSupportServicesREQ;

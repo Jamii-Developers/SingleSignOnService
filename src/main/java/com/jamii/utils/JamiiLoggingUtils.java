@@ -1,6 +1,6 @@
 package com.jamii.utils;
 
-import com.jamii.jAdmin.controllers.ApiErrorLog;
+import com.jamii.jAdmin.peer.ApiErrorLog;
 import com.jamii.jAdmin.model.AUXUtils.ApiErrorLog_AUX_DATA;
 import com.jamii.jAdmin.model.ApiErrorLogTBL;
 import com.jamii.jUser.model.UserLoginTBL;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

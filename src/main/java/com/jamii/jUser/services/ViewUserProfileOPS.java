@@ -3,8 +3,8 @@ package com.jamii.jUser.services;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jSocial.requests.ViewUserProfileServicesREQ;
 import com.jamii.jSocial.responses.ViewUserProfileRESP;
-import com.jamii.jUser.controller.UserData;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.UserData;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jUser.model.UserDataTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.utils.JamiiMapperUtils;
@@ -111,7 +111,7 @@ public class ViewUserProfileOPS
             return;
         }
 
-        // Store users in the controller fields for response generation
+        // Store users in the peer fields for response generation
         this.userLogin.data = requestingUser.get();
         this.userLogin.otherUser = targetUser.get();
 

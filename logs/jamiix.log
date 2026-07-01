@@ -305,7 +305,7 @@ Using generated security password: fa67d921-d553-4cf4-8c99-80f72dc91790
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-06-29 17:48:31 [http-nio-8080-exec-1] INFO  com.jamii.jPublic.JPublicServices - Received request for operation: userlogin
+2026-06-29 17:48:31 [http-nio-8080-exec-1] INFO  com.jamii.jPublic.JPublicController - Received request for operation: userlogin
 2026-06-29 17:48:31 [http-nio-8080-exec-1] INFO  c.j.jPublic.services.UserLoginOPS - Received request
 2026-06-29 17:48:31 [http-nio-8080-exec-1] WARN  c.j.jPublic.services.UserLoginOPS - Invalid login credentials for: testaccount
 2026-06-29 17:48:31 [http-nio-8080-exec-1] INFO  c.j.jPublic.services.UserLoginOPS - Request completed

@@ -1,6 +1,6 @@
 package com.jamii.abstractClasses;
 
-import com.jamii.jPublic.JPublicServices;
+import com.jamii.jPublic.JPublicController;
 import com.jamii.utils.JamiiDebug;
 import com.jamii.utils.JamiiLoggingUtils;
 import jakarta.annotation.PostConstruct;
@@ -35,7 +35,7 @@ public abstract class AbstractApplicationControllers
      *
      * <p>This method validates the request, routes it to the appropriate service handler
      * based on the {@code Service-Header}, and returns the response. It follows the same
-     * pattern as {@link JPublicServices#processRequest} but for authenticated
+     * pattern as {@link JPublicController#processRequest} but for authenticated
      * user operations.
      *
      * @param operation the operation identifier from the Service-Header

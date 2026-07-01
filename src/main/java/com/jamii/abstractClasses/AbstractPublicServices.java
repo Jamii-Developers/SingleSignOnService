@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
  * 
  * <p>Typical usage pattern:
  * <pre>
- * // Called by controller
+ * // Called by peer
  * service.reset();
  * service.run(requestPayload);
  * </pre>

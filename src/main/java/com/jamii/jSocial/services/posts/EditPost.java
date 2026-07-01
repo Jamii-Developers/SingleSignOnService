@@ -1,8 +1,8 @@
 package com.jamii.jSocial.services.posts;
 
 import com.jamii.utils.JamiiMapperUtils;
-import com.jamii.jSocial.controllers.UserPosts;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jSocial.peer.UserPosts;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jSocial.model.UserPostsTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;

@@ -2,7 +2,7 @@ com.jamii
 com.jamii.abstractClasses
 com.jamii.jAdmin
 com.jamii.jAdmin.AUXUtils
-com.jamii.jAdmin.controllers
+com.jamii.jAdmin.peer
 com.jamii.jAdmin.model
 com.jamii.jAdmin.repo
 com.jamii.jAdmin.requests
@@ -10,14 +10,14 @@ com.jamii.jAdmin.responses
 com.jamii.jAdmin.services.clientCommunication
 com.jamii.jAdmin.services.monitoring
 com.jamii.jDrive
-com.jamii.jDrive.controllers
+com.jamii.jDrive.peer
 com.jamii.jDrive.model
 com.jamii.jDrive.repo
 com.jamii.jDrive.requests
 com.jamii.jDrive.responses
 com.jamii.jDrive.services
 com.jamii.jSocial
-com.jamii.jSocial.controllers
+com.jamii.jSocial.peer
 com.jamii.jSocial.model
 com.jamii.jSocial.repo
 com.jamii.jSocial.requests
@@ -26,7 +26,7 @@ com.jamii.jSocial.services
 com.jamii.jSocial.services.utils
 com.jamii.sysconfigs
 com.jamii.jUser
-com.jamii.jUser.controller
+com.jamii.jUser.peer
 com.jamii.jUser.model
 com.jamii.jUser.repo
 com.jamii.jUser.requests

@@ -2,7 +2,7 @@ package com.jamii.jPublic.services;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.abstractClasses.AbstractPublicServices;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.jPublic.requests.ReactivateUserREQ;
 import com.jamii.jPublic.responses.ReactivateUserRESP;

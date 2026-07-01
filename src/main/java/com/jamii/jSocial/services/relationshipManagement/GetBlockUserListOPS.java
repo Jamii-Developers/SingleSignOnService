@@ -1,13 +1,13 @@
 package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
-import com.jamii.jSocial.controllers.UserBlockList;
+import com.jamii.jSocial.peer.UserBlockList;
 import com.jamii.jSocial.model.UserBlockListTBL;
 import com.jamii.jSocial.requests.GetBlockUserListServicesREQ;
 import com.jamii.jSocial.responses.GetBlockUserListRESP;
 import com.jamii.jSocial.services.utils.SearchResultsHelper;
-import com.jamii.jUser.controller.UserData;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.UserData;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jUser.model.UserDataTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.utils.JamiiMapperUtils;

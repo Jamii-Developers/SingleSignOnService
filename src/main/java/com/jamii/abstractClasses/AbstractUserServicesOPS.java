@@ -76,7 +76,7 @@ public abstract class AbstractUserServicesOPS
      * 
      * @return the device key, or null if not set
      */
-    protected String getDeviceKey() {
+    public String getDeviceKey() {
         return deviceKey;
     }
 
@@ -94,7 +94,7 @@ public abstract class AbstractUserServicesOPS
      * 
      * @return the user key, or null if not set
      */
-    protected String getUserKey() {
+    public String getUserKey() {
         return userKey;
     }
 
@@ -112,7 +112,7 @@ public abstract class AbstractUserServicesOPS
      * 
      * @return the session key, or null if not set
      */
-    protected String getSessionKey() {
+    public String getSessionKey() {
         return sessionKey;
     }
 
@@ -130,7 +130,7 @@ public abstract class AbstractUserServicesOPS
      * 
      * @return true if the operation succeeded, false otherwise
      */
-    protected Boolean getIsSuccessful() {
+    public Boolean getIsSuccessful() {
         return isSuccessful;
     }
 

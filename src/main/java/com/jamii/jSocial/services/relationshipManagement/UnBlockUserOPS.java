@@ -1,8 +1,8 @@
 package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
-import com.jamii.jSocial.controllers.UserBlockList;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jSocial.peer.UserBlockList;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jSocial.model.UserBlockListTBL;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;

@@ -1,12 +1,12 @@
 package com.jamii.jDrive.services;
 
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
-import com.jamii.jDrive.controllers.FileDirectory;
-import com.jamii.jDrive.controllers.FileTableOwner;
+import com.jamii.jDrive.peer.FileDirectory;
+import com.jamii.jDrive.peer.FileTableOwner;
 import com.jamii.jDrive.model.FileTableOwnerTBL;
 import com.jamii.jDrive.requests.UserFileUploadServicesREQ;
 import com.jamii.jDrive.responses.UserFileUploadRESP;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.sysconfigs.FileServerConfigs;
 import com.jamii.utils.JamiiMapperUtils;

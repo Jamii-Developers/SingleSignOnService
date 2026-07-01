@@ -2,9 +2,9 @@ package com.jamii.jDrive.services;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.utils.JamiiStringUtils;
-import com.jamii.jDrive.controllers.FileDirectory;
-import com.jamii.jDrive.controllers.FileTableOwner;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jDrive.peer.FileDirectory;
+import com.jamii.jDrive.peer.FileTableOwner;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
 import com.jamii.jDrive.requests.UserFileDirectoryUpdateREQ;
 import com.jamii.jDrive.responses.UserFileDirectoryUpdateRESP;

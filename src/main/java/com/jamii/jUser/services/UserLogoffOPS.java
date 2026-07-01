@@ -1,9 +1,8 @@
 package com.jamii.jUser.services;
 
 import com.jamii.abstractClasses.AbstractUserServicesOPS;
-import com.jamii.jUser.controller.DeviceInformation;
-import com.jamii.jUser.controller.UserCookies;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.DeviceInformation;
+import com.jamii.jUser.peer.UserCookies;
 import com.jamii.jUser.model.DeviceInformationTBL;
 import com.jamii.jUser.model.UserCookiesTBL;
 import com.jamii.jUser.model.UserLoginTBL;
@@ -50,9 +49,6 @@ import org.springframework.stereotype.Service;
 public class UserLogoffOPS
         extends AbstractUserServicesOPS
 {
-
-    /** Repository for user login operations */
-    @Autowired private UserLogin userLogin;
     
     /** Repository for device information operations */
     @Autowired private DeviceInformation deviceInformation;

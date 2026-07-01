@@ -1,8 +1,8 @@
 package com.jamii.utils;
 
-import com.jamii.jSocial.controllers.UserBlockList;
-import com.jamii.jSocial.controllers.UserRelationship;
-import com.jamii.jSocial.controllers.UserRequest;
+import com.jamii.jSocial.peer.UserBlockList;
+import com.jamii.jSocial.peer.UserRelationship;
+import com.jamii.jSocial.peer.UserRequest;
 import com.jamii.jUser.model.UserLoginTBL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

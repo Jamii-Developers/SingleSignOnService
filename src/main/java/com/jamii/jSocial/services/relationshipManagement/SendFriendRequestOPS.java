@@ -2,8 +2,8 @@ package com.jamii.jSocial.services.relationshipManagement;
 
 import com.jamii.utils.JamiiMapperUtils;
 import com.jamii.utils.JamiiRelationshipUtils;
-import com.jamii.jUser.controller.UserLogin;
-import com.jamii.jSocial.controllers.UserRequest;
+import com.jamii.jUser.peer.UserLogin;
+import com.jamii.jSocial.peer.UserRequest;
 import com.jamii.jUser.model.UserLoginTBL;
 import com.jamii.jSocial.model.UserRequestsTBL;
 import com.jamii.abstractClasses.AbstractUserServicesOPS;

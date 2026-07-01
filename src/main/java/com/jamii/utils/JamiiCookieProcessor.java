@@ -1,8 +1,8 @@
 package com.jamii.utils;
 
-import com.jamii.jUser.controller.DeviceInformation;
-import com.jamii.jUser.controller.UserCookies;
-import com.jamii.jUser.controller.UserLogin;
+import com.jamii.jUser.peer.DeviceInformation;
+import com.jamii.jUser.peer.UserCookies;
+import com.jamii.jUser.peer.UserLogin;
 import com.jamii.jUser.model.DeviceInformationTBL;
 import com.jamii.jUser.model.UserCookiesTBL;
 import com.jamii.jUser.model.UserLoginTBL;
@@ -16,7 +16,7 @@ import java.util.Optional;
  * Utility class for processing and validating user cookies and sessions.
  * 
  * <p>This class handles cookie validation by checking user keys, device information,
- * and session expiration. It integrates with the database controllers to verify
+ * and session expiration. It integrates with the database peer to verify
  * the validity of user sessions.</p>
  */
 @Component
