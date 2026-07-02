@@ -174,7 +174,7 @@ public abstract class AbstractUserServicesOPS
         setDeviceKey(null);
         setUserKey(null);
         setSessionKey(null);
-        setIsSuccessful(false);
+        setIsSuccessful(true);
     }
 
     /**

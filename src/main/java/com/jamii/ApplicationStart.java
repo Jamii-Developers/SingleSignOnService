@@ -2,14 +2,11 @@ package com.jamii;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.annotation.EnableCaching;
 
-@RestController
-@RequestMapping("/api/")
-@CrossOrigin(origins = {"https://jamiix.netlify.app", "http://localhost:3000"})
+
 @SpringBootApplication
+@EnableCaching
 public class ApplicationStart
 {
     public static void main(String[] args) {SpringApplication.run(ApplicationStart.class, args);}
