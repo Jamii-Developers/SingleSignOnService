@@ -88,10 +88,6 @@ public class EditPost
             throws Exception
     {
 
-        if (!getIsSuccessful()) {
-            return;
-        }
-
         // Request parameters are already mapped in setUserRequestData()
 
         // Validate post ID

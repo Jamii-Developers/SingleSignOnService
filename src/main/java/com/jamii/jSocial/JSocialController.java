@@ -1,6 +1,10 @@
 package com.jamii.jSocial;
 
 import com.jamii.abstractClasses.AbstractApplicationControllers;
+import com.jamii.jSocial.services.posts.CreateNewPost;
+import com.jamii.jSocial.services.posts.DeletePost;
+import com.jamii.jSocial.services.posts.EditPost;
+import com.jamii.jSocial.services.posts.GetUserPosts;
 import com.jamii.jSocial.services.relationshipManagement.AcceptFollowRequestOPS;
 import com.jamii.jSocial.services.relationshipManagement.AcceptFriendRequestOPS;
 import com.jamii.jSocial.services.relationshipManagement.BlockUserOPS;
@@ -44,6 +48,10 @@ public class JSocialController
     @Autowired UnFriendOPS unFriendOPS;
     @Autowired UnBlockUserOPS unBlockUserOPS;
     @Autowired UnfollowOPS unfollowOPS;
+    @Autowired CreateNewPost createNewPost;
+    @Autowired GetUserPosts getUserPosts;
+    @Autowired DeletePost deletePost;
+    @Autowired EditPost editPost;
 
 
     @Override
@@ -65,5 +73,9 @@ public class JSocialController
         directoryMap.put("unfriend", unFriendOPS);
         directoryMap.put("unblockuser", unBlockUserOPS);
         directoryMap.put("unfollow", unfollowOPS);
+        directoryMap.put("createnewpost",createNewPost);
+        directoryMap.put("getposts", getUserPosts);
+        directoryMap.put("deletepost",deletePost);
+        directoryMap.put("editpost",editPost);
     }
 }

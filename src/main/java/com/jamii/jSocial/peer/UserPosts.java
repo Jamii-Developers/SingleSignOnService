@@ -227,4 +227,86 @@ public class UserPosts
     public List<UserPostsTBL> fetchByContentContaining(String searchText) {
         return userPostsREPO.findByContentContainingIgnoreCase(searchText);
     }
+
+    /**
+     * Fetches posts for a user with cursor-based pagination.
+     * 
+     * @param userid the user whose posts to fetch
+     * @param lastPostId the ID of the last post received (null for first page)
+     * @param limit maximum number of posts to return
+     * @param status optional status filter (null for all statuses)
+     * @return List of posts matching the criteria
+     */
+    public List<UserPostsTBL> fetchByUserWithPagination(UserLoginTBL userid, Integer lastPostId, Integer limit, String status) {
+        if (status != null) {
+            if (lastPostId != null) {
+                return userPostsREPO.findUserPostsByStatusWithCursor(userid, status, lastPostId, limit);
+            } else {
+                List<UserPostsTBL> posts = userPostsREPO.findByUseridAndStatusOrderByCreationdateDesc(userid, status);
+                return posts.size() > limit ? posts.subList(0, limit) : posts;
+            }
+        } else {
+            if (lastPostId != null) {
+                return userPostsREPO.findUserPostsWithCursor(userid, lastPostId, limit);
+            } else {
+                List<UserPostsTBL> posts = userPostsREPO.findByUseridOrderByCreationdateDesc(userid);
+                return posts.size() > limit ? posts.subList(0, limit) : posts;
+            }
+        }
+    }
+
+    /**
+     * Fetches posts with cursor-based pagination for all users.
+     * 
+     * @param lastPostId the ID of the last post received (null for first page)
+     * @param limit maximum number of posts to return
+     * @param status optional status filter (null for all statuses)
+     * @return List of posts matching the criteria
+     */
+    public List<UserPostsTBL> fetchAllPostsWithPagination(Integer lastPostId, Integer limit, String status) {
+        if (status != null) {
+            if (lastPostId != null) {
+                return userPostsREPO.findAllPostsByStatusWithCursor(status, lastPostId, limit);
+            } else {
+                List<UserPostsTBL> posts = userPostsREPO.findByStatusOrderByCreationdateDesc(status);
+                return posts.size() > limit ? posts.subList(0, limit) : posts;
+            }
+        } else {
+            if (lastPostId != null) {
+                return userPostsREPO.findAllPostsWithCursor(lastPostId, limit);
+            } else {
+                List<UserPostsTBL> posts = userPostsREPO.findAllByOrderByCreationdateDesc();
+                return posts.size() > limit ? posts.subList(0, limit) : posts;
+            }
+        }
+    }
+
+    /**
+     * Counts total posts for a user with optional status filter.
+     * 
+     * @param userid the user whose posts to count
+     * @param status optional status filter (null for all statuses)
+     * @return total number of posts
+     */
+    public Long countUserPosts(UserLoginTBL userid, String status) {
+        if (status != null) {
+            return userPostsREPO.countByUseridAndStatus(userid, status);
+        } else {
+            return userPostsREPO.countByUserid(userid);
+        }
+    }
+
+    /**
+     * Counts all posts with optional status filter.
+     * 
+     * @param status optional status filter (null for all statuses)
+     * @return total number of posts
+     */
+    public Long countAllPosts(String status) {
+        if (status != null) {
+            return userPostsREPO.countByStatus(status);
+        } else {
+            return userPostsREPO.count();
+        }
+    }
 }

@@ -363,8 +363,8 @@ public class JamiiErrorsMessagesRESP
     }
 
     public void setEditPost_InvalidPostId() {
-        setERROR_FIELD_SUBJECT("EDIT_POST_INVALID_ID");
-        setERROR_FIELD_MESSAGE("Invalid post ID provided");
+        setERROR_FIELD_SUBJECT("Invalid Post");
+        setERROR_FIELD_MESSAGE("Invalid post provided");
     }
 
     public void setEditPost_PostNotFound() {

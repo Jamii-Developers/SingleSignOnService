@@ -133,4 +133,81 @@ public interface UserPostsREPO extends JpaRepository<UserPostsTBL, Integer>
      * @return List of posts updated in the date range
      */
     List<UserPostsTBL> findByLastupdatedBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    /**
+     * Finds posts by status ordered by creation date (most recent first).
+     * 
+     * @param status the status filter
+     * @return List of posts with specified status ordered by creation date
+     */
+    @Query("SELECT p FROM UserPostsTBL p WHERE p.status = :status ORDER BY p.creationdate DESC")
+    List<UserPostsTBL> findByStatusOrderByCreationdateDesc(@Param("status") String status);
+
+    /**
+     * Finds all posts ordered by creation date (most recent first).
+     * 
+     * @return List of all posts ordered by creation date
+     */
+    @Query("SELECT p FROM UserPostsTBL p ORDER BY p.creationdate DESC")
+    List<UserPostsTBL> findAllByOrderByCreationdateDesc();
+
+    /**
+     * Finds posts for a user with cursor-based pagination.
+     * 
+     * @param userid the user whose posts to find
+     * @param lastPostId the ID of the last post received
+     * @param limit maximum number of posts to return
+     * @return List of posts after the specified post ID
+     */
+    @Query("SELECT p FROM UserPostsTBL p WHERE p.userid = :userid AND p.id < :lastPostId ORDER BY p.creationdate DESC LIMIT :limit")
+    List<UserPostsTBL> findUserPostsWithCursor(@Param("userid") UserLoginTBL userid, @Param("lastPostId") Integer lastPostId, @Param("limit") Integer limit);
+
+    /**
+     * Finds posts for a user with status and cursor-based pagination.
+     * 
+     * @param userid the user whose posts to find
+     * @param status the status filter
+     * @param lastPostId the ID of the last post received
+     * @param limit maximum number of posts to return
+     * @return List of posts after the specified post ID
+     */
+    @Query("SELECT p FROM UserPostsTBL p WHERE p.userid = :userid AND p.status = :status AND p.id < :lastPostId ORDER BY p.creationdate DESC LIMIT :limit")
+    List<UserPostsTBL> findUserPostsByStatusWithCursor(@Param("userid") UserLoginTBL userid, @Param("status") String status, @Param("lastPostId") Integer lastPostId, @Param("limit") Integer limit);
+
+    /**
+     * Finds all posts with cursor-based pagination.
+     * 
+     * @param lastPostId the ID of the last post received
+     * @param limit maximum number of posts to return
+     * @return List of posts after the specified post ID
+     */
+    @Query("SELECT p FROM UserPostsTBL p WHERE p.id < :lastPostId ORDER BY p.creationdate DESC LIMIT :limit")
+    List<UserPostsTBL> findAllPostsWithCursor(@Param("lastPostId") Integer lastPostId, @Param("limit") Integer limit);
+
+    /**
+     * Finds all posts with status and cursor-based pagination.
+     * 
+     * @param status the status filter
+     * @param lastPostId the ID of the last post received
+     * @param limit maximum number of posts to return
+     * @return List of posts after the specified post ID
+     */
+    @Query("SELECT p FROM UserPostsTBL p WHERE p.status = :status AND p.id < :lastPostId ORDER BY p.creationdate DESC LIMIT :limit")
+    List<UserPostsTBL> findAllPostsByStatusWithCursor(@Param("status") String status, @Param("lastPostId") Integer lastPostId, @Param("limit") Integer limit);
+
+    /**
+     * Counts posts by user ID.
+     * 
+     * @param userid the user whose posts to count
+     * @return Number of posts for the user
+     */
+    Long countByUserid(UserLoginTBL userid);
+
+    /**
+     * Counts posts by status.
+     * 
+     * @param status the status filter
+     * @return Number of posts with the specified status
+     */
+    Long countByStatus(String status);
 }
